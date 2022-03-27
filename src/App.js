@@ -1,13 +1,16 @@
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import './App.css';
+import Query from './pages/Query'
+import Create from './pages/Create'
 
 function App() {
   return (
-    <div className="App">
-        <div className="content">
-            <h1>App Component</h1>
-        </div>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Query />} />
+        <Route path="/create" element={<Create />} />
+      </Routes>
+    </Router>
   );
 }
 
