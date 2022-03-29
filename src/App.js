@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import './App.css';
+// import './App.css';
 import Query from './pages/Query'
 import Create from './pages/Create'
 

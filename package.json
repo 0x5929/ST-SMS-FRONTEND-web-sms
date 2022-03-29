@@ -16,6 +16,9 @@
     "styled-components": "^5.3.5",
     "web-vitals": "^2.1.4"
   },
+  "resolutions": {
+    "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
