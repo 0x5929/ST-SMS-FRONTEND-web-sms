@@ -216,14 +216,16 @@ export default function CreateForm() {
                     multiline
                     rows={7}
                 />
-                <Controls.Button
-                    type="submit"
-                    text="Submit"
-                />
-                <Controls.Button
-                    color="secondary"
-                    text="Cancel"
-                />
+                <div>
+                    <Controls.Button
+                        type="submit"
+                        text="Submit"
+                    />
+                    <Controls.Button
+                        color="error"
+                        text="Cancel"
+                    />
+                </div>
             </Grid>
         </Grid>
     </Form>
