@@ -6,7 +6,7 @@ import { DatePicker as MuiDatePicker } from '@mui/lab';
 
 export default function DatePicker (props) {
     
-    const { name, label, value, onChange } = props;
+    const { name, label, value, onChange, ...others } = props;
 
     const convertToDefaultEventParam = (name, value) => ({
         target: {
@@ -18,13 +18,14 @@ export default function DatePicker (props) {
     return (  
         <LocalizationProvider dateAdapter={AdapterDateFns}>
             <MuiDatePicker
-                disableFuture
                 label={label}
                 openTo="year"
                 views={['year', 'month', 'day']}
                 value={value}
                 onChange={date => onChange(convertToDefaultEventParam(name, date))}
                 renderInput={(params) => <TextField {...params} />}
+
+                {...others}
             />
         </LocalizationProvider>
 

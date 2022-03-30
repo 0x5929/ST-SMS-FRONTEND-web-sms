@@ -3,10 +3,11 @@ import React from 'react';
 
 export default function Select(props) {
 
-    const {name, label, value, onChange, options } = props;
+    const {name, label, value, onChange, required, options } = props;
     return (
         <FormControl
             variant="outlined"
+            required={required}
         >
             <InputLabel>{label}</InputLabel>
             <MuiSelect
