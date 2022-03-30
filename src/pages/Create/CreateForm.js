@@ -52,6 +52,13 @@ export default function CreateForm() {
     return (
     <Form>
         <Grid container>
+            <Grid item xs={12}>
+                <Controls.Typography
+                    text="Create New Student Record"
+                    align='center'
+                    sx={{ marginBottom:  5}}
+                />
+            </Grid>
             <Grid item xs={6}>
 
                 <Controls.Input 

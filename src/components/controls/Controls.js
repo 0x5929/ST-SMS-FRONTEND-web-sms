@@ -4,6 +4,7 @@ import Select from './Select';
 import Checkbox from './Checkbox';
 import DatePicker from './DatePicker';
 import Button from './Button';
+import Typography from './Typography';
 
 
 // export controls for user input
@@ -13,7 +14,8 @@ const Controls = {
     Select,
     Checkbox,
     DatePicker,
-    Button
+    Button,
+    Typography
 }
 
 export default Controls

@@ -12,7 +12,7 @@ const NonCapButton = styled(MuiButton)(( {theme} ) => ({
 
 export default function Button(props) {
 
-    const { text, size, color, variant, onClick, ...other } = props;
+    const { text, size, color, variant, onClick, ...others } = props;
 
     var variantDefault = "contained"
     var sizeDefault = "large"
@@ -25,7 +25,8 @@ export default function Button(props) {
             color={color || colorDefault}
             onClick={onClick}
             
-            {...other}
+            // others.props={others.value}
+            {...others}
         >
             {text}
         </NonCapButton>
