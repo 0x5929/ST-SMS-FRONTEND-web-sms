@@ -29,7 +29,7 @@ export default function useForm(initialStudentValues, validateOnChange=false, va
         e.preventDefault()
 
         if (validate(values, setErrors, errors)){
-            studentRecordService.insertStudent(values)
+            studentRecordService.createRecord(values)
             handleCancel()
         }
 

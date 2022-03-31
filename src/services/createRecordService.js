@@ -1,3 +1,5 @@
+import * as localStorageOps from './api/localStorageOperations'
+
 const KEYS = {
     students: 'students',
     studentPk: 'studentPk'
@@ -14,31 +16,12 @@ export const getCourseOptions = ()=>([
 ])
 
 
-export function insertStudent(data) {
-    let students = getAllStudents();
+// future apis could have different logic when inserting/creating record
+export function createRecord(data) {
+    let students = localStorageOps.getAllRecords(KEYS.students);
     
-    data['pk'] = generateStudentPk()
+    data['pk'] = localStorageOps.generateRecordPk(KEYS.studentPk)
     
     students.push(data)
-    localStorage.setItem(KEYS.students, JSON.stringify(students))
-}
-
-export function generateStudentPk() {
-    if (localStorage.getItem(KEYS.studentPk) == null){
-        localStorage.setItem(KEYS.studentPk, '0')
-    }
-
-    let pk = parseInt(localStorage.getItem(KEYS.studentPk))
-    
-    localStorage.setItem(KEYS.studentPk, (++pk).toString())
-
-    return pk;
-}
-
-export function getAllStudents() {
-    if (localStorage.getItem(KEYS.students) == null) {
-        localStorage.setItem(KEYS.students, JSON.stringify([]))
-    }
-
-    return JSON.parse(localStorage.getItem(KEYS.students));
+    localStorageOps.insertRecord(KEYS.students, students)
 }
