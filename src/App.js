@@ -7,6 +7,7 @@ import { styled } from '@mui/material';
 
 const AppMain = styled('div')(( {theme} ) => ({
   // style css in js object format
+  backgroundColor: '#f7f7f7'
 
 }));
 
