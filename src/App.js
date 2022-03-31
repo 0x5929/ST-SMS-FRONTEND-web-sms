@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Query from './pages/Query'
 import Create from './pages/Create/Create'
 
-import Controls from './components/ComponentControls' 
+import Controls from './components' 
 import { styled } from '@mui/material';
 
 const AppMain = styled('div')(( {theme} ) => ({

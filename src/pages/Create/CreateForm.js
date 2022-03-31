@@ -1,7 +1,7 @@
 import React from 'react'
 import { Grid } from '@mui/material';
 
-import Controls from '../../components/ComponentControls'
+import Controls from '../../components'
 
 import useForm from '../../controllers/create/createFormController'
 import useValidate from '../../controllers/create/createFormValidation'
