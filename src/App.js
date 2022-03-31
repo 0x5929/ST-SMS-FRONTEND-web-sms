@@ -2,17 +2,27 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Query from './pages/Query'
 import Create from './pages/Create/Create'
 
+import Controls from './components/ComponentControls' 
+import { styled } from '@mui/material';
+
+const AppMain = styled('div')(( {theme} ) => ({
+  // style css in js object format
+
+}));
 
 
 function App() {
   return (
     // add login logic
-    <Router>
-      <Routes>
-        <Route path="/" element={<Query />} />
-        <Route path="/create" element={<Create />} />
-      </Routes>
-    </Router>
+    <AppMain>
+      <Controls.Header />
+      <Router>
+        <Routes>
+          <Route path="/" element={<Query />} />
+          <Route path="/create" element={<Create />} />
+        </Routes>
+      </Router>
+    </AppMain>
   );
 }
 

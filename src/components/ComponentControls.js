@@ -1,3 +1,5 @@
+import Header from './Header'
+
 import Input from './Input'
 import RadioGroup from './RadioGroup';
 import Select from './Select';
@@ -10,6 +12,7 @@ import Form from './Form';
 
 // export controls for user input
 const Controls = {
+    Header,
     Input,
     RadioGroup,
     Select,
