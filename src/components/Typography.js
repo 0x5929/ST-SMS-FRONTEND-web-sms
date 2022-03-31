@@ -6,7 +6,7 @@ function Typography(props) {
     const { variant, color, component, text, ...others} = props;
 
     var defaultVariant = 'h6'
-    var defaultColor = 'primary'
+    var defaultColor = 'text.primary'
 
     return (         
     <MuiTypography

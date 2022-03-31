@@ -1,70 +1,52 @@
 import React from 'react'
 import {  Grid } from '@mui/material';
-import { useForm, Form } from '../../components/useForm'
-import Controls from '../../components/controls/Controls'
+
+import Controls from '../../controllers/ComponentControls'
+import useForm from '../../controllers/create/createFormController'
+import useValidate from '../../controllers/create/createFormValidation'
+
 import * as createService from '../../services/createService'
+import * as studentData from '../../data/studentData'
 
-
-const initialStudentValues = {
-
-    id: 0,
-    studentId : '',
-    firstName : '',
-    lastName  : '',
-    phoneNumber: '',
-    email: '',
-    mailingAddress : '',
-    course: '',
-    startDate: new Date(),
-    completionDate: new Date(),
-    dateEnrollmentAgreementSigned: new Date(),
-    thirdPartyPayerInfo: '',
-    courseCost: '',
-    chargesCharged : '',
-    chargesPaid: '',
-    paid: false,
-    graduated: false,
-    passedFirstExam: false,
-    passedSecondOrThird: false,
-    employed: false,
-    position: '',
-    employmentAddress: '',
-    startingWage: '',
-    hoursWorked: '',
-    descriptionAttempts: ''
-
-}
-
-const hoursWorkedItems = [
-    {value: 'F', title: 'Full-time'},
-    {value: 'P', title: 'Part-time'}
-]
 
 export default function CreateForm() {
 
+
+
     const {
         values, 
-        setValues,
-        handleInputChange
-    } = useForm(initialStudentValues);
+        // setValues,
+        errors,
+        // setErrors,
+        handleInputChange,
+        handleSubmit,
+        handleCancel
+    } = useForm(studentData.initialStudentValues, true, useValidate);
 
 
+
+    /** NOTE: I could have put value fields separated into arrays, and then arrays.map() and really save some space here
+     * But I don't think that clever way of outputting components will increase readability, also, it introduces more logic 
+     * into this file, which should be just kept with rendering components, imo.
+     */
     return (
-    <Form>
+    <Controls.Form onSubmit={handleSubmit}>
         <Grid container>
             <Grid item xs={12}>
                 <Controls.Typography
-                    text="Create New Student Record"
+                    text="CREATE NEW STUDENT RECORD"
                     align='center'
-                    sx={{ marginBottom:  5}}
+                    sx={{ marginBottom:  3}}
                 />
+                <hr />
             </Grid>
-            <Grid item sm={6} xs={12}>
+            <Grid item md={6} sm={12}>
                 <Controls.Input 
                     name="studentId"
                     label="Student ID"
                     value={values.studentId}
                     onChange={handleInputChange}
+                    error={errors.studentId}
                     required
                 />
                 <Controls.Input 
@@ -85,7 +67,8 @@ export default function CreateForm() {
                     name="phoneNumber"
                     label="Phone Number"
                     value={values.phoneNumber}
-                    onChange={handleInputChange}   
+                    onChange={handleInputChange} 
+                    error={errors.phoneNumber}
                     required 
                 />
                 <Controls.Input 
@@ -93,6 +76,7 @@ export default function CreateForm() {
                     label="Email"
                     value={values.email}
                     onChange={handleInputChange} 
+                    error={errors.email}
                     required   
                 />
                 <Controls.Input 
@@ -105,9 +89,9 @@ export default function CreateForm() {
                 <Controls.Select
                     name="course"
                     label="Course"
-                    value={values.course}
                     onChange={handleInputChange}
                     options={createService.getHoursWorkedOptions()}
+                    error={errors.course}
                     required
                 />
                 <Controls.DatePicker
@@ -115,18 +99,21 @@ export default function CreateForm() {
                     label="Program Start Date"
                     value={values.startDate}
                     onChange={handleInputChange}
+                    error={errors.startDate}
                 />
                 <Controls.DatePicker
                     name="completionDate"
                     label="Program Completion Date"
                     value={values.completionDate}
                     onChange={handleInputChange}
+                    error={errors.completionDate}
                 />
                 <Controls.DatePicker
                     name="dateEnrollmentAgreementSigned"
                     label="Date Enrollment Agreement Signed"
                     value={values.dateEnrollmentAgreementSigned}
                     onChange={handleInputChange}
+                    error={errors.dateEnrollmentAgreementSigned}
                     disableFuture
                 />
                 <Controls.Input 
@@ -134,13 +121,13 @@ export default function CreateForm() {
                     label="Third Party Payer Info"
                     value={values.thirdPartyPayerInfo}
                     onChange={handleInputChange}
-                    required  
                 />
                 <Controls.Input 
                     name="courseCost"
                     label="Course Cost"
                     value={values.courseCost}
                     onChange={handleInputChange}
+                    error={errors.courseCost}
                     required
                 />
                 <Controls.Input 
@@ -148,6 +135,7 @@ export default function CreateForm() {
                     label="Charges Charged"
                     value={values.chargesCharged}
                     onChange={handleInputChange}
+                    error={errors.chargesCharged}
                     required
                 />
                 <Controls.Input 
@@ -155,10 +143,11 @@ export default function CreateForm() {
                     label="Charges Paid"
                     value={values.chargesPaid}
                     onChange={handleInputChange}
+                    error={errors.chargesPaid}
                     required
                 />
             </Grid>
-            <Grid item sm={6} xs={12}>
+            <Grid item md={6} sm={12}>
                 <Controls.Checkbox 
                     name="graduated"
                     label="Graduated"
@@ -206,7 +195,7 @@ export default function CreateForm() {
                     label="Hours Worked"
                     value={values.hoursWorked}
                     onChange={handleInputChange}
-                    items={hoursWorkedItems}
+                    items={studentData.hoursWorkedItems}
                 />
                 <Controls.Input 
                     name="descriptionAttempts"
@@ -214,7 +203,7 @@ export default function CreateForm() {
                     value={values.descriptionAttempts}
                     onChange={handleInputChange}
                     multiline
-                    rows={7}
+                    rows={15}
                 />
                 <div>
                     <Controls.Button
@@ -224,11 +213,12 @@ export default function CreateForm() {
                     <Controls.Button
                         color="error"
                         text="Cancel"
+                        onClick={handleCancel}
                     />
                 </div>
             </Grid>
         </Grid>
-    </Form>
+    </Controls.Form>
   )
 }
 

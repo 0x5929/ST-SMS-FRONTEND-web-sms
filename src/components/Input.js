@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 
 export default function Input(props) {
 
-    const { name, label, value, onChange, ...others } = props
+    const { name, label, value, error=null, onChange, ...others } = props
 
     return (  
         <TextField 
@@ -14,7 +14,7 @@ export default function Input(props) {
         name={name}
         value={value}
         onChange={onChange}
-    
+        {...(error && { error:true, helperText: error })}
         {...others}
     />
     );
