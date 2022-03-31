@@ -1,11 +1,12 @@
 import React from 'react'
-import {  Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 
-import Controls from '../../controllers/ComponentControls'
+import Controls from '../../components/ComponentControls'
+
 import useForm from '../../controllers/create/createFormController'
 import useValidate from '../../controllers/create/createFormValidation'
 
-import * as createService from '../../services/createService'
+import * as studentRecordService from '../../services/createRecordService'
 import * as studentData from '../../data/studentData'
 
 
@@ -21,7 +22,7 @@ export default function CreateForm() {
         handleInputChange,
         handleSubmit,
         handleCancel
-    } = useForm(studentData.initialStudentValues, true, useValidate);
+    } = useForm(studentData.initialStudentValues, true, useValidate, studentRecordService);
 
 
 
@@ -90,8 +91,9 @@ export default function CreateForm() {
                     name="course"
                     label="Course"
                     onChange={handleInputChange}
-                    options={createService.getHoursWorkedOptions()}
+                    options={studentRecordService.getCourseOptions()}
                     error={errors.course}
+                    defaultValue={studentRecordService.getCourseOptions()[0].value}
                     required
                 />
                 <Controls.DatePicker

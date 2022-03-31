@@ -1,6 +1,6 @@
 const initialStudentValues = {
 
-    id: 0,
+    pk: 0,
     studentId : '',
     firstName : '',
     lastName  : '',

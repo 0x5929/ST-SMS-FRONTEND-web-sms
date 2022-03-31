@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 // FORM STATE
-export default function useForm(initialStudentValues, validateOnChange=false, validate) {
+export default function useForm(initialStudentValues, validateOnChange=false, validate, studentRecordService) {
 
 
     
@@ -29,7 +29,8 @@ export default function useForm(initialStudentValues, validateOnChange=false, va
         e.preventDefault()
 
         if (validate(values, setErrors, errors)){
-            window.alert('Testing submit...')
+            studentRecordService.insertStudent(values)
+            handleCancel()
         }
 
     }

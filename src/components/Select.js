@@ -3,7 +3,7 @@ import React from 'react';
 
 export default function Select(props) {
 
-    const {name, label, value, onChange, required, options } = props;
+    const {name, label, value, onChange, required, options, ...others} = props;
     return (
         <FormControl
             variant="outlined"
@@ -15,6 +15,8 @@ export default function Select(props) {
                 name={name}
                 value={value}
                 onChange={onChange}
+
+                {...others}
             >
                 {
                     options.map(
