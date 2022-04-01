@@ -93,6 +93,7 @@ export default function CreateForm() {
                     onChange={handleInputChange}
                     options={studentRecordService.getCourseOptions()}
                     error={errors.course}
+                    value={values.course}
                     defaultValue={studentRecordService.getCourseOptions()[0].value}
                     required
                 />
