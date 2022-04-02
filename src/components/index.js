@@ -8,9 +8,14 @@ import DatePicker from './DatePicker';
 import Button from './Button';
 import Typography from './Typography';
 import Form from './Form';
+import Paper from './Paper';
+import TblHead from './TableHead';
+import TblContainer from './TableContainer';
+import TblBody from './TableBody';
+import CreateFormGrid from './Grid';
 
 
-// export controls for user input
+// export components controls for dev
 const Controls = {
     Header,
     Input,
@@ -20,7 +25,12 @@ const Controls = {
     DatePicker,
     Button,
     Typography,
-    Form
+    Form,
+    Paper,
+    TblContainer,
+    TblHead,
+    TblBody,
+    CreateFormGrid
 }
 
 export default Controls

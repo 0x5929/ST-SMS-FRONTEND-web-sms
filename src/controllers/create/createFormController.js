@@ -1,12 +1,17 @@
 import { useState } from 'react'
 
+import * as studentRecordService from '../../services/SMSRecordService'
+import validate from '../../controllers/create/createFormValidation'
+import Controls from '../../components'
+
+import * as studentData from '../../data/studentData'
 // FORM STATE
-export default function useForm(initialStudentValues, validateOnChange=false, validate, studentRecordService) {
+export default function useForm(validateOnChange=false) {
 
 
     
     // form state
-    const [values, setValues] = useState(initialStudentValues);
+    const [values, setValues] = useState(studentData.initialStudentValues);
     const [errors, setErrors] = useState({});
 
     const handleInputChange = e => {
@@ -19,7 +24,7 @@ export default function useForm(initialStudentValues, validateOnChange=false, va
         })
         
         if (validateOnChange)
-            validate({[name]: value}, setErrors, errors)
+        validate({[name]: value}, setErrors, errors)
         
 
     }
@@ -38,22 +43,26 @@ export default function useForm(initialStudentValues, validateOnChange=false, va
 
 
     const handleCancel = e =>{
-        setValues(initialStudentValues)
+        setValues(studentData.initialStudentValues)
         setErrors({})
     }
 
 
-
+    const getCourseOptions = studentRecordService.getCourseOptions
+    const { hoursWorkedItems } = studentData
     
     // return an obj that contains our state 
     return {
+        Controls,
         values, 
         setValues,
         errors,
         setErrors,
         handleInputChange,
         handleSubmit,
-        handleCancel
+        handleCancel,
+        getCourseOptions,
+        hoursWorkedItems
     }
 }
 

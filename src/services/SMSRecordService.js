@@ -25,3 +25,7 @@ export function createRecord(data) {
     students.push(data)
     localStorageOps.insertRecord(KEYS.students, students)
 }
+
+export function getAllRecords() {
+    return localStorageOps.getAllRecords(KEYS.students);
+}

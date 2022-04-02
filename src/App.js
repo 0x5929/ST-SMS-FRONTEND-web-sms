@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Query from './pages/Query'
+import Query from './pages/Query/Query'
 import Create from './pages/Create/Create'
 
 import Controls from './components' 

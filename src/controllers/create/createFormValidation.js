@@ -1,5 +1,5 @@
 // form validation
-const useValidate = (fieldValues, setErrors, errors) => {
+const validate = (fieldValues, setErrors, errors) => {
     let temp = {...errors}
 
     let simpleEmailRegex = /.+@.+..+/;
@@ -11,7 +11,7 @@ const useValidate = (fieldValues, setErrors, errors) => {
     if ('email' in fieldValues)
         temp.email = (simpleEmailRegex.test(fieldValues.email))?'':'Incorrect email format.'
     if ('studentId' in fieldValues)
-        temp.studentId = (studentIdRegex.test(fieldValues.studentId))?'':'Please enter the correct format. ie: RO-sCNA-10-1005-KR'
+        temp.studentId = (studentIdRegex.test(fieldValues.studentId))?'':'Please enter the correct format. ie: RO-CNA-10-1005-KR'
     if ('phoneNumber' in fieldValues)
         temp.phoneNumber = (phoneRegex.test(fieldValues.phoneNumber))?'':'Please enter the correct format. ie: xxx-xxx-xxxx'
     if ('courseCost' in fieldValues)
@@ -37,4 +37,4 @@ const useValidate = (fieldValues, setErrors, errors) => {
 }
 
 
-export default useValidate
+export default validate

@@ -1,12 +1,13 @@
 import React from "react";
-import CreateForm from "./CreateForm"
+import QueryResults from "./QueryResults"
 import Controls from '../../components/index';
 
 
-export default function Create() {
+
+export default function Query() {
   return (
     <Controls.Paper>
-      <CreateForm />
+      <QueryResults />
     </Controls.Paper>
   )
 }
