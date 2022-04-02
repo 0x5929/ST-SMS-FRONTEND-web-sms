@@ -1,6 +1,7 @@
 import React from 'react'
 import { Grid } from '@mui/material';
 import useForm from '../../controllers/create/createFormController'
+import Controls from '../../components'
 
 
 
@@ -9,7 +10,6 @@ export default function CreateForm() {
 
 
     const {
-        Controls,
         values, 
         // setValues,
         errors,
@@ -38,5 +38,3 @@ export default function CreateForm() {
     </Controls.Form>
   )
 }
-
-// STOPPED IN VIDEO 9:00 mark https://www.youtube.com/watch?v=-XKaSCU0ZLM&ab_channel=CodAffection
