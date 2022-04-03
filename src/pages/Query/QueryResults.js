@@ -14,7 +14,10 @@ export default function QueryResults() {
         records,
         //setRecords,
         tableData,
-
+        orderBy,
+        order,
+        handleSortRequest,
+        recordsAfterSorting
 
 
     } = useTable()
@@ -26,22 +29,32 @@ export default function QueryResults() {
         // setPage,
         rowsPerPage,
         // setRowsPerPage
-    } = usePagination()
+        handleChangePage,
+        handleChangeRowsPerPage,
+        recordsAfterPaging
+    } = usePagination(records)
 
       
     
     return (
         <>
-        <Controls.TblContainer>
-            <Controls.TblHead tableData={tableData} />
-            <Controls.TblBody records={records} />
-        </Controls.TblContainer>
-        <Controls.TblPagination 
-            page={page}
-            rowsPerPage={rowsPerPage}
-            rowsPerPageOptions={pages}
-            count={records.length}
-        />
+            <Controls.TblContainer>
+                <Controls.TblHead 
+                    tableData={tableData} 
+                    handleSortRequest={handleSortRequest}
+                    orderBy={orderBy}
+                    order={order}
+                />
+                <Controls.TblBody records={recordsAfterSorting(recordsAfterPaging())} />
+            </Controls.TblContainer>
+            <Controls.TblPagination 
+                page={page}
+                rowsPerPage={rowsPerPage}
+                rowsPerPageOptions={pages}
+                count={records.length}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+            />
         </>
     )
 }

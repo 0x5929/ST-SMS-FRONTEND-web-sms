@@ -1,4 +1,5 @@
 import * as localStorageOps from './api/localStorageOperations'
+import * as studentData from '../data/studentData'
 
 const KEYS = {
     students: 'students',
@@ -28,4 +29,8 @@ export function createRecord(data) {
 
 export function getAllRecords() {
     return localStorageOps.getAllRecords(KEYS.students);
+}
+
+export function insertSampleRecords() {
+    localStorageOps.insertRecord(KEYS.students, studentData.sampleStudentData)
 }
