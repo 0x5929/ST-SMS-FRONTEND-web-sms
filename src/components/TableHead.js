@@ -10,7 +10,10 @@ export default function TblHead(props) {
             { 
                 tableData.headCells.map( headCell => (
 
-                    <TableCell key={ headCell.id }>
+                    <TableCell 
+                        key={ headCell.id }
+                        sortDirection={orderBy === headCell.id ? order : false}
+                    >
                         <TableSortLabel
                             active={ orderBy === headCell.id }
                             direction={ orderBy === headCell.id ? order: 'asc' }
