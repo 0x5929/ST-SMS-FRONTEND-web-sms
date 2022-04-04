@@ -19,11 +19,11 @@ export default function usePagination(records) {
         setPage(0);
     }
 
-    const recordsAfterPaging = () =>{
+    const recordsAfterPaging = (recordsTobePaged) =>{
         // slice start is inclusive, and end is exclusive
         // we only want the records that 
         // (lets say starts from page 0 and 5 rows per page, so formula equals to 0, and end index to be 1 * 5, so 5, so only so records[0] to records[4])
-        return records.slice(page * rowsPerPage, (page + 1) * rowsPerPage)
+        return recordsTobePaged.slice(page * rowsPerPage, (page + 1) * rowsPerPage)
     }
 
     return {

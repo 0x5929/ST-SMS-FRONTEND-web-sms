@@ -8,15 +8,15 @@ export default function Input(props) {
 
     return (  
         <TextField 
-        variant="outlined"
-        color="primary"
-        label={label}
-        name={name}
-        value={value}
-        onChange={onChange}
-        {...(error && { error:true, helperText: error })}
-        {...others}
-    />
+            variant="outlined"
+            color="primary"
+            label={label}
+            name={name}
+            value={value}
+            onChange={onChange}
+            {...(error && { error:true, helperText: error })}
+            {...others}
+        />
     );
 }
 

@@ -14,6 +14,7 @@ import TblContainer from './TableContainer';
 import TblBody from './TableBody';
 import CreateFormGrid from './Grid';
 import TblPagination from './TablePagination'
+import FilterBar from './FilterBar';
 
 
 // export components controls for dev
@@ -32,7 +33,8 @@ const Controls = {
     TblHead,
     TblBody,
     CreateFormGrid,
-    TblPagination
+    TblPagination,
+    FilterBar
 }
 
 export default Controls
