@@ -28,7 +28,7 @@ const initialStudentValues = {
 
 }
 
-const hoursWorkedItems = [
+const hoursWorkedRadioItems = [
     {value: 'F', title: 'Full-time'},
     {value: 'P', title: 'Part-time'}
 ]
@@ -460,4 +460,4 @@ const sampleStudentData = [{
 
 
 
-export {initialStudentValues, hoursWorkedItems, sampleStudentData}
+export {initialStudentValues, hoursWorkedRadioItems, sampleStudentData}

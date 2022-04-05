@@ -4,5 +4,6 @@ export const headCells = [
     {id: 'lastName', label: 'Last Name'},
     {id: 'email', label: 'Email Address'},
     {id: 'course', label: 'Program Course'},
+    {id: 'actions', label: 'Actions', disableSorting: true}
 ]
 

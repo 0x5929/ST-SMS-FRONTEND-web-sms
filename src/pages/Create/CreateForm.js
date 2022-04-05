@@ -2,6 +2,7 @@ import React from 'react'
 import { Grid } from '@mui/material';
 import useForm from '../../controllers/create/createFormController'
 import Controls from '../../components'
+import * as studentData from '../../data/studentData'
 
 
 
@@ -18,22 +19,20 @@ export default function CreateForm() {
         handleSubmit,
         handleCancel,
         getCourseOptions,
-        hoursWorkedItems
-    } = useForm(true);
+        hoursWorkedRadioItems
+    } = useForm(true, studentData.initialStudentValues);
 
 
 
     return (
     <Controls.Form onSubmit={handleSubmit}>
-        <Controls.CreateFormGrid
-            Grid={Grid} 
-            Controls={Controls}
+        <Controls.StudentFormGrid
             values={values}
             errors={errors}
             handleInputChange={handleInputChange}
             handleCancel={handleCancel}
             getCourseOptions={getCourseOptions}
-            hoursWorkedItems={hoursWorkedItems}
+            hoursWorkedRadioItems={hoursWorkedRadioItems}
         />
     </Controls.Form>
   )

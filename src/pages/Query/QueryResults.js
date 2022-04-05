@@ -24,13 +24,26 @@ export default function QueryResults() {
         handleSortRequest,
         handleFilter,
 
-        getFinalDisplayRecords
+        modalTitle, 
+        openPopup, 
+        openInPopup,
+        setOpenPopup,
+        recordForEdit,
+        getFinalDisplayRecords,
+
+        
+        values, 
+        setValues,
+        errors,
+        handleInputChange,
+        handleSubmit,
+        handleCancel,
+        getCourseOptions,
+        hoursWorkedRadioItems,
 
     } = useTable()
 
 
-
-      
     
     return (
         <>
@@ -44,7 +57,11 @@ export default function QueryResults() {
                     orderBy={orderBy}
                     order={order}
                 />
-                <Controls.TblBody records={getFinalDisplayRecords()} />
+                <Controls.TblBody 
+                    records={getFinalDisplayRecords()}
+                    setOpenPopup={setOpenPopup}
+                    openInPopup={openInPopup}
+                />
             </Controls.TblContainer>
             <Controls.TblPagination 
                 page={page}
@@ -54,6 +71,25 @@ export default function QueryResults() {
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />
+            <Controls.Modal
+                modalTitle={modalTitle}
+                openPopup={openPopup}
+                setOpenPopup={setOpenPopup}>
+                
+                <Controls.Form onSubmit={handleSubmit}>
+                    <Controls.StudentFormGrid
+                        recordForEdit={recordForEdit}
+                        setValues={setValues}
+                        values={values}
+                        errors={errors}
+                        handleInputChange={handleInputChange}
+                        handleCancel={handleCancel}
+                        getCourseOptions={getCourseOptions}
+                        hoursWorkedRadioItems={hoursWorkedRadioItems}
+                    />
+                </Controls.Form>
+            </Controls.Modal>
+            
         </>
     )
 }

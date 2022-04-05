@@ -1,9 +1,14 @@
 import { TableBody, TableCell, TableRow } from '@mui/material'
 import React from 'react'
+import Button from './Button'
+ 
 
 export default function TblBody(props) {
 
-    const { records } = props
+    const { 
+        records, 
+        openInPopup,
+     } = props
 
     return (
     <TableBody>
@@ -14,7 +19,15 @@ export default function TblBody(props) {
                 <TableCell>{ record.lastName }</TableCell>
                 <TableCell>{ record.email }</TableCell>
                 <TableCell>{ record.course }</TableCell>
+                <TableCell>
+                    <Button 
+                        text="Testing"
+                        variant="outlined"
+                        onClick={() =>{openInPopup(record)}}
+                    />
+                </TableCell>
             </TableRow>
+            
         ))}
     </TableBody>
     )

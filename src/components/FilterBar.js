@@ -1,7 +1,7 @@
 import React from 'react';
 import { InputAdornment, Toolbar } from '@mui/material';
 import { Search } from '@mui/icons-material';
-import Controls from '.';
+import Input from './Input'
 
 
 
@@ -13,7 +13,7 @@ export default function FilterBar(props) {
 
     return (  
         <Toolbar>
-            <Controls.Input 
+            <Input 
                 label={label}
                 InputProps={{
                     startAdornment: (

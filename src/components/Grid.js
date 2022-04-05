@@ -1,16 +1,37 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { Grid } from '@mui/material'
 
-export default function CreateFormGrid(props) {
+import Typography from './Typography'
+import Input from './Input'
+import Select from './Select'
+import DatePicker from './DatePicker'
+import Checkbox from './Checkbox'
+import RadioGroup from './RadioGroup'
+import Button from './Button'
+ 
+
+export default function StudentFormGrid(props) {
 
 
-    const { Grid, 
-            Controls, 
+    const { 
             values, 
+            setValues,
             errors, 
             handleInputChange, 
             handleCancel,
             getCourseOptions,
-            hoursWorkedItems,} = props
+            hoursWorkedRadioItems, ...others} = props
+
+
+
+    useEffect(()=>{
+        if (others.recordForEdit != null){
+            setValues({
+                ...others.recordForEdit
+            })
+        }
+    }, [others.recordForEdit])
+
 
 
     /** NOTE: I could have put value fields separated into arrays, and then arrays.map() and really save some space here
@@ -21,7 +42,7 @@ export default function CreateFormGrid(props) {
     return (
     <Grid container>
         <Grid item xs={12}>
-            <Controls.Typography
+            <Typography
                 text="CREATE NEW STUDENT RECORD"
                 align='center'
                 sx={{ marginBottom:  3}}
@@ -29,7 +50,7 @@ export default function CreateFormGrid(props) {
             <hr />
         </Grid>
         <Grid item md={6} sm={12}>
-            <Controls.Input 
+            <Input 
                 name="studentId"
                 label="Student ID"
                 value={values.studentId}
@@ -37,21 +58,21 @@ export default function CreateFormGrid(props) {
                 error={errors.studentId}
                 required
             />
-            <Controls.Input 
+            <Input 
                 name="firstName"
                 label="First Name"
                 value={values.firstName}
                 onChange={handleInputChange}  
                 required  
             />
-            <Controls.Input 
+            <Input 
                 name="lastName"
                 label="Last Name"
                 value={values.lastName}
                 onChange={handleInputChange} 
                 required   
             />
-            <Controls.Input 
+            <Input 
                 name="phoneNumber"
                 label="Phone Number"
                 value={values.phoneNumber}
@@ -59,7 +80,7 @@ export default function CreateFormGrid(props) {
                 error={errors.phoneNumber}
                 required 
             />
-            <Controls.Input 
+            <Input 
                 name="email"
                 label="Email"
                 value={values.email}
@@ -67,14 +88,14 @@ export default function CreateFormGrid(props) {
                 error={errors.email}
                 required   
             />
-            <Controls.Input 
+            <Input 
                 name="mailingAddress"
                 label="Mailing Address"
                 value={values.mailingAddress}
                 onChange={handleInputChange}  
                 required  
             />
-            <Controls.Select
+            <Select
                 name="course"
                 label="Course"
                 onChange={handleInputChange}
@@ -84,21 +105,21 @@ export default function CreateFormGrid(props) {
                 defaultValue={getCourseOptions()[0].value}
                 required
             />
-            <Controls.DatePicker
+            <DatePicker
                 name="startDate"
                 label="Program Start Date"
                 value={values.startDate}
                 onChange={handleInputChange}
                 error={errors.startDate}
             />
-            <Controls.DatePicker
+            <DatePicker
                 name="completionDate"
                 label="Program Completion Date"
                 value={values.completionDate}
                 onChange={handleInputChange}
                 error={errors.completionDate}
             />
-            <Controls.DatePicker
+            <DatePicker
                 name="dateEnrollmentAgreementSigned"
                 label="Date Enrollment Agreement Signed"
                 value={values.dateEnrollmentAgreementSigned}
@@ -106,13 +127,13 @@ export default function CreateFormGrid(props) {
                 error={errors.dateEnrollmentAgreementSigned}
                 disableFuture
             />
-            <Controls.Input 
+            <Input 
                 name="thirdPartyPayerInfo"
                 label="Third Party Payer Info"
                 value={values.thirdPartyPayerInfo}
                 onChange={handleInputChange}
             />
-            <Controls.Input 
+            <Input 
                 name="courseCost"
                 label="Course Cost"
                 value={values.courseCost}
@@ -120,7 +141,7 @@ export default function CreateFormGrid(props) {
                 error={errors.courseCost}
                 required
             />
-            <Controls.Input 
+            <Input 
                 name="chargesCharged"
                 label="Charges Charged"
                 value={values.chargesCharged}
@@ -128,7 +149,7 @@ export default function CreateFormGrid(props) {
                 error={errors.chargesCharged}
                 required
             />
-            <Controls.Input 
+            <Input 
                 name="chargesPaid"
                 label="Charges Paid"
                 value={values.chargesPaid}
@@ -138,56 +159,56 @@ export default function CreateFormGrid(props) {
             />
         </Grid>
         <Grid item md={6} sm={12}>
-            <Controls.Checkbox 
+            <Checkbox 
                 name="graduated"
                 label="Graduated"
                 value={values.graduated}
                 onChange={handleInputChange}
             />
-            <Controls.Checkbox 
+            <Checkbox 
                 name="passedFirstExam"
                 label="Passed First Exam"
                 value={values.passedFirstExam}
                 onChange={handleInputChange}
             />
-            <Controls.Checkbox 
+            <Checkbox 
                 name="passedSecondOrThird"
                 label="Passed Second or Third Exam"
                 value={values.passedSecondOrThird}
                 onChange={handleInputChange}
             />
-            <Controls.Checkbox 
+            <Checkbox 
                 name="employed"
                 label="Employed"
                 value={values.employed}
                 onChange={handleInputChange}
             />
-            <Controls.Input 
+            <Input 
                 name="position"
                 label="Employment Position"
                 value={values.position}
                 onChange={handleInputChange}
             />
-            <Controls.Input 
+            <Input 
                 name="employmentAddress"
                 label="Employment Address"
                 value={values.employmentAddress}
                 onChange={handleInputChange}
             />
-            <Controls.Input 
+            <Input 
                 name="startingWage"
                 label="Starting Wage"
                 value={values.startingWage}
                 onChange={handleInputChange}
             />
-            <Controls.RadioGroup
+            <RadioGroup
                 name="hoursWorked"
                 label="Hours Worked"
                 value={values.hoursWorked}
                 onChange={handleInputChange}
-                items={hoursWorkedItems}
+                items={hoursWorkedRadioItems}
             />
-            <Controls.Input 
+            <Input 
                 name="descriptionAttempts"
                 label="Comments"
                 value={values.descriptionAttempts}
@@ -196,11 +217,11 @@ export default function CreateFormGrid(props) {
                 rows={15}
             />
             <div>
-                <Controls.Button
+                <Button
                     type="submit"
                     text="Submit"
                 />
-                <Controls.Button
+                <Button
                     color="error"
                     text="Cancel"
                     onClick={handleCancel}
