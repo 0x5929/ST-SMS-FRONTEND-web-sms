@@ -5,7 +5,12 @@ import Controls from '../../components/index';
 
 export default function Create() {
   return (
-    <Controls.Paper>
+    <Controls.Paper>        
+      <Controls.Typography
+        text="CREATE NEW STUDENT RECORD"
+        align='center'
+        sx={{ marginBottom:  3}}
+    />
       <CreateForm />
     </Controls.Paper>
   )

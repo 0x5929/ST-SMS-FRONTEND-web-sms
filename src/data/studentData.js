@@ -38,7 +38,7 @@ const hoursWorkedRadioItems = [
 const sampleStudentData = [{
 
     pk: 100,
-    studentId : 'RO-CNA-0001-AB',
+    studentId : 'RO-CNA-100-0001-AB',
     firstName : 'student1',
     lastName  : 'student1',
     phoneNumber: '123-456-7890',
@@ -66,7 +66,7 @@ const sampleStudentData = [{
 },{
 
     pk: 101,
-    studentId : 'RO-CNA-0002-AB',
+    studentId : 'RO-CNA-100-0002-AB',
     firstName : 'student2',
     lastName  : 'student2',
     phoneNumber: '123-456-7890',
@@ -94,7 +94,7 @@ const sampleStudentData = [{
 },{
 
     pk: 102,
-    studentId : 'RO-CNA-0003-AB',
+    studentId : 'RO-CNA-100-0003-AB',
     firstName : 'student3',
     lastName  : 'student3',
     phoneNumber: '123-456-7890',
@@ -122,7 +122,7 @@ const sampleStudentData = [{
 },{
 
     pk: 103,
-    studentId : 'RO-CNA-0004-AB',
+    studentId : 'RO-CNA-100-0004-AB',
     firstName : 'student4',
     lastName  : 'student4',
     phoneNumber: '123-456-7890',
@@ -150,7 +150,7 @@ const sampleStudentData = [{
 },{
 
     pk: 104,
-    studentId : 'RO-CNA-0005-AB',
+    studentId : 'RO-CNA-100-0005-AB',
     firstName : 'student5',
     lastName  : 'student5',
     phoneNumber: '123-456-7890',
@@ -178,7 +178,7 @@ const sampleStudentData = [{
 },{
 
     pk: 105,
-    studentId : 'RO-CNA-0006-AB',
+    studentId : 'RO-CNA-100-0006-AB',
     firstName : 'student6',
     lastName  : 'student6',
     phoneNumber: '123-456-7890',
@@ -206,7 +206,7 @@ const sampleStudentData = [{
 },{
 
     pk: 106,
-    studentId : 'RO-CNA-0007-AB',
+    studentId : 'RO-CNA-100-0007-AB',
     firstName : 'student7',
     lastName  : 'student7',
     phoneNumber: '123-456-7890',
@@ -234,7 +234,7 @@ const sampleStudentData = [{
 },{
 
     pk: 107,
-    studentId : 'RO-CNA-0008-AB',
+    studentId : 'RO-CNA-100-0008-AB',
     firstName : 'student8',
     lastName  : 'student8',
     phoneNumber: '123-456-7890',
@@ -262,7 +262,7 @@ const sampleStudentData = [{
 },{
 
     pk: 108,
-    studentId : 'RO-CNA-0009-AB',
+    studentId : 'RO-CNA-100-0009-AB',
     firstName : 'student9',
     lastName  : 'student9',
     phoneNumber: '123-456-7890',
@@ -290,7 +290,7 @@ const sampleStudentData = [{
 },{
 
     pk: 109,
-    studentId : 'RO-CNA-0010-AB',
+    studentId : 'RO-CNA-100-0010-AB',
     firstName : 'student10',
     lastName  : 'student10',
     phoneNumber: '123-456-7890',
@@ -318,7 +318,7 @@ const sampleStudentData = [{
 },{
 
     pk: 110,
-    studentId : 'RO-CNA-0011-AB',
+    studentId : 'RO-CNA-100-0011-AB',
     firstName : 'student11',
     lastName  : 'student11',
     phoneNumber: '123-456-7890',
@@ -346,7 +346,7 @@ const sampleStudentData = [{
 },{
 
     pk: 111,
-    studentId : 'RO-CNA-0012-AB',
+    studentId : 'RO-CNA-100-0012-AB',
     firstName : 'student12',
     lastName  : 'student12',
     phoneNumber: '123-456-7890',
@@ -374,7 +374,7 @@ const sampleStudentData = [{
 },{
 
     pk: 112,
-    studentId : 'RO-CNA-0013-AB',
+    studentId : 'RO-CNA-100-0013-AB',
     firstName : 'student13',
     lastName  : 'student13',
     phoneNumber: '123-456-7890',
@@ -402,7 +402,7 @@ const sampleStudentData = [{
 },{
 
     pk: 113,
-    studentId : 'RO-CNA-0014-AB',
+    studentId : 'RO-CNA-100-0014-AB',
     firstName : 'student14',
     lastName  : 'student14',
     phoneNumber: '123-456-7890',
@@ -430,7 +430,7 @@ const sampleStudentData = [{
 },{
 
     pk: 114,
-    studentId : 'RO-CNA-0015-AB',
+    studentId : 'RO-CNA-100-0015-AB',
     firstName : 'student15',
     lastName  : 'student15',
     phoneNumber: '123-456-7890',

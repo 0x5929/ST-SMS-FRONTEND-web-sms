@@ -26,13 +26,6 @@ export default function CreateForm() {
     return (
     <Controls.Form onSubmit={handleSubmit}>
 
-        <Controls.Typography
-            text="CREATE NEW STUDENT RECORD"
-            align='center'
-            sx={{ marginBottom:  3}}
-        />
-
-
         <Controls.StudentFormGrid
             values={values}
             errors={errors}

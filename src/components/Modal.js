@@ -52,6 +52,7 @@ export default function Modal(props) {
                         variant="text"
                         size="small"
                         Icon={CloseOutlinedIcon}
+                        color="secondary"
                         iconColor="error"
                         onClick={()=>(closeModal())}
                     />
