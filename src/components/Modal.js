@@ -18,13 +18,14 @@ const DialogWrapper = styled(Dialog)(( {theme} ) => ({
   
 
 const DialogTitleWrapper = styled(DialogTitle)(( {theme} ) => ({
-    paddingRight: '0px'
+    paddingRight: '10px'
   
   }));
   
 
 const CloseButton = styled(IconButton)(( {theme} ) => ({
     minWidth: 0,
+    minHeight: 0,
     margin: theme.spacing(0.5),
   
   }));
