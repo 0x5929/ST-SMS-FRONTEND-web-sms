@@ -50,7 +50,10 @@ export function IconButton(props) {
 
             {...others}
         >
-            <Icon color={iconColor || 'primary'} />
+            <Icon 
+                color={iconColor || 'primary'} 
+                {...others.iconProps}
+            />
 
         </NonCapButton>
     )

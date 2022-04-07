@@ -1,7 +1,18 @@
 import { TableBody, TableCell, TableRow } from '@mui/material'
 import React from 'react'
-import {Button} from './Button'
+import {IconButton} from './Button'
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
  
+import { styled } from '@mui/material'
+
+const ActionButton = styled(IconButton)(( {theme} ) => ({
+    minWidth: 0,
+    minHeight: 0,
+    margin: theme.spacing(0.5),
+  
+  }));
+
 
 export default function TblBody(props) {
 
@@ -20,10 +31,22 @@ export default function TblBody(props) {
                 <TableCell>{ record.email }</TableCell>
                 <TableCell>{ record.course }</TableCell>
                 <TableCell>
-                    <Button 
-                        text="Testing"
-                        variant="outlined"
+                    <ActionButton 
+                        variant="text"
                         onClick={() =>{openInModal(record)}}
+                        Icon={EditOutlinedIcon}
+                        size="small"
+                        color="primary"
+                        iconProps={{fontSize: 'small'}}
+                    />
+                    <ActionButton 
+                        variant="text"
+                        onClick={() =>{}}
+                        Icon={CloseOutlinedIcon}
+                        size="small"
+                        color="secondary"
+                        iconColor="secondary"
+                        iconProps={{fontSize: 'small'}}
                     />
                 </TableCell>
             </TableRow>
