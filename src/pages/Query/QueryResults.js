@@ -8,10 +8,14 @@ export default function QueryResults() {
 
     
     const {
+
+        // table
         records,
         tableData,
+        getFinalDisplayRecords,
 
 
+        // paging
         pages,
         page,
         rowsPerPage,
@@ -19,19 +23,20 @@ export default function QueryResults() {
         handleChangeRowsPerPage,
 
 
+        // sorting
         orderBy,
         order,
         handleSortRequest,
         handleFilter,
 
+        // modals
         modalTitle, 
-        openPopup, 
-        openInPopup,
-        setOpenPopup,
+        openModal, 
+        openInModal,
+        closeModal,
         recordForEdit,
-        getFinalDisplayRecords,
 
-        
+        // edit forms
         values, 
         setValues,
         errors,
@@ -40,6 +45,7 @@ export default function QueryResults() {
         handleCancel,
         getCourseOptions,
         hoursWorkedRadioItems,
+        populateFormFieldsForEdit,
 
     } = useTable()
 
@@ -59,8 +65,7 @@ export default function QueryResults() {
                 />
                 <Controls.TblBody 
                     records={getFinalDisplayRecords()}
-                    setOpenPopup={setOpenPopup}
-                    openInPopup={openInPopup}
+                    openInModal={openInModal}
                 />
             </Controls.TblContainer>
             <Controls.TblPagination 
@@ -73,9 +78,9 @@ export default function QueryResults() {
             />
             <Controls.Modal
                 modalTitle={modalTitle}
-                openPopup={openPopup}
-                setOpenPopup={setOpenPopup}>
-                
+                openModal={openModal}
+                closeModal={closeModal}
+            >
                 <Controls.Form onSubmit={handleSubmit}>
                     <Controls.StudentFormGrid
                         recordForEdit={recordForEdit}
@@ -86,6 +91,7 @@ export default function QueryResults() {
                         handleCancel={handleCancel}
                         getCourseOptions={getCourseOptions}
                         hoursWorkedRadioItems={hoursWorkedRadioItems}
+                        populateFormFieldsForEdit={populateFormFieldsForEdit}
                     />
                 </Controls.Form>
             </Controls.Modal>

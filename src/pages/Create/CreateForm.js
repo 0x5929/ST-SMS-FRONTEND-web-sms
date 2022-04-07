@@ -1,5 +1,4 @@
 import React from 'react'
-import { Grid } from '@mui/material';
 import useForm from '../../controllers/create/createFormController'
 import Controls from '../../components'
 import * as studentData from '../../data/studentData'
@@ -26,6 +25,14 @@ export default function CreateForm() {
 
     return (
     <Controls.Form onSubmit={handleSubmit}>
+
+        <Controls.Typography
+            text="CREATE NEW STUDENT RECORD"
+            align='center'
+            sx={{ marginBottom:  3}}
+        />
+
+
         <Controls.StudentFormGrid
             values={values}
             errors={errors}

@@ -10,9 +10,9 @@ const NonCapButton = styled(MuiButton)(( {theme} ) => ({
 }));
 
 
-export default function Button(props) {
+export function Button(props) {
 
-    const { text, size, color, variant, onClick, ...others } = props;
+    const { text, Icon, size, color, variant, onClick, ...others } = props;
 
     var variantDefault = "contained"
     var sizeDefault = "large"
@@ -25,7 +25,6 @@ export default function Button(props) {
             color={color || colorDefault}
             onClick={onClick}
             
-            // others.props={others.value}
             {...others}
         >
             {text}
@@ -33,3 +32,26 @@ export default function Button(props) {
     );
 }
 
+
+
+export function IconButton(props) {
+
+    const { Icon, size, color, iconColor, variant, onClick, ...others } = props;
+
+    var variantDefault = "text"
+    var sizeDefault = "small"
+    var colorDefault = "secondary"
+    return (
+        <NonCapButton
+            variant={variant || variantDefault}
+            size={size || sizeDefault}
+            color={color || colorDefault}
+            onClick={onClick}
+
+            {...others}
+        >
+            <Icon color={others.iconColor || 'primary'} />
+
+        </NonCapButton>
+    )
+}

@@ -1,14 +1,26 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import useForm from "../create/createFormController";
 
 export default function useModal (studentValues, setRecordForEdit) {
 
-    const modalTitle = 'Modal Title Here.'
-    const [openPopup, setOpenPopup] = useState(false)
+    const modalTitle = 'Edit Student Data'
+    const [openModal, setOpenModal] = useState(false)
 
-    const openInPopup = item =>{
+    const populateFormFieldsForEdit = useCallback((recordForEdit, setValues) => {
+        if (recordForEdit != null){
+            setValues({
+                ...recordForEdit
+            })
+        }
+    }, [])
+
+    const openInModal = item =>{
         setRecordForEdit(item)
-        setOpenPopup(true)
+        setOpenModal(true)
+    }
+
+    const closeModal = () => {
+        setOpenModal(false)
     }
 
     const {
@@ -35,8 +47,10 @@ export default function useModal (studentValues, setRecordForEdit) {
         getCourseOptions,
         hoursWorkedRadioItems,
         modalTitle,
-        openPopup, 
-        openInPopup,
-        setOpenPopup 
+        openModal, 
+        openInModal,
+        setOpenModal ,
+        closeModal,
+        populateFormFieldsForEdit
     }
 }

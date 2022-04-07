@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react'
 import { Grid } from '@mui/material'
 
-import Typography from './Typography'
 import Input from './Input'
 import Select from './Select'
 import DatePicker from './DatePicker'
 import Checkbox from './Checkbox'
 import RadioGroup from './RadioGroup'
-import Button from './Button'
+import {Button} from './Button'
  
 
 export default function StudentFormGrid(props) {
@@ -20,17 +19,18 @@ export default function StudentFormGrid(props) {
             handleInputChange, 
             handleCancel,
             getCourseOptions,
-            hoursWorkedRadioItems, ...others} = props
+            hoursWorkedRadioItems, 
+            recordForEdit,
+            populateFormFieldsForEdit,
+            } = props
 
 
-
+    // hook to add student data to edit fields in the form
     useEffect(()=>{
-        if (others.recordForEdit != null){
-            setValues({
-                ...others.recordForEdit
-            })
-        }
-    }, [others.recordForEdit])
+        if (populateFormFieldsForEdit){
+            populateFormFieldsForEdit(recordForEdit, setValues)
+    }},
+    [populateFormFieldsForEdit, setValues, recordForEdit])
 
 
 
@@ -41,14 +41,7 @@ export default function StudentFormGrid(props) {
 
     return (
     <Grid container>
-        <Grid item xs={12}>
-            <Typography
-                text="CREATE NEW STUDENT RECORD"
-                align='center'
-                sx={{ marginBottom:  3}}
-            />
-            <hr />
-        </Grid>
+
         <Grid item md={6} sm={12}>
             <Input 
                 name="studentId"

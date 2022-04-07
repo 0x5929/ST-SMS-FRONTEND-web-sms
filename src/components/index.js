@@ -8,7 +8,8 @@ import TblBody from './TableBody';
 import StudentFormGrid from './Grid';
 import TblPagination from './TablePagination'
 import FilterBar from './FilterBar';
-import Modal from './Modal'
+import Modal from './Modal';
+import Typography from './Typography'
 
 // export components controls for dev to be used outside of the componenet folder
 const Controls = {
@@ -21,7 +22,8 @@ const Controls = {
     StudentFormGrid,
     TblPagination,
     FilterBar,
-    Modal
+    Modal,
+    Typography
 }
 
 export default Controls

@@ -1,13 +1,13 @@
 import { TableBody, TableCell, TableRow } from '@mui/material'
 import React from 'react'
-import Button from './Button'
+import {Button} from './Button'
  
 
 export default function TblBody(props) {
 
     const { 
         records, 
-        openInPopup,
+        openInModal,
      } = props
 
     return (
@@ -23,7 +23,7 @@ export default function TblBody(props) {
                     <Button 
                         text="Testing"
                         variant="outlined"
-                        onClick={() =>{openInPopup(record)}}
+                        onClick={() =>{openInModal(record)}}
                     />
                 </TableCell>
             </TableRow>

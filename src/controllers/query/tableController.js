@@ -49,6 +49,8 @@ export default function useTable() {
 
 
     const { 
+
+      // returned by useForm() of ../create/createFormController.js for editting student record
       values, 
       setValues,
       errors,
@@ -58,11 +60,14 @@ export default function useTable() {
       handleCancel,
       getCourseOptions,
       hoursWorkedRadioItems,
-  
+      populateFormFieldsForEdit,
+      
+      // used for modal config
       modalTitle, 
-      openPopup, 
-      openInPopup,
-      setOpenPopup 
+      openModal, 
+      openInModal,
+      setOpenModal,
+      closeModal,
     } = useModal(studentData.initialStudentValues, setRecordForEdit)
 
 
@@ -75,6 +80,8 @@ export default function useTable() {
 
 
     return {
+
+        // table 
         records, 
         setRecords,
         tableData,
@@ -103,8 +110,20 @@ export default function useTable() {
         recordsAfterFiltering,
         handleFilter,
 
+        
+        // final display records
+        getFinalDisplayRecords,
+
+
         // modal handling
+        modalTitle, 
+        openModal, 
+        openInModal,
+        setOpenModal,
+        closeModal,
         recordForEdit,
+
+        // used for edit forms
         values, 
         setValues,
         errors,
@@ -114,11 +133,6 @@ export default function useTable() {
         handleCancel,
         getCourseOptions,
         hoursWorkedRadioItems,
-        modalTitle, 
-        openPopup, 
-        openInPopup,
-        setOpenPopup,
-
-        getFinalDisplayRecords
+        populateFormFieldsForEdit,
     }
 }
