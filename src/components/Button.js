@@ -36,7 +36,7 @@ export function Button(props) {
 
 export function IconButton(props) {
 
-    const { Icon, size, color, iconColor, variant, onClick, ...others } = props;
+    const { children, size, color, variant, ...others } = props;
 
     var variantDefault = "text"
     var sizeDefault = "small"
@@ -46,14 +46,10 @@ export function IconButton(props) {
             variant={variant || variantDefault}
             size={size || sizeDefault}
             color={color || colorDefault}
-            onClick={onClick}
 
             {...others}
         >
-            <Icon 
-                color={iconColor || 'primary'} 
-                {...others.iconprops}
-            />
+            { children }
 
         </NonCapButton>
     )

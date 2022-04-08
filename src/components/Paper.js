@@ -10,10 +10,12 @@ const FormPaper = styled(MuiPaper)(( {theme} ) => ({
   
   
 export default function Paper(props) {
-
+    const { children, ...others } = props
     return (  
-        <FormPaper>
-            {props.children}
+        <FormPaper
+            { ...others }
+        >
+            { children }
         </FormPaper>
     );
 }

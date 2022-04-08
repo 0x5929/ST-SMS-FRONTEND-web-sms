@@ -18,7 +18,7 @@ const DialogWrapper = styled(Dialog)(( {theme} ) => ({
   
 
 const DialogTitleWrapper = styled(DialogTitle)(( {theme} ) => ({
-    paddingRight: '10px'
+    paddingRight: '0px'
   
   }));
   
@@ -52,11 +52,14 @@ export default function Modal(props) {
                     <CloseButton 
                         variant="text"
                         size="small"
-                        Icon={CloseOutlinedIcon}
                         color="secondary"
-                        iconColor="error"
                         onClick={()=>(closeModal())}
-                    />
+                    >
+                        <CloseOutlinedIcon 
+                            fontSize="small"
+                            color="error"
+                        />
+                    </CloseButton>
                 </div>
             </DialogTitleWrapper>
             <DialogContent dividers>

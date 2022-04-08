@@ -22,10 +22,16 @@ const TableContainer = styled(Table)(( {theme } ) => ({
     }
 
 }));
+
 export default function TblContainer(props) {
-  return (
-    <TableContainer>
-        {props.children}
+
+    const { children, ...others } = props
+
+    return (
+    <TableContainer
+        { ...others }
+    >
+        { children }
     </TableContainer>
-  )
+    )
 }

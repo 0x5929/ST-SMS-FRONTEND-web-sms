@@ -19,7 +19,7 @@ export default function Form (props) {
         <InputForm autoComplete="off"
             {...others}
         >
-            {props.children}
+            {children}
         </InputForm>
     )
 

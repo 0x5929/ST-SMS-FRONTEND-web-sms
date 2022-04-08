@@ -35,20 +35,25 @@ export default function TblBody(props) {
                     <ActionButton 
                         variant="text"
                         onClick={() =>{openInModal(record)}}
-                        Icon={EditOutlinedIcon}
                         size="small"
                         color="primary"
-                        iconprops={{fontSize: 'small'}}
-                    />
+                    >
+                        <EditOutlinedIcon 
+                            fontSize="small"
+                            color="primary"
+                        />
+                    </ActionButton>
                     <ActionButton 
                         variant="text"
                         onClick={() =>{handleDelete(record)}}
-                        Icon={CloseOutlinedIcon}
                         size="small"
                         color="secondary"
-                        iconColor="secondary"
-                        iconprops={{fontSize: 'small'}}
-                    />
+                    >
+                        <CloseOutlinedIcon 
+                            fontSize="small"
+                            color="secondary"
+                        />
+                    </ActionButton>
                 </TableCell>
             </TableRow>
             
