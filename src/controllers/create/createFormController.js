@@ -28,23 +28,27 @@ export default function useForm(validateOnChange=false, currentData=studentData.
 
     }
 
-    const handleSubmit = e =>{
-        // DEV configuration so we dont refresh the page when testing submit button
-        e.preventDefault()
-
-        if (validate(values, setErrors, errors)){
-            studentRecordService.createRecord(values)
-            handleCancel()
-        }
-
+    const createOrUpdate = (record, reset) => {
+        studentRecordService.createRecord(values)
+        reset()
     }
-
-
 
     const handleCancel = e =>{
         setValues(studentData.initialStudentValues)
         setErrors({})
     }
+
+
+    const handleSubmit = e =>{
+        // DEV configuration so we dont refresh the page when testing submit button
+        e.preventDefault()
+
+        if (validate(values, setErrors, errors)){
+            createOrUpdate(values, handleCancel)
+        }
+
+    }
+
 
 
     const getCourseOptions = studentRecordService.getCourseOptions

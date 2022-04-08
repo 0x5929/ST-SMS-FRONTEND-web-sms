@@ -36,16 +36,16 @@ export default function useModal (studentValues, setRecordForEdit) {
         errors,
         setErrors,
         handleInputChange,
+        handleSubmit,
         handleCancel,
         getCourseOptions,
         hoursWorkedRadioItems
     } = useForm(false, studentValues);
 
 
-    const handleEditSubmit = () => {
+    const handleEditSubmit = e => {
         if (validate(values, setErrors, errors)){
-            console.log('THIS SHOULD BE A PUT REQUEST')
-            handleCancel()
+            handleSubmit(e)
             closeModal()
         }
     }
