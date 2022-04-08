@@ -22,3 +22,23 @@ export function getAllRecords(key) {
 
     return JSON.parse(localStorage.getItem(key));
 }
+
+
+export function updateRecord(key, record, recordIndexToEdit){
+    let records = getAllRecords(key);
+    
+    records[recordIndexToEdit] = { ...record }
+    localStorage.setItem(key, JSON.stringify(records))
+}
+
+export function getRecordIndex(key, record){
+    
+    let records = getAllRecords(key);
+    let recordIndex = records.findIndex(x => x.pk === record.pk)
+
+    if ( recordIndex === -1 ) {
+        return false
+    }
+
+    return recordIndex
+}

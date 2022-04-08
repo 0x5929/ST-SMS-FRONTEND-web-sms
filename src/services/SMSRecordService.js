@@ -34,3 +34,11 @@ export function getAllRecords() {
 export function insertSampleRecords() {
     localStorageOps.insertRecord(KEYS.students, studentData.sampleStudentData)
 }
+
+export function updateRecord(record, recordToEdit) {
+    return localStorageOps.updateRecord(KEYS.students, record, recordToEdit)
+}
+
+export function getRecordIndex(record) {
+    return localStorageOps.getRecordIndex(KEYS.students, record)
+}

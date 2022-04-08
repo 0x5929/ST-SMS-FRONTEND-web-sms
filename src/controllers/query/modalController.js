@@ -1,19 +1,12 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import useForm from "../create/createFormController";
 import validate from '../../controllers/create/createFormValidation';
+import * as studentRecordService from '../../services/SMSRecordService';
 
-export default function useModal (studentValues, setRecordForEdit) {
+export default function useModal (studentValues, setRecordForEdit, setRecords) {
 
     const modalTitle = 'Edit Student Data'
     const [openModal, setOpenModal] = useState(false)
-
-    const populateFormFieldsForEdit = useCallback((recordForEdit, setValues) => {
-        if (recordForEdit != null){
-            setValues({
-                ...recordForEdit
-            })
-        }
-    }, [])
 
     const openInModal = item =>{
         setRecordForEdit(item)
@@ -24,11 +17,7 @@ export default function useModal (studentValues, setRecordForEdit) {
         setOpenModal(false)
     }
 
-    const handleDelete = (record) => {
-        // we can also had a dialog asking, are you sure?
-        // absolutely sure?
-        console.log('THIS SHOULD BE A DELETE REQUEST: ', record)
-    }
+
 
     const {
         values, 
@@ -39,14 +28,17 @@ export default function useModal (studentValues, setRecordForEdit) {
         handleSubmit,
         handleCancel,
         getCourseOptions,
-        hoursWorkedRadioItems
+        hoursWorkedRadioItems,
+        populateFormFieldsForEdit,
     } = useForm(false, studentValues);
 
 
     const handleEditSubmit = e => {
         if (validate(values, setErrors, errors)){
             handleSubmit(e)
+            setRecordForEdit(null)
             closeModal()
+            setRecords(studentRecordService.getAllRecords())
         }
     }
 
@@ -70,7 +62,6 @@ export default function useModal (studentValues, setRecordForEdit) {
         openInModal,
         setOpenModal ,
         closeModal,
-        handleDelete,
         populateFormFieldsForEdit
     }
 }

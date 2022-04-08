@@ -14,7 +14,6 @@ export default function StudentFormGrid(props) {
 
     const { 
             values, 
-            setValues,
             errors, 
             handleInputChange, 
             handleCancel,
@@ -28,9 +27,9 @@ export default function StudentFormGrid(props) {
     // hook to add student data to edit fields in the form
     useEffect(()=>{
         if (populateFormFieldsForEdit){
-            populateFormFieldsForEdit(recordForEdit, setValues)
+            populateFormFieldsForEdit(recordForEdit)
     }},
-    [populateFormFieldsForEdit, setValues, recordForEdit])
+    [populateFormFieldsForEdit, recordForEdit])
 
 
 

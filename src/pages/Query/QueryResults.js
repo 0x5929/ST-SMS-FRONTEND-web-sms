@@ -39,7 +39,6 @@ export default function QueryResults() {
 
         // edit forms
         values, 
-        setValues,
         errors,
         handleInputChange,
         handleEditSubmit,
@@ -86,7 +85,6 @@ export default function QueryResults() {
                 <Controls.Form onSubmit={handleEditSubmit}>
                     <Controls.StudentFormGrid
                         recordForEdit={recordForEdit}
-                        setValues={setValues}
                         values={values}
                         errors={errors}
                         handleInputChange={handleInputChange}

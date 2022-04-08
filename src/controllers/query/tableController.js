@@ -68,8 +68,7 @@ export default function useTable() {
       openInModal,
       setOpenModal,
       closeModal,
-      handleDelete,
-    } = useModal(studentData.initialStudentValues, setRecordForEdit)
+    } = useModal(studentData.initialStudentValues, setRecordForEdit, setRecords)
 
 
     const getFinalDisplayRecords = () =>{
@@ -79,7 +78,12 @@ export default function useTable() {
       return recordsAfterPaging(sortedResults)
     }
 
-
+    const handleDelete = (record) => {
+      // we can also had a dialog asking, are you sure?
+      // absolutely sure?
+      console.log('THIS SHOULD BE A DELETE REQUEST: ', record)
+  }
+  
     return {
 
         // table 

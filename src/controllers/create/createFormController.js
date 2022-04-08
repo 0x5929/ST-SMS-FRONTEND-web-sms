@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState , useCallback } from 'react'
 
 import * as studentRecordService from '../../services/SMSRecordService'
 import validate from '../../controllers/create/createFormValidation'
@@ -28,10 +28,25 @@ export default function useForm(validateOnChange=false, currentData=studentData.
 
     }
 
-    const createOrUpdate = (record, reset) => {
-        studentRecordService.createRecord(values)
-        reset()
+    const createOrUpdate = (record, resetForm) => {
+        const recordIndexToEdit = studentRecordService.getRecordIndex(record)
+
+        if (!recordIndexToEdit){            
+            studentRecordService.createRecord(record)
+        }
+        else {
+            studentRecordService.updateRecord(record, recordIndexToEdit)
+        }
+        resetForm()
     }
+
+    const populateFormFieldsForEdit = useCallback((recordForEdit) => {
+        if (recordForEdit != null){
+            setValues({
+                ...recordForEdit
+            })
+        }
+    }, [])
 
     const handleCancel = e =>{
         setValues(studentData.initialStudentValues)
@@ -64,7 +79,8 @@ export default function useForm(validateOnChange=false, currentData=studentData.
         handleSubmit,
         handleCancel,
         getCourseOptions,
-        hoursWorkedRadioItems
+        hoursWorkedRadioItems,
+        populateFormFieldsForEdit,
     }
 }
 
