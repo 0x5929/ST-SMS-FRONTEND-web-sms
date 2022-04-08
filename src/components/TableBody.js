@@ -19,6 +19,7 @@ export default function TblBody(props) {
     const { 
         records, 
         openInModal,
+        handleDelete,
      } = props
 
     return (
@@ -37,16 +38,16 @@ export default function TblBody(props) {
                         Icon={EditOutlinedIcon}
                         size="small"
                         color="primary"
-                        iconProps={{fontSize: 'small'}}
+                        iconprops={{fontSize: 'small'}}
                     />
                     <ActionButton 
                         variant="text"
-                        onClick={() =>{}}
+                        onClick={() =>{handleDelete(record)}}
                         Icon={CloseOutlinedIcon}
                         size="small"
                         color="secondary"
                         iconColor="secondary"
-                        iconProps={{fontSize: 'small'}}
+                        iconprops={{fontSize: 'small'}}
                     />
                 </TableCell>
             </TableRow>

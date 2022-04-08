@@ -56,8 +56,8 @@ export default function useTable() {
       errors,
       setErrors,
       handleInputChange,
-      handleSubmit,
-      handleCancel,
+      handleEditSubmit,
+      handleEditCancel,
       getCourseOptions,
       hoursWorkedRadioItems,
       populateFormFieldsForEdit,
@@ -68,6 +68,7 @@ export default function useTable() {
       openInModal,
       setOpenModal,
       closeModal,
+      handleDelete,
     } = useModal(studentData.initialStudentValues, setRecordForEdit)
 
 
@@ -121,6 +122,7 @@ export default function useTable() {
         openInModal,
         setOpenModal,
         closeModal,
+        handleDelete,
         recordForEdit,
 
         // used for edit forms
@@ -129,8 +131,8 @@ export default function useTable() {
         errors,
         setErrors,
         handleInputChange,
-        handleSubmit,
-        handleCancel,
+        handleEditSubmit,
+        handleEditCancel,
         getCourseOptions,
         hoursWorkedRadioItems,
         populateFormFieldsForEdit,

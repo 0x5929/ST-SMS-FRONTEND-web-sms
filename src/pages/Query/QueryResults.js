@@ -34,6 +34,7 @@ export default function QueryResults() {
         openModal, 
         openInModal,
         closeModal,
+        handleDelete,
         recordForEdit,
 
         // edit forms
@@ -41,8 +42,8 @@ export default function QueryResults() {
         setValues,
         errors,
         handleInputChange,
-        handleSubmit,
-        handleCancel,
+        handleEditSubmit,
+        handleEditCancel,
         getCourseOptions,
         hoursWorkedRadioItems,
         populateFormFieldsForEdit,
@@ -66,6 +67,7 @@ export default function QueryResults() {
                 <Controls.TblBody 
                     records={getFinalDisplayRecords()}
                     openInModal={openInModal}
+                    handleDelete={handleDelete}
                 />
             </Controls.TblContainer>
             <Controls.TblPagination 
@@ -81,14 +83,14 @@ export default function QueryResults() {
                 openModal={openModal}
                 closeModal={closeModal}
             >
-                <Controls.Form onSubmit={handleSubmit}>
+                <Controls.Form onSubmit={handleEditSubmit}>
                     <Controls.StudentFormGrid
                         recordForEdit={recordForEdit}
                         setValues={setValues}
                         values={values}
                         errors={errors}
                         handleInputChange={handleInputChange}
-                        handleCancel={handleCancel}
+                        handleCancel={handleEditCancel}
                         getCourseOptions={getCourseOptions}
                         hoursWorkedRadioItems={hoursWorkedRadioItems}
                         populateFormFieldsForEdit={populateFormFieldsForEdit}

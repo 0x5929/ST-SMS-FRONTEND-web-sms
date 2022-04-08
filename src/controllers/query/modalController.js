@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 import useForm from "../create/createFormController";
+import validate from '../../controllers/create/createFormValidation';
 
 export default function useModal (studentValues, setRecordForEdit) {
 
@@ -23,18 +24,36 @@ export default function useModal (studentValues, setRecordForEdit) {
         setOpenModal(false)
     }
 
+    const handleDelete = (record) => {
+        // we can also had a dialog asking, are you sure?
+        // absolutely sure?
+        console.log('THIS SHOULD BE A DELETE REQUEST: ', record)
+    }
+
     const {
         values, 
         setValues,
         errors,
         setErrors,
         handleInputChange,
-        handleSubmit,
         handleCancel,
         getCourseOptions,
         hoursWorkedRadioItems
     } = useForm(false, studentValues);
 
+
+    const handleEditSubmit = () => {
+        if (validate(values, setErrors, errors)){
+            console.log('THIS SHOULD BE A PUT REQUEST')
+            handleCancel()
+            closeModal()
+        }
+    }
+
+    const handleEditCancel = ()=> {
+        handleCancel()
+        closeModal()
+    }
 
     return {
         values, 
@@ -42,8 +61,8 @@ export default function useModal (studentValues, setRecordForEdit) {
         errors,
         setErrors,
         handleInputChange,
-        handleSubmit,
-        handleCancel,
+        handleEditSubmit,
+        handleEditCancel,
         getCourseOptions,
         hoursWorkedRadioItems,
         modalTitle,
@@ -51,6 +70,7 @@ export default function useModal (studentValues, setRecordForEdit) {
         openInModal,
         setOpenModal ,
         closeModal,
+        handleDelete,
         populateFormFieldsForEdit
     }
 }
