@@ -1,11 +1,18 @@
 import React from 'react'
 import useTable from '../../controllers/query/tableController'
 import Controls from '../../components'
+import useNotification from '../../controllers/query/userFeedbackController'
 
 
 export default function QueryResults() {
 
 
+    const {
+
+        notify,
+        setNotify
+
+    } = useNotification(Controls.TransitionSlide)
     
     const {
 
@@ -47,8 +54,10 @@ export default function QueryResults() {
         hoursWorkedRadioItems,
         populateFormFieldsForEdit,
 
-    } = useTable()
-
+    } = useTable({
+        setNotify: setNotify,
+        notify: notify
+    })
 
     
     return (
@@ -95,7 +104,10 @@ export default function QueryResults() {
                     />
                 </Controls.Form>
             </Controls.Modal>
-            
+            <Controls.Notification 
+                notify={notify}
+                setNotify={setNotify}
+            />
         </>
     )
 }

@@ -3,7 +3,7 @@ import useForm from "../create/createFormController";
 import validate from '../../controllers/create/createFormValidation';
 import * as studentRecordService from '../../services/SMSRecordService';
 
-export default function useModal (studentValues, setRecordForEdit, setRecords) {
+export default function useModal (studentValues, setRecordForEdit, setRecords, useNotificationObj) {
 
     const modalTitle = 'Edit Student Data'
     const [openModal, setOpenModal] = useState(false)
@@ -30,7 +30,7 @@ export default function useModal (studentValues, setRecordForEdit, setRecords) {
         getCourseOptions,
         hoursWorkedRadioItems,
         populateFormFieldsForEdit,
-    } = useForm(false, studentValues);
+    } = useForm(false, studentValues, useNotificationObj);
 
 
     const handleEditSubmit = e => {

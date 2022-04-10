@@ -12,7 +12,7 @@ import * as tableData from '../../data/tableData'
 import * as studentData from '../../data/studentData'
 
 
-export default function useTable() {
+export default function useTable(useNotificationObj) {
 
     const [records, setRecords] = useState(studentRecordService.getAllRecords())
     const [recordForEdit, setRecordForEdit] = useState(null)
@@ -68,7 +68,7 @@ export default function useTable() {
       openInModal,
       setOpenModal,
       closeModal,
-    } = useModal(studentData.initialStudentValues, setRecordForEdit, setRecords)
+    } = useModal(studentData.initialStudentValues, setRecordForEdit, setRecords, useNotificationObj)
 
 
     const getFinalDisplayRecords = () =>{

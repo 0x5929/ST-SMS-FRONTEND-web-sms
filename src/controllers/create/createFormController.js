@@ -5,8 +5,7 @@ import validate from '../../controllers/create/createFormValidation'
 import * as studentData from '../../data/studentData'
 
 // FORM STATE
-export default function useForm(validateOnChange=false, currentData=studentData.initialStudentValues) {
-
+export default function useForm(validateOnChange=false, currentData=studentData.initialStudentValues, useNotificationObj) {
 
     
     // form state
@@ -28,16 +27,38 @@ export default function useForm(validateOnChange=false, currentData=studentData.
 
     }
 
+
+
     const createOrUpdate = (record, resetForm) => {
+
+        // notification on after form submission
+
+        const {        
+            setNotify,
+            notify
+        } = useNotificationObj
+
+        let op = undefined
+
         const recordIndexToEdit = studentRecordService.getRecordIndex(record)
 
-        if (!recordIndexToEdit){            
+
+        if (recordIndexToEdit === false){       
             studentRecordService.createRecord(record)
+            op = 'Create'
         }
         else {
             studentRecordService.updateRecord(record, recordIndexToEdit)
+            op = 'Update'
         }
+        setNotify({
+            isOpen: true,
+            message: op + ' successful',
+            type: 'success', 
+            Transition: notify.Transition
+        })
         resetForm()
+
     }
 
     const populateFormFieldsForEdit = useCallback((recordForEdit) => {
