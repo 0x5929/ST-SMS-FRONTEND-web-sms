@@ -2,17 +2,13 @@ import Header from './Header'
 
 import Form from './Form';
 import Paper from './Paper';
-import TblHead from './TableHead';
-import TblContainer from './TableContainer';
-import TblBody from './TableBody';
 import StudentFormGrid from './Grid';
-import TblPagination from './TablePagination'
 import FilterBar from './FilterBar';
 import Modal from './Modal';
 import Typography from './Typography';
-import Notification from './Notification';
-import TransitionSlide from './Slide';
 import ConfirmDialog from './ConfirmDialog';
+import { TblContainer, TblHead, TblBody, TblPagination } from './Table'
+import { Notification, NotificationSlide } from './Notification'
 
 // export components controls for dev to be used outside of the componenet folder
 const Controls = {
@@ -28,7 +24,7 @@ const Controls = {
     Modal,
     Typography,
     Notification,
-    TransitionSlide,
+    NotificationSlide,
     ConfirmDialog
 }
 

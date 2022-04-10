@@ -32,7 +32,9 @@ export function getAllRecords() {
 }
 
 export function insertSampleRecords() {
-    localStorageOps.insertRecord(KEYS.students, studentData.sampleStudentData)
+    if (getAllRecords().length === 0){
+        localStorageOps.insertRecord(KEYS.students, studentData.sampleStudentData)
+    }
 }
 
 export function updateRecord(record, recordToEdit) {

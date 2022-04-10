@@ -1,8 +1,8 @@
-import { Alert, Snackbar } from '@mui/material';
+import { Alert, Snackbar, Slide } from '@mui/material';
 import React from 'react';
 
 
-export default function Notification(props) {
+export function Notification(props) {
     
     const { 
         notify, 
@@ -28,4 +28,14 @@ export default function Notification(props) {
             </Alert>
         </Snackbar>
     )
+}
+
+export function NotificationSlide (props) {
+
+    return (
+        <Slide 
+            { ...props}
+            direction="up" 
+        />
+    );
 }

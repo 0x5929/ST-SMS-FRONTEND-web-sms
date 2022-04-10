@@ -4,7 +4,7 @@ import { Dialog, DialogTitle, DialogContent } from '@mui/material'
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 
 import Typography from './Typography'
-import {IconButton} from './Button'
+import { IconButton } from './Button'
 
 import { styled } from '@mui/material'
 

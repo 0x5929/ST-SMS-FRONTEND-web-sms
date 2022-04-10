@@ -1,7 +1,7 @@
 import React from 'react';
 import { InputAdornment, Toolbar } from '@mui/material';
 import { Search } from '@mui/icons-material';
-import Input from './Input'
+import { Input } from './Inputs'
 
 
 

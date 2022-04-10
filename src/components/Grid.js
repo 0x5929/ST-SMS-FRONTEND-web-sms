@@ -1,11 +1,7 @@
 import React, { useEffect } from 'react'
 import { Grid } from '@mui/material'
 
-import Input from './Input'
-import Select from './Select'
-import DatePicker from './DatePicker'
-import Checkbox from './Checkbox'
-import RadioGroup from './RadioGroup'
+import { Input, Select, DatePicker, Checkbox, RadioGroup } from './Inputs'
 import {Button} from './Button'
  
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Paper as MuiPaper} from '@mui/material';
+import { Paper as MuiPaper } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 const FormPaper = styled(MuiPaper)(( {theme} ) => ({

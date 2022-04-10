@@ -1,7 +1,7 @@
 import React from 'react'
-import useTable from '../../controllers/query/tableController'
+import useTable from '../../controllers/tableController'
+import { useNotification, useConfirmDialog } from '../../controllers/userFeedbackController'
 import Controls from '../../components'
-import {useNotification, useConfirmDialog} from '../../controllers/query/userFeedbackController'
 
 
 export default function QueryResults() {
@@ -13,7 +13,7 @@ export default function QueryResults() {
         setNotify,
         closeNotification,
 
-    } = useNotification(Controls.TransitionSlide)
+    } = useNotification(Controls.NotificationSlide)
     
 
     const {

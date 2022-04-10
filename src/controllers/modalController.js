@@ -1,7 +1,7 @@
 import { useState } from "react";
-import useForm from "../create/createFormController";
-import validate from '../../controllers/create/createFormValidation';
-import * as studentRecordService from '../../services/SMSRecordService';
+import useForm from "./createFormController";
+import validate from './createFormValidation';
+import * as studentRecordService from '../services/SMSRecordService';
 
 export default function useModal (studentValues, setRecordForEdit, setRecords, userFeedbackObj) {
 
@@ -39,6 +39,9 @@ export default function useModal (studentValues, setRecordForEdit, setRecords, u
             setRecordForEdit(null)
             closeModal()
             setRecords(studentRecordService.getAllRecords())
+        }
+        else {
+            e.preventDefault()
         }
     }
 

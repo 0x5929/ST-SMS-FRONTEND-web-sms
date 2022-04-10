@@ -1,8 +1,8 @@
 import React from 'react'
-import useForm from '../../controllers/create/createFormController'
+import useForm from '../../controllers/createFormController'
+import { useNotification } from '../../controllers/userFeedbackController'
 import Controls from '../../components'
 import * as studentData from '../../data/studentData'
-import {useNotification} from '../../controllers/query/userFeedbackController'
 
 
 
@@ -13,7 +13,7 @@ export default function CreateForm() {
         setNotify,
         closeNotification,
 
-    } = useNotification(Controls.TransitionSlide)
+    } = useNotification(Controls.NotificationSlide)
 
     const {
         values, 

@@ -1,8 +1,8 @@
 import { useState , useCallback } from 'react'
 
-import * as studentRecordService from '../../services/SMSRecordService'
-import validate from '../../controllers/create/createFormValidation'
-import * as studentData from '../../data/studentData'
+import * as studentRecordService from '../services/SMSRecordService'
+import validate from './createFormValidation'
+import * as studentData from '../data/studentData'
 
 // FORM STATE
 export default function useForm(validateOnChange=false, currentData=studentData.initialStudentValues, userFeedbackObj) {
@@ -81,6 +81,7 @@ export default function useForm(validateOnChange=false, currentData=studentData.
 
         if (validate(values, setErrors, errors)){
             createOrUpdate(values, handleCancel)
+            
         }
 
     }

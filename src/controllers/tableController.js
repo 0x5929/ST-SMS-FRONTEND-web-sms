@@ -5,11 +5,11 @@ import useSorting from './sortingController'
 import useFilter from './filterController'
 import useModal from  './modalController'
 
-import * as studentRecordService from '../../services/SMSRecordService'
+import * as studentRecordService from '../services/SMSRecordService'
 
-import * as tableData from '../../data/tableData'
+import * as tableData from '../data/tableData'
 
-import * as studentData from '../../data/studentData'
+import * as studentData from '../data/studentData'
 
 
 export default function useTable(userFeedbackObj) {
