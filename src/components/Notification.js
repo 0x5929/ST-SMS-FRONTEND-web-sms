@@ -6,7 +6,8 @@ export default function Notification(props) {
     
     const { 
         notify, 
-        setNotify,
+        //setNotify,
+        closeNotification,
 
     } = props;
     
@@ -16,14 +17,12 @@ export default function Notification(props) {
             autoHideDuration={2000}
             anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
             TransitionComponent={notify.Transition}
-            onClose={ () => {setNotify({
-                ...notify,
-                isOpen: false
-            })}}
+            onClose={closeNotification}
 
         >
             <Alert
                 severity={notify.type}
+                onClose={closeNotification}
             >
                 {notify.message}
             </Alert>

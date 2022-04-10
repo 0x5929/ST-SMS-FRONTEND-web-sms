@@ -19,7 +19,7 @@ export default function TblBody(props) {
     const { 
         records, 
         openInModal,
-        handleDelete,
+        handleDeletePress,
      } = props
 
     return (
@@ -34,7 +34,7 @@ export default function TblBody(props) {
                 <TableCell>
                     <ActionButton 
                         variant="text"
-                        onClick={() =>{openInModal(record)}}
+                        onClick={() =>openInModal(record)}
                         size="small"
                         color="primary"
                     >
@@ -45,7 +45,7 @@ export default function TblBody(props) {
                     </ActionButton>
                     <ActionButton 
                         variant="text"
-                        onClick={() =>{handleDelete(record)}}
+                        onClick={()=> handleDeletePress(record)}
                         size="small"
                         color="secondary"
                     >

@@ -42,3 +42,11 @@ export function getRecordIndex(key, record){
 
     return recordIndex
 }
+
+export function deleteRecord(key, pk){
+    let records = getAllRecords(key);
+
+    records = records.filter(x => x.pk !== pk)
+
+    localStorage.setItem(key, JSON.stringify(records));
+}

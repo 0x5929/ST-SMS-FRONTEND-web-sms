@@ -12,7 +12,7 @@ import * as tableData from '../../data/tableData'
 import * as studentData from '../../data/studentData'
 
 
-export default function useTable(useNotificationObj) {
+export default function useTable(userFeedbackObj) {
 
     const [records, setRecords] = useState(studentRecordService.getAllRecords())
     const [recordForEdit, setRecordForEdit] = useState(null)
@@ -68,7 +68,7 @@ export default function useTable(useNotificationObj) {
       openInModal,
       setOpenModal,
       closeModal,
-    } = useModal(studentData.initialStudentValues, setRecordForEdit, setRecords, useNotificationObj)
+    } = useModal(studentData.initialStudentValues, setRecordForEdit, setRecords, userFeedbackObj)
 
 
     const getFinalDisplayRecords = () =>{
@@ -78,11 +78,42 @@ export default function useTable(useNotificationObj) {
       return recordsAfterPaging(sortedResults)
     }
 
+    const {
+
+        notify,
+        setNotify,
+        confirmDialog,
+        setConfirmDialog,
+
+    } = userFeedbackObj
+
     const handleDelete = (record) => {
-      // we can also had a dialog asking, are you sure?
-      // absolutely sure?
-      console.log('THIS SHOULD BE A DELETE REQUEST: ', record)
-  }
+
+        setConfirmDialog({
+            ...confirmDialog,
+            isOpen: false
+        })
+
+        studentRecordService.deleteRecord(record.pk)
+        setRecords(studentRecordService.getAllRecords())
+
+        setNotify({
+            isOpen: true,
+            message: 'Student record deleted!',
+            type: 'error', 
+            Transition: notify.Transition
+        })        
+    }
+
+    const handleDeletePress = (record) =>{
+        
+        setConfirmDialog({
+            isOpen: true,
+            title: 'Are you sure you want to delete this student record?',
+            subTitle: 'This operation cannot be undone, so you must be sure.',
+            onConfirm: ()=> (handleDelete(record))
+    })}
+    
   
     return {
 
@@ -120,14 +151,17 @@ export default function useTable(useNotificationObj) {
         getFinalDisplayRecords,
 
 
-        // modal handling
+        // modal handling for edit
         modalTitle, 
         openModal, 
         openInModal,
         setOpenModal,
         closeModal,
-        handleDelete,
         recordForEdit,
+
+
+        // delete operations
+        handleDeletePress,
 
         // used for edit forms
         values, 

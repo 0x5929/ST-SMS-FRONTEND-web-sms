@@ -42,3 +42,8 @@ export function updateRecord(record, recordToEdit) {
 export function getRecordIndex(record) {
     return localStorageOps.getRecordIndex(KEYS.students, record)
 }
+
+
+export function deleteRecord (pk) {
+    return localStorageOps.deleteRecord(KEYS.students, pk)
+}

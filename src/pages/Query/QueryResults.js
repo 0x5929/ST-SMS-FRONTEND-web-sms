@@ -1,7 +1,7 @@
 import React from 'react'
 import useTable from '../../controllers/query/tableController'
 import Controls from '../../components'
-import useNotification from '../../controllers/query/userFeedbackController'
+import {useNotification, useConfirmDialog} from '../../controllers/query/userFeedbackController'
 
 
 export default function QueryResults() {
@@ -10,10 +10,19 @@ export default function QueryResults() {
     const {
 
         notify,
-        setNotify
+        setNotify,
+        closeNotification,
 
     } = useNotification(Controls.TransitionSlide)
     
+
+    const {
+        confirmDialog,
+        setConfirmDialog,
+        handleUnconfirmed
+    } = useConfirmDialog()
+
+
     const {
 
         // table
@@ -41,8 +50,10 @@ export default function QueryResults() {
         openModal, 
         openInModal,
         closeModal,
-        handleDelete,
         recordForEdit,
+
+        // delete operations
+        handleDeletePress,
 
         // edit forms
         values, 
@@ -55,8 +66,10 @@ export default function QueryResults() {
         populateFormFieldsForEdit,
 
     } = useTable({
-        setNotify: setNotify,
-        notify: notify
+        setNotify,
+        notify,
+        confirmDialog,
+        setConfirmDialog
     })
 
     
@@ -75,7 +88,7 @@ export default function QueryResults() {
                 <Controls.TblBody 
                     records={getFinalDisplayRecords()}
                     openInModal={openInModal}
-                    handleDelete={handleDelete}
+                    handleDeletePress={handleDeletePress}
                 />
             </Controls.TblContainer>
             <Controls.TblPagination 
@@ -107,6 +120,11 @@ export default function QueryResults() {
             <Controls.Notification 
                 notify={notify}
                 setNotify={setNotify}
+                closeNotification={closeNotification}
+            />
+            <Controls.ConfirmDialog 
+                confirmDialog={confirmDialog}
+                handleUnconfirmed={handleUnconfirmed}
             />
         </>
     )

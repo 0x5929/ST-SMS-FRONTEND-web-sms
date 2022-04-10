@@ -5,7 +5,7 @@ import validate from '../../controllers/create/createFormValidation'
 import * as studentData from '../../data/studentData'
 
 // FORM STATE
-export default function useForm(validateOnChange=false, currentData=studentData.initialStudentValues, useNotificationObj) {
+export default function useForm(validateOnChange=false, currentData=studentData.initialStudentValues, userFeedbackObj) {
 
     
     // form state
@@ -36,7 +36,7 @@ export default function useForm(validateOnChange=false, currentData=studentData.
         const {        
             setNotify,
             notify
-        } = useNotificationObj
+        } = userFeedbackObj
 
         let op = undefined
 

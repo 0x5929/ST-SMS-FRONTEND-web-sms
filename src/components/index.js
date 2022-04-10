@@ -12,6 +12,7 @@ import Modal from './Modal';
 import Typography from './Typography';
 import Notification from './Notification';
 import TransitionSlide from './Slide';
+import ConfirmDialog from './ConfirmDialog';
 
 // export components controls for dev to be used outside of the componenet folder
 const Controls = {
@@ -28,6 +29,7 @@ const Controls = {
     Typography,
     Notification,
     TransitionSlide,
+    ConfirmDialog
 }
 
 export default Controls
