@@ -16,13 +16,7 @@ export default function useQuery() {
         textInput.current.value = "";
     }
 
-    const handleSubmit = e => {
-        e.preventDefault()
-
-        // load sample data for dev and testing
-        studentService.insertSampleRecords()
-        setResults(studentService.getAllRecords())
-
+    const handleBackdrop = () =>{
         setOpenBackdrop(true)
 
         setTimeout(()=> {
@@ -30,11 +24,22 @@ export default function useQuery() {
             fetchResults()
         }, 1000)
 
+        // this could be the async function to run, while we have badckdrop on
         function fetchResults() {
     
             handleClear(textInput)
             setShowResults(true)
         }
+    }
+
+    const handleSubmit = e => {
+        e.preventDefault()
+
+        // load sample data for dev and testing
+        studentService.insertSampleRecords()
+        setResults(studentService.getAllRecords())
+
+        handleBackdrop()
 
     }
 
