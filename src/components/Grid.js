@@ -178,6 +178,12 @@ export default function StudentFormGrid(props) {
                 onChange={handleInputChange}
             />
             <Input 
+                name="placeOfEmployment"
+                label="Place of Employment"
+                value={values.placeOfEmployment}
+                onChange={handleInputChange}
+            />
+            <Input 
                 name="employmentAddress"
                 label="Employment Address"
                 value={values.employmentAddress}

@@ -34,12 +34,14 @@ const CloseButton = styled(IconButton)(( {theme} ) => ({
 
 export default function Modal(props) {
 
-    const { modalTitle, openModal, closeModal, children } = props;
+    const { modalTitle, openModal, closeModal, children, ...others } = props;
 
     return (
         <DialogWrapper 
             open={openModal}
-            maxWidth="md"
+            maxWidth="lg"
+            fullWidth={true}
+            { ...others }
         >
             <DialogTitleWrapper>
                 <div style={{display: 'flex'}}>
@@ -53,7 +55,7 @@ export default function Modal(props) {
                         variant="text"
                         size="small"
                         color="secondary"
-                        onClick={()=>(closeModal())}
+                        onClick={closeModal}
                     >
                         <CloseOutlinedIcon 
                             fontSize="small"

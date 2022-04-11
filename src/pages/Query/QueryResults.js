@@ -1,5 +1,5 @@
 import React from 'react'
-import useTable from '../../controllers/tableController'
+import { useQueryResultTable, useDetailedViewTable } from '../../controllers/tableController'
 import { useNotification, useConfirmDialog } from '../../controllers/userFeedbackController'
 import Controls from '../../components'
 
@@ -39,6 +39,10 @@ export default function QueryResults() {
         handleChangeRowsPerPage,
 
 
+        //filtering
+        textInput,
+        handleClear,
+
         // sorting
         orderBy,
         order,
@@ -51,6 +55,10 @@ export default function QueryResults() {
         openInModal,
         closeModal,
         recordForEdit,
+
+        // modal handling for view
+        recordForView,
+        setRecordForView,
 
         // delete operations
         handleDeletePress,
@@ -65,33 +73,44 @@ export default function QueryResults() {
         hoursWorkedRadioItems,
         populateFormFieldsForEdit,
 
-    } = useTable({
+    } = useQueryResultTable({
         setNotify,
         notify,
         confirmDialog,
         setConfirmDialog
     })
 
+    const {
+        detailedViewModalTitle,
+        detailedViewOpen,
+        detailedViewClose,
+        openInDetail,
+        getDetailedRecord,
+    } = useDetailedViewTable(recordForView, setRecordForView)
     
     return (
         <>
             <Controls.FilterBar 
                 handleFilter={handleFilter}
+                textInput={textInput}
+                handleClear={handleClear}
+
             />
-            <Controls.TblContainer>
-                <Controls.TblHead 
+            <Controls.QueryTblContainer>
+                <Controls.QueryTblHead 
                     tableData={tableData} 
                     handleSortRequest={handleSortRequest}
                     orderBy={orderBy}
                     order={order}
                 />
-                <Controls.TblBody 
+                <Controls.QueryTblBody 
                     records={getFinalDisplayRecords()}
                     openInModal={openInModal}
+                    openInDetail={openInDetail}
                     handleDeletePress={handleDeletePress}
                 />
-            </Controls.TblContainer>
-            <Controls.TblPagination 
+            </Controls.QueryTblContainer>
+            <Controls.QueryTblPagination 
                 page={page}
                 rowsPerPage={rowsPerPage}
                 rowsPerPageOptions={pages}
@@ -116,6 +135,22 @@ export default function QueryResults() {
                         populateFormFieldsForEdit={populateFormFieldsForEdit}
                     />
                 </Controls.Form>
+            </Controls.Modal>
+            <Controls.Modal
+                modalTitle={detailedViewModalTitle}
+                openModal={detailedViewOpen}
+                closeModal={detailedViewClose}
+                onBackdropClick={detailedViewClose}
+            >
+                <Controls.DetailedTblContainer>
+                    <Controls.DetailedTblHead 
+                        tableData={tableData} 
+                    />
+                    <Controls.DetailedTblBody 
+                        record={getDetailedRecord()}
+                        tableData={tableData}
+                    />
+                </Controls.DetailedTblContainer>
             </Controls.Modal>
             <Controls.Notification 
                 notify={notify}

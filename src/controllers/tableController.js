@@ -3,7 +3,7 @@ import { useState } from 'react'
 import usePagination from './pagingController'
 import useSorting from './sortingController'
 import useFilter from './filterController'
-import useModal from  './modalController'
+import { useEditModal, useDetailedViewModal } from  './modalController'
 
 import * as studentRecordService from '../services/SMSRecordService'
 
@@ -12,10 +12,11 @@ import * as tableData from '../data/tableData'
 import * as studentData from '../data/studentData'
 
 
-export default function useTable(userFeedbackObj) {
+export function useQueryResultTable(userFeedbackObj) {
 
     const [records, setRecords] = useState(studentRecordService.getAllRecords())
     const [recordForEdit, setRecordForEdit] = useState(null)
+    const [recordForView, setRecordForView] = useState(null)
 
     // pagination
     const {
@@ -44,8 +45,10 @@ export default function useTable(userFeedbackObj) {
     // filtering
     const { 
       recordsAfterFiltering,
-      handleFilter
-    } = useFilter()
+      handleFilter,
+      textInput,
+      handleClear
+    } = useFilter(setRecords)
 
 
     const { 
@@ -68,7 +71,7 @@ export default function useTable(userFeedbackObj) {
       openInModal,
       setOpenModal,
       closeModal,
-    } = useModal(studentData.initialStudentValues, setRecordForEdit, setRecords, userFeedbackObj)
+    } = useEditModal(studentData.initialStudentValues, setRecordForEdit, setRecords, userFeedbackObj)
 
 
     const getFinalDisplayRecords = () =>{
@@ -145,6 +148,8 @@ export default function useTable(userFeedbackObj) {
         // filtering
         recordsAfterFiltering,
         handleFilter,
+        textInput,
+        handleClear,
 
         
         // final display records
@@ -159,6 +164,9 @@ export default function useTable(userFeedbackObj) {
         closeModal,
         recordForEdit,
 
+        // modal handling for view
+        recordForView,
+        setRecordForView,
 
         // delete operations
         handleDeletePress,
@@ -174,5 +182,30 @@ export default function useTable(userFeedbackObj) {
         getCourseOptions,
         hoursWorkedRadioItems,
         populateFormFieldsForEdit,
+    }
+}
+
+
+export function useDetailedViewTable (recordForView, setRecordForView) {
+
+    
+    const getDetailedRecord = () => {
+        return recordForView
+    }
+    
+
+    const {
+        detailedViewModalTitle,
+        detailedViewOpen,
+        detailedViewClose,
+        openInDetail,
+    } = useDetailedViewModal(setRecordForView)
+    
+    return {
+        detailedViewModalTitle,
+        detailedViewOpen,
+        detailedViewClose,
+        openInDetail,
+        getDetailedRecord,
     }
 }

@@ -5,6 +5,7 @@ import React from 'react'
 import { IconButton } from './Button'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
 
 import { styled } from '@mui/material/styles';
 
@@ -27,7 +28,7 @@ const TableContainer = styled(Table)(( {theme } ) => ({
 
 }));
 
-export function TblContainer(props) {
+export function QueryTblContainer(props) {
 
     const { children, ...others } = props
 
@@ -40,14 +41,14 @@ export function TblContainer(props) {
     )
 }
 
-export function TblHead(props) {
+export function QueryTblHead(props) {
 
     const { tableData, order, orderBy, handleSortRequest } = props
     return (
     <TableHead>
         <TableRow>
             { 
-                tableData.headCells.map( headCell => (
+                tableData.mainQueryResultHeadCells.map( headCell => (
 
                     <TableCell 
                         key={ headCell.id }
@@ -80,55 +81,67 @@ const ActionButton = styled(IconButton)(( {theme} ) => ({
 
 
 
-export function TblBody(props) {
+export function QueryTblBody(props) {
 
     const { 
         records, 
         openInModal,
         handleDeletePress,
+        openInDetail,
      } = props
 
     return (
     <TableBody>
         {records.map(record => (
-            <TableRow key={ record.pk }>
-                <TableCell>{ record.studentId }</TableCell>
-                <TableCell>{ record.firstName }</TableCell>
-                <TableCell>{ record.lastName }</TableCell>
-                <TableCell>{ record.email }</TableCell>
-                <TableCell>{ record.course }</TableCell>
-                <TableCell>
-                    <ActionButton 
-                        variant="text"
-                        onClick={() =>openInModal(record)}
-                        size="small"
-                        color="primary"
-                    >
-                        <EditOutlinedIcon 
-                            fontSize="small"
+                <TableRow key={ record.pk }>
+                    <TableCell>{ record.studentId }</TableCell>
+                    <TableCell>{ record.firstName }</TableCell>
+                    <TableCell>{ record.lastName }</TableCell>
+                    <TableCell>{ record.phoneNumber }</TableCell>
+                    <TableCell>{ record.email }</TableCell>
+                    <TableCell>{ record.course }</TableCell>
+                    <TableCell>
+                        <ActionButton 
+                            variant="text"
+                            onClick={()=> openInDetail(record)}
+                            size="small"
                             color="primary"
-                        />
-                    </ActionButton>
-                    <ActionButton 
-                        variant="text"
-                        onClick={()=> handleDeletePress(record)}
-                        size="small"
-                        color="secondary"
-                    >
-                        <CloseOutlinedIcon 
-                            fontSize="small"
+                        >
+                            <VisibilityRoundedIcon 
+                                fontSize="small"
+                                color="primary"
+                            />
+                        </ActionButton>
+                        <ActionButton 
+                            variant="text"
+                            onClick={() =>openInModal(record)}
+                            size="small"
                             color="secondary"
-                        />
-                    </ActionButton>
-                </TableCell>
-            </TableRow>
-            
+                        >
+                            <EditOutlinedIcon 
+                                fontSize="small"
+                                color="secondary"
+                            />
+                        </ActionButton>
+                        <ActionButton 
+                            variant="text"
+                            onClick={()=> handleDeletePress(record)}
+                            size="small"
+                            color="error"
+                        >
+                            <CloseOutlinedIcon 
+                                fontSize="small"
+                                color="error"
+                            />
+                        </ActionButton>
+                    </TableCell>
+                </TableRow>
         ))}
     </TableBody>
     )
 }
 
-export function TblPagination(props) {
+export function QueryTblPagination(props) {
 
     return (
     <TablePagination 
@@ -137,3 +150,63 @@ export function TblPagination(props) {
     />
     )
 }
+
+
+
+
+export function DetailedTblContainer(props) {
+
+    const { children, ...others } = props
+
+    return (
+    <TableContainer
+        { ...others }
+    >
+        { children }
+    </TableContainer>
+    )
+}
+
+
+export function DetailedTblHead(props) {
+
+    const { tableData} = props
+    return (
+    <TableHead>
+        <TableRow>
+            { 
+                tableData.detailedViewHeadCells.map( headCell => (
+
+                    <TableCell 
+                        key={ headCell.id }
+                    >
+                        { headCell.label }
+                    </TableCell>
+                ))
+            }
+        </TableRow>
+    </TableHead>
+    )
+}
+
+export function DetailedTblBody(props) {
+
+    const { 
+        record, 
+        tableData
+     } = props
+
+    return (
+    <TableBody>
+        {
+            tableData.detailedViewColumnCells.map( col => (
+                <TableRow key={ col.id }>
+                    <TableCell>{ col.label }</TableCell>
+                    <TableCell>{ record[col.id] }</TableCell>
+                </TableRow>
+            ))
+        }
+    </TableBody>
+    )
+}
+

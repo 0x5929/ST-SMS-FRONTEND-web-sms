@@ -7,19 +7,29 @@ import FilterBar from './FilterBar';
 import Modal from './Modal';
 import Typography from './Typography';
 import ConfirmDialog from './ConfirmDialog';
-import { TblContainer, TblHead, TblBody, TblPagination } from './Table'
 import { Notification, NotificationSlide } from './Notification'
+import { 
+    QueryTblContainer, 
+    QueryTblHead, 
+    QueryTblBody, 
+    QueryTblPagination, 
+    DetailedTblContainer, 
+    DetailedTblHead, 
+    DetailedTblBody} from './Table'
 
 // export components controls for dev to be used outside of the componenet folder
 const Controls = {
     Header,
     Form,
     Paper,
-    TblContainer,
-    TblHead,
-    TblBody,
+    QueryTblContainer,
+    QueryTblHead,
+    QueryTblBody,
+    QueryTblPagination,
+    DetailedTblContainer,
+    DetailedTblHead,
+    DetailedTblBody,
     StudentFormGrid,
-    TblPagination,
     FilterBar,
     Modal,
     Typography,

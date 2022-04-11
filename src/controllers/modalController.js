@@ -3,7 +3,7 @@ import useForm from "./createFormController";
 import validate from './createFormValidation';
 import * as studentRecordService from '../services/SMSRecordService';
 
-export default function useModal (studentValues, setRecordForEdit, setRecords, userFeedbackObj) {
+export function useEditModal (studentValues, setRecordForEdit, setRecords, userFeedbackObj) {
 
     const modalTitle = 'Edit Student Data'
     const [openModal, setOpenModal] = useState(false)
@@ -66,5 +66,30 @@ export default function useModal (studentValues, setRecordForEdit, setRecords, u
         setOpenModal ,
         closeModal,
         populateFormFieldsForEdit
+    }
+}
+
+
+export function useDetailedViewModal (setRecordForView){
+
+    const detailedViewModalTitle = 'Detail View'
+    const [detailedViewOpen, setDetailedViewOpen] = useState(false)
+
+    const detailedViewClose = ()=> {
+        setDetailedViewOpen(false)
+    }
+
+    const openInDetail = item => {
+        setRecordForView(item)
+        setDetailedViewOpen(true)
+    }
+
+    return {
+
+        detailedViewModalTitle,
+        detailedViewOpen,
+        detailedViewClose,
+        setDetailedViewOpen,
+        openInDetail,
     }
 }
