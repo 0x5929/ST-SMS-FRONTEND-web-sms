@@ -3,6 +3,7 @@ import * as SMSRecordService from '../services/SMSRecordService'
 
 export default function useFilter(setRecords) {
 
+    const filterLabel = 'Search Results'
     const [filterFn, setFilterFn] = useState({ fn: items => {return items}})
 
     const handleFilter = e => {
@@ -15,10 +16,10 @@ export default function useFilter(setRecords) {
                 }
                 else {
                     return items.filter( x => {
-                        if (x.studentId.toLowerCase().includes(target.value) ||
-                            x.firstName.toLowerCase().includes(target.value) ||
-                            x.lastName.toLowerCase().includes(target.value) ||
-                            x.email.toLowerCase().includes(target.value) ||
+                        if (x.studentId.toLowerCase().includes(target.value.toLowerCase()) ||
+                            x.firstName.toLowerCase().includes(target.value.toLowerCase()) ||
+                            x.lastName.toLowerCase().includes(target.value.toLowerCase()) ||
+                            x.email.toLowerCase().includes(target.value.toLowerCase()) ||
                             x.phoneNumber.includes(target.value) ){
                                 return true
                             }
@@ -49,6 +50,7 @@ export default function useFilter(setRecords) {
         handleFilter,
         recordsAfterFiltering,
         textInput,
-        handleClear
+        handleClear,
+        filterLabel
     }
 }

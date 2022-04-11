@@ -5,7 +5,6 @@ import Create from './pages/Create/Create'
 import Controls from './components' 
 import { styled } from '@mui/material';
 
-import * as studentService from './services/SMSRecordService'
 
 const AppMain = styled('div')(( {theme} ) => ({
   // style css in js object format
@@ -16,8 +15,6 @@ const AppMain = styled('div')(( {theme} ) => ({
 
 function App() {
 
-    // load sample data for dev and testing
-    studentService.insertSampleRecords()
 
 
     return (

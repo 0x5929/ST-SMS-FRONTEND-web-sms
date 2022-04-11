@@ -12,9 +12,9 @@ import * as tableData from '../data/tableData'
 import * as studentData from '../data/studentData'
 
 
-export function useQueryResultTable(userFeedbackObj) {
+export function useQueryResultTable(userFeedbackObj, results) {
 
-    const [records, setRecords] = useState(studentRecordService.getAllRecords())
+    const [records, setRecords] = useState(results)
     const [recordForEdit, setRecordForEdit] = useState(null)
     const [recordForView, setRecordForView] = useState(null)
 
@@ -47,7 +47,8 @@ export function useQueryResultTable(userFeedbackObj) {
       recordsAfterFiltering,
       handleFilter,
       textInput,
-      handleClear
+      handleClear,
+      filterLabel,
     } = useFilter(setRecords)
 
 
@@ -150,6 +151,7 @@ export function useQueryResultTable(userFeedbackObj) {
         handleFilter,
         textInput,
         handleClear,
+        filterLabel,
 
         
         // final display records

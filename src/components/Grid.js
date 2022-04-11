@@ -3,9 +3,12 @@ import { Grid } from '@mui/material'
 
 import { Input, Select, DatePicker, Checkbox, RadioGroup } from './Inputs'
 import {Button} from './Button'
+import SearchBar from './SearchBar'
+import Form from './Form'
+import Card from './Card'
  
 
-export default function StudentFormGrid(props) {
+export function StudentFormGrid(props) {
 
 
     const { 
@@ -224,4 +227,58 @@ export default function StudentFormGrid(props) {
         </Grid>
     </Grid>
   )
+}
+
+
+export function QueryLayoutGrid(props) {
+
+    const {
+        textInput,
+        handleClear,
+        queryLabel,
+        handleSubmit,
+        getStats
+    } = props;
+
+    return (
+        <Grid container>
+            <Grid item xs={12}>
+                <Form onSubmit={(e)=>(handleSubmit(e))}>
+                    <SearchBar 
+                        label={queryLabel}
+                        textInput={textInput}
+                        handleClear={handleClear}
+                    />
+                </Form>
+            </Grid>
+            <Grid item md={3} sm={12}>
+                <Card 
+                    title="School Statistics"
+                    model="school"
+                    stats={getStats.school()}
+                />
+            </Grid>
+            <Grid item md={3} sm={12}>
+                <Card 
+                    title="Program Statistics"
+                    model="program"
+                    stats={getStats.program()}
+                />
+            </Grid>
+            <Grid item md={3} sm={12}>
+                <Card 
+                    title="Rotation Statistics"
+                    model="rotation"
+                    stats={getStats.rotation()}
+                />
+            </Grid>
+            <Grid item md={3} sm={12}>
+                <Card 
+                    title="Student Statistics"
+                    model="student"
+                    stats={getStats.student()}
+                />
+            </Grid>
+        </Grid>
+    )
 }

@@ -2,10 +2,12 @@ import React from 'react'
 import { useQueryResultTable, useDetailedViewTable } from '../../controllers/tableController'
 import { useNotification, useConfirmDialog } from '../../controllers/userFeedbackController'
 import Controls from '../../components'
+import { Box } from '@mui/material'
 
 
-export default function QueryResults() {
+export default function QueryResults(props) {
 
+    const { results } = props;
 
     const {
 
@@ -24,7 +26,7 @@ export default function QueryResults() {
 
 
     const {
-
+        
         // table
         records,
         tableData,
@@ -40,6 +42,7 @@ export default function QueryResults() {
 
 
         //filtering
+        filterLabel,
         textInput,
         handleClear,
 
@@ -78,7 +81,7 @@ export default function QueryResults() {
         notify,
         confirmDialog,
         setConfirmDialog
-    })
+    }, results)
 
     const {
         detailedViewModalTitle,
@@ -90,12 +93,30 @@ export default function QueryResults() {
     
     return (
         <>
-            <Controls.FilterBar 
-                handleFilter={handleFilter}
-                textInput={textInput}
-                handleClear={handleClear}
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'flex-end'
+            }}>
+                <Controls.SearchBar 
+                    onChange={handleFilter}
+                    textInput={textInput}
+                    handleClear={handleClear}
+                    label={filterLabel}
+                    style={{flexGrow: 0}}
 
-            />
+                />
+                <Controls.Button
+                    text="Back to query"
+                    size="small"
+                    color="secondary"
+                    variant="outlined"
+                    onClick={()=> {      
+                        if (typeof window !== 'undefined') {
+                        window.location.href = "http://localhost:3000";
+                   }}}
+                />
+            </Box>
             <Controls.QueryTblContainer>
                 <Controls.QueryTblHead 
                     tableData={tableData} 

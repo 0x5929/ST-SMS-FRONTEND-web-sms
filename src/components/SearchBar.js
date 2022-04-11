@@ -14,12 +14,10 @@ const ClearText = styled(ClearIcon)(()=>({
 }))
 
 
-export default function FilterBar(props) {
+export default function SearchBar(props) {
 
-    const { handleFilter, textInput, handleClear } = props;
-
-    var label = "Search Results"
-
+    const { textInput, handleClear, label, ...others } = props;
+    
     return (  
         <Toolbar>
             <Input 
@@ -38,11 +36,9 @@ export default function FilterBar(props) {
                         </InputAdornment>
                     )
                 }}
-                sx={{
-                    width : '75%'
-                }}
-                onChange={handleFilter}
                 inputRef={textInput}
+
+                { ...others }
             />
         </Toolbar>
     );
