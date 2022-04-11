@@ -6,7 +6,7 @@ import {Button} from './Button'
 import SearchBar from './SearchBar'
 import Form from './Form'
 import Card from './Card'
- 
+import SimpleBackDrop from './Backdrop' 
 
 export function StudentFormGrid(props) {
 
@@ -237,48 +237,54 @@ export function QueryLayoutGrid(props) {
         handleClear,
         queryLabel,
         handleSubmit,
-        getStats
+        getStats, 
+        openBackdrop
     } = props;
 
     return (
-        <Grid container>
-            <Grid item xs={12}>
-                <Form onSubmit={(e)=>(handleSubmit(e))}>
-                    <SearchBar 
-                        label={queryLabel}
-                        textInput={textInput}
-                        handleClear={handleClear}
+        <>
+            <Grid container>
+                <Grid item xs={12}>
+                    <Form onSubmit={(e)=>(handleSubmit(e))}>
+                        <SearchBar 
+                            label={queryLabel}
+                            textInput={textInput}
+                            handleClear={handleClear}
+                        />
+                    </Form>
+                </Grid>
+                <Grid item md={3} sm={12}>
+                    <Card 
+                        title="School Statistics"
+                        model="school"
+                        stats={getStats.school()}
                     />
-                </Form>
+                </Grid>
+                <Grid item md={3} sm={12}>
+                    <Card 
+                        title="Program Statistics"
+                        model="program"
+                        stats={getStats.program()}
+                    />
+                </Grid>
+                <Grid item md={3} sm={12}>
+                    <Card 
+                        title="Rotation Statistics"
+                        model="rotation"
+                        stats={getStats.rotation()}
+                    />
+                </Grid>
+                <Grid item md={3} sm={12}>
+                    <Card 
+                        title="Student Statistics"
+                        model="student"
+                        stats={getStats.student()}
+                    />
+                </Grid>
             </Grid>
-            <Grid item md={3} sm={12}>
-                <Card 
-                    title="School Statistics"
-                    model="school"
-                    stats={getStats.school()}
-                />
-            </Grid>
-            <Grid item md={3} sm={12}>
-                <Card 
-                    title="Program Statistics"
-                    model="program"
-                    stats={getStats.program()}
-                />
-            </Grid>
-            <Grid item md={3} sm={12}>
-                <Card 
-                    title="Rotation Statistics"
-                    model="rotation"
-                    stats={getStats.rotation()}
-                />
-            </Grid>
-            <Grid item md={3} sm={12}>
-                <Card 
-                    title="Student Statistics"
-                    model="student"
-                    stats={getStats.student()}
-                />
-            </Grid>
-        </Grid>
+            <SimpleBackDrop 
+                openBackdrop={openBackdrop}
+            />
+        </>
     )
 }

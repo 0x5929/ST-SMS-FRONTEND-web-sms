@@ -17,6 +17,7 @@ export default function Query() {
         showResults,
         getStats,
         results,
+        openBackdrop
         //setShowResults
 
     } = useQuery()
@@ -31,6 +32,7 @@ export default function Query() {
                     handleSubmit={handleSubmit}
                     queryLabel={queryLabel}
                     getStats={getStats}
+                    openBackdrop={openBackdrop}
                 />
             }
             {

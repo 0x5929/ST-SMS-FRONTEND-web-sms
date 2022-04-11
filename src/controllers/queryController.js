@@ -9,6 +9,7 @@ export default function useQuery() {
     const queryLabel = 'Search Student Database'
     const [ results, setResults ] = useState([])
     const [ showResults, setShowResults ] = useState(false)
+    const [ openBackdrop, setOpenBackdrop ] = useState(false)
 
 
     const handleClear = (textInput) =>{
@@ -22,8 +23,19 @@ export default function useQuery() {
         studentService.insertSampleRecords()
         setResults(studentService.getAllRecords())
 
-        handleClear(textInput)
-        setShowResults(true)
+        setOpenBackdrop(true)
+
+        setTimeout(()=> {
+            setOpenBackdrop(true)
+            fetchResults()
+        }, 1000)
+
+        function fetchResults() {
+    
+            handleClear(textInput)
+            setShowResults(true)
+        }
+
     }
 
     // this should be an API call when connected
@@ -42,6 +54,8 @@ export default function useQuery() {
         showResults,
         getStats,
         setShowResults,
-        results
+        results,
+        openBackdrop,
+        setOpenBackdrop,
     }
 }
