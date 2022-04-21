@@ -10,7 +10,10 @@ export default function useQuery() {
     const [ results, setResults ] = useState([])
     const [ showResults, setShowResults ] = useState(false)
     const [ openBackdrop, setOpenBackdrop ] = useState(false)
+    const [ queryOptions, setQueryOptions ] = useState([{query: '', value: ''}, {query: '', value: ''}])
 
+
+    const getQueryOptions = studentService.getQueryOptions
 
     const handleClear = (textInput) =>{
         textInput.current.value = "";
@@ -62,5 +65,9 @@ export default function useQuery() {
         results,
         openBackdrop,
         setOpenBackdrop,
+
+        getQueryOptions,
+        queryOptions,
+        setQueryOptions,
     }
 }

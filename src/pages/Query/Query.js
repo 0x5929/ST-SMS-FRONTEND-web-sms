@@ -17,8 +17,12 @@ export default function Query() {
         showResults,
         getStats,
         results,
-        openBackdrop
-        //setShowResults
+        openBackdrop,
+        //setShowResults,
+
+        getQueryOptions,
+        queryOptions,
+        setQueryOptions,
 
     } = useQuery()
 
@@ -26,6 +30,7 @@ export default function Query() {
         <Controls.Paper>
             {            
                 !showResults &&
+
                 <Controls.QueryLayoutGrid 
                     textInput={textInput}
                     handleClear={handleClear}
@@ -33,7 +38,11 @@ export default function Query() {
                     queryLabel={queryLabel}
                     getStats={getStats}
                     openBackdrop={openBackdrop}
+                    getQueryOptions={getQueryOptions}
+                    queryOptions={queryOptions}
+                    setQueryOptions={setQueryOptions}
                 />
+                
             }
             {
                 showResults &&  <QueryResults results={results} />

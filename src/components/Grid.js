@@ -7,6 +7,7 @@ import SearchBar from './SearchBar'
 import Form from './Form'
 import Card from './Card'
 import SimpleBackDrop from './Backdrop' 
+import { styled } from '@mui/material/styles';
 
 export function StudentFormGrid(props) {
 
@@ -230,6 +231,25 @@ export function StudentFormGrid(props) {
 }
 
 
+
+const QueryForm = styled(Form)(( {theme} ) => ({
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'stretch'
+
+}));
+
+const QuerySearchBar = styled(SearchBar)(( {theme} ) => ({
+    flexBasis: '2000000px' 
+
+}));
+
+const QuerySelect = styled(Select)(( {theme} ) => ({
+    flexBasis: '50px'
+
+}));
+
+
 export function QueryLayoutGrid(props) {
 
     const {
@@ -238,21 +258,49 @@ export function QueryLayoutGrid(props) {
         queryLabel,
         handleSubmit,
         getStats, 
-        openBackdrop
+        getQueryOptions,
+        openBackdrop,
+        queryOptions,
+        setQueryOptions
     } = props;
 
     return (
         <>
             <Grid container>
-                <Grid item xs={12}>
-                    <Form onSubmit={(e)=>(handleSubmit(e))}>
-                        <SearchBar 
-                            label={queryLabel}
-                            textInput={textInput}
-                            handleClear={handleClear}
-                        />
-                    </Form>
-                </Grid>
+
+                {
+
+                    queryOptions.map((query, index) => (
+                        
+                        <Grid key={index} item xs={12}>
+                            <QueryForm onSubmit={(e)=>(handleSubmit(e))}>
+                                <QuerySearchBar 
+                                    label={queryLabel}
+                                    textInput={textInput}
+                                    handleClear={handleClear}
+                                />                            
+                                <QuerySelect
+                                    name="options"
+                                    label="Query Options"
+                                    options={getQueryOptions()}
+                                    value={queryOptions[index]['value']}
+                                    required
+                                />                        
+                                <Button 
+                                    text="Delete"
+                                    color="error"
+                                />
+                                <Button 
+                                    text="Add New"
+                                />
+                            </QueryForm>
+                        </Grid>
+
+                    
+                    ))
+
+                }
+
                 <Grid item md={3} sm={12}>
                     <Card 
                         title="School Statistics"

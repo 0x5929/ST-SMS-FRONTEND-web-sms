@@ -120,7 +120,7 @@ export function RadioGroup (props) {
 
 export function Select(props) {
 
-    const {name, label, value, onChange, required, options, ...others} = props;
+    const {name, label, value, required, options, ...others} = props;
     return (
         <FormControl
             variant="outlined"
@@ -131,7 +131,6 @@ export function Select(props) {
                 label={label}
                 name={name}
                 value={value}
-                onChange={onChange}
 
                 {...others}
             >
