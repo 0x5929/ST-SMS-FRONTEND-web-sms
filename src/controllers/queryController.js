@@ -11,7 +11,7 @@ export default function useQuery() {
     const [ showResults, setShowResults ] = useState(false)
     const [ openBackdrop, setOpenBackdrop ] = useState(false)
     const [ queryOptions, setQueryOptions ] = useState([
-        {query: '', value: ''}])
+        {query: 'last_name', value: ''}])
 
 
     const handleAddNewQuery = (index) =>{

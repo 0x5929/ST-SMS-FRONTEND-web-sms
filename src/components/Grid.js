@@ -264,7 +264,7 @@ const DelButton = styled(Button)(( {theme} ) => ({
     marginLeft: theme.spacing(0)
 }));
 
-const AddButton = styled(IconButton)(( {theme} ) => ({
+const AddButton = styled(Button)(( {theme} ) => ({
     borderRadius: theme.spacing(1),
     marginTop: theme.spacing(1.5),
     marginLeft: theme.spacing(4),
@@ -273,14 +273,13 @@ const AddButton = styled(IconButton)(( {theme} ) => ({
 
 const QueryButton = styled(IconButton)(( {theme} ) => ({
     marginTop: theme.spacing(1.5),
-    marginLeft: theme.spacing(0),
-    marginRight: theme.spacing(47),
+    marginLeft: theme.spacing(4),
     fontSize: theme.spacing(2)
 }));
 
 
 const ButtomGrid = styled(Grid)(({theme}) =>({
-    margin: theme.spacing(5)
+    marginRight: theme.spacing(5),
 }))
 
 export function QueryLayoutGrid(props) {
@@ -321,11 +320,13 @@ export function QueryLayoutGrid(props) {
                                     </Grid>
                                     <Grid item xs={2}>                     
                                         <QuerySelect
-                                            label="Query Options"
+                                            label="Query Opts"
                                             name="options"
                                             value={queryOptions[index]['query']}
                                             onChange={(e)=>(handleQueryOptionOnChange(e, index))}
                                             options={getQueryOptions()}
+                                            sx={{ fontSize: 15}}
+                                            autoWidth
                                             required
                                         />
                                     </Grid>
@@ -345,40 +346,34 @@ export function QueryLayoutGrid(props) {
                                         {
                                             queryOptions.length - 1 === index && (
 
-                                                <Grid item xs={12} sx={{display: 'flex', justifyContent: 'space-between'}}>   
+                                                <Grid item xs={12}>   
                                                     <AddButton
+                                                        text="ADD NEW QUERY PARAMETER"
                                                         color="primary"
-                                                        onClick={() => (handleAddNewQuery(index))}
-                                                        variant="contained"
-                                                    >
-                                                        ADD NEW QUERY PARAMETER  
-                                                        <AddCircleIcon 
-                                                            fontSize="large"
-                                                        />    
-                                                    </AddButton> 
-                                                    <QueryButton 
-                                                        type="Submit"
-                                                        color="secondary"
                                                         variant="outlined"
-                                                    >
-                                                        QUERY
-                                                        <DoubleArrowIcon 
-                                                            fontSize="large"
-                                                        />
-                                                    </QueryButton>
-                            
+                                                        onClick={() => (handleAddNewQuery(index))}
+                                                    />
                                                 </Grid> 
                                             )
 
                                         }
-     
+
                                 </Grid>
                              ))
 
                         }
-                        <Grid item justify="flex-end" xs={12}>
-
-                        </Grid>
+                        <Grid item xs={12}>
+                            <QueryButton 
+                                type="Submit"
+                                color="secondary"
+                                variant="contained"
+                            >
+                                QUERY
+                                <DoubleArrowIcon 
+                                    fontSize="large"
+                                />
+                            </QueryButton>    
+                        </Grid>     
                     </Grid>
                 </Form>
 
