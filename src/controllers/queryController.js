@@ -14,7 +14,10 @@ export default function useQuery() {
         {query: '', value: ''}])
 
 
-    const handleAddNewQuery = () =>{
+    const handleAddNewQuery = (index) =>{
+        if (index > 3){
+            return 
+        }
         setQueryOptions([...queryOptions, {query: '', value: ''}])
     }
 

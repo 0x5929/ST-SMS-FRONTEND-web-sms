@@ -341,39 +341,37 @@ export function QueryLayoutGrid(props) {
                                                     />             
                                                 </Grid>
                                             )
-                                        }         
+                                        }              
                                         {
-                                            queryOptions.length - 1 === index && queryOptions.length < 5 && (
-                                                <Grid 
-                                                    item xs={12} 
-                                                    sx={{display: 'flex', justifyContent: 'space-between'}}
-                                                >             
-                                                        <AddButton
-                                                            color="primary"
-                                                            onClick={handleAddNewQuery}
-                                                            variant="contained"
-                                                        >
-                                                            ADD NEW QUERY PARAMETER  
-                                                            <AddCircleIcon 
-                                                                fontSize="large"
-                                                            />    
-                                                        </AddButton> 
-                                                        <QueryButton 
-                                                            type="Submit"
-                                                            color="secondary"
-                                                            variant="outlined"
-                                                        >
-                                                            QUERY
-                                                            <DoubleArrowIcon 
-                                                                fontSize="large"
-                                                            />
-                                                        </QueryButton>
-                        
-                                                </Grid>     
+                                            queryOptions.length - 1 === index && (
+
+                                                <Grid item xs={12} sx={{display: 'flex', justifyContent: 'space-between'}}>   
+                                                    <AddButton
+                                                        color="primary"
+                                                        onClick={() => (handleAddNewQuery(index))}
+                                                        variant="contained"
+                                                    >
+                                                        ADD NEW QUERY PARAMETER  
+                                                        <AddCircleIcon 
+                                                            fontSize="large"
+                                                        />    
+                                                    </AddButton> 
+                                                    <QueryButton 
+                                                        type="Submit"
+                                                        color="secondary"
+                                                        variant="outlined"
+                                                    >
+                                                        QUERY
+                                                        <DoubleArrowIcon 
+                                                            fontSize="large"
+                                                        />
+                                                    </QueryButton>
+                            
+                                                </Grid> 
                                             )
 
                                         }
-   
+     
                                 </Grid>
                              ))
 
