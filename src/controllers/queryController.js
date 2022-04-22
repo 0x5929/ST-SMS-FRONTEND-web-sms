@@ -10,13 +10,47 @@ export default function useQuery() {
     const [ results, setResults ] = useState([])
     const [ showResults, setShowResults ] = useState(false)
     const [ openBackdrop, setOpenBackdrop ] = useState(false)
-    const [ queryOptions, setQueryOptions ] = useState([{query: '', value: ''}, {query: '', value: ''}])
+    const [ queryOptions, setQueryOptions ] = useState([
+        {query: '', value: ''}])
 
+
+    const handleAddNewQuery = () =>{
+        setQueryOptions([...queryOptions, {query: '', value: ''}])
+    }
+
+    const handleDelQuery = async (index) =>{
+        let queries = [...queryOptions]
+
+        // setting queries to anything but the ones we are trying to delete
+        setQueryOptions(queries.filter( item => item !== queries[index] ) )
+
+    }
+
+
+    const handleQueryOnChange = (e, index) => {
+        const { name, value } = e.target
+
+        const queries = [...queryOptions]
+
+        queries[index].value = value;
+
+        setQueryOptions(queries)
+    }
+
+
+    const handleQueryOptionOnChange = (e, index) =>{
+        const { name, value } = e.target
+        const queries = [...queryOptions]
+        queries[index].query = value;
+
+        setQueryOptions(queries)
+    }
 
     const getQueryOptions = studentService.getQueryOptions
 
     const handleClear = (textInput) =>{
-        textInput.current.value = "";
+        if (textInput.current != null )
+            textInput.current.value = "";
     }
 
     const handleBackdrop = () =>{
@@ -35,12 +69,14 @@ export default function useQuery() {
         }
     }
 
-    const handleSubmit = e => {
+    const handleSubmit = (e, queryOptions) => {
         e.preventDefault()
 
         // load sample data for dev and testing
         studentService.insertSampleRecords()
         setResults(studentService.getAllRecords())
+
+        console.log('QUERY PARAM AND DATA: ', queryOptions)
 
         handleBackdrop()
 
@@ -68,6 +104,9 @@ export default function useQuery() {
 
         getQueryOptions,
         queryOptions,
-        setQueryOptions,
+        handleAddNewQuery,
+        handleDelQuery,
+        handleQueryOnChange,
+        handleQueryOptionOnChange
     }
 }

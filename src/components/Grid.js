@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Grid } from '@mui/material'
+import { Box, Grid } from '@mui/material'
 
 import { Input, Select, DatePicker, Checkbox, RadioGroup } from './Inputs'
 import {Button} from './Button'
@@ -232,23 +232,51 @@ export function StudentFormGrid(props) {
 
 
 
-const QueryForm = styled(Form)(( {theme} ) => ({
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'stretch'
+// const QueryForm = styled(Form)(( {theme} ) => ({
+//     // '& .MuiGrid-spacing-xs-2' : {
+//     //     marginRight: theme.spacing(0),
+//     //     marginLeft: theme.spacing(0),
+//     //     // display: 'none'
+//     // }
 
-}));
+// }));
 
 const QuerySearchBar = styled(SearchBar)(( {theme} ) => ({
-    flexBasis: '2000000px' 
-
+    flexGrow: 1,
+    width: 100,
+    fullWidth: true,
+    marginLeft: theme.spacing(0)
 }));
 
 const QuerySelect = styled(Select)(( {theme} ) => ({
-    flexBasis: '50px'
+    marginLeft: theme.spacing(0),
 
+    // '& 	.MuiGrid-root' : {
+    //     marginRight: 0
+    // }
 }));
 
+const DelButton = styled(Button)(( {theme} ) => ({
+
+    margin: theme.spacing(0),
+    marginTop: theme.spacing(1.5),
+    marginLeft: theme.spacing(0)
+}));
+
+const AddButton = styled(Button)(( {theme} ) => ({
+    marginTop: theme.spacing(1.5),
+    marginLeft: theme.spacing(4)
+}));
+
+const QueryButton = styled(Button)(( {theme} ) => ({
+    marginTop: theme.spacing(1.5),
+    marginLeft: theme.spacing(0)
+}));
+
+
+const ButtomGrid = styled(Grid)(({theme}) =>({
+    margin: theme.spacing(5)
+}))
 
 export function QueryLayoutGrid(props) {
 
@@ -261,46 +289,83 @@ export function QueryLayoutGrid(props) {
         getQueryOptions,
         openBackdrop,
         queryOptions,
-        setQueryOptions
+        handleAddNewQuery,
+        handleDelQuery,
+        handleQueryOnChange,
+        handleQueryOptionOnChange
     } = props;
 
     return (
         <>
-            <Grid container>
+            <Form onSubmit={(e)=>(handleSubmit(e, queryOptions))}>
+                <Grid container rowSpacing={0} columnSpacing={0}>
+                        {
 
-                {
+                            queryOptions.map((query, index) => (
+                                <Grid container item xs={12} key={index} spacing={0}>
+                                    <Grid item xs={9}>
+                                        <QuerySearchBar 
+                                            label={queryLabel}
+                                            name={queryOptions[index]['query']}
+                                            value={queryOptions[index]['value']}
+                                            onChange={(e) => (handleQueryOnChange(e, index))}
+                                            textInput={textInput}
+                                            handleClear={handleClear}
+                                        />
 
-                    queryOptions.map((query, index) => (
-                        
-                        <Grid key={index} item xs={12}>
-                            <QueryForm onSubmit={(e)=>(handleSubmit(e))}>
-                                <QuerySearchBar 
-                                    label={queryLabel}
-                                    textInput={textInput}
-                                    handleClear={handleClear}
-                                />                            
-                                <QuerySelect
-                                    name="options"
-                                    label="Query Options"
-                                    options={getQueryOptions()}
-                                    value={queryOptions[index]['value']}
-                                    required
-                                />                        
-                                <Button 
-                                    text="Delete"
-                                    color="error"
-                                />
-                                <Button 
-                                    text="Add New"
-                                />
-                            </QueryForm>
-                        </Grid>
+                                    </Grid>
+                                    <Grid item xs={2}>                     
+                                        <QuerySelect
+                                            label="Query Options"
+                                            name="options"
+                                            value={queryOptions[index]['query']}
+                                            onChange={(e)=>(handleQueryOptionOnChange(e, index))}
+                                            options={getQueryOptions()}
+                                            required
+                                        />
+                                    </Grid>
+                                        {
+                                            queryOptions.length !== 1 && (
 
+                                                <Grid item xs={1}>                                
+                                                    <DelButton 
+                                                        text="Delete"
+                                                        color="error"
+                                                        onClick={ ()=> (handleDelQuery(index))}
+                                                    />             
+                                                </Grid>
+                                            )
+                                        }         
+                                        {
+                                            queryOptions.length - 1 === index && queryOptions.length < 5 && (
+                                                <Grid item xs={12}>             
+                                                    <AddButton 
+                                                        text="Add New"
+                                                        onClick={handleAddNewQuery}
+                                                    /> 
+                                                    <QueryButton 
+                                                        text="Query"
+                                                        type="Submit"
+                                                        color="secondary"
+                                                    />
                     
-                    ))
+                                                </Grid>     
+                                            )
 
-                }
+                                        }
+   
+                                </Grid>
+                             ))
 
+                        }
+                        <Grid item justify="flex-end" xs={12}>
+
+                        </Grid>
+                    </Grid>
+                </Form>
+
+                
+            <ButtomGrid container>
                 <Grid item md={3} sm={12}>
                     <Card 
                         title="School Statistics"
@@ -329,7 +394,7 @@ export function QueryLayoutGrid(props) {
                         stats={getStats.student()}
                     />
                 </Grid>
-            </Grid>
+            </ButtomGrid>
             <SimpleBackDrop 
                 openBackdrop={openBackdrop}
             />

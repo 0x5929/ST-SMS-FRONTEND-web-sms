@@ -22,7 +22,10 @@ export default function Query() {
 
         getQueryOptions,
         queryOptions,
-        setQueryOptions,
+        handleAddNewQuery,
+        handleDelQuery,
+        handleQueryOnChange,
+        handleQueryOptionOnChange,
 
     } = useQuery()
 
@@ -40,7 +43,10 @@ export default function Query() {
                     openBackdrop={openBackdrop}
                     getQueryOptions={getQueryOptions}
                     queryOptions={queryOptions}
-                    setQueryOptions={setQueryOptions}
+                    handleAddNewQuery={handleAddNewQuery}
+                    handleDelQuery={handleDelQuery}
+                    handleQueryOnChange={handleQueryOnChange}
+                    handleQueryOptionOnChange={handleQueryOptionOnChange}
                 />
                 
             }
