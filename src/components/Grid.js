@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react'
-import { Box, Grid } from '@mui/material'
-
+import { Grid } from '@mui/material'
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import { Input, Select, DatePicker, Checkbox, RadioGroup } from './Inputs'
-import {Button} from './Button'
+import { Button, IconButton } from './Button'
 import SearchBar from './SearchBar'
 import Form from './Form'
 import Card from './Card'
@@ -263,14 +264,18 @@ const DelButton = styled(Button)(( {theme} ) => ({
     marginLeft: theme.spacing(0)
 }));
 
-const AddButton = styled(Button)(( {theme} ) => ({
+const AddButton = styled(IconButton)(( {theme} ) => ({
+    borderRadius: theme.spacing(1),
     marginTop: theme.spacing(1.5),
-    marginLeft: theme.spacing(4)
+    marginLeft: theme.spacing(4),
+    fontSize: theme.spacing(2)
 }));
 
-const QueryButton = styled(Button)(( {theme} ) => ({
+const QueryButton = styled(IconButton)(( {theme} ) => ({
     marginTop: theme.spacing(1.5),
-    marginLeft: theme.spacing(0)
+    marginLeft: theme.spacing(0),
+    marginRight: theme.spacing(47),
+    fontSize: theme.spacing(2)
 }));
 
 
@@ -339,18 +344,31 @@ export function QueryLayoutGrid(props) {
                                         }         
                                         {
                                             queryOptions.length - 1 === index && queryOptions.length < 5 && (
-                                                <Grid item xs={12}>             
-                                                    <AddButton 
-                                                        text="Add New"
-                                                        onClick={handleAddNewQuery}
-                                                        variant="outlined"
-                                                    /> 
-                                                    <QueryButton 
-                                                        text="Query"
-                                                        type="Submit"
-                                                        color="secondary"
-                                                    />
-                    
+                                                <Grid 
+                                                    item xs={12} 
+                                                    sx={{display: 'flex', justifyContent: 'space-between'}}
+                                                >             
+                                                        <AddButton
+                                                            color="primary"
+                                                            onClick={handleAddNewQuery}
+                                                            variant="contained"
+                                                        >
+                                                            ADD NEW QUERY PARAMETER  
+                                                            <AddCircleIcon 
+                                                                fontSize="large"
+                                                            />    
+                                                        </AddButton> 
+                                                        <QueryButton 
+                                                            type="Submit"
+                                                            color="secondary"
+                                                            variant="outlined"
+                                                        >
+                                                            QUERY
+                                                            <DoubleArrowIcon 
+                                                                fontSize="large"
+                                                            />
+                                                        </QueryButton>
+                        
                                                 </Grid>     
                                             )
 
