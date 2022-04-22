@@ -331,6 +331,7 @@ export function QueryLayoutGrid(props) {
                                                     <DelButton 
                                                         text="Delete"
                                                         color="error"
+                                                        variant="outlined"
                                                         onClick={ ()=> (handleDelQuery(index))}
                                                     />             
                                                 </Grid>
@@ -342,6 +343,7 @@ export function QueryLayoutGrid(props) {
                                                     <AddButton 
                                                         text="Add New"
                                                         onClick={handleAddNewQuery}
+                                                        variant="outlined"
                                                     /> 
                                                     <QueryButton 
                                                         text="Query"
