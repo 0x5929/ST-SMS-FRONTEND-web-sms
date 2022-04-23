@@ -12,7 +12,8 @@ import {
     RadioGroup as MuiRadioGroup, 
     InputLabel, 
     MenuItem, 
-    Select as MuiSelect } from '@mui/material';
+    Select as MuiSelect, 
+    } from '@mui/material';
 
 
 const convertToDefaultEventParam = (name, value) => ({
@@ -120,7 +121,7 @@ export function RadioGroup (props) {
 
 export function Select(props) {
 
-    const {name, label, value, required, options, ...others} = props;
+    const {name, label, error=null, value, required, options, ...others} = props;
     return (
         <FormControl
             variant="outlined"
@@ -132,6 +133,7 @@ export function Select(props) {
                 name={name}
                 value={value}
 
+                {...(error && { error:true})}
                 {...others}
             >
                 {
@@ -140,6 +142,7 @@ export function Select(props) {
                         <MenuItem key={option.value} value={option.value}>{option.title}</MenuItem>
                     ))
                 }
+
             </MuiSelect>
         </FormControl>
 

@@ -11,13 +11,13 @@ const CardWrapper = styled(MuiCard)(( {theme} ) => ({
     padding: theme.spacing(2),
     margin: theme.spacing(2),
     marginTop: theme.spacing(10),
-    borderRadius: 2
+    borderRadius: 2,
   
   }));
   
 export default function Card(props) {
 
-    const { typographyVariant, title, model, stats, ...others } = props
+    const { typographyVariant, title, model, stats, children, ...others } = props
 
     return (
         <CardWrapper
@@ -32,6 +32,8 @@ export default function Card(props) {
                     variant="p"
                     text={`There are total of ${stats} ${model}s.`}
                 />
+
+                { children }
             </CardContent>
 
         </CardWrapper>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import useForm from "./createFormController";
-import validate from './createFormValidation';
+import validate from './validationController';
 import * as studentRecordService from '../services/SMSRecordService';
 
 export function useEditModal (studentValues, setRecordForEdit, setRecords, userFeedbackObj) {
@@ -34,7 +34,7 @@ export function useEditModal (studentValues, setRecordForEdit, setRecords, userF
 
 
     const handleEditSubmit = e => {
-        if (validate(values, setErrors, errors)){
+        if (validate.validateCreateForm(values, setErrors, errors)){
             handleSubmit(e)
             setRecordForEdit(null)
             closeModal()

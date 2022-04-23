@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react'
 
+import validate from './validationController'
 import * as studentService from '../services/SMSRecordService'
 
 
@@ -7,11 +8,12 @@ export default function useQuery() {
 
     var textInput = useRef(null);
     const queryLabel = 'Search Student Database'
+
     const [ results, setResults ] = useState([])
+    const [errors, setErrors] = useState({});
     const [ showResults, setShowResults ] = useState(false)
     const [ openBackdrop, setOpenBackdrop ] = useState(false)
-    const [ queryOptions, setQueryOptions ] = useState([
-        {query: 'last_name', value: ''}])
+    const [ queryOptions, setQueryOptions ] = useState([{query: 'clast_name', value: ''}])
 
 
     const handleAddNewQuery = (index) =>{
@@ -52,8 +54,11 @@ export default function useQuery() {
     const getQueryOptions = studentService.getQueryOptions
 
     const handleClear = (textInput) =>{
-        if (textInput.current != null )
+        setErrors({})
+
+        if (textInput.current != null ){
             textInput.current.value = "";
+        }
     }
 
     const handleBackdrop = () =>{
@@ -75,13 +80,16 @@ export default function useQuery() {
     const handleSubmit = (e, queryOptions) => {
         e.preventDefault()
 
-        // load sample data for dev and testing
-        studentService.insertSampleRecords()
-        setResults(studentService.getAllRecords())
+        if (validate.validateQueryForm(queryOptions, setErrors, errors)){
+            // load sample data for dev and testing
+            studentService.insertSampleRecords()
+            setResults(studentService.getAllRecords())
+    
+            console.log('QUERY PARAM AND DATA: ', queryOptions)
+    
+            handleBackdrop()            
+        }
 
-        console.log('QUERY PARAM AND DATA: ', queryOptions)
-
-        handleBackdrop()
 
     }
 
@@ -94,6 +102,7 @@ export default function useQuery() {
     }
 
     return {
+        errors,
         textInput,
         handleClear,
         handleSubmit,

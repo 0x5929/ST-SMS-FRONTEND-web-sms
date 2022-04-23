@@ -1,5 +1,5 @@
 // form validation
-const validate = (fieldValues, setErrors, errors) => {
+const validateCreateForm = (fieldValues, setErrors, errors) => {
     let temp = {...errors}
 
     let simpleEmailRegex = /.+@.+..+/;
@@ -8,6 +8,12 @@ const validate = (fieldValues, setErrors, errors) => {
     let moneyRegex = /^[0-9]+\.?[0-9]?[0-9]?$/;
     
     // for individual/instant validation, check only the ones that are passed in
+    if ('firstName' in fieldValues)
+        temp.firstName = fieldValues.firstName !== ''?'':'This field is required.'
+    if ('lastName' in fieldValues)
+        temp.lastName = fieldValues.lastName !== ''?'':'This field is required.'
+    if ('mailingAddress' in fieldValues)
+        temp.mailingAddress = fieldValues.mailingAddress !== ''?'':'This field is required.'
     if ('email' in fieldValues)
         temp.email = (simpleEmailRegex.test(fieldValues.email))?'':'Incorrect email format.'
     if ('studentId' in fieldValues)
@@ -26,6 +32,8 @@ const validate = (fieldValues, setErrors, errors) => {
         temp.completionDate = fieldValues.completionDate?'':'This field is required.'
     if ('dateEnrollmentAgreementSigned' in fieldValues)
         temp.dateEnrollmentAgreementSigned = fieldValues.dateEnrollmentAgreementSigned?'':'This field is required.'
+    if ('course' in fieldValues)
+            temp.course = fieldValues.course !== ''?'':'This field is required.'
 
     setErrors({
         ...temp
@@ -34,6 +42,27 @@ const validate = (fieldValues, setErrors, errors) => {
     // returns false if any of the above if statements evaluates to false
     return Object.values(temp).every( x => x === '') 
 
+}
+
+const validateQueryForm = (arrFieldValues, setErrors, errors) => {
+    let temp = {...errors}
+
+    for (var index = 0; index < arrFieldValues.length; index++ ){
+        for (let key in arrFieldValues[index]) {
+            temp[key + index] = (arrFieldValues[index][key] !== '')?'':'All fields required.'
+        }
+    }
+
+    console.log('temp error object', temp )
+
+    setErrors({...temp})
+    return Object.values(temp).every(x => x === '')
+}
+
+
+const validate = {
+    validateCreateForm,
+    validateQueryForm
 }
 
 

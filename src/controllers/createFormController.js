@@ -1,7 +1,7 @@
 import { useState , useCallback } from 'react'
 
 import * as studentRecordService from '../services/SMSRecordService'
-import validate from './createFormValidation'
+import validate from './validationController'
 import * as studentData from '../data/studentData'
 
 // FORM STATE
@@ -22,7 +22,7 @@ export default function useForm(validateOnChange=false, currentData=studentData.
         })
         
         if (validateOnChange)
-        validate({[name]: value}, setErrors, errors)
+        validate.validateCreateForm({[name]: value}, setErrors, errors)
         
 
     }
@@ -79,7 +79,7 @@ export default function useForm(validateOnChange=false, currentData=studentData.
         // DEV configuration so we dont refresh the page when testing submit button
         e.preventDefault()
 
-        if (validate(values, setErrors, errors)){
+        if (validate.validateCreateForm(values, setErrors, errors)){
             createOrUpdate(values, handleCancel)
             
         }

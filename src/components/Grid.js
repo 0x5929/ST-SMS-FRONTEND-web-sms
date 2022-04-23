@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Grid } from '@mui/material'
+import { Box, Grid } from '@mui/material'
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import { Input, Select, DatePicker, Checkbox, RadioGroup } from './Inputs'
@@ -7,6 +7,7 @@ import { Button, IconButton } from './Button'
 import SearchBar from './SearchBar'
 import Form from './Form'
 import Card from './Card'
+import Image from './Image'
 import SimpleBackDrop from './Backdrop' 
 import { styled } from '@mui/material/styles';
 
@@ -49,21 +50,23 @@ export function StudentFormGrid(props) {
                 value={values.studentId}
                 onChange={handleInputChange}
                 error={errors.studentId}
-                required
+                
             />
             <Input 
                 name="firstName"
                 label="First Name"
                 value={values.firstName}
                 onChange={handleInputChange}  
-                required  
+                error={errors.firstName}
+                  
             />
             <Input 
                 name="lastName"
                 label="Last Name"
                 value={values.lastName}
                 onChange={handleInputChange} 
-                required   
+                error={errors.lastName}
+                   
             />
             <Input 
                 name="phoneNumber"
@@ -71,7 +74,7 @@ export function StudentFormGrid(props) {
                 value={values.phoneNumber}
                 onChange={handleInputChange} 
                 error={errors.phoneNumber}
-                required 
+                 
             />
             <Input 
                 name="email"
@@ -79,14 +82,15 @@ export function StudentFormGrid(props) {
                 value={values.email}
                 onChange={handleInputChange} 
                 error={errors.email}
-                required   
+                   
             />
             <Input 
                 name="mailingAddress"
                 label="Mailing Address"
                 value={values.mailingAddress}
                 onChange={handleInputChange}  
-                required  
+                error={errors.mailingAddress}
+                  
             />
             <Select
                 name="course"
@@ -96,7 +100,6 @@ export function StudentFormGrid(props) {
                 error={errors.course}
                 value={values.course}
                 defaultValue={getCourseOptions()[0].value}
-                required
             />
             <DatePicker
                 name="startDate"
@@ -132,7 +135,7 @@ export function StudentFormGrid(props) {
                 value={values.courseCost}
                 onChange={handleInputChange}
                 error={errors.courseCost}
-                required
+                
             />
             <Input 
                 name="chargesCharged"
@@ -140,7 +143,7 @@ export function StudentFormGrid(props) {
                 value={values.chargesCharged}
                 onChange={handleInputChange}
                 error={errors.chargesCharged}
-                required
+                
             />
             <Input 
                 name="chargesPaid"
@@ -148,7 +151,7 @@ export function StudentFormGrid(props) {
                 value={values.chargesPaid}
                 onChange={handleInputChange}
                 error={errors.chargesPaid}
-                required
+                
             />
         </Grid>
         <Grid item md={6} sm={12}>
@@ -233,14 +236,6 @@ export function StudentFormGrid(props) {
 
 
 
-// const QueryForm = styled(Form)(( {theme} ) => ({
-//     // '& .MuiGrid-spacing-xs-2' : {
-//     //     marginRight: theme.spacing(0),
-//     //     marginLeft: theme.spacing(0),
-//     //     // display: 'none'
-//     // }
-
-// }));
 
 const QuerySearchBar = styled(SearchBar)(( {theme} ) => ({
     flexGrow: 1,
@@ -250,15 +245,18 @@ const QuerySearchBar = styled(SearchBar)(( {theme} ) => ({
 }));
 
 const QuerySelect = styled(Select)(( {theme} ) => ({
-    marginLeft: theme.spacing(0),
+    [theme.breakpoints.up('sm')] : {
+        marginLeft: theme.spacing(0)
+    },
 
-    // '& 	.MuiGrid-root' : {
-    //     marginRight: 0
-    // }
+    [theme.breakpoints.down('sm')] : {
+        marginLeft: theme.spacing(2)
+    }
+
 }));
 
 const DelButton = styled(Button)(( {theme} ) => ({
-
+    borderRadius: theme.spacing(1),
     margin: theme.spacing(0),
     marginTop: theme.spacing(1.5),
     marginLeft: theme.spacing(0)
@@ -272,6 +270,7 @@ const AddButton = styled(Button)(( {theme} ) => ({
 }));
 
 const QueryButton = styled(IconButton)(( {theme} ) => ({
+    borderRadius: theme.spacing(1),
     marginTop: theme.spacing(1.5),
     marginLeft: theme.spacing(4),
     fontSize: theme.spacing(2)
@@ -296,7 +295,8 @@ export function QueryLayoutGrid(props) {
         handleAddNewQuery,
         handleDelQuery,
         handleQueryOnChange,
-        handleQueryOptionOnChange
+        handleQueryOptionOnChange,
+        errors
     } = props;
 
     return (
@@ -306,34 +306,35 @@ export function QueryLayoutGrid(props) {
                         {
 
                             queryOptions.map((query, index) => (
-                                <Grid container item xs={12} key={index} spacing={0}>
-                                    <Grid item xs={9}>
+                                <Grid container item sm={12} key={index} spacing={0}>
+                                    <Grid item md={9} sm={12}>
                                         <QuerySearchBar 
                                             label={queryLabel}
                                             name={queryOptions[index]['query']}
                                             value={queryOptions[index]['value']}
                                             onChange={(e) => (handleQueryOnChange(e, index))}
+                                            error={errors['value' + index.toString()]}
                                             textInput={textInput}
                                             handleClear={handleClear}
                                         />
 
                                     </Grid>
-                                    <Grid item xs={2}>                     
+                                    <Grid item md={2} sm={12}>                     
                                         <QuerySelect
                                             label="Query Opts"
                                             name="options"
                                             value={queryOptions[index]['query']}
                                             onChange={(e)=>(handleQueryOptionOnChange(e, index))}
+                                            error={errors['query' + index.toString()]}
                                             options={getQueryOptions()}
                                             sx={{ fontSize: 15}}
                                             autoWidth
-                                            required
                                         />
                                     </Grid>
                                         {
                                             queryOptions.length !== 1 && (
 
-                                                <Grid item xs={1}>                                
+                                                <Grid item md={1} sm={12}>                                
                                                     <DelButton 
                                                         text="Delete"
                                                         color="error"
@@ -346,7 +347,7 @@ export function QueryLayoutGrid(props) {
                                         {
                                             queryOptions.length - 1 === index && (
 
-                                                <Grid item xs={12}>   
+                                                <Grid item sm={12}>   
                                                     <AddButton
                                                         text="ADD NEW QUERY PARAMETER"
                                                         color="primary"
@@ -384,28 +385,50 @@ export function QueryLayoutGrid(props) {
                         title="School Statistics"
                         model="school"
                         stats={getStats.school()}
-                    />
+                    >
+                        <Image 
+                            alt="School image."
+                            src="https://images.unsplash.com/photo-1625516581237-3d9d0a31538c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2044&q=80"
+                        />
+
+                    </Card>
                 </Grid>
                 <Grid item md={3} sm={12}>
                     <Card 
                         title="Program Statistics"
                         model="program"
                         stats={getStats.program()}
-                    />
+                    >
+                        <Image 
+                            alt="Program image."
+                            src="https://images.unsplash.com/photo-1610116306796-6fea9f4fae38?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
+                        /> 
+
+                    </Card>
                 </Grid>
                 <Grid item md={3} sm={12}>
                     <Card 
                         title="Rotation Statistics"
                         model="rotation"
                         stats={getStats.rotation()}
-                    />
+                    >
+                        <Image 
+                            alt="Rotation image."
+                            src="https://images.unsplash.com/photo-1516841273335-e39b37888115?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1147&q=80"
+                        /> 
+                    </Card>
                 </Grid>
                 <Grid item md={3} sm={12}>
                     <Card 
                         title="Student Statistics"
                         model="student"
                         stats={getStats.student()}
-                    />
+                    >                        
+                        <Image 
+                            alt="Student image."
+                            src="https://images.unsplash.com/photo-1590012314607-cda9d9b699ae?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80"
+                        />                       
+                    </Card>
                 </Grid>
             </ButtomGrid>
             <SimpleBackDrop 

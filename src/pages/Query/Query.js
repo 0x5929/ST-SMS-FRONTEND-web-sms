@@ -10,6 +10,7 @@ export default function Query() {
 
 
     const {
+        errors,
         textInput,
         handleClear,
         handleSubmit,
@@ -47,6 +48,7 @@ export default function Query() {
                     handleDelQuery={handleDelQuery}
                     handleQueryOnChange={handleQueryOnChange}
                     handleQueryOptionOnChange={handleQueryOptionOnChange}
+                    errors={errors}
                 />
                 
             }
