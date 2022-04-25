@@ -1,9 +1,10 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import Query from './pages/Query/Query'
 import Create from './pages/Create/Create'
 
 import Controls from './components' 
-import { styled } from '@mui/material';
+import { styled, Switch } from '@mui/material';
+import useDrawer from './controllers/drawerController';
 
 
 const AppMain = styled('div')(( {theme} ) => ({
@@ -15,17 +16,27 @@ const AppMain = styled('div')(( {theme} ) => ({
 
 function App() {
 
+    const {
+        drawerOpen,
+        setDrawerOpen,
+        toggleDrawer,
+    } = useDrawer()
 
 
     return (
         // add login logic
         <AppMain>
-            <Controls.Header />
             <Router>
-            <Routes>
-                <Route path="/" element={<Query />} />
-                <Route path="/create" element={<Create />} />
-            </Routes>
+                <Controls.Header 
+                    drawerOpen={drawerOpen}
+                    setDrawerOpen={setDrawerOpen}
+                    toggleDrawer={toggleDrawer}
+                    Link={Link}
+                />
+                <Routes>
+                    <Route path="/" element={<Query />} />
+                    <Route path="/create" element={<Create />} />
+                </Routes>
             </Router>
         </AppMain>
     );

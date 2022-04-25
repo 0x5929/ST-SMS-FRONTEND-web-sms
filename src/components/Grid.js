@@ -296,7 +296,11 @@ export function QueryLayoutGrid(props) {
         handleDelQuery,
         handleQueryOnChange,
         handleQueryOptionOnChange,
-        errors
+        errors,
+        schoolPicLoc,
+        programPicLoc,
+        rotationPicLoc,
+        studentPicLoc
     } = props;
 
     return (
@@ -388,7 +392,7 @@ export function QueryLayoutGrid(props) {
                     >
                         <Image 
                             alt="School image."
-                            src="https://images.unsplash.com/photo-1625516581237-3d9d0a31538c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2044&q=80"
+                            src={schoolPicLoc}
                         />
 
                     </Card>
@@ -401,7 +405,7 @@ export function QueryLayoutGrid(props) {
                     >
                         <Image 
                             alt="Program image."
-                            src="https://images.unsplash.com/photo-1610116306796-6fea9f4fae38?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
+                            src={programPicLoc}
                         /> 
 
                     </Card>
@@ -414,7 +418,7 @@ export function QueryLayoutGrid(props) {
                     >
                         <Image 
                             alt="Rotation image."
-                            src="https://images.unsplash.com/photo-1516841273335-e39b37888115?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1147&q=80"
+                            src={rotationPicLoc}
                         /> 
                     </Card>
                 </Grid>
@@ -426,7 +430,7 @@ export function QueryLayoutGrid(props) {
                     >                        
                         <Image 
                             alt="Student image."
-                            src="https://images.unsplash.com/photo-1590012314607-cda9d9b699ae?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80"
+                            src={studentPicLoc}
                         />                       
                     </Card>
                 </Grid>

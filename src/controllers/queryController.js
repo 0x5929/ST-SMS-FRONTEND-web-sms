@@ -15,6 +15,10 @@ export default function useQuery() {
     const [ openBackdrop, setOpenBackdrop ] = useState(false)
     const [ queryOptions, setQueryOptions ] = useState([{query: 'clast_name', value: ''}])
 
+    const schoolPicLoc = 'https://images.unsplash.com/photo-1625516581237-3d9d0a31538c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2044&q=80'
+    const programPicLoc = 'https://images.unsplash.com/photo-1610116306796-6fea9f4fae38?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80'
+    const rotationPicLoc = 'https://images.unsplash.com/photo-1516841273335-e39b37888115?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1147&q=80'
+    const studentPicLoc = 'https://images.unsplash.com/photo-1590012314607-cda9d9b699ae?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80'
 
     const handleAddNewQuery = (index) =>{
         if (index > 3){
@@ -119,6 +123,11 @@ export default function useQuery() {
         handleAddNewQuery,
         handleDelQuery,
         handleQueryOnChange,
-        handleQueryOptionOnChange
+        handleQueryOptionOnChange,
+        
+        schoolPicLoc,
+        programPicLoc,
+        rotationPicLoc,
+        studentPicLoc
     }
 }

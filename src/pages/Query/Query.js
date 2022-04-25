@@ -27,6 +27,11 @@ export default function Query() {
         handleDelQuery,
         handleQueryOnChange,
         handleQueryOptionOnChange,
+        
+        schoolPicLoc,
+        programPicLoc,
+        rotationPicLoc,
+        studentPicLoc
 
     } = useQuery()
 
@@ -48,6 +53,10 @@ export default function Query() {
                     handleDelQuery={handleDelQuery}
                     handleQueryOnChange={handleQueryOnChange}
                     handleQueryOptionOnChange={handleQueryOptionOnChange}
+                    schoolPicLoc={schoolPicLoc}
+                    programPicLoc={programPicLoc}
+                    rotationPicLoc={rotationPicLoc}
+                    studentPicLoc={studentPicLoc}
                     errors={errors}
                 />
                 
