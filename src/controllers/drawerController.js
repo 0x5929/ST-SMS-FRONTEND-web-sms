@@ -3,13 +3,19 @@ import { useState } from 'react';
 export default function useDrawer(){
     const [ drawerOpen, setDrawerOpen ] = useState(false)
 
+    const anchorDirection = 'left'
+    const menuIconColor = 'primary'
+    const menuIconSize = 'large'
+
     const toggleDrawer = (state) => {
-        console.log('hello world')
         setDrawerOpen(!state)
     }
     return {
         drawerOpen,
         setDrawerOpen,
-        toggleDrawer
+        toggleDrawer,
+        anchorDirection, 
+        menuIconColor,
+        menuIconSize
     }
 }

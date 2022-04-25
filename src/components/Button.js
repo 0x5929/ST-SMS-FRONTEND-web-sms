@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button as MuiButton } from '@mui/material';
+import { IconButton as MuiIconButton, Button as MuiButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 
@@ -42,7 +42,7 @@ export function IconButton(props) {
     var sizeDefault = "small"
     var colorDefault = "secondary"
     return (
-        <NonCapButton
+        <MuiIconButton
             variant={variant || variantDefault}
             size={size || sizeDefault}
             color={color || colorDefault}
@@ -51,6 +51,6 @@ export function IconButton(props) {
         >
             { children }
 
-        </NonCapButton>
+        </MuiIconButton>
     )
 }

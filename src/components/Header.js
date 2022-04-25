@@ -6,9 +6,11 @@ import Drawer from './Drawer';
 function Header(props) {
     const {
       drawerOpen,
-      setDrawerOpen,
       toggleDrawer,
-      Link
+      Link,
+      anchorDirection, 
+      menuIconColor,
+      menuIconSize
     } = props
     
     return (     
@@ -32,10 +34,12 @@ function Header(props) {
               Logout
             </Button>
             <Drawer 
-              drawerOpen={drawerOpen}
-              setDrawerOpen={setDrawerOpen}
-              toggleDrawer={toggleDrawer}
               Link={Link}
+              drawerOpen={drawerOpen}
+              toggleDrawer={toggleDrawer}
+              anchorDirection={anchorDirection}
+              menuIconColor={menuIconColor}
+              menuIconSize={menuIconSize}
             />
           </Toolbar>
         </AppBar>

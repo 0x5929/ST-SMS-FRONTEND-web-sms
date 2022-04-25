@@ -325,13 +325,14 @@ export function QueryLayoutGrid(props) {
                                     </Grid>
                                     <Grid item md={2} sm={12}>                     
                                         <QuerySelect
-                                            label="Query Opts"
+                                            label="Query By"
                                             name="options"
                                             value={queryOptions[index]['query']}
                                             onChange={(e)=>(handleQueryOptionOnChange(e, index))}
                                             error={errors['query' + index.toString()]}
                                             options={getQueryOptions()}
                                             sx={{ fontSize: 15}}
+                                            variant={'standard'}
                                             autoWidth
                                         />
                                     </Grid>

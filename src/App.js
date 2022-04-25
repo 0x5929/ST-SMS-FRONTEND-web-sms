@@ -18,8 +18,10 @@ function App() {
 
     const {
         drawerOpen,
-        setDrawerOpen,
         toggleDrawer,
+        anchorDirection, 
+        menuIconColor,
+        menuIconSize
     } = useDrawer()
 
 
@@ -28,10 +30,12 @@ function App() {
         <AppMain>
             <Router>
                 <Controls.Header 
-                    drawerOpen={drawerOpen}
-                    setDrawerOpen={setDrawerOpen}
-                    toggleDrawer={toggleDrawer}
                     Link={Link}
+                    drawerOpen={drawerOpen}
+                    toggleDrawer={toggleDrawer}
+                    anchorDirection={anchorDirection}
+                    menuIconColor={menuIconColor}
+                    menuIconSize={menuIconSize}
                 />
                 <Routes>
                     <Route path="/" element={<Query />} />
