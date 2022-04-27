@@ -53,7 +53,7 @@ const validateQueryForm = (arrFieldValues, setErrors, errors) => {
         }
     }
 
-
+    console.log('errors: ', temp)
     setErrors({...temp})
     return Object.values(temp).every(x => x === '')
 }

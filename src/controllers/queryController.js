@@ -28,7 +28,9 @@ export default function useQuery() {
     }
 
     const handleDelQuery = async (index) =>{
+        // clear Errors
         clearError(index)
+
         let queries = [...queryOptions]
 
         // setting queries to anything but the ones we are trying to delete
@@ -62,8 +64,8 @@ export default function useQuery() {
         let errObj = {...errors}
 
         if ( typeof index != 'undefined'){
-            errObj['query' + index.toString()] = ''
-            errObj['value' + index.toString()] = ''
+            delete errObj['query' + index.toString()]
+            delete errObj['value' + index.toString()]
         }
         
         setErrors(errObj)
@@ -94,6 +96,8 @@ export default function useQuery() {
 
     const handleSubmit = (e, queryOptions) => {
         e.preventDefault()
+
+        console.log('queries: ', queryOptions)
 
         if (validate.validateQueryForm(queryOptions, setErrors, errors)){
             // load sample data for dev and testing
