@@ -1,14 +1,15 @@
-import Header from './Header'
-
-import Form from './Form';
-import Paper from './Paper';
+import Header from './Header/Header'
+import Form from './Form/Form';
+import Paper from './Paper/Paper';
 import { StudentFormGrid, QueryLayoutGrid } from './Grid';
-import SearchBar from './SearchBar';
-import Modal from './Modal';
-import Typography from './Typography';
-import { Button } from './Button'
-import ConfirmDialog from './ConfirmDialog';
-import { Notification, NotificationSlide } from './Notification'
+import SearchBar from './Searchbar/Searchbar';
+import Modal from './Modal/Modal';
+import BaseTypography from './Typography/Typography';
+import BaseButton from './Button/Button'
+import ConfirmDialog from './ConfirmDialog/ConfirmDialog';
+import Notification from './Notification/Notification'
+import NotificationSlide  from './Notification/NotificationSlide'
+
 import { 
     QueryTblContainer, 
     QueryTblHead, 
@@ -16,12 +17,13 @@ import {
     QueryTblPagination, 
     DetailedTblContainer, 
     DetailedTblHead, 
-    DetailedTblBody} from './Table'
+    DetailedTblBody
+} from './Table'
 
 // export components controls for dev to be used outside of the componenet folder
 const Controls = {
     Header,
-    Button,
+    BaseButton,
     Form,
     Paper,
     QueryTblContainer,
@@ -35,7 +37,7 @@ const Controls = {
     QueryLayoutGrid,
     SearchBar,
     Modal,
-    Typography,
+    BaseTypography,
     Notification,
     NotificationSlide,
     ConfirmDialog

@@ -91,6 +91,15 @@ export default function useForm(validateOnChange=false, currentData=studentData.
     const getCourseOptions = studentRecordService.getCourseOptions
     const { hoursWorkedRadioItems } = studentData
     
+
+    const convertToDefaultEventParam = (name, value) => ({
+        target: {
+            name,
+            value
+        }
+    })
+    
+
     // return an obj that contains our state 
     return {
         values, 
@@ -103,6 +112,7 @@ export default function useForm(validateOnChange=false, currentData=studentData.
         getCourseOptions,
         hoursWorkedRadioItems,
         populateFormFieldsForEdit,
+        convertToDefaultEventParam
     }
 }
 

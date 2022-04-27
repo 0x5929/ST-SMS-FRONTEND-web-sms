@@ -28,6 +28,7 @@ export default function useQuery() {
     }
 
     const handleDelQuery = async (index) =>{
+        clearError(index)
         let queries = [...queryOptions]
 
         // setting queries to anything but the ones we are trying to delete
@@ -38,10 +39,10 @@ export default function useQuery() {
 
     const handleQueryOnChange = (e, index) => {
         const { name, value } = e.target
-
         const queries = [...queryOptions]
 
-        queries[index].value = value;
+        if (typeof index != 'undefined')
+            queries[index].value = value;
 
         setQueryOptions(queries)
     }
@@ -57,12 +58,22 @@ export default function useQuery() {
 
     const getQueryOptions = studentService.getQueryOptions
 
-    const handleClear = (textInput) =>{
-        setErrors({})
+    const clearError = (index) => {
+        let errObj = {...errors}
 
-        if (textInput.current != null ){
-            textInput.current.value = "";
+        if ( typeof index != 'undefined'){
+            errObj['query' + index.toString()] = ''
+            errObj['value' + index.toString()] = ''
         }
+        
+        setErrors(errObj)
+    }
+
+    const handleClear = (textInput, index) =>{
+        // textInput is not used here, because we have set the value of the searchbar/textField, so instead, we will manipulate the value from its state obj
+        clearError(index)
+
+        handleQueryOnChange({target: {name: '', value: ''}}, index)
     }
 
     const handleBackdrop = () =>{

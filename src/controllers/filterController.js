@@ -39,7 +39,9 @@ export default function useFilter(setRecords) {
   
     const textInput = useRef(null);
 
-    const handleClear = (textInput) => {
+    const handleClear = (textInput, index) => {
+        // index is ignored here, since we only have one search/filterbar
+        // index is used for queryController, where we can have more than one search bar
         textInput.current.value = "";
         setRecords(SMSRecordService.getAllRecords())
     }

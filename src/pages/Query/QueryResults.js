@@ -75,6 +75,7 @@ export default function QueryResults(props) {
         getCourseOptions,
         hoursWorkedRadioItems,
         populateFormFieldsForEdit,
+        convertToDefaultEventParam
 
     } = useQueryResultTable({
         setNotify,
@@ -106,7 +107,7 @@ export default function QueryResults(props) {
                     style={{flexGrow: 0}}
 
                 />
-                <Controls.Button
+                <Controls.BaseButton
                     text="Back to query"
                     size="small"
                     color="secondary"
@@ -154,6 +155,7 @@ export default function QueryResults(props) {
                         getCourseOptions={getCourseOptions}
                         hoursWorkedRadioItems={hoursWorkedRadioItems}
                         populateFormFieldsForEdit={populateFormFieldsForEdit}
+                        convertToDefaultEventParam={convertToDefaultEventParam}
                     />
                 </Controls.Form>
             </Controls.Modal>
@@ -175,7 +177,6 @@ export default function QueryResults(props) {
             </Controls.Modal>
             <Controls.Notification 
                 notify={notify}
-                setNotify={setNotify}
                 closeNotification={closeNotification}
             />
             <Controls.ConfirmDialog 

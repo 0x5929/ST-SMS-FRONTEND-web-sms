@@ -24,7 +24,8 @@ export default function CreateForm() {
         handleSubmit,
         handleCancel,
         getCourseOptions,
-        hoursWorkedRadioItems
+        hoursWorkedRadioItems,
+        convertToDefaultEventParam
     } = useForm(true, studentData.initialStudentValues, {
         setNotify: setNotify,
         notify: notify
@@ -43,6 +44,7 @@ export default function CreateForm() {
                     handleCancel={handleCancel}
                     getCourseOptions={getCourseOptions}
                     hoursWorkedRadioItems={hoursWorkedRadioItems}
+                    convertToDefaultEventParam={convertToDefaultEventParam}
                 />
             </Controls.Form>
             <Controls.Notification 

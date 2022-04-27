@@ -65,6 +65,7 @@ export function useQueryResultTable(userFeedbackObj, results) {
       getCourseOptions,
       hoursWorkedRadioItems,
       populateFormFieldsForEdit,
+      convertToDefaultEventParam,
       
       // used for modal config
       modalTitle, 
@@ -184,6 +185,7 @@ export function useQueryResultTable(userFeedbackObj, results) {
         getCourseOptions,
         hoursWorkedRadioItems,
         populateFormFieldsForEdit,
+        convertToDefaultEventParam
     }
 }
 

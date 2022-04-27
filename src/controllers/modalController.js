@@ -30,6 +30,7 @@ export function useEditModal (studentValues, setRecordForEdit, setRecords, userF
         getCourseOptions,
         hoursWorkedRadioItems,
         populateFormFieldsForEdit,
+        convertToDefaultEventParam,
     } = useForm(false, studentValues, userFeedbackObj);
 
 
@@ -65,7 +66,8 @@ export function useEditModal (studentValues, setRecordForEdit, setRecords, userF
         openInModal,
         setOpenModal ,
         closeModal,
-        populateFormFieldsForEdit
+        populateFormFieldsForEdit,
+        convertToDefaultEventParam
     }
 }
 

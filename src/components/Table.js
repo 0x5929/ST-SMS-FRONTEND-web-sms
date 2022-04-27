@@ -2,7 +2,7 @@ import { Table, TableCell, TableHead, TableRow, TableSortLabel, TableBody, Table
 import React from 'react'
 
 
-import { IconButton } from './Button'
+import BaseIconButton from './Button/IconButton'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
@@ -71,7 +71,7 @@ export function QueryTblHead(props) {
     )
 }
 
-const ActionButton = styled(IconButton)(( {theme} ) => ({
+const ActionButton = styled(BaseIconButton)(( {theme} ) => ({
     minWidth: 0,
     minHeight: 0,
     margin: theme.spacing(0.5),

@@ -1,14 +1,18 @@
 import React, { useEffect } from 'react'
-import { Box, Grid } from '@mui/material'
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { Grid } from '@mui/material'
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
-import { Input, Select, DatePicker, Checkbox, RadioGroup } from './Inputs'
-import { Button, IconButton } from './Button'
-import SearchBar from './SearchBar'
-import Form from './Form'
-import Card from './Card'
-import Image from './Image'
-import SimpleBackDrop from './Backdrop' 
+import Input from './Inputs/Input'
+import Select from './Inputs/Select'
+import DatePicker from './Inputs/DatePicker'
+import Checkbox from './Inputs/Checkbox'
+import RadioGroup from './Inputs/RadioGroup'
+import Button  from './Button/Button'
+import BaseIconButton from './Button/IconButton'
+import SearchBar from './Searchbar/Searchbar'
+import Form from './Form/Form'
+import Card from './Card/Card'
+import Image from './Image/Image'
+import SimpleBackDrop from './Backdrop/Backdrop' 
 import { styled } from '@mui/material/styles';
 
 export function StudentFormGrid(props) {
@@ -23,6 +27,7 @@ export function StudentFormGrid(props) {
             hoursWorkedRadioItems, 
             recordForEdit,
             populateFormFieldsForEdit,
+            convertToDefaultEventParam
             } = props
 
 
@@ -106,6 +111,7 @@ export function StudentFormGrid(props) {
                 label="Program Start Date"
                 value={values.startDate}
                 onChange={handleInputChange}
+                convertToDefaultEventParam={convertToDefaultEventParam}
                 error={errors.startDate}
             />
             <DatePicker
@@ -113,6 +119,7 @@ export function StudentFormGrid(props) {
                 label="Program Completion Date"
                 value={values.completionDate}
                 onChange={handleInputChange}
+                convertToDefaultEventParam={convertToDefaultEventParam}
                 error={errors.completionDate}
             />
             <DatePicker
@@ -120,6 +127,7 @@ export function StudentFormGrid(props) {
                 label="Date Enrollment Agreement Signed"
                 value={values.dateEnrollmentAgreementSigned}
                 onChange={handleInputChange}
+                convertToDefaultEventParam={convertToDefaultEventParam}
                 error={errors.dateEnrollmentAgreementSigned}
                 disableFuture
             />
@@ -160,24 +168,28 @@ export function StudentFormGrid(props) {
                 label="Graduated"
                 value={values.graduated}
                 onChange={handleInputChange}
+                convertToDefaultEventParam={convertToDefaultEventParam}
             />
             <Checkbox 
                 name="passedFirstExam"
                 label="Passed First Exam"
                 value={values.passedFirstExam}
                 onChange={handleInputChange}
+                convertToDefaultEventParam={convertToDefaultEventParam}
             />
             <Checkbox 
                 name="passedSecondOrThird"
                 label="Passed Second or Third Exam"
                 value={values.passedSecondOrThird}
                 onChange={handleInputChange}
+                convertToDefaultEventParam={convertToDefaultEventParam}
             />
             <Checkbox 
                 name="employed"
                 label="Employed"
                 value={values.employed}
                 onChange={handleInputChange}
+                convertToDefaultEventParam={convertToDefaultEventParam}
             />
             <Input 
                 name="position"
@@ -269,7 +281,7 @@ const AddButton = styled(Button)(( {theme} ) => ({
     fontSize: theme.spacing(2)
 }));
 
-const QueryButton = styled(IconButton)(( {theme} ) => ({
+const QueryButton = styled(BaseIconButton)(( {theme} ) => ({
     borderRadius: theme.spacing(1),
     marginTop: theme.spacing(1.5),
     marginLeft: theme.spacing(4),
@@ -313,6 +325,7 @@ export function QueryLayoutGrid(props) {
                                 <Grid container item sm={12} key={index} spacing={0}>
                                     <Grid item md={9} sm={12}>
                                         <QuerySearchBar 
+                                            index={index}
                                             label={queryLabel}
                                             name={queryOptions[index]['query']}
                                             value={queryOptions[index]['value']}
