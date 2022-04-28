@@ -5,7 +5,7 @@ import {
 } from '@mui/material';
 
 import { Clear as MuiClearIcon, Search as MuiSearchIcon } from '@mui/icons-material';
-import Input from '../Inputs/Input'
+import { Input } from '../Inputs'
 
 import { styled } from '@mui/material';
 

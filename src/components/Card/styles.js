@@ -1,7 +1,7 @@
 import { Card as MuiCard, CardContent as MuiCardContent } from '@mui/material';
-
-import BaseTypography from '../Typography/Typography';
 import { styled } from '@mui/material/styles';
+
+import { BaseTypography } from '../Typography';
 
 
 

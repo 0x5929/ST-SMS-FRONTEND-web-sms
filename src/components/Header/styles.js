@@ -4,13 +4,12 @@ import {
     AppBar as MuiAppBar, 
     Toolbar as MuiToolBar } from '@mui/material';
 import { Menu as MuiMenuIcon } from '@mui/icons-material';
-
-import Drawer from '../Drawer/Drawer';
-import BaseIconButton from '../Button/IconButton';
-import BaseButton from '../Button/Button';
-import BaseTypography from '../Typography/Typography'
-
 import { styled } from '@mui/material/styles';
+
+import { Drawer } from '../Drawer';
+import { BaseButton, BaseIconButton } from '../Button';
+import { BaseTypography } from '../Typography'
+
 
 const Box = styled(MuiBox)(( {theme} ) => ({
     flexGrow: 1

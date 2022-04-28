@@ -2,7 +2,7 @@ import { Table, TableCell, TableHead, TableRow, TableSortLabel, TableBody, Table
 import React from 'react'
 
 
-import BaseIconButton from './Button/IconButton'
+import { BaseIconButton } from './Button'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';

@@ -2,16 +2,16 @@ import {
     Dialog as MuiDialog, 
     DialogActions as MuiDialogAction, 
     DialogContent as MuiDialogContent, 
-    DialogTitle as MuiDialogTitle } from '@mui/material'
-    
-import { NotListedLocation as MuiNotListedLocation } from '@mui/icons-material'
-
-import BaseTypography from '../Typography/Typography'
-import BaseButton from '../Button/Button'
-import BaseIconButton from '../Button/IconButton'
-
+    DialogTitle as MuiDialogTitle } from '@mui/material';
 
 import { styled } from '@mui/material/styles';
+    
+import { NotListedLocation as MuiNotListedLocation } from '@mui/icons-material';
+
+import { BaseTypography } from '../Typography';
+import { BaseButton, BaseIconButton } from '../Button';
+
+
 
 const Dialog = styled(MuiDialog)(( {theme} ) => ({
     padding: theme.spacing(2),

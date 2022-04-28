@@ -1,14 +1,17 @@
-import Header from './Header/Header'
-import Form from './Form/Form';
-import Paper from './Paper/Paper';
-import { StudentFormGrid, QueryLayoutGrid } from './Grid';
-import SearchBar from './Searchbar/Searchbar';
-import Modal from './Modal/Modal';
-import BaseTypography from './Typography/Typography';
-import BaseButton from './Button/Button'
-import ConfirmDialog from './ConfirmDialog/ConfirmDialog';
-import Notification from './Notification/Notification'
-import NotificationSlide  from './Notification/NotificationSlide'
+import { Header } from './Header';
+import { StudentForm, QueryForm } from './Form';
+import { Paper } from './Paper';
+import { Card } from './Card';
+import { Image } from './Image';
+import { SearchBar } from './Searchbar';
+import { Modal } from './Modal';
+import { BaseTypography } from './Typography';
+import { BaseButton, BaseIconButton } from './Button';
+import { ConfirmDialog } from './ConfirmDialog';
+import { Notification, NotificationSlide } from './Notification';
+import { SimpleBackDrop } from './Backdrop';
+
+import { Input, Select, DatePicker, Checkbox, RadioGroup } from './Inputs'
 
 import { 
     QueryTblContainer, 
@@ -24,8 +27,17 @@ import {
 const Controls = {
     Header,
     BaseButton,
-    Form,
+    BaseIconButton,
+    StudentForm,
+    QueryForm,
+    Card,
+    Image,
     Paper,
+    Input,
+    Select,
+    DatePicker,
+    Checkbox,
+    RadioGroup,
     QueryTblContainer,
     QueryTblHead,
     QueryTblBody,
@@ -33,14 +45,13 @@ const Controls = {
     DetailedTblContainer,
     DetailedTblHead,
     DetailedTblBody,
-    StudentFormGrid,
-    QueryLayoutGrid,
     SearchBar,
     Modal,
     BaseTypography,
     Notification,
     NotificationSlide,
-    ConfirmDialog
+    ConfirmDialog,
+    SimpleBackDrop
 }
 
 export default Controls

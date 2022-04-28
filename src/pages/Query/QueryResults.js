@@ -2,6 +2,9 @@ import React from 'react'
 import { useQueryResultTable, useDetailedViewTable } from '../../controllers/tableController'
 import { useNotification, useConfirmDialog } from '../../controllers/userFeedbackController'
 import Controls from '../../components'
+
+
+
 import { Box } from '@mui/material'
 
 
@@ -146,7 +149,7 @@ export default function QueryResults(props) {
                 closeModal={closeModal}
             >
                 <Controls.Form onSubmit={handleEditSubmit}>
-                    <Controls.StudentFormGrid
+                    <Controls.StudentForm
                         recordForEdit={recordForEdit}
                         values={values}
                         errors={errors}

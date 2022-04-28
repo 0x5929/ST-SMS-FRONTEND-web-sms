@@ -1,14 +1,14 @@
 import { 
     Dialog as MuiDialog, 
     DialogTitle as MuiDialogTitle, 
-    DialogContent as MuiDialogContent } from '@mui/material'
+    DialogContent as MuiDialogContent } from '@mui/material';
 
 import { CloseOutlined as MuiCloseOutlinedIcon } from '@mui/icons-material';
+import { styled } from '@mui/material';
 
-import BaseTypography from '../Typography/Typography'
-import BaseIconButton from '../Button/IconButton'
 
-import { styled } from '@mui/material'
+import { BaseTypography } from '../Typography';
+import { BaseIconButton } from '../Button';
 
 
 

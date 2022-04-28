@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
-import Query from './pages/Query/Query'
-import Create from './pages/Create/Create'
+import { Query } from './features/Query/Query'
+import { Create } from './features/Create'
 
 import Controls from './components' 
-import { styled, Switch } from '@mui/material';
+import { styled } from '@mui/material';
 import useDrawer from './controllers/drawerController';
 
 
