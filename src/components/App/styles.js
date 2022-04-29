@@ -1,5 +1,6 @@
 
 import { Query } from '../../features/Query/Query'
+import { Signin } from '../../features/Login/SideSignIn'
 import { Create } from '../../features/Create'
 
 import Controls from '../../components' 
@@ -17,6 +18,7 @@ const Styles = {
     AppMain, 
     Query,
     Create,
+    Signin,
     Header
 }
 

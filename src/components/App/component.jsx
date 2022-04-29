@@ -30,6 +30,7 @@ export default function App() {
                 <Routes>
                     <Route path="/" element={<Styles.Query />} />
                     <Route path="/create" element={<Styles.Create />} />
+                    <Route path="/signin" element={<Styles.Signin />} />
                 </Routes>
             </Router>
         </Styles.AppMain>

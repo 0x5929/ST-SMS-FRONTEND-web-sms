@@ -10,7 +10,6 @@ import { BaseButton, BaseIconButton } from './Buttons';
 import { ConfirmDialog } from './ConfirmDialog';
 import { Notification, NotificationSlide } from './Notification';
 import { SimpleBackDrop } from './Backdrop';
-
 import { Input, Select, DatePicker, Checkbox, RadioGroup } from './Inputs'
 
 
@@ -53,7 +52,7 @@ const Controls = {
     Notification,
     NotificationSlide,
     ConfirmDialog,
-    SimpleBackDrop
+    SimpleBackDrop,
 }
 
 export default Controls
