@@ -4,7 +4,8 @@ import {
     Box as MuiBox,
     Avatar as MuiAvatar,
     FormControlLabel as MuiFormControlLabel,
-    Checkbox as MuiCheckbox
+    Checkbox as MuiCheckbox,
+    Paper as MuiPaper
 
 
 } from '@mui/material';
@@ -61,7 +62,7 @@ const Typography = styled(Controls.BaseTypography)(( {theme} ) => ({
 }));
 
 
-const Paper = styled(Controls.Paper)(( {theme} ) => ({
+const Paper = styled(MuiPaper)(( {theme} ) => ({
     // styling Typography if needed
 }));
 

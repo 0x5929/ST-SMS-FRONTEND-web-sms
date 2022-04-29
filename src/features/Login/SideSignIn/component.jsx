@@ -15,7 +15,7 @@ export default function Signin (props){
     return (
             <Styles.MainGrid container component="main">
                 <Styles.CssBaseline />
-                <Styles.Grid
+                <Styles.ImageGrid
                     item
                     xs={false}
                     sm={4}
