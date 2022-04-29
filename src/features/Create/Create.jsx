@@ -1,9 +1,8 @@
 import React from "react";
 
 import Styles from './styles'
-import useForm from '../../hooks/useForm'
-import { useNotification } from '../../hooks/userFeedbackController'
-import * as studentData from '../../data/studentData'
+import { useForm, useNotification } from '../../hooks'
+import * as SMSRecordService from '../../services/SMSRecordService'
 
 
 export default function Create() {
@@ -26,7 +25,7 @@ export default function Create() {
         getCourseOptions,
         hoursWorkedRadioItems,
         convertToDefaultEventParam
-    } = useForm(true, studentData.initialStudentValues, 
+    } = useForm(true, SMSRecordService.getInitialStudentValues(), 
             {
                 setNotify,
                 notify

@@ -1,8 +1,6 @@
 import React from 'react'
 
-import { useQueryResultTable, useDetailedViewTable } from '../../../hooks/tableController'
-import { useNotification, useConfirmDialog } from '../../../hooks/userFeedbackController'
-
+import { useQueryResultTable, useDetailedViewTable, useNotification, useConfirmDialog } from '../../../hooks'
 import Styles from './styles'
 
 export default function QueryResults(props) {

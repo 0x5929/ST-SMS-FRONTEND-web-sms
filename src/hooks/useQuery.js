@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react'
 
-import validate from './validationController'
+import validate from './useValidation'
 import * as studentService from '../services/SMSRecordService'
 
 
@@ -99,7 +99,7 @@ export default function useQuery() {
 
         console.log('queries: ', queryOptions)
 
-        if (validate.validateQueryForm(queryOptions, setErrors, errors)){
+        if (validate.useQueryValidation(queryOptions, setErrors, errors)){
             // load sample data for dev and testing
             studentService.insertSampleRecords()
             setResults(studentService.getAllRecords())

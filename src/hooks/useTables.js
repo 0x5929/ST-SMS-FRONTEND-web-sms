@@ -1,15 +1,9 @@
 import { useState } from 'react'
 
-import usePagination from './pagingController'
-import useSorting from './sortingController'
-import useFilter from './filterController'
-import { useEditModal, useDetailedViewModal } from  './modalController'
+import { useEditModal, useDetailedViewModal, usePagination, useSorting, useFilter } from  './index'
 
-import * as studentRecordService from '../services/SMSRecordService'
+import * as SMSRecordService from '../services/SMSRecordService'
 
-import * as tableData from '../data/tableData'
-
-import * as studentData from '../data/studentData'
 
 
 export function useQueryResultTable(userFeedbackObj, results) {
@@ -73,7 +67,7 @@ export function useQueryResultTable(userFeedbackObj, results) {
       openInModal,
       setOpenModal,
       closeModal,
-    } = useEditModal(studentData.initialStudentValues, setRecordForEdit, setRecords, userFeedbackObj)
+    } = useEditModal(SMSRecordService.getInitialStudentValues, setRecordForEdit, setRecords, userFeedbackObj)
 
 
     const getFinalDisplayRecords = () =>{
@@ -99,8 +93,8 @@ export function useQueryResultTable(userFeedbackObj, results) {
             isOpen: false
         })
 
-        studentRecordService.deleteRecord(record.pk)
-        setRecords(studentRecordService.getAllRecords())
+        SMSRecordService.deleteRecord(record.pk)
+        setRecords(SMSRecordService.getAllRecords())
 
         setNotify({
             isOpen: true,
@@ -119,6 +113,7 @@ export function useQueryResultTable(userFeedbackObj, results) {
             onConfirm: ()=> (handleDelete(record))
     })}
     
+    const tableData = SMSRecordService.getTableData()
   
     return {
 
@@ -126,7 +121,6 @@ export function useQueryResultTable(userFeedbackObj, results) {
         records, 
         setRecords,
         tableData,
-
 
         //paging 
         pages,

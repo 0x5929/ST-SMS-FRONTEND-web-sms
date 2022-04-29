@@ -1,5 +1,23 @@
-// form validation
-const validateCreateForm = (fieldValues, setErrors, errors) => {
+// not necessarily a hook file, but im not sure where to put it
+// so I tried to make it look like a hook file
+
+const useQueryValidation = (arrFieldValues, setErrors, errors) => {
+    let temp = {...errors}
+
+    for (var index = 0; index < arrFieldValues.length; index++ ){
+        for (let key in arrFieldValues[index]) {
+            temp[key + index] = (arrFieldValues[index][key] !== '')?'':'All fields required.'
+        }
+    }
+
+    // returns false if any of the above if statements evaluates to false
+    setErrors({...temp})
+    return Object.values(temp).every(x => x === '')
+}
+
+
+
+const useCreateValidation = (fieldValues, setErrors, errors) => {
     let temp = {...errors}
 
     let simpleEmailRegex = /.+@.+..+/;
@@ -35,34 +53,17 @@ const validateCreateForm = (fieldValues, setErrors, errors) => {
     if ('course' in fieldValues)
             temp.course = fieldValues.course !== ''?'':'This field is required.'
 
-    setErrors({
-        ...temp
-    })
-    
     // returns false if any of the above if statements evaluates to false
+    setErrors({...temp})
     return Object.values(temp).every( x => x === '') 
 
 }
 
-const validateQueryForm = (arrFieldValues, setErrors, errors) => {
-    let temp = {...errors}
-
-    for (var index = 0; index < arrFieldValues.length; index++ ){
-        for (let key in arrFieldValues[index]) {
-            temp[key + index] = (arrFieldValues[index][key] !== '')?'':'All fields required.'
-        }
-    }
-
-    console.log('errors: ', temp)
-    setErrors({...temp})
-    return Object.values(temp).every(x => x === '')
-}
-
-
 const validate = {
-    validateCreateForm,
-    validateQueryForm
-}
 
+    useCreateValidation,
+    useQueryValidation
+    
+}
 
 export default validate

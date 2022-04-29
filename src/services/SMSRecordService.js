@@ -1,5 +1,6 @@
 import * as localStorageOps from './api/localStorageOperations'
-import * as studentData from '../data/studentData'
+import * as studentData from './data/studentData'
+import * as tableData from './data/tableData'
 
 const KEYS = {
     students: 'students',
@@ -70,4 +71,17 @@ export function getRecordIndex(record) {
 
 export function deleteRecord (pk) {
     return localStorageOps.deleteRecord(KEYS.students, pk)
+}
+
+
+export function getInitialStudentValues () {
+    return studentData.initialStudentValues
+}
+
+export function getHoursWorkedRadioItems() {
+    return studentData.hoursWorkedRadioItems
+}
+
+export function getTableData (){
+    return tableData
 }

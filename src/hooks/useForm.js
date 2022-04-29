@@ -1,11 +1,10 @@
 import { useState , useCallback } from 'react'
 
-import * as studentRecordService from '../services/SMSRecordService'
-import validate from './validationController'
-import * as studentData from '../data/studentData'
+import * as SMSRecordService from '../services/SMSRecordService'
+import validate from './useValidation'
 
 // FORM STATE
-export default function useForm(validateOnChange=false, currentData=studentData.initialStudentValues, userFeedbackObj) {
+export default function useForm(validateOnChange=false, currentData=SMSRecordService.getInitialStudentValues(), userFeedbackObj) {
 
     
     // form state
@@ -21,9 +20,9 @@ export default function useForm(validateOnChange=false, currentData=studentData.
             [name] : value
         })
         
-        if (validateOnChange)
-        validate.validateCreateForm({[name]: value}, setErrors, errors)
-        
+        if (validateOnChange){
+            validate.useCreateValidation({[name]: value}, setErrors, errors)
+        }
 
     }
 
@@ -40,15 +39,15 @@ export default function useForm(validateOnChange=false, currentData=studentData.
 
         let op = undefined
 
-        const recordIndexToEdit = studentRecordService.getRecordIndex(record)
+        const recordIndexToEdit = SMSRecordService.getRecordIndex(record)
 
 
         if (recordIndexToEdit === false){       
-            studentRecordService.createRecord(record)
+            SMSRecordService.createRecord(record)
             op = 'Create'
         }
         else {
-            studentRecordService.updateRecord(record, recordIndexToEdit)
+            SMSRecordService.updateRecord(record, recordIndexToEdit)
             op = 'Update'
         }
         setNotify({
@@ -70,7 +69,7 @@ export default function useForm(validateOnChange=false, currentData=studentData.
     }, [])
 
     const handleCancel = e =>{
-        setValues(studentData.initialStudentValues)
+        setValues(SMSRecordService.getInitialStudentValues())
         setErrors({})
     }
 
@@ -79,17 +78,16 @@ export default function useForm(validateOnChange=false, currentData=studentData.
         // DEV configuration so we dont refresh the page when testing submit button
         e.preventDefault()
 
-        if (validate.validateCreateForm(values, setErrors, errors)){
+        if (validate.useCreateValidation(values, setErrors, errors)){
             createOrUpdate(values, handleCancel)
-            
         }
 
     }
 
 
 
-    const getCourseOptions = studentRecordService.getCourseOptions
-    const { hoursWorkedRadioItems } = studentData
+    const getCourseOptions = SMSRecordService.getCourseOptions
+    const hoursWorkedRadioItems  = SMSRecordService.getHoursWorkedRadioItems()
     
 
     const convertToDefaultEventParam = (name, value) => ({

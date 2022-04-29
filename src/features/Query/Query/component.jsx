@@ -2,7 +2,7 @@ import React from "react";
 import { QueryResults } from '../Results'
 import Styles from './styles';
 
-import useQuery from '../../../hooks/queryController'
+import { useQuery } from '../../../hooks'
 
 
 
