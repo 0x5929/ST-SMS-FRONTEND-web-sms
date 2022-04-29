@@ -12,7 +12,7 @@ import {
     CreateNewFolder as MuiCreateNewFolderIcon,
     Menu as MuiMenuIcon } from '@mui/icons-material';
 
-import { BaseIconButton }  from '../Button';
+import { BaseIconButton }  from '../Buttons';
 
 import { styled } from '@mui/material/styles';
 

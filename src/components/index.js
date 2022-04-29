@@ -6,14 +6,16 @@ import { Image } from './Image';
 import { SearchBar } from './Searchbar';
 import { Modal } from './Modal';
 import { BaseTypography } from './Typography';
-import { BaseButton, BaseIconButton } from './Button';
+import { BaseButton, BaseIconButton } from './Buttons';
 import { ConfirmDialog } from './ConfirmDialog';
 import { Notification, NotificationSlide } from './Notification';
 import { SimpleBackDrop } from './Backdrop';
 
 import { Input, Select, DatePicker, Checkbox, RadioGroup } from './Inputs'
 
-import { 
+
+
+import {
     QueryTblContainer, 
     QueryTblHead, 
     QueryTblBody, 
@@ -21,7 +23,7 @@ import {
     DetailedTblContainer, 
     DetailedTblHead, 
     DetailedTblBody
-} from './Table'
+} from './Tables'
 
 // export components controls for dev to be used outside of the componenet folder
 const Controls = {

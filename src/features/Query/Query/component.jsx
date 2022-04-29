@@ -1,8 +1,8 @@
 import React from "react";
-import QueryResults from '../../../pages/Query/QueryResults'
+import { QueryResults } from '../Results'
 import Styles from './styles';
 
-import useQuery from '../../../controllers/queryController'
+import useQuery from '../../../hooks/queryController'
 
 
 

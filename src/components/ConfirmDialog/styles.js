@@ -9,7 +9,7 @@ import { styled } from '@mui/material/styles';
 import { NotListedLocation as MuiNotListedLocation } from '@mui/icons-material';
 
 import { BaseTypography } from '../Typography';
-import { BaseButton, BaseIconButton } from '../Button';
+import { BaseButton, BaseIconButton } from '../Buttons';
 
 
 

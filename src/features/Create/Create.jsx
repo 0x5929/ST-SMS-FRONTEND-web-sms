@@ -1,8 +1,8 @@
 import React from "react";
 
 import Styles from './styles'
-import useForm from '../../controllers/createFormController'
-import { useNotification } from '../../controllers/userFeedbackController'
+import useForm from '../../hooks/useForm'
+import { useNotification } from '../../hooks/userFeedbackController'
 import * as studentData from '../../data/studentData'
 
 

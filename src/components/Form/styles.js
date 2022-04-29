@@ -15,7 +15,7 @@ import {
 import {
     BaseButton,
     BaseIconButton,
-} from '../Button'
+} from '../Buttons'
 
 
 const StudentForm = styled('form')(( {theme} ) => ({

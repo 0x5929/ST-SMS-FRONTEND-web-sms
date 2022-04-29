@@ -1,20 +1,10 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
-import { Query } from './features/Query/Query'
-import { Create } from './features/Create'
+import useDrawer from '../../hooks/drawerController';
 
-import Controls from './components' 
-import { styled } from '@mui/material';
-import useDrawer from './controllers/drawerController';
+import Styles from './styles'
 
 
-const AppMain = styled('div')(( {theme} ) => ({
-  // style css in js object format
-  backgroundColor: '#f7f7f7'
-
-}));
-
-
-function App() {
+export default function App() {
 
     const {
         drawerOpen,
@@ -27,9 +17,9 @@ function App() {
 
     return (
         // add login logic
-        <AppMain>
+        <Styles.AppMain>
             <Router>
-                <Controls.Header 
+                <Styles.Header 
                     Link={Link}
                     drawerOpen={drawerOpen}
                     toggleDrawer={toggleDrawer}
@@ -38,13 +28,11 @@ function App() {
                     menuIconSize={menuIconSize}
                 />
                 <Routes>
-                    <Route path="/" element={<Query />} />
-                    <Route path="/create" element={<Create />} />
+                    <Route path="/" element={<Styles.Query />} />
+                    <Route path="/create" element={<Styles.Create />} />
                 </Routes>
             </Router>
-        </AppMain>
+        </Styles.AppMain>
     );
 }
-
-export default App;
 

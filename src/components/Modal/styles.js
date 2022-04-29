@@ -8,7 +8,7 @@ import { styled } from '@mui/material';
 
 
 import { BaseTypography } from '../Typography';
-import { BaseIconButton } from '../Button';
+import { BaseIconButton } from '../Buttons';
 
 
 

@@ -7,7 +7,7 @@ import { Menu as MuiMenuIcon } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 
 import { Drawer } from '../Drawer';
-import { BaseButton, BaseIconButton } from '../Button';
+import { BaseButton, BaseIconButton } from '../Buttons';
 import { BaseTypography } from '../Typography'
 
 
