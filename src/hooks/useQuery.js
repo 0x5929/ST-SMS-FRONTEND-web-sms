@@ -21,17 +21,17 @@ export default function useQuery() {
     const studentPicLoc = 'https://images.unsplash.com/photo-1590012314607-cda9d9b699ae?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80'
 
     const handleAddNewQuery = (index) =>{
+        const newPk = () => {
+            let lastElPk = queryOptions[ queryOptions.length - 1 ]['pk']
+            return lastElPk++;
+        }
+
         if (index > 3){
             return 
         }
         setQueryOptions([...queryOptions, {query: '', value: '', pk: newPk()}])
     }
 
-    const newPk = () => {
-        let lastElPk = queryOptions[ queryOptions.length - 1 ]['pk']
-        console.log('lastElPk++: ', lastElPk++)
-        return lastElPk++;
-    }
 
     const handleDelQuery = async (index, pk) =>{
         // clear Errors
@@ -40,10 +40,6 @@ export default function useQuery() {
         let queries = [...queryOptions]
 
         // setting queries to anything but the ones we are trying to delete
-        //setQueryOptions(queries.filter( item => item !== queries[index] ) )
-        console.log('pk: ', pk)
-        console.log('pk: ', pk)
-        console.log('queries: ', queries)
         setQueryOptions(queries.filter( item => item.pk !== pk ) )
 
     }
