@@ -3,6 +3,8 @@ import Styles from './styles'
 
 
 export default function Signin (props){
+
+    // we could also refactor this into a useLogin hook abstraction, if this grows?
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
