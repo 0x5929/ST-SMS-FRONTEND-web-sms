@@ -5,11 +5,13 @@ const useQueryValidation = (arrFieldValues, setErrors, errors) => {
     let temp = {...errors}
 
     for (var index = 0; index < arrFieldValues.length; index++ ){
+        console.log('hello')
         for (let key in arrFieldValues[index]) {
-            temp[key + index] = (arrFieldValues[index][key] !== '')?'':'All fields required.'
+            temp[key + arrFieldValues[index]['pk'].toString()] = (arrFieldValues[index][key] !== '')?'':'All fields required.'
         }
     }
 
+    console.log('hello errors: ', temp)
     // returns false if any of the above if statements evaluates to false
     setErrors({...temp})
     return Object.values(temp).every(x => x === '')

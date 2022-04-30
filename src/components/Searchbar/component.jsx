@@ -1,7 +1,8 @@
 import React from 'react';
 import Styles from './styles'
 
-
+// consider changing handleClear logic, feels too complicated, related files: 
+// component-QueryForm.jsx, componenets/Searchbar/component.jsx, hooks/useValidations.js and hooks/useQuery.js
 export default function SearchBar(props) {
 
     const { 
@@ -25,7 +26,7 @@ export default function SearchBar(props) {
                     endAdornment: (
                         <Styles.InputAdornment position="end">
                             <Styles.ClearIcon 
-                                onClick={() => handleClear(textInput, index)}
+                                onClick={() => handleClear(textInput, index, props.pk)}
                             />
                         </Styles.InputAdornment>
                     )

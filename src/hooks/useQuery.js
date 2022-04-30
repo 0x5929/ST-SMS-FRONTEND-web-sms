@@ -13,7 +13,7 @@ export default function useQuery() {
     const [errors, setErrors] = useState({});
     const [ showResults, setShowResults ] = useState(false)
     const [ openBackdrop, setOpenBackdrop ] = useState(false)
-    const [ queryOptions, setQueryOptions ] = useState([{query: 'clast_name', value: ''}])
+    const [ queryOptions, setQueryOptions ] = useState([{query: 'clast_name', value: '', pk: 10}])
 
     const schoolPicLoc = 'https://images.unsplash.com/photo-1625516581237-3d9d0a31538c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2044&q=80'
     const programPicLoc = 'https://images.unsplash.com/photo-1610116306796-6fea9f4fae38?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80'
@@ -24,17 +24,27 @@ export default function useQuery() {
         if (index > 3){
             return 
         }
-        setQueryOptions([...queryOptions, {query: '', value: ''}])
+        setQueryOptions([...queryOptions, {query: '', value: '', pk: newPk()}])
     }
 
-    const handleDelQuery = async (index) =>{
+    const newPk = () => {
+        let lastElPk = queryOptions[ queryOptions.length - 1 ]['pk']
+        console.log('lastElPk++: ', lastElPk++)
+        return lastElPk++;
+    }
+
+    const handleDelQuery = async (index, pk) =>{
         // clear Errors
-        clearError(index)
+        clearError(pk)
 
         let queries = [...queryOptions]
 
         // setting queries to anything but the ones we are trying to delete
-        setQueryOptions(queries.filter( item => item !== queries[index] ) )
+        //setQueryOptions(queries.filter( item => item !== queries[index] ) )
+        console.log('pk: ', pk)
+        console.log('pk: ', pk)
+        console.log('queries: ', queries)
+        setQueryOptions(queries.filter( item => item.pk !== pk ) )
 
     }
 
@@ -60,22 +70,25 @@ export default function useQuery() {
 
     const getQueryOptions = studentService.getQueryOptions
 
-    const clearError = (index) => {
+    const clearError = (pk) => {
         let errObj = {...errors}
 
-        if ( typeof index != 'undefined'){
-            delete errObj['query' + index.toString()]
-            delete errObj['value' + index.toString()]
+        if ( typeof pk != 'undefined'){
+            delete errObj['query' + pk.toString()]
+            delete errObj['value' + pk.toString()]
         }
         
         setErrors(errObj)
     }
 
-    const handleClear = (textInput, index) =>{
+    const handleClear = (textInput, index, pk=null) =>{
         // textInput is not used here, because we have set the value of the searchbar/textField, so instead, we will manipulate the value from its state obj
-        clearError(index)
+        if (pk !== null) {
+            clearError(pk)
+    
+            handleQueryOnChange({target: {name: '', value: ''}}, index)
 
-        handleQueryOnChange({target: {name: '', value: ''}}, index)
+        }
     }
 
     const handleBackdrop = () =>{

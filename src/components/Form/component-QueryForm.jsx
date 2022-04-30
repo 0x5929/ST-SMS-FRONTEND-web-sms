@@ -23,15 +23,16 @@ export function QueryForm(props) {
                 <Styles.Grid container rowSpacing={0} columnSpacing={0}>
                     {
                         queryOptions.map((query, index) => (
-                            <Styles.Grid container item sm={12} key={index} spacing={0}>
+                            <Styles.Grid container item sm={12} key={query.pk} spacing={0}>
                                 <Styles.Grid item md={9} sm={12}>
                                     <Styles.QuerySearchBar 
                                         index={index}
+                                        pk={query.pk}
                                         label={queryLabel}
                                         name={queryOptions[index]['query']}
                                         value={queryOptions[index]['value']}
                                         onChange={(e) => (handleQueryOnChange(e, index))}
-                                        error={errors['value' + index.toString()]}
+                                        error={errors['value' + query.pk.toString()]}
                                         textInput={textInput}
                                         handleClear={handleClear}
                                     />
@@ -43,7 +44,7 @@ export function QueryForm(props) {
                                         name="options"
                                         value={queryOptions[index]['query']}
                                         onChange={(e)=>(handleQueryOptionOnChange(e, index))}
-                                        error={errors['query' + index.toString()]}
+                                        error={errors['query' + query.pk.toString()]}
                                         options={getQueryOptions()}
                                         sx={{ fontSize: 15}}
                                         variant={'standard'}
@@ -58,7 +59,7 @@ export function QueryForm(props) {
                                                     text="Delete"
                                                     color="error"
                                                     variant="outlined"
-                                                    onClick={ ()=> (handleDelQuery(index))}
+                                                    onClick={ ()=> (handleDelQuery(index, query.pk))}
                                                 />             
                                             </Styles.Grid>
                                         )
