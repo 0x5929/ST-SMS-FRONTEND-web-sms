@@ -46,7 +46,10 @@ export default function useQuery() {
 
 
     const handleQueryOnChange = (e, index) => {
-        const { name, value } = e.target
+        const { 
+            //name, 
+            value 
+        } = e.target
         const queries = [...queryOptions]
 
         if (typeof index != 'undefined')
@@ -57,7 +60,11 @@ export default function useQuery() {
 
 
     const handleQueryOptionOnChange = (e, index) =>{
-        const { name, value } = e.target
+        const { 
+            //name, 
+            value 
+        } = e.target
+
         const queries = [...queryOptions]
         queries[index].query = value;
 

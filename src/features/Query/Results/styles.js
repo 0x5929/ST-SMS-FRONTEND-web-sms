@@ -9,7 +9,8 @@ const Grid = styled(MuiGrid)(( {theme} ) => ({
 }));
 
 const Box = styled(MuiBox)(( {theme} ) => ({
-    // styling Box if needed
+    display: 'flex',
+    justifyContent: 'flex-end'
 }));
 
 const SearchBar = styled(Controls.SearchBar)(( {theme} ) => ({

@@ -1,11 +1,27 @@
-import { useState , useCallback } from 'react'
+import { useState , useCallback, useEffect } from 'react'
 
 import * as SMSRecordService from '../services/SMSRecordService'
 import validate from './useValidation'
 
 // FORM STATE
-export default function useForm(validateOnChange=false, currentData=SMSRecordService.getInitialStudentValues(), userFeedbackObj) {
-
+export default function useForm(
+    validateOnChange=false, 
+    currentData=SMSRecordService.getInitialStudentValues(), 
+    userFeedbackObj,
+    recordForEdit=null) {
+        
+    useEffect(()=>{
+        /* this looks like it could violate the rule of hooks
+            however, the condition statement really just separates the logics between two component/features that uses useForm hook (create and edit form)
+            one will have recordForEdit, one will not. Two conditions are on two different states, 
+            so hooks for each state will still be called the same order 
+        **/
+        if (recordForEdit !== null) {
+            setValues({
+                ...recordForEdit
+            })
+        }
+    }, [recordForEdit])
     
     // form state
     const [values, setValues] = useState(currentData);
@@ -60,13 +76,7 @@ export default function useForm(validateOnChange=false, currentData=SMSRecordSer
 
     }
 
-    const populateFormFieldsForEdit = useCallback((recordForEdit) => {
-        if (recordForEdit != null){
-            setValues({
-                ...recordForEdit
-            })
-        }
-    }, [])
+
 
     const handleCancel = e =>{
         setValues(SMSRecordService.getInitialStudentValues())
@@ -77,7 +87,6 @@ export default function useForm(validateOnChange=false, currentData=SMSRecordSer
     const handleSubmit = e =>{
         // DEV configuration so we dont refresh the page when testing submit button
         e.preventDefault()
-
         if (validate.useCreateValidation(values, setErrors, errors)){
             createOrUpdate(values, handleCancel)
         }
@@ -109,7 +118,6 @@ export default function useForm(validateOnChange=false, currentData=SMSRecordSer
         handleCancel,
         getCourseOptions,
         hoursWorkedRadioItems,
-        populateFormFieldsForEdit,
         convertToDefaultEventParam
     }
 }

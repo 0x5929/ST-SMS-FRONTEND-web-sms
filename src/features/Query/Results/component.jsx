@@ -55,7 +55,6 @@ export default function QueryResults(props) {
         openModal, 
         openInModal,
         closeModal,
-        recordForEdit,
 
         // modal handling for view
         recordForView,
@@ -72,7 +71,6 @@ export default function QueryResults(props) {
         handleEditCancel,
         getCourseOptions,
         hoursWorkedRadioItems,
-        populateFormFieldsForEdit,
         convertToDefaultEventParam
 
     } = useQueryResultTable({
@@ -92,11 +90,7 @@ export default function QueryResults(props) {
     
     return (
         <>
-            <Styles.Box
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'flex-end'
-            }}>
+            <Styles.Box>
                 <Styles.SearchBar 
                     onChange={handleFilter}
                     textInput={textInput}
@@ -144,16 +138,14 @@ export default function QueryResults(props) {
                 closeModal={closeModal}
             >
                 <Styles.StudentForm
-                    recordForEdit={recordForEdit}
                     values={values}
                     errors={errors}
                     handleInputChange={handleInputChange}
                     handleCancel={handleEditCancel}
                     getCourseOptions={getCourseOptions}
                     hoursWorkedRadioItems={hoursWorkedRadioItems}
-                    populateFormFieldsForEdit={populateFormFieldsForEdit}
                     convertToDefaultEventParam={convertToDefaultEventParam}
-                    handleEditSubmit={handleEditSubmit}
+                    handleSubmit={handleEditSubmit}
                 />
             </Styles.Modal>
             <Styles.Modal

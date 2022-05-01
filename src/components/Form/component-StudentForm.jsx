@@ -12,18 +12,8 @@ export function StudentForm(props) {
             handleSubmit,
             getCourseOptions,
             hoursWorkedRadioItems, 
-            recordForEdit,
-            populateFormFieldsForEdit,
             convertToDefaultEventParam
             } = props
-
-
-    // hook to add student data to edit fields in the form (how do we refactor this into another file and pass down via props? or context?)
-    useEffect(()=>{
-        if (populateFormFieldsForEdit){
-            populateFormFieldsForEdit(recordForEdit)
-    }},
-    [populateFormFieldsForEdit, recordForEdit])
 
 
     return (

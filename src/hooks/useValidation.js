@@ -1,6 +1,4 @@
-// not necessarily a hook file, but im not sure where to put it
-// so I tried to make it look like a hook file
-
+// returns true or false, and sets error object for validation 
 const useQueryValidation = (arrFieldValues, setErrors, errors) => {
     let temp = {...errors}
 
@@ -16,7 +14,7 @@ const useQueryValidation = (arrFieldValues, setErrors, errors) => {
 }
 
 
-
+// returns true or false, and sets error object for validation 
 const useCreateValidation = (fieldValues, setErrors, errors) => {
     let temp = {...errors}
 

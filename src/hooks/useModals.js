@@ -3,21 +3,10 @@ import useForm from "./useForm";
 import validate from './useValidation';
 import * as studentRecordService from '../services/SMSRecordService';
 
-export function useEditModal (studentValues, setRecordForEdit, setRecords, userFeedbackObj) {
+export function useEditModal (studentValues, setRecordForEdit, setRecords, userFeedbackObj, recordForEdit) {
 
     const modalTitle = 'Edit Student Data'
     const [openModal, setOpenModal] = useState(false)
-
-    const openInModal = item =>{
-        setRecordForEdit(item)
-        setOpenModal(true)
-    }
-
-    const closeModal = () => {
-        setOpenModal(false)
-    }
-
-
 
     const {
         values, 
@@ -26,13 +15,21 @@ export function useEditModal (studentValues, setRecordForEdit, setRecords, userF
         setErrors,
         handleInputChange,
         handleSubmit,
-        handleCancel,
         getCourseOptions,
         hoursWorkedRadioItems,
-        populateFormFieldsForEdit,
         convertToDefaultEventParam,
-    } = useForm(false, studentValues, userFeedbackObj);
+    } = useForm(false, studentValues, userFeedbackObj, recordForEdit);
 
+
+    const openInModal = item =>{
+        setRecordForEdit(item)
+        setOpenModal(true)
+    }
+
+    const closeModal = () => {
+        setErrors({})
+        setOpenModal(false)
+    }
 
     const handleEditSubmit = e => {
         if (validate.useCreateValidation(values, setErrors, errors)){
@@ -47,7 +44,7 @@ export function useEditModal (studentValues, setRecordForEdit, setRecords, userF
     }
 
     const handleEditCancel = ()=> {
-        handleCancel()
+        setErrors({})
         closeModal()
     }
 
@@ -66,7 +63,6 @@ export function useEditModal (studentValues, setRecordForEdit, setRecords, userF
         openInModal,
         setOpenModal ,
         closeModal,
-        populateFormFieldsForEdit,
         convertToDefaultEventParam
     }
 }

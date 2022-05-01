@@ -48,7 +48,7 @@ export function useQueryResultTable(userFeedbackObj, results) {
 
     const { 
 
-      // returned by useForm() of ../create/createFormController.js for editting student record
+      // returned by useForm() for editing student record
       values, 
       setValues,
       errors,
@@ -58,7 +58,6 @@ export function useQueryResultTable(userFeedbackObj, results) {
       handleEditCancel,
       getCourseOptions,
       hoursWorkedRadioItems,
-      populateFormFieldsForEdit,
       convertToDefaultEventParam,
       
       // used for modal config
@@ -67,7 +66,12 @@ export function useQueryResultTable(userFeedbackObj, results) {
       openInModal,
       setOpenModal,
       closeModal,
-    } = useEditModal(SMSRecordService.getInitialStudentValues, setRecordForEdit, setRecords, userFeedbackObj)
+    } = useEditModal(
+        SMSRecordService.getInitialStudentValues, 
+        setRecordForEdit, 
+        setRecords, 
+        userFeedbackObj, 
+        recordForEdit)
 
 
     const getFinalDisplayRecords = () =>{
@@ -178,7 +182,6 @@ export function useQueryResultTable(userFeedbackObj, results) {
         handleEditCancel,
         getCourseOptions,
         hoursWorkedRadioItems,
-        populateFormFieldsForEdit,
         convertToDefaultEventParam
     }
 }
