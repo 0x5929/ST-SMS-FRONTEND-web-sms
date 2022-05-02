@@ -15,6 +15,8 @@ export default function App() {
     } = useDrawer()
 
 
+    //
+    // Link component and the user's auth info can be passed in from createContext, and useContext
     return (
         // add login logic
         <Styles.AppMain>

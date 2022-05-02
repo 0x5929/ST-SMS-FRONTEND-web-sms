@@ -8,6 +8,8 @@ import * as SMSRecordService from '../services/SMSRecordService'
 
 export function useQueryResultTable(userFeedbackObj, results) {
 
+    // consider to use useReducer to help manage more states set from the state var
+    // if this increases by more than 5 sets of states total
     const [records, setRecords] = useState(results)
     const [recordForEdit, setRecordForEdit] = useState(null)
     const [recordForView, setRecordForView] = useState(null)
