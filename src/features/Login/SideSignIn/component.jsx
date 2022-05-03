@@ -1,8 +1,18 @@
 import React from 'react';
 import Styles from './styles'
 
+import { useLogin } from '../../../hooks';
 
 export default function Signin (props){
+
+    const { 
+        AuthContext,
+     } = props
+
+     const { 
+        handleLogin 
+    } = useLogin(AuthContext)
+
 
     // we could also refactor this into a useLogin hook abstraction, if this grows?
     const handleSubmit = (event) => {
@@ -43,7 +53,7 @@ export default function Signin (props){
                         <Styles.FormBox 
                             component="form" 
                             noValidate 
-                            onSubmit={handleSubmit} 
+                            onSubmit={handleLogin} 
                         >
                         <Styles.TextField
                             margin="normal"

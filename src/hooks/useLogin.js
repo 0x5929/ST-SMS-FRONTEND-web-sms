@@ -1,13 +1,26 @@
-import { useState, createContext, useContext } from "react";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
+export default function useLogin (AuthContext) {
+    const auth = useContext(AuthContext)
+    const navigate = useNavigate()
 
-export default function useLogin () {
+    // this will replace handleSubmit 
+    const handleLogin = (event) => {
 
-    const AuthContext = createContext(null)
-    const [ user, setUser ] = useState(null)
+        // from mui
+        event.preventDefault();
+        const data = new FormData(event.currentTarget);
+        console.log({
+          email: data.get('email'),
+          password: data.get('password'),
+        });
 
-    const useAuth = () => {
-        return useContext(AuthContext)
+        // custom implementation
+        auth.login(data).then(()=>{
+            console.log(auth)
+            navigate('/')
+        });
     }
 
     // login form submit
@@ -21,22 +34,10 @@ export default function useLogin () {
     };
 
 
-    // login/out functionalities
-    const login = (user) => {
-        setUser(user)
-    }
-      
-    const logout = () => {
-        setUser(null)
-    }
 
         return {
             handleSubmit,
-            AuthContext,
-            login,
-            logout,
-            user,
-            setUser,
-            useAuth
+            handleLogin,
+
         }
 }
