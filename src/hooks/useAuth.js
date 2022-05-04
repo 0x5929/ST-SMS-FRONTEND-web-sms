@@ -4,19 +4,19 @@ export default function useAuth () {
     
     const AuthContext = createContext(null)
 
+
     const [ authed, setAuthed ] = useState(false)
-    const [ user, setUser ] = useState(null)
+    const [ user, setUser ] = useState("")
+
+
+
 
     // login/out functionalities
     const login = (creds) => {
-        return new Promise((res) => {
-            // api call to authenticate the creds, 
-            // should return user obj
-            // setUser with  user obj
-            setUser(creds.email)
-            setAuthed(true)
-            res()
-        });
+        // do api calls and check for credentials
+        console.log(creds)
+        setUser(creds)
+        setAuthed(true)
     }
       
     const logout = () => {

@@ -9,4 +9,5 @@ export { default as useForm } from './useForm';
 export { default as usePagination } from './usePagination';
 export { default as useSorting } from './useSorting';
 export { default as useQuery } from './useQuery';
-export { default as useLogin } from './useLogin'
+export { default as useLogin } from './useLogin';
+export { default as useAuth } from './useAuth';

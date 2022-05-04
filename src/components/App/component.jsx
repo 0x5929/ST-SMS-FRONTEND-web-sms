@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth';
-import useLogin from '../../hooks/useLogin'
 import useDrawer from '../../hooks/useDrawer';
 
 import Styles from './styles'

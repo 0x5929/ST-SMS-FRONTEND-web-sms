@@ -19,7 +19,7 @@ const Styles = {
     Query,
     Create,
     Signin,
-    Header
+    Header,
 }
 
 export default Styles 
