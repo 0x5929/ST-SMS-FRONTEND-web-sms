@@ -1,9 +1,9 @@
 
-import { Query } from '../../features/Query/Query'
-import { Signin } from '../../features/Login/SideSignIn'
-import { Create } from '../../features/Create'
+import { Query } from '../features/Query/Query'
+import { Signin } from '../features/Login/SideSignIn'
+import { Create } from '../features/Create'
 
-import Controls from '../../components' 
+import Controls from '../components' 
 import { styled } from '@mui/material';
 
 const AppMain = styled('div')(( {theme} ) => ({
