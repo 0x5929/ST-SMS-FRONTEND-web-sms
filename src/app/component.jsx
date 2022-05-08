@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import RequiredAuth from './RequiredAuth';
 import useAuth from '../hooks/useAuth';
 import useDrawer from '../hooks/useDrawer';
@@ -27,7 +27,6 @@ export default function App(props) {
     } = useAuth()
 
 
-    console.log(window.location.pathname)
     
 
     return (
