@@ -11,32 +11,42 @@ export default function Header(props) {
       Link,
       anchorDirection, 
       menuIconColor,
-      menuIconSize
+      menuIconSize,
+      authed
     } = props
+
     
     return (     
         <Styles.Box sx={{ flexGrow: 1 }}>
             <Styles.AppBar position="static">
                 <Styles.Toolbar>
-                    <Styles.IconButton
-                        size="large"
-                        edge="start"
-                        color="inherit"
-                        aria-label="menu"
-                        onClick={()=>(toggleDrawer(drawerOpen))}
-                    >
+                    {
+                        authed &&
+                        <Styles.IconButton
+                            size="large"
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            onClick={()=>(toggleDrawer(drawerOpen))}
+                        >
                             <Styles.MenuIcon />
-                    </Styles.IconButton>
+                        </Styles.IconButton>
+                    }
+
                     <Styles.Typography 
                         variant="h6" 
                         component="div" 
                         text="Student Mangement System"
                     />
-                    <Styles.Button 
-                        color="inherit"
-                        text="LOGOUT"
-                        variant="text"
-                    />
+                    {
+                        authed && 
+                        <Styles.Button 
+                            color="inherit"
+                            text="LOGOUT"
+                            variant="text"
+                        />
+                    }
+                    
                     <Styles.Drawer 
                         Link={Link}
                         drawerOpen={drawerOpen}

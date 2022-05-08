@@ -12,9 +12,8 @@ export default function useLogin (AuthContext) {
 
     useEffect(()=>{
         if (authed) {
-            navigate('/')
+            navigate('/query')
         }
-        console.log('user logged in: ', user)
     }, [authed, user, navigate])
 
 
@@ -24,11 +23,8 @@ export default function useLogin (AuthContext) {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
 
-        auth.login(data.get('email'))
+        auth.login({email: data.get('email'), password: data.get('password')})
     }
-
-    // login form submit
-
 
         return {
 

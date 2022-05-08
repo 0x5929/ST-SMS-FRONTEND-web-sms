@@ -1,11 +1,13 @@
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom'
+import RequiredAuth from './RequiredAuth';
 import useAuth from '../hooks/useAuth';
 import useDrawer from '../hooks/useDrawer';
 
 import Styles from './styles'
 
 
-export default function App() {
+export default function App(props) {
+
 
     const {
         drawerOpen,
@@ -25,12 +27,10 @@ export default function App() {
     } = useAuth()
 
 
-
+    console.log(window.location.pathname)
     
-    //
-    // Link component and the user's auth info can be passed in from createContext, and useContext
+
     return (
-        // add login logic
         <AuthContext.Provider value={{authed, user, login, logout}}>
             <Styles.AppMain>
                 <Router>
@@ -41,11 +41,31 @@ export default function App() {
                         anchorDirection={anchorDirection}
                         menuIconColor={menuIconColor}
                         menuIconSize={menuIconSize}
+                        authed={authed}
                     />
                     <Routes>
-                        <Route path="/" element={<Styles.Query />} />
-                        <Route path="/create" element={<Styles.Create />} />
-                        <Route path="/signin" element={<Styles.Signin AuthContext={AuthContext} />} />
+                        <Route 
+                            path="/" 
+                            element={
+                                <Styles.Signin AuthContext={AuthContext} />
+                            } 
+                        />
+                        <Route 
+                            path="/create" 
+                            element={
+                                <RequiredAuth authed={authed}>
+                                    <Styles.Create />
+                                </RequiredAuth>
+                            } 
+                        />
+                        <Route 
+                            path="/query" 
+                            element={
+                                <RequiredAuth authed={authed}>
+                                    <Styles.Query />
+                                </RequiredAuth>
+                            } 
+                        />
                     </Routes>
                 </Router>
             </Styles.AppMain>
