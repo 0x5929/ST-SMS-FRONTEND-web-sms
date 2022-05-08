@@ -1,2 +1,2 @@
-export { default as BaseButton } from './component-Button';
-export { default as BaseIconButton } from './component-IconButton';
+export { default as BaseButton } from './Button';
+export { default as BaseIconButton } from './IconButton';

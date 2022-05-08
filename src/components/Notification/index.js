@@ -1,2 +1,2 @@
-export { default as Notification } from './component-Notification';
-export { default as NotificationSlide } from './component-NotificationSlide';
+export { default as Notification } from './Notification';
+export { default as NotificationSlide } from './NotificationSlide';

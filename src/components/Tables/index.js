@@ -2,12 +2,12 @@ export {
     QueryTblContainer, 
     QueryTblHead, 
     QueryTblBody, 
-    QueryTblPagination } from './component-QueryTable';
+    QueryTblPagination } from './QueryTable';
 
 export { 
     DetailedTblContainer, 
     DetailedTblHead, 
-    DetailedTblBody } from './component-DetailedTable';
+    DetailedTblBody } from './DetailedTable';
 
 
 

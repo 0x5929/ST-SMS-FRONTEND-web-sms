@@ -33,7 +33,7 @@ export default function Drawer (props) {
                     </Styles.IconButton>
                 </Styles.ListItem>
                 <Styles.Divider />
-                <Link to="/">
+                <Link to="/query" onClick={()=>{toggleDrawer(drawerOpen)}}>
                     <Styles.ListItem button disableRipple>
                         <Styles.ListItemIcon>
                             <Styles.ManageSearchIcon />
@@ -43,7 +43,7 @@ export default function Drawer (props) {
                         />
                     </Styles.ListItem>
                 </Link>
-                <Link to="/create">
+                <Link to="/create" onClick={()=>{toggleDrawer(drawerOpen)}}>
                     <Styles.ListItem button disableRipple>
                         <Styles.ListItemIcon>
                             <Styles.CreateNewFolderIcon />

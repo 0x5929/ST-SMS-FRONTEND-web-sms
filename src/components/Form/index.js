@@ -1,2 +1,2 @@
-export { StudentForm } from './component-StudentForm'
-export { QueryForm } from './component-QueryForm'
+export { StudentForm } from './StudentForm'
+export { QueryForm } from './QueryForm'
