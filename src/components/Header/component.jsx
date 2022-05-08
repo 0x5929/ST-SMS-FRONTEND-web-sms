@@ -12,7 +12,8 @@ export default function Header(props) {
       anchorDirection, 
       menuIconColor,
       menuIconSize,
-      authed
+      authed,
+      logout
     } = props
 
     
@@ -44,6 +45,7 @@ export default function Header(props) {
                             color="inherit"
                             text="LOGOUT"
                             variant="text"
+                            onClick={logout}
                         />
                     }
                     

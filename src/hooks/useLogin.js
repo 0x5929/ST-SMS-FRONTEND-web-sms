@@ -14,6 +14,9 @@ export default function useLogin (AuthContext) {
         if (authed) {
             navigate('/query')
         }
+        else {
+            navigate('/')
+        }
     }, [authed, user, navigate])
 
 

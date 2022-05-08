@@ -41,6 +41,7 @@ export default function App(props) {
                         menuIconColor={menuIconColor}
                         menuIconSize={menuIconSize}
                         authed={authed}
+                        logout={logout}
                     />
                     <Routes>
                         <Route 

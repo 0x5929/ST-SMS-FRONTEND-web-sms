@@ -1,5 +1,4 @@
 import { useState, createContext } from "react";
-
 export default function useAuth () {
     
     const AuthContext = createContext(null)
