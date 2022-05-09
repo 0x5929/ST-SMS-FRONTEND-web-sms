@@ -16,7 +16,7 @@ const Box = styled(MuiBox)(( {theme} ) => ({
 }));
 
 const AppBar = styled(MuiAppBar)(( {theme} ) => ({
-    // style AppBar if needed
+    color: theme.palette.primary.main
 }));
 
 const Toolbar = styled(MuiToolBar)(( {theme} ) => ({
@@ -29,12 +29,13 @@ const MenuIcon = styled(MuiMenuIcon)(( {theme} ) => ({
 
 
 const IconButton = styled(BaseIconButton)(( {theme} ) => ({
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
+    color: theme.palette.common.white
 }));
 
 
 const Button = styled(BaseButton)(( {theme} ) => ({
-    // style Button if needed
+    color: theme.palette.common.white
 }));
 
 const Typography = styled(BaseTypography)(( {theme} ) => ({

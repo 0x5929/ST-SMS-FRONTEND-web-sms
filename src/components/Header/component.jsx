@@ -18,7 +18,7 @@ export default function Header(props) {
 
     
     return (     
-        <Styles.Box sx={{ flexGrow: 1 }}>
+        <Styles.Box>
             <Styles.AppBar position="static">
                 <Styles.Toolbar>
                     {
@@ -26,7 +26,6 @@ export default function Header(props) {
                         <Styles.IconButton
                             size="large"
                             edge="start"
-                            color="inherit"
                             aria-label="menu"
                             onClick={()=>(toggleDrawer(drawerOpen))}
                         >
@@ -42,7 +41,6 @@ export default function Header(props) {
                     {
                         authed && 
                         <Styles.Button 
-                            color="inherit"
                             text="LOGOUT"
                             variant="text"
                             onClick={logout}

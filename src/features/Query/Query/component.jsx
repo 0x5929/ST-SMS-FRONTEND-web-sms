@@ -18,8 +18,6 @@ export default function Query() {
         getStats,
         results,
         openBackdrop,
-        setOpenBackdrop,
-        setShowResults,
 
         getQueryOptions,
         queryOptions,
