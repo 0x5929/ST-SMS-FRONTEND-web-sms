@@ -27,6 +27,7 @@ export default function Query() {
         handleDelQuery,
         handleQueryOnChange,
         handleQueryOptionOnChange,
+        handleBacktoQuery,
         
         schoolPicLoc,
         programPicLoc,
@@ -115,8 +116,7 @@ export default function Query() {
                 showResults &&  
                 <QueryResults 
                     results={results}
-                    setOpenBackdrop={setOpenBackdrop}  
-                    setShowResults={setShowResults} 
+                    handleBacktoQuery={handleBacktoQuery}
                 />
             }
         </Styles.Paper>

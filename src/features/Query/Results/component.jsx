@@ -5,7 +5,7 @@ import Styles from './styles'
 
 export default function QueryResults(props) {
 
-    const { setOpenBackdrop, setShowResults, results } = props;
+    const { handleBacktoQuery, results } = props;
 
     const {
 
@@ -104,13 +104,7 @@ export default function QueryResults(props) {
                     size="small"
                     color="secondary"
                     variant="outlined"
-                    onClick={()=> {      
-                        // console.log('hello world')
-                        // if (typeof window !== 'undefined') {
-                        // window.location.href = "http://localhost:3000/query";
-                        setShowResults(false)
-                        setOpenBackdrop(false)
-                   }}
+                    onClick={handleBacktoQuery}
                 />
             </Styles.Box>
             <Styles.QueryTblContainer>

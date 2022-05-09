@@ -130,6 +130,11 @@ export default function useQuery() {
 
     }
 
+    const handleBacktoQuery = () => {
+        setShowResults(false)
+        setOpenBackdrop(false)
+    }
+
     // this should be an API call when connected
     const getStats = {
         school: () => {return '2'},
@@ -157,6 +162,7 @@ export default function useQuery() {
         handleDelQuery,
         handleQueryOnChange,
         handleQueryOptionOnChange,
+        handleBacktoQuery,
         
         schoolPicLoc,
         programPicLoc,
