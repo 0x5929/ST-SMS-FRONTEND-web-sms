@@ -13,7 +13,7 @@ export default function useQuery() {
     const [errors, setErrors] = useState({});
     const [ showResults, setShowResults ] = useState(false)
     const [ openBackdrop, setOpenBackdrop ] = useState(false)
-    const [ queryOptions, setQueryOptions ] = useState([{query: 'clast_name', value: '', pk: 10}])
+    const [ queryOptions, setQueryOptions ] = useState([{query: 'clast_name', value: '', pk: 100}])
 
     const schoolPicLoc = 'https://images.unsplash.com/photo-1625516581237-3d9d0a31538c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2044&q=80'
     const programPicLoc = 'https://images.unsplash.com/photo-1610116306796-6fea9f4fae38?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80'
@@ -21,14 +21,15 @@ export default function useQuery() {
     const studentPicLoc = 'https://images.unsplash.com/photo-1590012314607-cda9d9b699ae?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80'
 
     const handleAddNewQuery = (index) =>{
-        const newPk = () => {
+        function newPk() {
             let lastElPk = queryOptions[ queryOptions.length - 1 ]['pk']
-            return lastElPk++;
+            return lastElPk + 1;
         }
 
         if (index > 3){
             return 
         }
+
         setQueryOptions([...queryOptions, {query: '', value: '', pk: newPk()}])
     }
 
@@ -113,14 +114,15 @@ export default function useQuery() {
     const handleSubmit = (e, queryOptions) => {
         e.preventDefault()
 
-        console.log('queries: ', queryOptions)
-
         if (validate.useQueryValidation(queryOptions, setErrors, errors)){
-            // load sample data for dev and testing
+            // load sample data for result table for dev and testing
             studentService.insertSampleRecords()
+
+            console.log('QUERY PARAM AND DATA: ', queryOptions)
+            console.log('setting query results')
+            // send the queryOptions to backend API
             setResults(studentService.getAllRecords())
     
-            console.log('QUERY PARAM AND DATA: ', queryOptions)
     
             handleBackdrop()            
         }

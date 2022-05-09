@@ -8,14 +8,12 @@ export default function useAuth () {
     const [ user, setUser ] = useState("")
 
 
-
-
     // login/out functionalities
     const login = (creds) => {
         // do api calls and check for credentials
-        console.log(creds)
         setUser(creds)
         setAuthed(true)
+        console.log('logged in with: ', creds)
     }
       
     const logout = () => {
@@ -23,6 +21,7 @@ export default function useAuth () {
             setUser(null)
             setAuthed(false)
             res()
+            console.log('logged out')
         });
     }
 

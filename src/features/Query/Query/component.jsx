@@ -18,7 +18,8 @@ export default function Query() {
         getStats,
         results,
         openBackdrop,
-        //setShowResults,
+        setOpenBackdrop,
+        setShowResults,
 
         getQueryOptions,
         queryOptions,
@@ -33,6 +34,7 @@ export default function Query() {
         studentPicLoc
 
     } = useQuery()
+    
     return (
         <Styles.Paper>
             {            
@@ -110,7 +112,12 @@ export default function Query() {
             </>
             }
             {
-                showResults &&  <QueryResults results={results} />
+                showResults &&  
+                <QueryResults 
+                    results={results}
+                    setOpenBackdrop={setOpenBackdrop}  
+                    setShowResults={setShowResults} 
+                />
             }
         </Styles.Paper>
     )

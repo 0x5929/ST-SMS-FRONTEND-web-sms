@@ -5,9 +5,9 @@ import Styles from './styles'
 export default function Copyright(props) {
     return (
         <Styles.Typography 
-            variant="body2" 
+            variant="p" 
             color="text.secondary" 
-            align="center" 
+            align="center"
             text={`Copyright © Company name ${new Date().getFullYear()}.`}
             
             {...props}

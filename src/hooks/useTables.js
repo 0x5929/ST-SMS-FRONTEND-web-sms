@@ -107,7 +107,9 @@ export function useQueryResultTable(userFeedbackObj, results) {
             message: 'Student record deleted!',
             type: 'error', 
             Transition: notify.Transition
-        })        
+        })
+        
+        console.log('Delete successful: ', record)
     }
 
     const handleDeletePress = (record) =>{

@@ -1,4 +1,4 @@
-import { useState , useCallback, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 
 import * as SMSRecordService from '../services/SMSRecordService'
 import validate from './useValidation'
@@ -74,6 +74,7 @@ export default function useForm(
         })
         resetForm()
 
+        console.log(op, ' success with: ', record)
     }
 
 
