@@ -1,3 +1,4 @@
+import { CssBaseline } from '@mui/material';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import RequiredAuth from './RequiredAuth';
 import useAuth from '../hooks/useAuth';
@@ -37,8 +38,9 @@ export default function App(props) {
 
     return (
         <ThemeProvider theme={darkTheme}>
+            <CssBaseline />
             <AuthContext.Provider value={{authed, user, login, logout}}>
-                <Styles.AppMain>
+                <Styles.Box>
                     <Router>
                         <Styles.Header 
                             Link={Link}
@@ -75,7 +77,7 @@ export default function App(props) {
                             />
                         </Routes>
                     </Router>
-                </Styles.AppMain>
+                </Styles.Box>
             </AuthContext.Provider>
         </ThemeProvider>
     );

@@ -19,7 +19,7 @@ export default function Header(props) {
     
     return (     
         <Styles.Box>
-            <Styles.AppBar position="static">
+            <Styles.AppBar position="static" enableColorOnDark>
                 <Styles.Toolbar>
                     {
                         authed &&
