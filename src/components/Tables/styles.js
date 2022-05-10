@@ -26,7 +26,7 @@ const Table = styled(MuiTable)(( {theme} ) => ({
         fontWeight: 300
     },
     '& tbody tr:hover': {
-        // backgroundColor: '#f7f7f7', note, we need to figure out a way this can work with both light and dark mode
+        backgroundColor:theme.palette.mode === 'light'? '#f7f7f7': 'inherit' ,
         cursor: 'pointer'
     }
 }));

@@ -7,7 +7,7 @@ import Controls from '../components'
 import { styled, Box as MuiBox } from '@mui/material';
 
 const Box = styled(MuiBox)(( {theme} ) => ({
-    // backgroundColor: '#f7f7f7'
+    backgroundColor: theme.palette.mode === 'light'? '#f7f7f7': 'inherit'
   
 }));
   
