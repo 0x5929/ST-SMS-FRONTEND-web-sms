@@ -4,3 +4,5 @@
 05102022:add dark/light mode switch on header Appbar:c:05102022
 05102022:add back to top button:c:05112022
 05102022:add form validation for login form (check for empty?):i
+05112022:change brightness icon to better reflect light and dark mode:i
+05112022:make a theme thats good with secondary and error color:i
