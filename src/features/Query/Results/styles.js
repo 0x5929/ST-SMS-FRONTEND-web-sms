@@ -1,7 +1,7 @@
 import { styled } from '@mui/material/styles';
 import { Box as MuiBox, Grid as MuiGrid } from '@mui/material'
 
-import Controls from '../../../components'
+import Components from '../../../components'
 
 
 const Grid = styled(MuiGrid)(( {theme} ) => ({
@@ -13,55 +13,55 @@ const Box = styled(MuiBox)(( {theme} ) => ({
     justifyContent: 'flex-end'
 }));
 
-const SearchBar = styled(Controls.SearchBar)(( {theme} ) => ({
+const SearchBar = styled(Components.SearchBar)(( {theme} ) => ({
     // styling SearchBar if needed
 }));
 
-const BaseButton = styled(Controls.BaseButton)(( {theme} ) => ({
+const BaseButton = styled(Components.BaseButton)(( {theme} ) => ({
     // styling BaseButton if needed
 }));
 
-const QueryTblContainer = styled(Controls.QueryTblContainer)(( {theme} ) => ({
+const QueryTblContainer = styled(Components.QueryTblContainer)(( {theme} ) => ({
     // styling QueryTblContainer if needed
 }));
 
-const QueryTblHead = styled(Controls.QueryTblHead)(( {theme} ) => ({
+const QueryTblHead = styled(Components.QueryTblHead)(( {theme} ) => ({
     // styling QueryTblHead if needed
 }));
 
-const QueryTblBody = styled(Controls.QueryTblBody)(( {theme} ) => ({
+const QueryTblBody = styled(Components.QueryTblBody)(( {theme} ) => ({
     // styling QueryTblBody if needed
 }));
 
-const QueryTblPagination = styled(Controls.QueryTblPagination)(( {theme} ) => ({
+const QueryTblPagination = styled(Components.QueryTblPagination)(( {theme} ) => ({
     // styling QueryTblPagination if needed
 }));
 
-const Modal = styled(Controls.Modal)(( {theme} ) => ({
+const Modal = styled(Components.Modal)(( {theme} ) => ({
     // styling Modal if needed
 }));
 
-const StudentForm = styled(Controls.StudentForm)(( {theme} ) => ({
+const StudentForm = styled(Components.StudentForm)(( {theme} ) => ({
     // styling StudentForm if needed
 }));
 
-const DetailedTblContainer = styled(Controls.DetailedTblContainer)(( {theme} ) => ({
+const DetailedTblContainer = styled(Components.DetailedTblContainer)(( {theme} ) => ({
     // styling DetailedTblContainer if needed
 }));
 
-const DetailedTblHead = styled(Controls.DetailedTblHead)(( {theme} ) => ({
+const DetailedTblHead = styled(Components.DetailedTblHead)(( {theme} ) => ({
     // styling DetailedTblHead if needed
 }));
 
-const DetailedTblBody = styled(Controls.DetailedTblBody)(( {theme} ) => ({
+const DetailedTblBody = styled(Components.DetailedTblBody)(( {theme} ) => ({
     // styling DetailedTblBody if needed
 }));
 
-const Notification = styled(Controls.Notification)(( {theme} ) => ({
+const Notification = styled(Components.Notification)(( {theme} ) => ({
     // styling Notification if needed
 }));
 
-const ConfirmDialog = styled(Controls.ConfirmDialog)(( {theme} ) => ({
+const ConfirmDialog = styled(Components.ConfirmDialog)(( {theme} ) => ({
     // styling ConfirmDialog if needed
 }));
 

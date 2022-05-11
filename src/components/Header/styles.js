@@ -3,7 +3,10 @@ import {
     Box as MuiBox, 
     AppBar as MuiAppBar, 
     Toolbar as MuiToolBar } from '@mui/material';
-import { Menu as MuiMenuIcon } from '@mui/icons-material';
+import { 
+    Menu as MuiMenuIcon, 
+    Brightness4 as MuiBrightness4Icon, 
+    Brightness7 as MuiBrightness7 } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 
 import { Drawer } from '../Drawer';
@@ -27,6 +30,14 @@ const MenuIcon = styled(MuiMenuIcon)(( {theme} ) => ({
     // style MenuIcon if needed
 }));
 
+const Brightness4Icon = styled(MuiBrightness4Icon)(( {theme} ) => ({
+    // style Brightness4Icon if needed
+}));
+
+const  Brightness7Icon = styled(MuiBrightness7)(( {theme} ) => ({
+    // style Brightess7Icon if needed
+}));
+
 
 const IconButton = styled(BaseIconButton)(( {theme} ) => ({
     marginRight: theme.spacing(2),
@@ -37,6 +48,8 @@ const IconButton = styled(BaseIconButton)(( {theme} ) => ({
 const Button = styled(BaseButton)(( {theme} ) => ({
     color: theme.palette.common.white
 }));
+
+
 
 const Typography = styled(BaseTypography)(( {theme} ) => ({
     flexGrow: 1,
@@ -50,6 +63,8 @@ const Styles = {
     AppBar,
     Toolbar,
     MenuIcon,
+    Brightness4Icon,
+    Brightness7Icon,
     IconButton,
     Button,
     Typography

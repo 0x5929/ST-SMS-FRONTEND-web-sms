@@ -1,11 +1,11 @@
 import { styled } from '@mui/material/styles';
 
-import Controls from '../../../components';
+import Components from '../../../components';
 
 
 
 
-const Typography = styled(Controls.BaseTypography)(( {theme} ) => ({
+const Typography = styled(Components.BaseTypography)(( {theme} ) => ({
     // styling Typography if needed
 }));
 

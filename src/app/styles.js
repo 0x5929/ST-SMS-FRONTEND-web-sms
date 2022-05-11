@@ -3,7 +3,7 @@ import { Query } from '../features/Query/Query'
 import { Signin } from '../features/Login/SideSignIn'
 import { Create } from '../features/Create'
 
-import Controls from '../components' 
+import Components from '../components' 
 import { styled, Box as MuiBox } from '@mui/material';
 
 const Box = styled(MuiBox)(( {theme} ) => ({
@@ -11,7 +11,7 @@ const Box = styled(MuiBox)(( {theme} ) => ({
   
 }));
   
-const { Header } = Controls 
+const { Header } = Components 
 
 // if needed, we can also wrap Query, Create and Control.Header element for styling as well.
 const Styles = {

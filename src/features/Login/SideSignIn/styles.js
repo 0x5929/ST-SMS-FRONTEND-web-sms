@@ -14,7 +14,7 @@ import { LockOutlined as MuiLockOutlined } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import { Copyright as BaseCopyright } from '../Copyright'
 
-import Controls from '../../../components';
+import Components from '../../../components';
 
 
 
@@ -57,7 +57,7 @@ const LockOutlined = styled(MuiLockOutlined)(( {theme} ) => ({
 }));
 
 
-const Typography = styled(Controls.BaseTypography)(( {theme} ) => ({
+const Typography = styled(Components.BaseTypography)(( {theme} ) => ({
     // styling Typography if needed
 }));
 
@@ -82,13 +82,13 @@ const ImageGrid = styled(MuiGrid)(( {theme} ) => ({
     backgroundPosition: 'center',
 }));
 
-const Button = styled(Controls.BaseButton)(( {theme} ) => ({
+const Button = styled(Components.BaseButton)(( {theme} ) => ({
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(2)
 }));
 
 
-const TextField = styled(Controls.Input)(( {theme} ) => ({
+const TextField = styled(Components.Input)(( {theme} ) => ({
     // styling TextField if needed
 }));
 

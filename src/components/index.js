@@ -24,8 +24,8 @@ import {
     DetailedTblBody
 } from './Tables'
 
-// export components controls for dev to be used outside of the componenet folder
-const Controls = {
+
+const Components = {
     Header,
     BaseButton,
     BaseIconButton,
@@ -55,5 +55,5 @@ const Controls = {
     SimpleBackDrop,
 }
 
-export default Controls
+export default Components
  

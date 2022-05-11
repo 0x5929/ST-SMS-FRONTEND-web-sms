@@ -1,29 +1,29 @@
 
 import { styled } from '@mui/material/styles';
-import Controls from '../../components';
+import Components from '../../components';
 
 
 
 
-const Paper = styled(Controls.Paper)(( {theme} ) => ({
+const Paper = styled(Components.Paper)(( {theme} ) => ({
     // styling paper if needed
 }));
 
-const Typography = styled(Controls.BaseTypography)(( {theme} ) => ({
+const Typography = styled(Components.BaseTypography)(( {theme} ) => ({
     marginBottom: theme.spacing(3)
 }));
 
 
 
-const Notification = styled(Controls.Notification)(( {theme} ) => ({
+const Notification = styled(Components.Notification)(( {theme} ) => ({
     // styling Notification if needed
 }));
 
-const NotificationSlide = styled(Controls.NotificationSlide)(( {theme} ) => ({
+const NotificationSlide = styled(Components.NotificationSlide)(( {theme} ) => ({
     // styling NotificationSlide if needed
 }));
 
-const StudentForm = styled(Controls.StudentForm)(( {theme} ) => ({
+const StudentForm = styled(Components.StudentForm)(( {theme} ) => ({
     // styling NotificationSlide if needed
 }));
 
