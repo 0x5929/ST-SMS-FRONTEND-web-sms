@@ -1,4 +1,10 @@
-import { Button as MuiButton, IconButton as MuiIconButton, } from '@mui/material';
+import { 
+    Button as MuiButton, 
+    IconButton as MuiIconButton, 
+
+} from '@mui/material';
+
+
 import { styled } from '@mui/material/styles';
 
 
@@ -18,7 +24,8 @@ const IconButton = styled(MuiIconButton)(( {theme} ) => ({
 
 const Styles = {
     Button,
-    IconButton
+    IconButton,
+
 }
 
 export default Styles 

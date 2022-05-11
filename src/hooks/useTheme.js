@@ -4,7 +4,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 export default function useTheme() {
 
-    const ColorModeContext = createContext({ toggleColorMode: () => {}})
+    const ColorModeContext = createContext({ toggleColorMode: () => {}, mode: null})
     const [ mode, setMode ] = useState('light')
 
     const colorMode = useMemo(
@@ -17,7 +17,7 @@ export default function useTheme() {
 
 
     // recreate theme everytime mode changes
-    const appTheme = useMemo( () => createTheme({
+    const appTheme = useMemo( () => (createTheme({
         palette: {
           mode: mode,
           primary: {
@@ -27,7 +27,7 @@ export default function useTheme() {
               main: '#f50057'
           }
         },
-      }), [mode])
+      })), [mode])
     
     
     

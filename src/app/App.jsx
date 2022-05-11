@@ -1,14 +1,16 @@
 import { CssBaseline } from '@mui/material';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import RequiredAuth from './RequiredAuth';
-import { useAuth, useTheme, useDrawer } from '../hooks'
+import { useAuth, useTheme } from '../hooks'
 
 import Styles from './styles'
 
 
 export default function App(props) {
 
-
+    // only hooks that will return Context will be used here
+    // hooks that returns states will have conflict with lower level component states
+    // and werid things will happen, like states get set one another gets set
     const {
         ColorModeContext,
         colorMode,
@@ -26,16 +28,6 @@ export default function App(props) {
     } = useAuth()
 
 
-    const {
-        drawerOpen,
-        toggleDrawer,
-        anchorDirection, 
-        menuIconColor,
-        menuIconSize
-    } = useDrawer()
-
-    
-
     return (
         <ColorModeContext.Provider value={colorMode}>
             <ThemeProvider theme={appTheme}>
@@ -47,11 +39,6 @@ export default function App(props) {
                                 Link={Link}
                                 ColorModeContext={ColorModeContext}
                                 theme={appTheme}
-                                drawerOpen={drawerOpen}
-                                toggleDrawer={toggleDrawer}
-                                anchorDirection={anchorDirection}
-                                menuIconColor={menuIconColor}
-                                menuIconSize={menuIconSize}
                                 authed={authed}
                                 logout={logout}
                             />
@@ -66,7 +53,7 @@ export default function App(props) {
                                     path="/create" 
                                     element={
                                         <RequiredAuth authed={authed}>
-                                            <Styles.Create />
+                                            <Styles.Create ColorModeContext={ColorModeContext}/>
                                         </RequiredAuth>
                                     } 
                                 />
@@ -74,11 +61,12 @@ export default function App(props) {
                                     path="/query" 
                                     element={
                                         <RequiredAuth authed={authed}>
-                                            <Styles.Query />
+                                            <Styles.Query ColorModeContext={ColorModeContext}/>
                                         </RequiredAuth>
                                     } 
                                 />
                             </Routes>
+                            <Styles.BackToTopButton />
                         </Router>
                     </Styles.Box>
                 </AuthContext.Provider>

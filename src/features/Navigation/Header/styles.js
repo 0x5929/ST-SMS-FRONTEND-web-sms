@@ -9,9 +9,8 @@ import {
     Brightness7 as MuiBrightness7 } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 
-import { Drawer } from '../Drawer';
-import { BaseButton, BaseIconButton } from '../Buttons';
-import { BaseTypography } from '../Typography'
+import { Drawer } from '../SideNav';
+import Components from '../../../components'
 
 
 const Box = styled(MuiBox)(( {theme} ) => ({
@@ -39,19 +38,19 @@ const  Brightness7Icon = styled(MuiBrightness7)(( {theme} ) => ({
 }));
 
 
-const IconButton = styled(BaseIconButton)(( {theme} ) => ({
+const IconButton = styled(Components.BaseIconButton)(( {theme} ) => ({
     marginRight: theme.spacing(2),
     color: theme.palette.common.white
 }));
 
 
-const Button = styled(BaseButton)(( {theme} ) => ({
+const Button = styled(Components.BaseButton)(( {theme} ) => ({
     color: theme.palette.common.white
 }));
 
 
 
-const Typography = styled(BaseTypography)(( {theme} ) => ({
+const Typography = styled(Components.BaseTypography)(( {theme} ) => ({
     flexGrow: 1,
     color: theme.palette.common.white,
 }));

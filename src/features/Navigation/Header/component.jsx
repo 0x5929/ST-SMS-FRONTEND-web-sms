@@ -1,4 +1,5 @@
 import React from 'react';
+import { useDrawer } from '../../../hooks';
 
 import Styles from './styles'
 
@@ -6,17 +7,20 @@ import Styles from './styles'
 export default function Header(props) {
     
     const {
-      drawerOpen,
-      toggleDrawer,
-      theme,
       ColorModeContext,
       Link,
-      anchorDirection, 
-      menuIconColor,
-      menuIconSize,
+      theme,
       authed,
       logout
     } = props
+
+    const {
+        drawerOpen,
+        toggleDrawer,
+        anchorDirection, 
+        menuIconColor,
+        menuIconSize
+    } = useDrawer()
 
     
     return (
@@ -43,16 +47,22 @@ export default function Header(props) {
                                     component="div" 
                                     text="Student Mangement System"
                                 />
-                                <Styles.IconButton
-                                    size="small"
-                                    onClick={toggleColorMode}
-                                    color="inherit"
-                                >
-                                    {
-                                        theme.palette.mode === 'dark' ? 
-                                            <Styles.Brightness7Icon /> : <Styles.Brightness4Icon />
-                                    }
-                                </Styles.IconButton>
+                                {
+                                    
+                                    !authed && 
+                                    
+                                    <Styles.IconButton
+                                        size="small"
+                                        onClick={toggleColorMode}
+                                        color="inherit"
+                                    >
+                                        {
+                                            theme.palette.mode === 'dark' ? 
+                                                <Styles.Brightness7Icon /> : <Styles.Brightness4Icon />
+                                        }
+                                     </Styles.IconButton>
+                                }
+
                                 {
                                     authed && 
                                     <Styles.Button 

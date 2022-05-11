@@ -12,7 +12,7 @@ import {
     CreateNewFolder as MuiCreateNewFolderIcon,
     Menu as MuiMenuIcon } from '@mui/icons-material';
 
-import { BaseIconButton }  from '../Buttons';
+import Components from '../../../components'
 
 import { styled } from '@mui/material/styles';
 
@@ -63,7 +63,7 @@ const MenuIcon = styled(MuiMenuIcon)(( {theme} ) => ({
     // only on the icon, not the parent div
 }));
 
-const IconButton = styled(BaseIconButton)(( {theme} ) => ({
+const IconButton = styled(Components.BaseIconButton)(( {theme} ) => ({
     // style IconButton if needed
 }));
 

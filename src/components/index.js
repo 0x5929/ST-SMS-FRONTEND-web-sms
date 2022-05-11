@@ -1,4 +1,3 @@
-import { Header } from './Header';
 import { StudentForm, QueryForm } from './Form';
 import { Paper } from './Paper';
 import { Card } from './Card';
@@ -26,7 +25,6 @@ import {
 
 
 const Components = {
-    Header,
     BaseButton,
     BaseIconButton,
     StudentForm,
