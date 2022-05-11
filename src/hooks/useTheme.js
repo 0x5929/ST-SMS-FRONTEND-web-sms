@@ -24,8 +24,17 @@ export default function useTheme() {
               main: '#6d6daa',
           },
           secondary: {
-              main: '#f50057'
-          }
+            main: '#aaaa6d',
+          },
+          error: {
+            main: '#aa6d6d',
+          },
+          success: {
+            main: '#6daa6d',
+          },
+          info: {
+            main: '#6daaaa',
+          },
         },
       })), [mode])
     
