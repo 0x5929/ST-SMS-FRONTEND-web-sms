@@ -11,7 +11,11 @@ export default function Signin (props){
      } = props
 
      const { 
-        handleLogin
+        handleLogin,
+        creds,
+        handleOnChange,
+        handleClearText,
+        errors,
     } = useLogin(AuthContext)
 
 
@@ -56,7 +60,18 @@ export default function Signin (props){
                             label="Email Address"
                             name="email"
                             autoComplete="email"
-                            autoFocus
+                            value={creds.email}
+                            onChange={handleOnChange}
+                            error={errors.email}
+                            InputProps={{
+                                endAdornment: (
+                                    <Styles.InputAdornment position="end">
+                                        <Styles.ClearIcon 
+                                            onClick={()=>(handleClearText('email'))}
+                                        />
+                                    </Styles.InputAdornment>
+                                )
+                            }}
                         />
                         <Styles.TextField
                             margin="normal"
@@ -67,6 +82,18 @@ export default function Signin (props){
                             type="password"
                             id="password"
                             autoComplete="current-password"
+                            value={creds.password}
+                            onChange={handleOnChange}
+                            error={errors.password}
+                            InputProps={{
+                                endAdornment: (
+                                    <Styles.InputAdornment position="end">
+                                        <Styles.ClearIcon 
+                                            onClick={()=>(handleClearText('password'))}
+                                        />
+                                    </Styles.InputAdornment>
+                                )
+                            }}
                         />
                         <Styles.FormControlLabel
                             control=

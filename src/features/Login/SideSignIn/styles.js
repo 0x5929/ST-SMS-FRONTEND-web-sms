@@ -5,12 +5,14 @@ import {
     Avatar as MuiAvatar,
     FormControlLabel as MuiFormControlLabel,
     Checkbox as MuiCheckbox,
-    Paper as MuiPaper
-
+    Paper as MuiPaper,
+    InputAdornment as MuiInputAdornment, 
 
 } from '@mui/material';
 
-import { LockOutlined as MuiLockOutlined } from '@mui/icons-material';
+import { 
+    LockOutlined as MuiLockOutlined, 
+    Clear as MuiClearIcon, } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import { Copyright as BaseCopyright } from '../Copyright'
 
@@ -48,6 +50,7 @@ const SignInBox = styled(MuiBox)(( {theme} ) => ({
 const FormBox = styled(MuiBox)(( {theme} ) => ({
     marginTop: theme.spacing(1)
 }));
+
 const FormControlLabel = styled(MuiFormControlLabel)(( {theme} ) => ({
     // styling FormControlLabel if needed
 }));
@@ -56,6 +59,15 @@ const LockOutlined = styled(MuiLockOutlined)(( {theme} ) => ({
     // styling LockOutlined if needed
 }));
 
+const ClearIcon = styled(MuiClearIcon)(( {theme} ) => ({
+    ':hover' : {
+        cursor: 'pointer'
+    }
+}));
+
+const InputAdornment = styled(MuiInputAdornment)(( {theme} ) => ({
+    // styling InputAdornment if needed
+}));
 
 const Typography = styled(Components.BaseTypography)(( {theme} ) => ({
     // styling Typography if needed
@@ -106,6 +118,8 @@ const Styles = {
     FormBox,
     FormControlLabel,
     LockOutlined,
+    ClearIcon,
+    InputAdornment,
     Grid,
     MainGrid,
     ImageGrid,

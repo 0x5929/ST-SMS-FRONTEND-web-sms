@@ -15,6 +15,22 @@ const useQueryValidation = (arrFieldValues, setErrors, errors) => {
 
 
 // returns true or false, and sets error object for validation 
+const useLoginValidation = (arrFieldValues, setErrors, errors) => {
+    let temp = {...errors}
+
+    if ('email' in arrFieldValues)
+        temp.email = arrFieldValues.email !== '' ? '' : 'This field is required.'
+    if ('password' in arrFieldValues)
+            temp.password = arrFieldValues.password !== '' ? '' : 'This field is required.'
+
+
+    // returns false if any of the above if statements evaluates to false
+    setErrors({...temp})
+    return Object.values(temp).every(x => x === '')
+}
+
+
+// returns true or false, and sets error object for validation 
 const useCreateValidation = (fieldValues, setErrors, errors) => {
     let temp = {...errors}
 
@@ -60,7 +76,8 @@ const useCreateValidation = (fieldValues, setErrors, errors) => {
 const validate = {
 
     useCreateValidation,
-    useQueryValidation
+    useQueryValidation,
+    useLoginValidation
     
 }
 
