@@ -5,8 +5,8 @@ import {
     Toolbar as MuiToolBar } from '@mui/material';
 import { 
     Menu as MuiMenuIcon, 
-    Brightness4 as MuiBrightness4Icon, 
-    Brightness7 as MuiBrightness7 } from '@mui/icons-material';
+    Brightness3 as MuiBrightness3Icon, 
+    LightMode as MuiLightMode } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 
 import { Drawer } from '../SideNav';
@@ -29,11 +29,11 @@ const MenuIcon = styled(MuiMenuIcon)(( {theme} ) => ({
     // style MenuIcon if needed
 }));
 
-const Brightness4Icon = styled(MuiBrightness4Icon)(( {theme} ) => ({
+const Brightness3Icon = styled(MuiBrightness3Icon)(( {theme} ) => ({
     // style Brightness4Icon if needed
 }));
 
-const  Brightness7Icon = styled(MuiBrightness7)(( {theme} ) => ({
+const  LightModeIcon = styled(MuiLightMode)(( {theme} ) => ({
     // style Brightess7Icon if needed
 }));
 
@@ -62,8 +62,8 @@ const Styles = {
     AppBar,
     Toolbar,
     MenuIcon,
-    Brightness4Icon,
-    Brightness7Icon,
+    Brightness3Icon,
+    LightModeIcon,
     IconButton,
     Button,
     Typography

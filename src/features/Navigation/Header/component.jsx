@@ -58,7 +58,7 @@ export default function Header(props) {
                                     >
                                         {
                                             theme.palette.mode === 'dark' ? 
-                                                <Styles.Brightness7Icon /> : <Styles.Brightness4Icon />
+                                                <Styles.LightModeIcon /> : <Styles.Brightness3Icon />
                                         }
                                      </Styles.IconButton>
                                 }
