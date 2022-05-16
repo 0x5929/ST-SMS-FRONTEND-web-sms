@@ -25,14 +25,15 @@ export default function Signin (props){
                 <Styles.CssBaseline />
                 <Styles.ImageGrid
                     item
-                    xs={false}
-                    sm={4}
-                    md={7}
+                    mobile={false}
+                    tablet={4}
+                    laptop={7}
                 />
                 <Styles.Grid 
-                    item xs={12} 
-                    sm={8} 
-                    md={5} 
+                    item 
+                    mobile={12} 
+                    tablet={8} 
+                    laptop={5} 
                     component={Styles.Paper} 
                     elevation={6} 
                     square

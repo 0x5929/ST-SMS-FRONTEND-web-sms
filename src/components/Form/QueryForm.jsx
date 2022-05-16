@@ -23,8 +23,8 @@ export function QueryForm(props) {
                 <Styles.Grid container rowSpacing={0} columnSpacing={0}>
                     {
                         queryOptions.map((query, index) => (
-                            <Styles.Grid container item sm={12} key={query.pk} spacing={0}>
-                                <Styles.Grid item md={9} sm={12}>
+                            <Styles.Grid container item tablet={12} key={query.pk} spacing={0}>
+                                <Styles.Grid item laptop={9} tablet={12}>
                                     <Styles.QuerySearchBar 
                                         index={index}
                                         pk={query.pk}
@@ -38,7 +38,7 @@ export function QueryForm(props) {
                                     />
 
                                 </Styles.Grid>
-                                <Styles.Grid item md={2} sm={12}>                     
+                                <Styles.Grid item laptop={2} tablet={12}>                     
                                     <Styles.QuerySelect
                                         label="Query By"
                                         name="options"
@@ -54,7 +54,7 @@ export function QueryForm(props) {
                                     {
                                         queryOptions.length !== 1 && (
 
-                                            <Styles.Grid item md={1} sm={12}>                                
+                                            <Styles.Grid item laptop={1} tablet={12}>                                
                                                 <Styles.DelButton 
                                                     text="Delete"
                                                     color="error"
@@ -67,7 +67,7 @@ export function QueryForm(props) {
                                     {
                                         queryOptions.length - 1 === index && (
                                             
-                                            <Styles.Grid item sm={12}>
+                                            <Styles.Grid item tablet={12}>
 
                                                 <Styles.AddButton
                                                     text="ADD NEW QUERY PARAMETER"
@@ -84,7 +84,7 @@ export function QueryForm(props) {
                         ))
 
                     }
-                    <Styles.Grid item xs={12}>
+                    <Styles.Grid item mobile={12}>
                         <Styles.QueryButton 
                             type="Submit"
                             color="secondary"

@@ -8,7 +8,7 @@ export default function Modal(props) {
     return (
         <Styles.Dialog 
             open={openModal}
-            maxWidth="lg"
+            maxWidth="laptop"
             fullWidth={true}
             { ...others }
         >

@@ -9,7 +9,6 @@ const AppThemeContext = createContext({
 });
 
 
-
 const AppThemeContextProvider = ({ children }) => {
     const [darkMode, setDarkMode] = useState(false);
   
@@ -24,21 +23,39 @@ const AppThemeContextProvider = ({ children }) => {
       createTheme({
         palette: {
             mode: darkMode ? 'dark' : 'light',
+            background: {
+              default: darkMode ? '#1e202a' : '#e6e6e6',
+              paper: darkMode ? '#1e202a' : '#e6e6e6',
+            },
+
             primary: {
                 main: '#6d6daa',
             },
+
             secondary: {
                 main: '#aaaa6d',
             },
+
             error: {
                 main: '#aa6d6d',
             },
+
             success: {
                 main: '#6daa6d',
             },
+
             info: {
                 main: '#6daaaa',
             },
+        },
+        breakpoints: {
+          values: {
+            mobile: 0,
+            tablet: 600,
+            laptop: 1280,
+            desktop: 1920,
+            tv: 2880
+          }
         }
       }),
     [darkMode]

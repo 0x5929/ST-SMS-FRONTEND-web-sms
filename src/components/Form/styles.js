@@ -27,7 +27,6 @@ const StudentForm = styled('form')(( {theme} ) => ({
 }));
 
 
-
 const Grid = styled(MuiGrid)(( {theme} ) => ({
     // to style the grid if needed
 }));
@@ -41,11 +40,11 @@ const Select = styled(BaseSelect)(( {theme} ) => ({
 }));
 
 const QuerySelect = styled(BaseSelect)(( {theme} ) => ({
-    [theme.breakpoints.up('sm')] : {
+    [theme.breakpoints.up('tablet')] : {
         marginLeft: theme.spacing(0)
     },
 
-    [theme.breakpoints.down('sm')] : {
+    [theme.breakpoints.down('tablet')] : {
         marginLeft: theme.spacing(2)
     }
 }));

@@ -5,8 +5,8 @@ import { styled } from '@mui/material/styles';
 const Img = styled(Box)(( {theme} ) => ({
     height: 233,
     width: 350,
-    maxHeight: { xs: 233, md: 167 },
-    maxWidth: { xs: 350, md: 250 },
+    maxHeight: { mobile: 233, laptop: 167 },
+    maxWidth: { mobile: 350, laptop: 250 },
 }));
 
 

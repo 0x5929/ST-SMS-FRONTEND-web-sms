@@ -20,7 +20,7 @@ export function StudentForm(props) {
 
     <Styles.StudentForm onSubmit={handleSubmit}>
         <Styles.Grid container>
-            <Styles.Grid item md={6} sm={12}>
+            <Styles.Grid item laptop={6} tablet={12}>
                 <Styles.Input 
                     name="studentId"
                     label="Student ID"
@@ -134,7 +134,7 @@ export function StudentForm(props) {
                     
                 />
             </Styles.Grid>
-            <Styles.Grid item md={6} sm={12}>
+            <Styles.Grid item laptop={6} tablet={12}>
                 <Styles.Checkbox 
                     name="graduated"
                     label="Graduated"
