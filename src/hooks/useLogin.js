@@ -1,18 +1,13 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import validate from './useValidation'
 
-export default function useLogin (AuthContext) {
+export default function useLogin ({ authed, user, login }) {
     const [ creds, setCreds ] = useState({email: '', password: ''})
     const [ errors, setErrors ] = useState({})
-    const auth = useContext(AuthContext)
-    const navigate = useNavigate()
 
-    const { 
-        authed,
-        user
-    } = auth
+    const navigate = useNavigate()
 
     useEffect(()=>{
 
@@ -35,7 +30,7 @@ export default function useLogin (AuthContext) {
 
         event.preventDefault();
         if (validate.useLoginValidation(creds, setErrors, errors)){
-            auth.login({email: creds.email, password: creds.password})
+            login({email: creds.email, password: creds.password})
         }
     }
 

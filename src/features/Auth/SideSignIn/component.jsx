@@ -2,13 +2,12 @@ import React from 'react';
 import Styles from './styles'
 
 import { useLogin } from '../../../hooks';
+import { useAuthContext } from '../../../contexts';
 
 export default function Signin (props){
 
-    const { 
-        AuthContext,
 
-     } = props
+
 
      const { 
         handleLogin,
@@ -16,7 +15,7 @@ export default function Signin (props){
         handleOnChange,
         handleClearText,
         errors,
-    } = useLogin(AuthContext)
+    } = useLogin(useAuthContext())
 
 
     // we could also refactor this into a useLogin hook abstraction, if this grows?

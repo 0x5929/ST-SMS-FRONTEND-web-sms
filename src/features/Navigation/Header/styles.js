@@ -2,7 +2,10 @@
 import { 
     Box as MuiBox, 
     AppBar as MuiAppBar, 
-    Toolbar as MuiToolBar } from '@mui/material';
+    Toolbar as MuiToolBar,
+    Switch as MuiSwitch
+ } from '@mui/material';
+
 import { 
     Menu as MuiMenuIcon, 
     Brightness3 as MuiBrightness3Icon, 
@@ -37,6 +40,11 @@ const  LightModeIcon = styled(MuiLightMode)(( {theme} ) => ({
     // style Brightess7Icon if needed
 }));
 
+const Switch = styled(MuiSwitch)(( {theme} ) => ({
+    marginRight: theme.spacing(2),
+    color: theme.palette.common.white
+}));
+
 
 const IconButton = styled(Components.BaseIconButton)(( {theme} ) => ({
     marginRight: theme.spacing(2),
@@ -58,6 +66,7 @@ const Typography = styled(Components.BaseTypography)(( {theme} ) => ({
 
 const Styles = {
     Drawer,
+    Switch,
     Box,
     AppBar,
     Toolbar,

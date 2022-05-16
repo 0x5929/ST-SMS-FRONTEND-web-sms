@@ -1,6 +1,6 @@
 
 import { Query } from '../features/Query/Query'
-import { Signin } from '../features/Login/SideSignIn'
+import { Signin } from '../features/Auth/SideSignIn'
 import { Create } from '../features/Create'
 import { BackToTopButton } from '../features/Navigation/BackToTop'
 import { Header } from '../features/Navigation/Header'
