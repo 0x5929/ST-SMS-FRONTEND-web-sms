@@ -12,12 +12,13 @@ const BottomGrid = styled(MuiGrid)(( {theme} ) => ({
     marginRight: theme.spacing(5),
 }));
 
+// styling paper and card to override the custom theme based on light or dark mode
 const Paper = styled(Components.Paper)(( {theme} ) => ({
-    // styling paper if needed
+    backgroundColor: theme.palette.mode === 'dark' ? '#1e202a' : '#ffffff',
 }));
 
 const Card = styled(Components.Card)(( {theme} ) => ({
-    // styling Card if needed
+    backgroundColor: theme.palette.mode === 'dark' ? '#1e202a' : '#ffffff',
 }));
 
 const Image = styled(Components.Image)(( {theme} ) => ({

@@ -50,14 +50,25 @@ const AppThemeContextProvider = ({ children }) => {
         },
         breakpoints: {
           values: {
+
+            // custom view ports, anything smaller than tablet width is mobile
             mobile: 0,
+
+            // starting from Amazon Kindle Fire 1st Gen width: 600px
             tablet: 600,
+
+            // starting from Apple MacBook Pro 13-inch (Mid 2009 - Mid 2012): 1280px
             laptop: 1280,
+
+            // starting any desktop monitor bigger than 17", reference: Apple MacBook Pro 17-inch (Mid/Late 2007 - Late 2011)
             desktop: 1920,
-            tv: 2880
+
+            // starting any monitor bigger than 49", reference: Apple iMac 21.5-inch (Retina 4K Display)
+            tv: 4096
           }
         }
       }),
+
     [darkMode]
   );
 
