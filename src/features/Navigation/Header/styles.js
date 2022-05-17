@@ -21,7 +21,9 @@ const Box = styled(MuiBox)(( {theme} ) => ({
 }));
 
 const AppBar = styled(MuiAppBar)(( {theme} ) => ({
-    color: theme.palette.primary.main
+    color: theme.palette.primary.main,
+    position: 'relative',
+    zIndex: theme.zIndex.drawer + 1,
 }));
 
 const Toolbar = styled(MuiToolBar)(( {theme} ) => ({

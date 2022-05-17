@@ -10,9 +10,7 @@ import {
 import { 
     ManageSearch as MuiManageSearchIcon,
     CreateNewFolder as MuiCreateNewFolderIcon,
-    Menu as MuiMenuIcon } from '@mui/icons-material';
-
-import Components from '../../../components'
+} from '@mui/icons-material';
 
 import { styled } from '@mui/material/styles';
 
@@ -34,6 +32,10 @@ const List = styled(MuiList)(( {theme} ) => ({
 
 const ListItem = styled(MuiListItem)(( {theme} ) => ({
     // style ListItem if needed
+}));
+
+const FirstListItem = styled(MuiListItem)(( {theme} ) => ({
+    marginTop: theme.spacing(7)
 }));
 
 const ListItemIcon = styled(MuiListItemIcon)(( {theme} ) => ({
@@ -58,28 +60,20 @@ const CreateNewFolderIcon = styled(MuiCreateNewFolderIcon)(( {theme} ) => ({
     // style CreateNewFolderIcon if needed
 }));
 
-const MenuIcon = styled(MuiMenuIcon)(( {theme} ) => ({
-    // style MenuIcon if needed
-    // only on the icon, not the parent div
-}));
 
-const IconButton = styled(Components.BaseIconButton)(( {theme} ) => ({
-    // style IconButton if needed
-}));
 
 
 
 const Styles = {
     Divider,
     List,
+    FirstListItem,
     ListItem,
     ListItemIcon,
     ListItemText,
     Drawer,
     ManageSearchIcon,
     CreateNewFolderIcon,
-    MenuIcon,
-    IconButton
 }
 
 export default Styles 

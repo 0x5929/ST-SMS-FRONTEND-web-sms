@@ -9,8 +9,7 @@ export default function Drawer (props) {
         Link,
         toggleDrawer,
         anchorDirection, 
-        menuIconColor,
-        menuIconSize
+
     } = props
 
 
@@ -23,27 +22,15 @@ export default function Drawer (props) {
             onClose={()=>(toggleDrawer(drawerOpen))}
         >
             <Styles.List>
-                <Styles.ListItem>
-                    <Styles.IconButton
-                        color={menuIconColor}
-                        size={menuIconSize}
-                        onClick={()=>(toggleDrawer(drawerOpen))}
-                    >
-                        <Styles.MenuIcon 
-                            size={menuIconSize}
-                        />   
-                    </Styles.IconButton>
-                </Styles.ListItem>
-                <Styles.Divider />
                 <Link to="/query" onClick={()=>{toggleDrawer(drawerOpen)}}>
-                    <Styles.ListItem button disableRipple>
+                    <Styles.FirstListItem button disableRipple>
                         <Styles.ListItemIcon>
                             <Styles.ManageSearchIcon />
                         </Styles.ListItemIcon>
                         <Styles.ListItemText 
                             primary={'QUERY'}
                         />
-                    </Styles.ListItem>
+                    </Styles.FirstListItem>
                 </Link>
                 <Link to="/create" onClick={()=>{toggleDrawer(drawerOpen)}}>
                     <Styles.ListItem button disableRipple>

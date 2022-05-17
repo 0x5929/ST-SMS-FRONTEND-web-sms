@@ -21,8 +21,6 @@ export default function Header({ Link }) {
         drawerOpen,
         toggleDrawer,
         anchorDirection, 
-        menuIconColor,
-        menuIconSize
     } = useDrawer()
 
 
@@ -67,14 +65,11 @@ export default function Header({ Link }) {
                             onClick={logout}
                         />
                     }
-        
                     <Styles.Drawer 
                         Link={Link}
                         drawerOpen={drawerOpen}
                         toggleDrawer={toggleDrawer}
                         anchorDirection={anchorDirection}
-                        menuIconColor={menuIconColor}
-                        menuIconSize={menuIconSize}
                     />
                 </Styles.Toolbar>
             </Styles.AppBar>

@@ -6,9 +6,6 @@ import { useAuthContext } from '../../../contexts';
 
 export default function Signin (props){
 
-
-
-
      const { 
         handleLogin,
         creds,
