@@ -21,13 +21,7 @@ const Divider = styled(MuiDivider)(( {theme} ) => ({
 }));
 
 const List = styled(MuiList)(( {theme} ) => ({
-    width: 250,
-
-    // this will target the icon button and its parent div
-    '& .MuiIconButton-root' :  {
-        marginLeft: theme.spacing(2.5),
-        marginTop: theme.spacing(0.20)
-    }
+    width: theme.spacing(31.25),
 }));
 
 const ListItem = styled(MuiListItem)(( {theme} ) => ({
