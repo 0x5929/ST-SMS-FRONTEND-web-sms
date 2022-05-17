@@ -7,15 +7,8 @@ import { Header } from '../features/Navigation/Header'
 import { styled, Box as MuiBox } from '@mui/material';
 
 const Box = styled(MuiBox)(( {theme} ) => ({
-    '::selection':  {
-        backgroundColor: "#ffe20b"
-      },
-      '::-moz-selection':  {
-        backgroundColor: "#ffe20b"
-      },
     backgroundColor: theme.palette.mode === 'light'? '#f7f7f7': 'inherit',
 
-  
 }));
   
 

@@ -22,7 +22,10 @@ const BaseButton = styled(Components.BaseButton)(( {theme} ) => ({
 }));
 
 const QueryTblContainer = styled(Components.QueryTblContainer)(( {theme} ) => ({
-    // styling QueryTblContainer if needed
+    "::selection, *::selection": {
+        backgroundColor: theme.palette.mode === 'light' ? "#ffe20b" : 'undefined'
+      },
+
 }));
 
 const QueryTblHead = styled(Components.QueryTblHead)(( {theme} ) => ({
@@ -46,7 +49,10 @@ const StudentForm = styled(Components.StudentForm)(( {theme} ) => ({
 }));
 
 const DetailedTblContainer = styled(Components.DetailedTblContainer)(( {theme} ) => ({
-    // styling DetailedTblContainer if needed
+    "::selection, *::selection": {
+        backgroundColor: theme.palette.mode === 'light' ? "#ffe20b" : 'undefined'
+      },
+
 }));
 
 const DetailedTblHead = styled(Components.DetailedTblHead)(( {theme} ) => ({
