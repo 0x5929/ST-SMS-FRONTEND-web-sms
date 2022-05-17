@@ -1,5 +1,7 @@
 import { 
+    Paper as MuiPaper,
     Table as MuiTable, 
+    TableContainer as MuiTableContainer,
     TableCell as MuiTableCell,
     TableHead as MuiTableHead,
     TableRow as MuiTableRow, 
@@ -11,9 +13,16 @@ import { BaseIconButton } from '../Buttons';
 import { EditOutlined  } from '@mui/icons-material';
 import { CloseOutlined } from '@mui/icons-material';
 import { VisibilityRounded } from '@mui/icons-material';
-
 import { styled } from '@mui/material/styles';
 
+
+const Paper = styled(MuiPaper)(( {theme} ) => ({
+    backgroundColor: 'inherit'
+}));
+
+const TableContainer = styled(MuiTableContainer)(( {theme} ) => ({
+    // styling TableContainer if needed
+}));
 
 const Table = styled(MuiTable)(( {theme} ) => ({
     marginTop: theme.spacing(3),
@@ -77,6 +86,8 @@ const VisibilityRoundedIcon = styled(VisibilityRounded)(( {theme} ) => ({
 
 
 const Styles = {
+    Paper,
+    TableContainer,
     Table,
     TableCell,
     TableHead,

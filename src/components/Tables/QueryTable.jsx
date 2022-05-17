@@ -6,11 +6,13 @@ export function QueryTblContainer(props) {
     const { children, ...others } = props
 
     return (
-    <Styles.Table
-        { ...others }
-    >
-        { children }
-    </Styles.Table>
+        <Styles.TableContainer component={Styles.Paper}>
+            <Styles.Table
+                { ...others }
+            >
+                { children }
+            </Styles.Table>
+        </Styles.TableContainer>
     )
 }
 

@@ -16,7 +16,7 @@ export default function useScrollToTop() {
     useEffect(()=>{
 
         const checkForScroll = () => {
-            if (window.pageYOffset > 300){
+            if (window.pageYOffset > 50){
                 setShowScroll(true)    
              }
              else{
