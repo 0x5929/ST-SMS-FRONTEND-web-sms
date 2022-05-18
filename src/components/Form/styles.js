@@ -31,6 +31,7 @@ const Grid = styled(MuiGrid)(( {theme} ) => ({
     // to style the grid if needed
 }));
 
+
 const Input = styled(BaseInput)(( {theme} ) => ({
     // to style the Input if needed
 }));
@@ -40,12 +41,14 @@ const Select = styled(BaseSelect)(( {theme} ) => ({
 }));
 
 const QuerySelect = styled(BaseSelect)(( {theme} ) => ({
-    [theme.breakpoints.up('tablet')] : {
-        marginLeft: theme.spacing(0)
+    fontSize: 15,
+
+    [theme.breakpoints.up('mobile')] : {
+        marginLeft: theme.spacing(2)
     },
 
     [theme.breakpoints.down('tablet')] : {
-        marginLeft: theme.spacing(2)
+        marginBottom: theme.spacing(2)
     }
 }));
 
@@ -70,21 +73,28 @@ const AddButton = styled(BaseButton)(( {theme} ) => ({
     borderRadius: theme.spacing(1),
     marginTop: theme.spacing(1.5),
     marginLeft: theme.spacing(4),
-    fontSize: theme.spacing(2)
+    fontSize: theme.spacing(2),
+    [theme.breakpoints.up('mobile')] : {
+        marginLeft: theme.spacing(3)
+    }
 }));
 
 const DelButton = styled(BaseButton)(( {theme} ) => ({
     borderRadius: theme.spacing(1),
     margin: theme.spacing(0),
     marginTop: theme.spacing(1.5),
-    marginLeft: theme.spacing(0)
+    marginLeft: theme.spacing(0),
+
 }));
 
 const QueryButton = styled(BaseIconButton)(( {theme} ) => ({
     borderRadius: theme.spacing(1),
     marginTop: theme.spacing(1.5),
     marginLeft: theme.spacing(4),
-    fontSize: theme.spacing(2)
+    fontSize: theme.spacing(2),
+    [theme.breakpoints.up('mobile')] : {
+        marginLeft: theme.spacing(3)
+    }
 }));
 
 

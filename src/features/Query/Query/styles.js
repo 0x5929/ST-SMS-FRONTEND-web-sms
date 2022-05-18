@@ -7,9 +7,13 @@ const Grid = styled(MuiGrid)(( {theme} ) => ({
     // styling Grid if needed
 }));
 
+
 const BottomGrid = styled(MuiGrid)(( {theme} ) => ({
 
     marginRight: theme.spacing(5),
+    [theme.breakpoints.down('tablet')] : {
+        display: 'none'
+    }
 }));
 
 // styling paper and card to override the custom theme based on light or dark mode

@@ -22,7 +22,6 @@ export default function Signin (props){
                 <Styles.CssBaseline />
                 <Styles.ImageGrid
                     item
-                    mobile={false}
                     tablet={4}
                     laptop={7}
                 />

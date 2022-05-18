@@ -2,6 +2,7 @@
 export { useEditModal, useDetailedViewModal } from './useModals';
 export { useNotification, useConfirmDialog } from './useFeedbacks';
 export { useQueryResultTable, useDetailedViewTable } from './useTables';
+export { default as useHeader } from './useHeader'
 export { default as useDrawer } from './useDrawer';
 export { default as validate } from './useValidation';
 export { default as useFilter } from './useFilter';

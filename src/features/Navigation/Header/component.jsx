@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDrawer } from '../../../hooks';
+import { useDrawer, useHeader } from '../../../hooks';
 import { useThemeContext, useAuthContext } from '../../../contexts'
 
 import Styles from './styles'
@@ -16,6 +16,10 @@ export default function Header({ Link }) {
         authed,
         logout
     } = useAuthContext()
+
+    const {
+        headerTitle
+    } = useHeader()
 
     const {
         drawerOpen,
@@ -44,13 +48,14 @@ export default function Header({ Link }) {
                     <Styles.Typography 
                         variant="h6" 
                         component="div" 
-                        text="Student Mangement System"
+                        text={headerTitle}
                     />
                     <Styles.Switch checked={darkMode} onChange={toggleColorMode} />
                     <Styles.IconButton
                         size="small"
                         onClick={toggleColorMode}
                         color="inherit"
+                        disableRipple
                     >
                         {
                             darkMode ? 

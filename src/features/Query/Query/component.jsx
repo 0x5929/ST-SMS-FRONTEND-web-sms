@@ -54,7 +54,7 @@ export default function Query() {
                         errors={errors}
                     />
                     <Styles.BottomGrid container>
-                        <Styles.Grid item laptop={3} tablet={12}>
+                        <Styles.Grid item laptop={3}>
                             <Styles.Card 
                                 title="School Statistics"
                                 model="school"
@@ -67,7 +67,7 @@ export default function Query() {
 
                         </Styles.Card>
                     </Styles.Grid>
-                    <Styles.Grid item laptop={3} tablet={12}>
+                    <Styles.Grid item laptop={3}>
                         <Styles.Card 
                             title="Program Statistics"
                             model="program"
@@ -80,7 +80,7 @@ export default function Query() {
 
                         </Styles.Card>
                     </Styles.Grid>
-                    <Styles.Grid item laptop={3} tablet={12}>
+                    <Styles.Grid item laptop={3}>
                         <Styles.Card 
                             title="Rotation Statistics"
                             model="rotation"
@@ -92,7 +92,7 @@ export default function Query() {
                             /> 
                         </Styles.Card>
                     </Styles.Grid>
-                    <Styles.Grid item laptop={3} tablet={12}>
+                    <Styles.Grid item laptop={3}>
                         <Styles.Card 
                             title="Student Statistics"
                             model="student"
