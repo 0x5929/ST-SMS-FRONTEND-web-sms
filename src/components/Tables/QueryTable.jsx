@@ -58,7 +58,7 @@ export function QueryTblBody(props) {
     return (
     <Styles.TableBody>
         {records.map(record => (
-                <Styles.TableRow key={ record.pk }>
+                <Styles.TableRow key={ record.pk } onClick={()=>openInDetail(record)}>
                     <Styles.TableCell>{ record.studentId }</Styles.TableCell>
                     <Styles.TableCell>{ record.firstName }</Styles.TableCell>
                     <Styles.TableCell>{ record.lastName }</Styles.TableCell>
