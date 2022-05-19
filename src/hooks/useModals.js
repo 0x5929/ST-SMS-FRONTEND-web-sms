@@ -20,7 +20,7 @@ export function useEditModal (studentValues, setRecordForEdit, setRecords, userF
         convertToDefaultEventParam,
         success,
         loading,
-    } = useForm(false, studentValues, userFeedbackObj, recordForEdit);
+    } = useForm(true, studentValues, userFeedbackObj, recordForEdit);
 
 
     const openInModal = item =>{
