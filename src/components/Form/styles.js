@@ -1,8 +1,11 @@
-import { Grid as MuiGrid, Box as MuiBox, CircularProgress as MuiCircularProgress, Fab as MuiFab } from '@mui/material';
+import { Grid as MuiGrid, Box as MuiBox, CircularProgress as MuiCircularProgress } from '@mui/material';
 import { DoubleArrow as MuiDoubleArrow, Check as MuiCheckIcon, Save as MuiSaveIcon } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 
 import { SearchBar } from '../Searchbar'
+import { Fab as BaseFab } from '../Buttons'
+
+
 
 import {
     Input as BaseInput,
@@ -81,11 +84,11 @@ const SuccessButton = styled(BaseButton)(( {theme} ) => ({
     },
 }));
 
-const Fab = styled(MuiFab)(( {theme} ) => ({
+const Fab = styled(BaseFab)(( {theme} ) => ({
 
 }));
 
-const SuccessFab = styled(MuiFab)(( {theme} ) => ({
+const SuccessFab = styled(BaseFab)(( {theme} ) => ({
     backgroundColor: theme.palette.success.main,
 
     '&:hover': {
@@ -96,11 +99,9 @@ const SuccessFab = styled(MuiFab)(( {theme} ) => ({
 const AddButton = styled(BaseButton)(( {theme} ) => ({
     borderRadius: theme.spacing(1),
     marginTop: theme.spacing(1.5),
-    marginLeft: theme.spacing(4),
+    marginLeft: theme.spacing(3),
     fontSize: theme.spacing(2),
-    [theme.breakpoints.up('mobile')] : {
-        marginLeft: theme.spacing(3)
-    }
+
 }));
 
 const DelButton = styled(BaseButton)(( {theme} ) => ({
@@ -114,11 +115,9 @@ const DelButton = styled(BaseButton)(( {theme} ) => ({
 const QueryButton = styled(BaseIconButton)(( {theme} ) => ({
     borderRadius: theme.spacing(1),
     marginTop: theme.spacing(1.5),
-    marginLeft: theme.spacing(4),
+    marginLeft: theme.spacing(3),
     fontSize: theme.spacing(2),
-    [theme.breakpoints.up('mobile')] : {
-        marginLeft: theme.spacing(3)
-    }
+
 }));
 
 

@@ -204,6 +204,9 @@ export function StudentForm(props) {
                     multiline
                     rows={15}
                 />
+                
+                {/* submission buttons */}
+
                 <Styles.Box sx={{display: 'flex', alignItems: 'center'}}>
                     <Styles.Box sx={{ m: 1, position: 'relative'}}>
                         {
@@ -211,7 +214,6 @@ export function StudentForm(props) {
                             <Styles.SuccessFab
                                 aria-label="save"
                                 color="primary"
-                                sx={Styles.progressBtnStyling}
                                 onClick={handleSubmit}
                             >
                                 <Styles.CheckIcon />
@@ -220,7 +222,6 @@ export function StudentForm(props) {
                             <Styles.Fab
                                 aria-label="save"
                                 color="primary"
-                                sx={Styles.progressBtnStyling}
                                 onClick={handleSubmit}
                             >
                                 <Styles.SaveIcon />
@@ -237,7 +238,6 @@ export function StudentForm(props) {
                         <Styles.Button
                             type="submit"
                             text="Submit"
-                            sx={Styles.progressBtnStyling}
                             disabled={loading}
                         />
                         {

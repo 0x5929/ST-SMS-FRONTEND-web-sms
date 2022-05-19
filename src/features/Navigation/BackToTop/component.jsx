@@ -12,10 +12,9 @@ export default function BackToTopButton(props) {
     
     return (
         <Styles.Zoom in={showScroll} >
-            <Styles.Box
+            <Styles.FabBox
                 onClick={handleClick}
                 role="presentation"
-                sx={{ position: 'fixed', bottom: 16, right: 16 }}
             >
                 <Styles.Fab 
                     color="secondary" 
@@ -24,7 +23,7 @@ export default function BackToTopButton(props) {
                 >
                     <Styles.KeyboardArrowUpIcon />
                 </Styles.Fab>
-            </Styles.Box>
+            </Styles.FabBox>
       </Styles.Zoom>
     )
 }

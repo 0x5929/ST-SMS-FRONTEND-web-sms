@@ -1,7 +1,6 @@
 import { 
     Box as MuiBox,
     Container as MuiContainer,
-    Fab as MuiFab,
     Zoom as MuiZoom
 } from '@mui/material';
 
@@ -12,15 +11,17 @@ import { styled } from '@mui/material/styles';
 import  Components  from '../../../components';
 
 
-const Box = styled(MuiBox)(( {theme} ) => ({
-    // styling for Box if needed
+const FabBox = styled(MuiBox)(( {theme} ) => ({
+    position: 'fixed', 
+    bottom: theme.spacing(), 
+    right: theme.spacing()
 }));
 
 const Container = styled(MuiContainer)(( {theme} ) => ({
     // styling for Container if needed
 }));
 
-const Fab = styled(MuiFab)(( {theme} ) => ({
+const Fab = styled(Components.Fab)(( {theme} ) => ({
     // styling for Fab if needed
 }));
 
@@ -39,7 +40,7 @@ const Typography = styled(Components.BaseTypography)(( {theme} ) => ({
 
 
 const Styles = {
-    Box,
+    FabBox,
     Container,
     Fab,
     Zoom,

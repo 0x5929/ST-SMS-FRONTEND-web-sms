@@ -5,7 +5,7 @@ import { Image } from './Image';
 import { SearchBar } from './Searchbar';
 import { Modal } from './Modal';
 import { BaseTypography } from './Typography';
-import { BaseButton, BaseIconButton } from './Buttons';
+import { BaseButton, BaseIconButton, Fab } from './Buttons';
 import { ConfirmDialog } from './ConfirmDialog';
 import { Notification, NotificationSlide } from './Notification';
 import { SimpleBackDrop } from './Backdrop';
@@ -25,6 +25,7 @@ import {
 
 
 const Components = {
+    Fab,
     BaseButton,
     BaseIconButton,
     StudentForm,

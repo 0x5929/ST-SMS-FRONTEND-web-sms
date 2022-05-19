@@ -69,11 +69,20 @@ export function QueryForm(props) {
                                             <Styles.Grid item mobile={12}>
 
                                                 <Styles.AddButton
-                                                    text="ADD NEW QUERY PARAMETER"
+                                                    text="ADD NEW"
                                                     color="primary"
                                                     variant="outlined"
                                                     onClick={() => (handleAddNewQuery(index))}
+                                                />                        
+                                                <Styles.QueryButton 
+                                                type="Submit"
+                                                color="secondary"
+                                            >
+                                                
+                                                <Styles.DoubleArrowIcon 
+                                                    fontSize="large"
                                                 />
+                                            </Styles.QueryButton>    
                                             </Styles.Grid> 
                                         )
 
@@ -83,18 +92,7 @@ export function QueryForm(props) {
                         ))
 
                     }
-                    <Styles.Grid item mobile={12}>
-                        <Styles.QueryButton 
-                            type="Submit"
-                            color="secondary"
-                            variant="contained"
-                        >
-                            QUERY
-                            <Styles.DoubleArrowIcon 
-                                fontSize="large"
-                            />
-                        </Styles.QueryButton>    
-                    </Styles.Grid>     
+                    
                 </Styles.Grid>
             </Styles.QueryForm>
     )
