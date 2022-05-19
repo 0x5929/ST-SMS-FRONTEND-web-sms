@@ -71,7 +71,9 @@ export default function QueryResults(props) {
         handleEditCancel,
         getCourseOptions,
         hoursWorkedRadioItems,
-        convertToDefaultEventParam
+        convertToDefaultEventParam,
+        success,
+        loading,
 
     } = useQueryResultTable({
         setNotify,
@@ -143,6 +145,8 @@ export default function QueryResults(props) {
                     hoursWorkedRadioItems={hoursWorkedRadioItems}
                     convertToDefaultEventParam={convertToDefaultEventParam}
                     handleSubmit={handleEditSubmit}
+                    success={success}
+                    loading={loading}
                 />
             </Styles.Modal>
             <Styles.Modal

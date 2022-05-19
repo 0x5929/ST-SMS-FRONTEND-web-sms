@@ -18,6 +18,8 @@ export function useEditModal (studentValues, setRecordForEdit, setRecords, userF
         getCourseOptions,
         hoursWorkedRadioItems,
         convertToDefaultEventParam,
+        success,
+        loading,
     } = useForm(false, studentValues, userFeedbackObj, recordForEdit);
 
 
@@ -35,7 +37,9 @@ export function useEditModal (studentValues, setRecordForEdit, setRecords, userF
         if (validate.useCreateValidation(values, setErrors, errors)){
             handleSubmit(e)
             setRecordForEdit(null)
-            closeModal()
+            
+            // lets try to figure out how to wait until handleSUbmit to finish then excute code after
+            //closeModal()
             setRecords(studentRecordService.getAllRecords())
         }
         else {
@@ -63,7 +67,9 @@ export function useEditModal (studentValues, setRecordForEdit, setRecords, userF
         openInModal,
         setOpenModal ,
         closeModal,
-        convertToDefaultEventParam
+        convertToDefaultEventParam,
+        success,
+        loading,
     }
 }
 

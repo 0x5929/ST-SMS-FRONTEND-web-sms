@@ -16,15 +16,15 @@ export default function Create() {
 
     const {
         values, 
-        // setValues,
         errors,
-        // setErrors,
         handleInputChange,
         handleSubmit,
         handleCancel,
         getCourseOptions,
         hoursWorkedRadioItems,
-        convertToDefaultEventParam
+        convertToDefaultEventParam,
+        success,
+        loading,
         
     } = useForm(true, SMSRecordService.getInitialStudentValues(), 
             {
@@ -50,6 +50,8 @@ export default function Create() {
                 getCourseOptions={getCourseOptions}
                 hoursWorkedRadioItems={hoursWorkedRadioItems}
                 convertToDefaultEventParam={convertToDefaultEventParam}
+                success={success}
+                loading={loading}
             />
 
             <Styles.Notification 

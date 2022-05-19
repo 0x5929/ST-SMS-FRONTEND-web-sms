@@ -68,6 +68,8 @@ export function useQueryResultTable(userFeedbackObj, results) {
       openInModal,
       setOpenModal,
       closeModal,
+      success,
+      loading,
     } = useEditModal(
         SMSRecordService.getInitialStudentValues, 
         setRecordForEdit, 
@@ -186,7 +188,9 @@ export function useQueryResultTable(userFeedbackObj, results) {
         handleEditCancel,
         getCourseOptions,
         hoursWorkedRadioItems,
-        convertToDefaultEventParam
+        convertToDefaultEventParam,
+        success,
+        loading,
     }
 }
 

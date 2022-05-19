@@ -12,7 +12,9 @@ export function StudentForm(props) {
             handleSubmit,
             getCourseOptions,
             hoursWorkedRadioItems, 
-            convertToDefaultEventParam
+            convertToDefaultEventParam,
+            success,
+            loading,
             } = props
 
 
@@ -202,17 +204,56 @@ export function StudentForm(props) {
                     multiline
                     rows={15}
                 />
-                <div>
-                    <Styles.Button
-                        type="submit"
-                        text="Submit"
-                    />
-                    <Styles.Button
-                        color="error"
-                        text="Cancel"
-                        onClick={handleCancel}
-                    />
-                </div>
+                <Styles.Box sx={{display: 'flex', alignItems: 'center'}}>
+                    <Styles.Box sx={{ m: 1, position: 'relative'}}>
+                        {
+                            success ? 
+                            <Styles.SuccessFab
+                                aria-label="save"
+                                color="primary"
+                                sx={Styles.progressBtnStyling}
+                                onClick={handleSubmit}
+                            >
+                                <Styles.CheckIcon />
+                            </Styles.SuccessFab>
+                            : 
+                            <Styles.Fab
+                                aria-label="save"
+                                color="primary"
+                                sx={Styles.progressBtnStyling}
+                                onClick={handleSubmit}
+                            >
+                                <Styles.SaveIcon />
+                            </Styles.Fab>
+
+                        }
+                        {
+                            loading && (
+                            <Styles.CircularProgress size={68} />
+                            )
+                        }
+                    </Styles.Box>
+                    <Styles.Box sx={{ position: 'relative'}}>
+                        <Styles.Button
+                            type="submit"
+                            text="Submit"
+                            sx={Styles.progressBtnStyling}
+                            disabled={loading}
+                        />
+                        {
+                            loading && (
+                            <Styles.ButtonCircularProgress size={24} />   
+                            )
+                        }
+                    </Styles.Box>
+                    <Styles.Box sx={{ position: 'relative'}}>
+                        <Styles.Button
+                            color="error"
+                            text="Cancel"
+                            onClick={handleCancel}
+                        />
+                    </Styles.Box>
+                </Styles.Box>
             </Styles.Grid>
         </Styles.Grid>
     </Styles.StudentForm>

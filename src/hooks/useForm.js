@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 import * as SMSRecordService from '../services/SMSRecordService'
 import validate from './useValidation'
@@ -10,6 +10,17 @@ export default function useForm(
     userFeedbackObj,
     recordForEdit=null) {
         
+
+
+
+    // form state
+    const [values, setValues] = useState(currentData);
+    const [errors, setErrors] = useState({});
+    const [loading, setLoading] = useState(false);
+    const [success, setSuccess] = useState(false);
+    const progressTimer = useRef();
+
+
     useEffect(()=>{
         /* this looks like it could violate the rule of hooks
             however, the condition statement really just separates the logics between two component/features that uses useForm hook (create and edit form)
@@ -23,9 +34,14 @@ export default function useForm(
         }
     }, [recordForEdit])
     
-    // form state
-    const [values, setValues] = useState(currentData);
-    const [errors, setErrors] = useState({});
+
+    // when StudentForm component mounts and unmounts, maybe do some data op during cleanup when after fetch backend data?
+    useEffect(() => {
+        return () => {
+          clearTimeout(progressTimer.current);
+        };
+      }, []);
+
 
     const handleInputChange = e => {
         const { name, value } = e.target
@@ -39,15 +55,12 @@ export default function useForm(
         if (validateOnChange){
             validate.useCreateValidation({[name]: value}, setErrors, errors)
         }
-
     }
-
 
 
     const createOrUpdate = (record, resetForm) => {
 
         // notification on after form submission
-
         const {        
             setNotify,
             notify
@@ -58,13 +71,20 @@ export default function useForm(
         const recordIndexToEdit = SMSRecordService.getRecordIndex(record)
 
 
-        if (recordIndexToEdit === false){       
-            SMSRecordService.createRecord(record)
+        if (recordIndexToEdit === false){
+
+            // in reality createRecord should return a promise, and will take a callback function as input
+            // here instead, we will just pass in window.setTimeout
+            handleProgress(window.setTimeout)
             op = 'Create'
+            SMSRecordService.createRecord(record)
         }
         else {
-            SMSRecordService.updateRecord(record, recordIndexToEdit)
+            // in reality createRecord should return a promise, and will take a callback function as input
+            // here instead, we will just pass in window.setTimeout
+            handleProgress(window.setTimeout)
             op = 'Update'
+            SMSRecordService.updateRecord(record, recordIndexToEdit)
         }
         setNotify({
             isOpen: true,
@@ -82,12 +102,31 @@ export default function useForm(
     const handleCancel = e =>{
         setValues(SMSRecordService.getInitialStudentValues())
         setErrors({})
+        setSuccess(false)
+    }
+
+
+
+
+    const handleProgress = (callback) => {
+        if (!loading) {
+
+            setSuccess(false);
+            setLoading(true);
+            
+            // this would be connected to axio to fetch back end API, instead of using a timeout callback
+            progressTimer.current = callback(() => {
+              setSuccess(true);
+              setLoading(false);
+            }, 2000);
+          }
     }
 
 
     const handleSubmit = e =>{
         // DEV configuration so we dont refresh the page when testing submit button
         e.preventDefault()
+
         if (validate.useCreateValidation(values, setErrors, errors)){
             createOrUpdate(values, handleCancel)
         }
@@ -119,7 +158,9 @@ export default function useForm(
         handleCancel,
         getCourseOptions,
         hoursWorkedRadioItems,
-        convertToDefaultEventParam
+        convertToDefaultEventParam,
+        success,
+        loading,
     }
 }
 
