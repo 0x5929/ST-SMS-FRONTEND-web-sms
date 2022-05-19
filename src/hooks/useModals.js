@@ -36,7 +36,7 @@ export function useEditModal (studentValues, setRecordForEdit, setRecords, userF
     const handleEditSubmit = e => {
         if (validate.useCreateValidation(values, setErrors, errors)){
             handleSubmit(e)
-            setRecordForEdit(null)
+            setRecordForEdit(values)
             
             // lets try to figure out how to wait until handleSUbmit to finish then excute code after, wait one second then close modal, then pop notification
             //closeModal()
