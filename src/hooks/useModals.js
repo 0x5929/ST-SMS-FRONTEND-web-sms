@@ -38,7 +38,7 @@ export function useEditModal (studentValues, setRecordForEdit, setRecords, userF
             handleSubmit(e)
             setRecordForEdit(null)
             
-            // lets try to figure out how to wait until handleSUbmit to finish then excute code after
+            // lets try to figure out how to wait until handleSUbmit to finish then excute code after, wait one second then close modal, then pop notification
             //closeModal()
             setRecords(studentRecordService.getAllRecords())
         }
