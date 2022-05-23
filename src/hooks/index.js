@@ -4,6 +4,7 @@ export { useNotification, useConfirmDialog } from './useFeedbacks';
 export { useQueryResultTable, useDetailedViewTable } from './useTables';
 export { default as useHeader } from './useHeader'
 export { default as useDrawer } from './useDrawer';
+export { default as useCharts } from './useCharts'
 export { default as validate } from './useValidation';
 export { default as useFilter } from './useFilter';
 export { default as useForm } from './useForm';

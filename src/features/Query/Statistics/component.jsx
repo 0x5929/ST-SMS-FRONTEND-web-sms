@@ -1,69 +1,61 @@
 import React from "react";
+
+import useCharts from "../../../hooks";
 import Styles from './styles';
-
-import { useTheme } from '@mui/material/styles';
-
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Label,
-  ResponsiveContainer
-} from "recharts";
-
 
 export default function Statistics({title, data}) {
 
 
-  const theme = useTheme();
+  const {
+    theme,
+    labelAngle,
+    labelLoc,
+    isAnimationActive,
+    lineDot
+  } = useCharts()
+
+  const {
+    AxisStroke,
+    AxisStyle,
+    LabelStyle,
+    LineStroke
+  } = Styles.ReChartsStyles(theme)
 
     
     return (
-        <ResponsiveContainer>
-            <LineChart
-              width={500}
-              height={300}
+        <Styles.ResponsiveContainer>
+            <Styles.LineChart
+              // width={500}
+              // height={300}
               data={data}
-              margin={{
-                top: 16,
-                right: 16,
-                bottom: 0,
-                left: 24,
-              }}
             >
-              <XAxis 
+              <Styles.XAxis 
                 dataKey="year"
-                stroke={theme.palette.text.secondary}
-                style={theme.typography.body2}
+                stroke={AxisStroke}
+                style={AxisStyle}
               >
-                 <Label
-                    angle={0}
-                    position="bottom"
-                    style={{
-                        textAnchor: 'middle',
-                        fill: theme.palette.text.primary,
-                        ...theme.typography.body1,
-                    }}
+                 <Styles.Label
+                    angle={labelAngle}
+                    position={labelLoc}
+                    style={LabelStyle}
                 >
                     {title}
-            </Label>
-              </XAxis>
-              <YAxis          
-                stroke={theme.palette.text.secondary}
-                style={theme.typography.body2}
+            </Styles.Label>
+              </Styles.XAxis>
+              <Styles.YAxis          
+                stroke={AxisStroke}
+                style={AxisStyle}
               />
-              <Tooltip />
-              <Line
-                isAnimationActive={false}
+              <Styles.Tooltip />
+              <Styles.Line
+                isAnimationActive={isAnimationActive}
                 type="monotone"
                 dataKey="count"
-                stroke={theme.palette.primary.main}
-                dot={false}
+                stroke={LineStroke}
+                dot={lineDot}
               />
-            </LineChart>
-       </ResponsiveContainer>
+            </Styles.LineChart>
+       </Styles.ResponsiveContainer>
     )
 }
 
