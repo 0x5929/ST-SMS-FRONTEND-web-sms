@@ -1,4 +1,4 @@
-import { Grid as MuiGrid } from '@mui/material'; 
+import { Grid as MuiGrid, Box as MuiBox } from '@mui/material'; 
 import { styled } from '@mui/material/styles';
 
 import {Statistics as BaseStatistics } from '../Statistics';
@@ -12,7 +12,7 @@ const Grid = styled(MuiGrid)(( {theme} ) => ({
 }));
 
 
-const BottomGrid = styled(MuiGrid)(( {theme} ) => ({
+const Box = styled(MuiBox)(( {theme} ) => ({
 
     marginRight: theme.spacing(5),
     [theme.breakpoints.down('tablet')] : {
@@ -25,20 +25,11 @@ const Paper = styled(Components.Paper)(( {theme} ) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1e202a' : '#ffffff',
 }));
 
-const Card = styled(Components.Card)(( {theme} ) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1e202a' : '#ffffff',
-}));
-
 
 const Statistics = styled(BaseStatistics)(( {theme} ) => ({
-    // styling Grid if needed
+    // styling Statistics if needed
 }));
 
-
-
-const Image = styled(Components.Image)(( {theme} ) => ({
-    // styling Image if needed
-}));
 
 const SimpleBackDrop = styled(Components.SimpleBackDrop)(( {theme} ) => ({
     // styling SimpleBackDrop if needed
@@ -52,11 +43,9 @@ const QueryForm = styled(Components.QueryForm)(( {theme} ) => ({
 
 const Styles = {
     Grid,
-    BottomGrid,
+    Box,
     Paper,
-    Card,
     Statistics,
-    Image,
     SimpleBackDrop,
     QueryForm
 }

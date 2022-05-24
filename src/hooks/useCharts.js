@@ -1,15 +1,12 @@
-import { useTheme } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles'
+import { getStats } from '../services/SMSStatisticsService'
 
 export default function useCharts(){
 
-    const theme = useTheme();
-    const labelAngle = 270
-    const labelLoc = 'left'
-
-
+    const data = getStats()
+    const theme = useTheme()
     return {
-        theme,
-        labelAngle,
-        labelLoc,
+        data,
+        theme
     }
 }

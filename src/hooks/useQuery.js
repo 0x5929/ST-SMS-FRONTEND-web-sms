@@ -2,7 +2,6 @@ import { useState, useRef } from 'react'
 
 import validate from './useValidation'
 import * as studentService from '../services/SMSRecordService'
-import { getStats } from '../services/SMSStatisticsService'
 
 
 export default function useQuery() {
@@ -15,16 +14,6 @@ export default function useQuery() {
     const [ showResults, setShowResults ] = useState(false)
     const [ openBackdrop, setOpenBackdrop ] = useState(false)
     const [ queryOptions, setQueryOptions ] = useState([{query: 'clast_name', value: '', pk: 100}])
-
-
-
-    const {
-        enrollment,
-        employment,
-        graduates,
-        exam
-    } = getStats()
-
 
     const handleAddNewQuery = (index) =>{
         function newPk() {
@@ -151,7 +140,6 @@ export default function useQuery() {
         handleSubmit,
         queryLabel,
         showResults,
-        getStats,
         setShowResults,
         results,
         openBackdrop,
@@ -164,10 +152,6 @@ export default function useQuery() {
         handleQueryOnChange,
         handleQueryOptionOnChange,
         handleBacktoQuery,
-        
-        enrollment,
-        employment,
-        graduates,
-        exam
+
     }
 }

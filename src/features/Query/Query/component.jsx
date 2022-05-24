@@ -5,7 +5,6 @@ import Styles from './styles';
 import { useQuery } from '../../../hooks'
 
 
-
 export default function Query() {
 
     const {
@@ -26,10 +25,6 @@ export default function Query() {
         handleQueryOptionOnChange,
         handleBacktoQuery,
 
-        enrollment,
-        employment,
-        graduates,
-        exam
     } = useQuery()
 
     return (
@@ -51,40 +46,13 @@ export default function Query() {
                         handleQueryOptionOnChange={handleQueryOptionOnChange}
                         errors={errors}
                     />
-                    <Styles.BottomGrid container>
-                        <Styles.Grid item laptop={3}>
-                            <Styles.Card
-                                title="Student Enrollment"
-                            >
-                                <Styles.Statistics data={enrollment} />
-                        </Styles.Card>
-                    </Styles.Grid>
-                    <Styles.Grid item laptop={3}>
-                        <Styles.Card
-                            title="Student Graduates"
-                        >
-                            <Styles.Statistics data={graduates} />
-                        </Styles.Card>
-                    </Styles.Grid>
-                    <Styles.Grid item laptop={3}>
-                        <Styles.Card
-                            title="Student Exam"
-                        >
-                            <Styles.Statistics data={exam} />
-                        </Styles.Card>
-                    </Styles.Grid>
-                    <Styles.Grid item laptop={3}>
-                        <Styles.Card 
-                            title="Student Employment"
-                        >                        
-                            <Styles.Statistics  data={employment} />                      
-                        </Styles.Card>
-                    </Styles.Grid>
-                </Styles.BottomGrid>
-                <Styles.SimpleBackDrop 
-                    openBackdrop={openBackdrop}
-                />
-            </>
+                    <Styles.Box>
+                        <Styles.Statistics />
+                    </Styles.Box>
+                    <Styles.SimpleBackDrop 
+                        openBackdrop={openBackdrop}
+                    />
+                </>
             }
             {
                 showResults &&  

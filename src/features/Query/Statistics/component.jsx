@@ -1,7 +1,5 @@
 import React from "react";
 
-import { useCharts } from "../../../hooks";
-import Styles from './styles';
 import {
   BarChart,
   XAxis,
@@ -10,48 +8,64 @@ import {
   Bar,
   ResponsiveContainer
 } from "recharts";
-export default function Statistics({data}) {
+
+import Styles from "./styles";
+import { useCharts } from "../../../hooks";
 
 
-  const {
-    theme,
+export default function Statistics() {
+
+  const { 
+    data, 
+    theme  
   } = useCharts()
 
+
   const {
-    AxisStroke,
-    AxisStyle,
+    chartWidth,
+    chartHeight,
+    axisStroke,
+    axisStyle,
+    barFill,
+    chartMargins
   } = Styles.ReChartsStyles(theme)
 
-
     return (
-          <ResponsiveContainer 
-            width={350}
-            height={350}>
-            <BarChart
-              data={data}
-              margin={{
-                top: 0,
-                right: 0,
-                bottom: 0,
-                left: -35,
-              }}
-            >
-              <XAxis 
-                dataKey="year"
-                stroke={AxisStroke}
-                style={AxisStyle}
-              />
-              <YAxis          
-                stroke={AxisStroke}
-                style={AxisStyle}
-              >
-              </YAxis>
-              <Tooltip />
 
-              <Bar dataKey="count" fill={theme.palette.info.dark} />
-            
-            </BarChart>
-            </ResponsiveContainer>
+          <Styles.Grid container>
+            {
+              Object.keys(data).map((key, index)=>(
+                <Styles.Grid item laptop={3} key={key}>
+                <Styles.Card
+                  title={`Student ${key}s`}
+                >
+                  <ResponsiveContainer 
+                    width={chartWidth}
+                    height={chartHeight}
+                  >
+                    <BarChart
+                      data={data[key]}
+                      margin={chartMargins}
+                    >
+                      <XAxis 
+                        dataKey="year"
+                        stroke={axisStroke}
+                        style={axisStyle}
+                      />
+                      <YAxis          
+                        stroke={axisStroke}
+                        style={axisStyle}
+                      />
+                      <Tooltip />
+                      <Bar dataKey="count" fill={barFill} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </Styles.Card>
+              </Styles.Grid>
+              ))
+            }
+
+          </Styles.Grid>
     )
 }
 
