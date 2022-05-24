@@ -11,6 +11,7 @@ export default function Card(props) {
 
     return (
         <Styles.Card
+            raised
             { ...others }
         >
             <Styles.CardContent>

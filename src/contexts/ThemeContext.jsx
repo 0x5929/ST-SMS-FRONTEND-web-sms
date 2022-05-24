@@ -24,8 +24,8 @@ const AppThemeContextProvider = ({ children }) => {
         palette: {
             mode: darkMode ? 'dark' : 'light',
             background: {
-              default: darkMode ? '#1e202a' : '#e6e6e6',
-              paper: darkMode ? '#1e202a' : '#e6e6e6',
+              default: darkMode ? '#1e202a' : '#f7f7f7',
+              paper: darkMode ? '#1e202a' : '#f7f7f7',
             },
 
             primary: {
