@@ -15,7 +15,6 @@ export default function Query() {
         handleSubmit,
         queryLabel,
         showResults,
-        getStats,
         results,
         openBackdrop,
 
@@ -26,14 +25,13 @@ export default function Query() {
         handleQueryOnChange,
         handleQueryOptionOnChange,
         handleBacktoQuery,
-        
-        schoolPicLoc,
-        programPicLoc,
-        rotationPicLoc,
-        studentPicLoc
 
+        enrollment,
+        employment,
+        graduates,
+        exam
     } = useQuery()
-    
+
     return (
         <Styles.Paper>
             {            
@@ -55,53 +53,31 @@ export default function Query() {
                     />
                     <Styles.BottomGrid container>
                         <Styles.Grid item laptop={3}>
-                            <Styles.Card 
-                                title="School Statistics"
-                                model="school"
-                                stats={getStats.school()}
+                            <Styles.Card
+                                title="Student Enrollment"
                             >
-                            <Styles.Image 
-                                alt="School image."
-                                src={schoolPicLoc}
-                            />
-
+                                <Styles.Statistics data={enrollment} />
                         </Styles.Card>
                     </Styles.Grid>
                     <Styles.Grid item laptop={3}>
-                        <Styles.Card 
-                            title="Program Statistics"
-                            model="program"
-                            stats={getStats.program()}
+                        <Styles.Card
+                            title="Student Graduates"
                         >
-                            <Styles.Image 
-                                alt="Program image."
-                                src={programPicLoc}
-                            /> 
-
+                            <Styles.Statistics data={graduates} />
                         </Styles.Card>
                     </Styles.Grid>
                     <Styles.Grid item laptop={3}>
-                        <Styles.Card 
-                            title="Rotation Statistics"
-                            model="rotation"
-                            stats={getStats.rotation()}
+                        <Styles.Card
+                            title="Student Exam"
                         >
-                            <Styles.Image 
-                                alt="Rotation image."
-                                src={rotationPicLoc}
-                            /> 
+                            <Styles.Statistics data={exam} />
                         </Styles.Card>
                     </Styles.Grid>
                     <Styles.Grid item laptop={3}>
                         <Styles.Card 
-                            title="Student Statistics"
-                            model="student"
-                            stats={getStats.student()}
+                            title="Student Employment"
                         >                        
-                            <Styles.Image 
-                                alt="Student image."
-                                src={studentPicLoc}
-                            />                       
+                            <Styles.Statistics  data={employment} />                      
                         </Styles.Card>
                     </Styles.Grid>
                 </Styles.BottomGrid>

@@ -7,7 +7,7 @@ import Styles from './styles'
 
 export default function Card(props) {
 
-    const { typographyVariant, title, model, stats, children, ...others } = props
+    const { title, children, ...others } = props
 
     return (
         <Styles.Card
@@ -17,10 +17,6 @@ export default function Card(props) {
                 <Styles.Typography 
                     text={title}
                     justify="center"
-                />
-                <Styles.Typography 
-                    variant="p"
-                    text={`There are total of ${stats} ${model}s.`}
                 />
 
                 { children }

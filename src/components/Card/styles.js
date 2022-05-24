@@ -19,7 +19,7 @@ const CardContent = styled(MuiCardContent)(( {theme} ) => ({
 
 
 const Typography = styled(BaseTypography)(( {theme} ) => ({
-
+    textAlign: 'center'
 }));
 
 

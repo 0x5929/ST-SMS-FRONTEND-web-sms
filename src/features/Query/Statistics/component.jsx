@@ -1,61 +1,57 @@
 import React from "react";
 
-import useCharts from "../../../hooks";
+import { useCharts } from "../../../hooks";
 import Styles from './styles';
-
-export default function Statistics({title, data}) {
+import {
+  BarChart,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Bar,
+  ResponsiveContainer
+} from "recharts";
+export default function Statistics({data}) {
 
 
   const {
     theme,
-    labelAngle,
-    labelLoc,
-    isAnimationActive,
-    lineDot
   } = useCharts()
 
   const {
     AxisStroke,
     AxisStyle,
-    LabelStyle,
-    LineStroke
   } = Styles.ReChartsStyles(theme)
 
-    
+
     return (
-        <Styles.ResponsiveContainer>
-            <Styles.LineChart
-              // width={500}
-              // height={300}
+          <ResponsiveContainer 
+            width={350}
+            height={350}>
+            <BarChart
               data={data}
+              margin={{
+                top: 0,
+                right: 0,
+                bottom: 0,
+                left: -35,
+              }}
             >
-              <Styles.XAxis 
+              <XAxis 
                 dataKey="year"
                 stroke={AxisStroke}
                 style={AxisStyle}
-              >
-                 <Styles.Label
-                    angle={labelAngle}
-                    position={labelLoc}
-                    style={LabelStyle}
-                >
-                    {title}
-            </Styles.Label>
-              </Styles.XAxis>
-              <Styles.YAxis          
+              />
+              <YAxis          
                 stroke={AxisStroke}
                 style={AxisStyle}
-              />
-              <Styles.Tooltip />
-              <Styles.Line
-                isAnimationActive={isAnimationActive}
-                type="monotone"
-                dataKey="count"
-                stroke={LineStroke}
-                dot={lineDot}
-              />
-            </Styles.LineChart>
-       </Styles.ResponsiveContainer>
+              >
+              </YAxis>
+              <Tooltip />
+
+              <Bar dataKey="count" fill={theme.palette.info.dark} />
+            
+            </BarChart>
+            </ResponsiveContainer>
     )
 }
 
