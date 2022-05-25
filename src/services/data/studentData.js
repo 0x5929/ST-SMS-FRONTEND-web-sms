@@ -501,7 +501,7 @@ const SMSStats = [
             {'year': 2022, 'count': 0}
         ],
 
-        "graduates": [
+        "graduate": [
             {'year': 2013, 'count': 93},
             {'year': 2014, 'count': 155},
             {'year': 2015, 'count': 83},

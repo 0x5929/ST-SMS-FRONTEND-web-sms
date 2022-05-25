@@ -7,6 +7,10 @@ import Components from '../../components';
 
 const Paper = styled(Components.Paper)(( {theme} ) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1e202a' : '#ffffff',
+    width: '70%',
+    marginLeft: 'auto',
+    marginRight: 'auto'
+
 }));
 
 const Typography = styled(Components.BaseTypography)(( {theme} ) => ({

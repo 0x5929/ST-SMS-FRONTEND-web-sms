@@ -1,15 +1,6 @@
 import React from "react";
-
-import {
-  BarChart,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Bar,
-  ResponsiveContainer
-} from "recharts";
-
 import Styles from "./styles";
+
 import { useCharts } from "../../../hooks";
 
 
@@ -32,40 +23,43 @@ export default function Statistics() {
 
     return (
 
-          <Styles.Grid container>
+          <Styles.GridContainer container>
+                <Styles.Grid item mobile={12}>
+                    <Styles.Typography text="Statistics" variant="h2"/>
+                </Styles.Grid>
             {
               Object.keys(data).map((key, index)=>(
-                <Styles.Grid item laptop={3} key={key}>
+                <Styles.Grid item laptop={6} key={key}>
                 <Styles.Card
                   title={`Student ${key}s`}
                 >
-                  <ResponsiveContainer 
+                  <Styles.ResponsiveContainer 
                     width={chartWidth}
                     height={chartHeight}
                   >
-                    <BarChart
+                    <Styles.BarChart
                       data={data[key]}
                       margin={chartMargins}
                     >
-                      <XAxis 
+                      <Styles.XAxis 
                         dataKey="year"
                         stroke={axisStroke}
                         style={axisStyle}
                       />
-                      <YAxis          
+                      <Styles.YAxis          
                         stroke={axisStroke}
                         style={axisStyle}
                       />
-                      <Tooltip />
-                      <Bar dataKey="count" fill={barFill} />
-                    </BarChart>
-                  </ResponsiveContainer>
+                      <Styles.Tooltip />
+                      <Styles.Bar dataKey="count" fill={barFill} />
+                    </Styles.BarChart>
+                  </Styles.ResponsiveContainer>
                 </Styles.Card>
               </Styles.Grid>
               ))
             }
 
-          </Styles.Grid>
+          </Styles.GridContainer>
     )
 }
 

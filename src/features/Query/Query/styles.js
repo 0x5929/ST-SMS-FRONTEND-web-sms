@@ -23,6 +23,9 @@ const Box = styled(MuiBox)(( {theme} ) => ({
 // styling paper and card to override the custom theme based on light or dark mode
 const Paper = styled(Components.Paper)(( {theme} ) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1e202a' : '#ffffff',
+    width: '70%',
+    marginLeft: 'auto',
+    marginRight: 'auto'
 }));
 
 
