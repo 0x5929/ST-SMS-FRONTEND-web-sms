@@ -39,6 +39,10 @@ const GridContainer = styled(MuiGrid)(({ theme }) => ({
 
 const Grid = styled(MuiGrid)(({ theme }) => ({
     // Styling for Grid if needed
+    [theme.breakpoints.up('mobile')] : {
+        margin: 'auto',
+
+    },
 }))
 
 
