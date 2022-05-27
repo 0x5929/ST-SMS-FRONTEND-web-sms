@@ -59,7 +59,7 @@ export default function Header({ Link }) {
                     >
                         {
                             darkMode ? 
-                                <Styles.LightModeIcon /> : <Styles.Brightness3Icon />
+                                <Styles.BrightnessHighIcon /> : <Styles.Brightness4Icon />
                         }
                     </Styles.IconButton>
                     {

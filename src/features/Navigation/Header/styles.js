@@ -8,12 +8,23 @@ import {
 
 import { 
     Menu as MuiMenuIcon, 
-    Brightness3 as MuiBrightness3Icon, 
-    LightMode as MuiLightMode } from '@mui/icons-material';
-import { styled } from '@mui/material/styles';
+    Brightness4 as MuiBrightness4Icon, 
+    BrightnessHigh as MuiBrightnessHigh } from '@mui/icons-material';
+import { styled, keyframes } from '@mui/material/styles';
 
 import { Drawer } from '../SideNav';
 import Components from '../../../components'
+
+
+const rotateCenter = keyframes`
+0% {
+    -webkit-transform: rotate(0);
+            transform: rotate(0);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+}`;
 
 
 const Box = styled(MuiBox)(( {theme} ) => ({
@@ -34,11 +45,11 @@ const MenuIcon = styled(MuiMenuIcon)(( {theme} ) => ({
     // style MenuIcon if needed
 }));
 
-const Brightness3Icon = styled(MuiBrightness3Icon)(( {theme} ) => ({
+const Brightness4Icon = styled(MuiBrightness4Icon)(( {theme} ) => ({
     // style Brightness4Icon if needed
 }));
 
-const  LightModeIcon = styled(MuiLightMode)(( {theme} ) => ({
+const  BrightnessHighIcon = styled(MuiBrightnessHigh)(( {theme} ) => ({
     // style Brightess7Icon if needed
 }));
 
@@ -48,10 +59,16 @@ const Switch = styled(MuiSwitch)(( {theme} ) => ({
 }));
 
 
-const IconButton = styled(Components.BaseIconButton)(( {theme} ) => ({
+const BaseIconButton = styled(Components.BaseIconButton)(( {theme} ) => ({
     marginRight: theme.spacing(2),
     color: theme.palette.common.white
 }));
+
+const IconButton = styled(BaseIconButton)`
+    &:active {
+        animation: ${rotateCenter} 0.8s ease-in-out both;
+    }
+`;
 
 
 const Button = styled(Components.BaseButton)(( {theme} ) => ({
@@ -73,8 +90,8 @@ const Styles = {
     AppBar,
     Toolbar,
     MenuIcon,
-    Brightness3Icon,
-    LightModeIcon,
+    Brightness4Icon,
+    BrightnessHighIcon,
     IconButton,
     Button,
     Typography
