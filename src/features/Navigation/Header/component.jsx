@@ -50,7 +50,7 @@ export default function Header({ Link }) {
                         component="div" 
                         text={headerTitle}
                     />
-                    <Styles.Switch checked={darkMode} onChange={toggleColorMode} />
+                    <Styles.Switch disabled checked={darkMode} onChange={toggleColorMode} />
                     <Styles.IconButton
                         size="small"
                         onClick={toggleColorMode}

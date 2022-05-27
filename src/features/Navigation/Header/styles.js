@@ -1,3 +1,4 @@
+import { switchClasses } from "@mui/material/Switch";
 
 import { 
     Box as MuiBox, 
@@ -53,11 +54,20 @@ const  BrightnessHighIcon = styled(MuiBrightnessHigh)(( {theme} ) => ({
     // style Brightess7Icon if needed
 }));
 
-const Switch = styled(MuiSwitch)(( {theme} ) => ({
+const BaseSwitch = styled(MuiSwitch)(( {theme} ) => ({
     marginRight: theme.spacing(2),
     color: theme.palette.common.white
 }));
 
+
+const Switch = styled(BaseSwitch)(( {theme} ) => {
+    
+    const key = `& .${switchClasses.switchBase}.${switchClasses.disabled}`;
+    return {
+        [key] : {
+        color: theme.palette.primary.main
+    }
+}});
 
 const BaseIconButton = styled(Components.BaseIconButton)(( {theme} ) => ({
     marginRight: theme.spacing(2),
