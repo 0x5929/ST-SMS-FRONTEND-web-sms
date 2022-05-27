@@ -135,7 +135,7 @@ export default function useForm(
 
 
 
-    const getCourseOptions = SMSRecordService.getCourseOptions
+    const  {getCourseOptions, getRotationOptions } = SMSRecordService
     const hoursWorkedRadioItems  = SMSRecordService.getHoursWorkedRadioItems()
     
 
@@ -157,6 +157,7 @@ export default function useForm(
         handleSubmit,
         handleCancel,
         getCourseOptions,
+        getRotationOptions,
         hoursWorkedRadioItems,
         convertToDefaultEventParam,
         success,

@@ -11,6 +11,7 @@ export function StudentForm(props) {
             handleCancel,
             handleSubmit,
             getCourseOptions,
+            getRotationOptions,
             hoursWorkedRadioItems, 
             convertToDefaultEventParam,
             success,
@@ -79,6 +80,15 @@ export function StudentForm(props) {
                     error={errors.course}
                     value={values.course}
                     defaultValue={getCourseOptions()[0].value}
+                />
+                <Styles.Select
+                    name="rotation"
+                    label="Rotation"
+                    onChange={handleInputChange}
+                    options={getRotationOptions(values.course)}
+                    error={errors.rotation}
+                    value={values.rotation}
+                    defaultValue={getRotationOptions()[0].rotation}
                 />
                 <Styles.DatePicker
                     name="startDate"

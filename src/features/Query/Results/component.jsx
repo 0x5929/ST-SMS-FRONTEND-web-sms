@@ -70,6 +70,7 @@ export default function QueryResults(props) {
         handleEditSubmit,
         handleEditCancel,
         getCourseOptions,
+        getRotationOptions,
         hoursWorkedRadioItems,
         convertToDefaultEventParam,
         success,
@@ -142,6 +143,7 @@ export default function QueryResults(props) {
                     handleInputChange={handleInputChange}
                     handleCancel={handleEditCancel}
                     getCourseOptions={getCourseOptions}
+                    getRotationOptions={getRotationOptions}
                     hoursWorkedRadioItems={hoursWorkedRadioItems}
                     convertToDefaultEventParam={convertToDefaultEventParam}
                     handleSubmit={handleEditSubmit}

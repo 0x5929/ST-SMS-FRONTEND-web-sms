@@ -1,7 +1,16 @@
-import { Grid as MuiGrid, Box as MuiBox, CircularProgress as MuiCircularProgress } from '@mui/material';
-import { DoubleArrow as MuiDoubleArrow, Check as MuiCheckIcon, Save as MuiSaveIcon } from '@mui/icons-material';
-import { styled } from '@mui/material/styles';
+import { 
+    Grid as MuiGrid, 
+    Box as MuiBox, 
+    CircularProgress as MuiCircularProgress,
+} from '@mui/material';
 
+import { 
+    DoubleArrow as MuiDoubleArrow, 
+    Check as MuiCheckIcon, 
+    Save as MuiSaveIcon,
+} from '@mui/icons-material';
+
+import { styled } from '@mui/material/styles';
 import { SearchBar } from '../Searchbar'
 import { Fab as BaseFab } from '../Buttons'
 
@@ -195,7 +204,7 @@ const Styles = {
     QueryButton,
     DelButton,
     DoubleArrowIcon,
-    QuerySearchBar
+    QuerySearchBar,
 }
 
 export default Styles 

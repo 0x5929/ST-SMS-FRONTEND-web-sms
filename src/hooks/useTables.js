@@ -59,6 +59,7 @@ export function useQueryResultTable(userFeedbackObj, results) {
       handleEditSubmit,
       handleEditCancel,
       getCourseOptions,
+      getRotationOptions,
       hoursWorkedRadioItems,
       convertToDefaultEventParam,
       
@@ -187,6 +188,7 @@ export function useQueryResultTable(userFeedbackObj, results) {
         handleEditSubmit,
         handleEditCancel,
         getCourseOptions,
+        getRotationOptions,
         hoursWorkedRadioItems,
         convertToDefaultEventParam,
         success,

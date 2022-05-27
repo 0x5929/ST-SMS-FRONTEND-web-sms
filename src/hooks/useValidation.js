@@ -66,6 +66,8 @@ const useCreateValidation = (fieldValues, setErrors, errors) => {
         temp.dateEnrollmentAgreementSigned = fieldValues.dateEnrollmentAgreementSigned?'':'This field is required.'
     if ('course' in fieldValues)
             temp.course = fieldValues.course !== ''?'':'This field is required.'
+    if ('rotation' in fieldValues)
+            temp.rotation = fieldValues.rotation !== ''?'':'This field is required.'
 
     // returns false if any of the above if statements evaluates to false
     setErrors({...temp})

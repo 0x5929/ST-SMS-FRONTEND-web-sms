@@ -21,6 +21,7 @@ export default function Create() {
         handleSubmit,
         handleCancel,
         getCourseOptions,
+        getRotationOptions,
         hoursWorkedRadioItems,
         convertToDefaultEventParam,
         success,
@@ -48,6 +49,7 @@ export default function Create() {
                 handleCancel={handleCancel}
                 handleSubmit={handleSubmit}
                 getCourseOptions={getCourseOptions}
+                getRotationOptions={getRotationOptions}
                 hoursWorkedRadioItems={hoursWorkedRadioItems}
                 convertToDefaultEventParam={convertToDefaultEventParam}
                 success={success}

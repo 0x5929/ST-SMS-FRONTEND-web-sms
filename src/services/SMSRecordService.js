@@ -7,7 +7,11 @@ const KEYS = {
     studentPk: 'studentPk'
 }
 
-export const getCourseOptions = ()=>([
+export const getCourseOptions = ()=>{
+    
+    // API call for https://backend.api/api/sms/programs/
+    // filter through for program names
+    return [
     {value: 'CNA', title: 'Certified Nurse Assistant'},
     {value: 'HHA', title: 'Home Health Aide'},
     {value: 'SG', title: 'Security Guard'},
@@ -15,8 +19,27 @@ export const getCourseOptions = ()=>([
     {value: 'ESOL', title: 'English to Speakers of Other Language'},
     {value: 'BLS', title: 'Basic Life Support'},
     {value: 'HSFA', title: 'Heartsaver First Aid'},
-])
+]}
 
+export const getRotationOptions = (course) => {
+    // API call for https://backend.api/api/sms/rotations/program__program_name=<course>
+    // filter through and str(rotation_number) of each rotations
+    // return data in the following format (inverse from biggest to lowest)
+    
+
+    return [
+        {course: course, value: '10', title: course + ' rotation 10'},
+        {course: course, value: '9', title: course + ' rotation 9'},
+        {course: course, value: '8', title: course + ' rotation 8'},
+        {course: course, value: '7', title: course + ' rotation 7'},
+        {course: course, value: '6', title: course + ' rotation 6'},
+        {course: course, value: '5', title: course + ' rotation 5'},
+        {course: course, value: '4', title: course + ' rotation 4'},
+        {course: course, value: '3', title: course + ' rotation 3'},
+        {course: course, value: '2', title: course + ' rotation 2'},
+        {course: course, value: '1', title: course + ' rotation 1'},
+    ]
+}
 
 export const getQueryOptions = () => ([
     {value: 'rotation__program__school__school_name', title: 'School Name'},
