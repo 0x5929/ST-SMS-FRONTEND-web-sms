@@ -65,7 +65,7 @@ const Switch = styled(BaseSwitch)(( {theme} ) => {
     const key = `& .${switchClasses.switchBase}.${switchClasses.disabled}`;
     return {
         [key] : {
-        color: theme.palette.primary.main
+        color: theme.palette.primary.dark
     }
 }});
 
