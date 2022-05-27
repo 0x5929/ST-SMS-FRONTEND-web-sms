@@ -1,5 +1,5 @@
 import { Grid as MuiGrid } from '@mui/material'
-import { styled } from '@mui/material/styles';
+import { styled, keyframes } from '@mui/material/styles';
 import {
     BarChart,
     XAxis,
@@ -10,6 +10,22 @@ import {
   } from "recharts";
 
 import Components from '../../../components'
+
+// https://animista.net/
+const shadowDrop2Center = keyframes`
+  0% {
+    -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+    -webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+            box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+  100% {
+    -webkit-transform: translateZ(50px);
+            transform: translateZ(50px);
+    -webkit-box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
+            box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
+  }
+`;
 
 
 const ReChartsStyles = (theme) => {
@@ -46,11 +62,21 @@ const Grid = styled(MuiGrid)(({ theme }) => ({
 }))
 
 
-const Card = styled(Components.Card)(({ theme }) => ({
+const BaseCard = styled(Components.Card)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1e202a' : '#ffffff',
-    margin: theme.spacing(1)
-
+    margin: theme.spacing(1),
 }))
+
+
+// with animation
+const Card = styled(BaseCard)`
+
+    &:hover {
+        animation: ${shadowDrop2Center} 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+    }
+
+`;
+
 
 const Typography = styled(Components.BaseTypography)(({ theme }) => ({
     fontFamily: 'Smooch',
