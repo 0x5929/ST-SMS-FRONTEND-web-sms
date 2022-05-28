@@ -11,7 +11,8 @@ export default function useForm(
     addRotObj,
     recordForEdit=null) {
         
-    // form state
+    // form states 
+    // consider refactor  using useReducer to help maintain states
     const [values, setValues] = useState(currentData);
     const [rotationValues, setRotationValues] = useState({programName: '', rotation: ''})
     const [errors, setErrors] = useState({});
@@ -59,6 +60,7 @@ export default function useForm(
         }
     }
 
+    // consider refactoring these into its own useAddRotForm() hook, and have the main useStudentForm() hook call it
     const handleAddRotInputChange = e => {
         const { name, value } = e.target
 

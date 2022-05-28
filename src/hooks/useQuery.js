@@ -4,11 +4,13 @@ import validate from './useValidation'
 import * as studentService from '../services/SMSRecordService'
 
 
+// consider moving this into useForm.js as useQueryForm()
 export default function useQuery() {
 
     var textInput = useRef(null);
     const queryLabel = 'Search Student Database'
 
+    // consider using useReducer hook to help manage states below
     const [ results, setResults ] = useState([])
     const [errors, setErrors] = useState({});
     const [ showResults, setShowResults ] = useState(false)

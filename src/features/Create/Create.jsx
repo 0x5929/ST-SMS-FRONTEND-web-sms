@@ -53,7 +53,7 @@ export default function Create() {
                 openAddRotModal,
                 closeAddRotModal,
             }
-        );
+    );
 
 
     return (
@@ -69,14 +69,15 @@ export default function Create() {
                 handleInputChange={handleInputChange}
                 handleCancel={handleCancel}
                 handleSubmit={handleSubmit}
-                handleAddRot={handleAddRot}
-                handleCloseAddRot={handleCloseAddRot}
                 getCourseOptions={getCourseOptions}
                 getRotationOptions={getRotationOptions}
                 hoursWorkedRadioItems={hoursWorkedRadioItems}
                 convertToDefaultEventParam={convertToDefaultEventParam}
                 success={success}
                 loading={loading}
+
+                handleAddRot={handleAddRot}
+                handleCloseAddRot={handleCloseAddRot}
                 addRotModalOpen={addRotModalOpen}
                 addRotModalTitle={addRotModalTitle}
                 handleAddRotInputChange={handleAddRotInputChange}
