@@ -199,9 +199,7 @@ export default function useForm(
     // return an obj that contains our state 
     return {
         values, 
-        setValues,
         errors,
-        setErrors,
         handleInputChange,
         handleSubmit,
         handleCancel,
