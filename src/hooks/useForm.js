@@ -29,8 +29,7 @@ export default function useForm(
             so hooks for each state will still be called the same order 
         **/
         if (recordForEdit !== null) {
-            console.log('recordForEdit: ', recordForEdit)
-            console.log('recordForEdit.rotation: ', recordForEdit.rotation)
+
             setValues({
                 ...recordForEdit
             })
