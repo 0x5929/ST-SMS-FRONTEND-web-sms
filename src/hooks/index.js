@@ -1,5 +1,5 @@
 
-export { useEditModal, useDetailedViewModal } from './useModals';
+export { useEditModal, useDetailedViewModal, useAddRotationModal } from './useModals';
 export { useNotification, useConfirmDialog } from './useFeedbacks';
 export { useQueryResultTable, useDetailedViewTable } from './useTables';
 export { default as useHeader } from './useHeader'

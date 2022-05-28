@@ -76,6 +76,17 @@ export default function QueryResults(props) {
         success,
         loading,
 
+        addRotModalOpen,
+        addRotModalTitle,
+        handleAddRot,
+        handleCloseAddRot,
+        handleAddRotInputChange,
+        handleAddRotSubmit,
+        handleAddRotClear,
+        rotationValues,
+        rotationErrors,
+        
+
     } = useQueryResultTable({
         setNotify,
         notify,
@@ -142,6 +153,8 @@ export default function QueryResults(props) {
                     errors={errors}
                     handleInputChange={handleInputChange}
                     handleCancel={handleEditCancel}
+                    handleAddRot={handleAddRot}
+                    handleCloseAddRot={handleCloseAddRot}
                     getCourseOptions={getCourseOptions}
                     getRotationOptions={getRotationOptions}
                     hoursWorkedRadioItems={hoursWorkedRadioItems}
@@ -149,6 +162,13 @@ export default function QueryResults(props) {
                     handleSubmit={handleEditSubmit}
                     success={success}
                     loading={loading}
+                    addRotModalOpen={addRotModalOpen}
+                    addRotModalTitle={addRotModalTitle}
+                    handleAddRotInputChange={handleAddRotInputChange}
+                    handleAddRotSubmit={handleAddRotSubmit}
+                    handleAddRotClear={handleAddRotClear}
+                    rotationValues={rotationValues}
+                    rotationErrors={rotationErrors}
                 />
             </Styles.Modal>
             <Styles.Modal

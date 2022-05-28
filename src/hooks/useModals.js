@@ -9,6 +9,13 @@ export function useEditModal (studentValues, setRecordForEdit, setRecords, userF
     const [openModal, setOpenModal] = useState(false)
 
     const {
+        addRotModalOpen,
+        openAddRotModal,
+        closeAddRotModal,
+        addRotModalTitle
+    }  = useAddRotationModal()
+
+    const {
         values, 
         setValues,
         errors,
@@ -21,7 +28,18 @@ export function useEditModal (studentValues, setRecordForEdit, setRecords, userF
         convertToDefaultEventParam,
         success,
         loading,
-    } = useForm(true, studentValues, userFeedbackObj, recordForEdit);
+
+        handleAddRot,
+        handleCloseAddRot,
+        handleAddRotInputChange,
+        handleAddRotSubmit,
+        handleAddRotClear,
+        rotationValues,
+        rotationErrors,
+    } = useForm(true, studentValues, userFeedbackObj, {
+            openAddRotModal,
+            closeAddRotModal,
+        }, recordForEdit);
 
 
     const openInModal = item =>{
@@ -61,6 +79,8 @@ export function useEditModal (studentValues, setRecordForEdit, setRecords, userF
         handleInputChange,
         handleEditSubmit,
         handleEditCancel,
+        handleAddRot,
+        handleCloseAddRot,
         getCourseOptions,
         getRotationOptions,
         hoursWorkedRadioItems,
@@ -72,6 +92,15 @@ export function useEditModal (studentValues, setRecordForEdit, setRecords, userF
         convertToDefaultEventParam,
         success,
         loading,
+
+        addRotModalOpen,
+        addRotModalTitle,
+
+        handleAddRotInputChange,
+        handleAddRotSubmit,
+        handleAddRotClear,
+        rotationValues,
+        rotationErrors,
     }
 }
 
@@ -99,3 +128,24 @@ export function useDetailedViewModal (setRecordForView){
         openInDetail,
     }
 }
+
+
+export function useAddRotationModal (){
+    const [addRotModalOpen, setAddRotModalOpen] = useState(false)
+    const addRotModalTitle = 'Add Rotation'
+
+    const openAddRotModal = () => {
+        setAddRotModalOpen(true)
+    }
+
+    const closeAddRotModal = () => {
+        setAddRotModalOpen(false)
+    }
+    return {
+        addRotModalOpen,
+        openAddRotModal,
+        closeAddRotModal,
+        addRotModalTitle
+    }
+
+} 

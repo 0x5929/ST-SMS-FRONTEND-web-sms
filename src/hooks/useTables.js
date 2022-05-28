@@ -71,6 +71,18 @@ export function useQueryResultTable(userFeedbackObj, results) {
       closeModal,
       success,
       loading,
+
+      addRotModalOpen,
+      addRotModalTitle,
+
+      handleAddRot,
+      handleCloseAddRot,
+      handleAddRotInputChange,
+      handleAddRotSubmit,
+      handleAddRotClear,
+      rotationValues,
+      rotationErrors,
+
     } = useEditModal(
         SMSRecordService.getInitialStudentValues, 
         setRecordForEdit, 
@@ -193,6 +205,17 @@ export function useQueryResultTable(userFeedbackObj, results) {
         convertToDefaultEventParam,
         success,
         loading,
+
+        addRotModalOpen,
+        addRotModalTitle,
+        handleAddRot,
+        handleCloseAddRot,
+        handleAddRotInputChange,
+        handleAddRotSubmit,
+        handleAddRotClear,
+        rotationValues,
+        rotationErrors,
+        
     }
 }
 

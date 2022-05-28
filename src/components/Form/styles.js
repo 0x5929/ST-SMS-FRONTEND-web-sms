@@ -2,18 +2,21 @@ import {
     Grid as MuiGrid, 
     Box as MuiBox, 
     CircularProgress as MuiCircularProgress,
+    Stack as MuiStack,
+    Paper as MuiPaper,
 } from '@mui/material';
 
 import { 
     DoubleArrow as MuiDoubleArrow, 
     Check as MuiCheckIcon, 
     Save as MuiSaveIcon,
+    AddBox as MuiAddBox
 } from '@mui/icons-material';
 
 import { styled } from '@mui/material/styles';
-import { SearchBar } from '../Searchbar'
-import { Fab as BaseFab } from '../Buttons'
-
+import { SearchBar } from '../Searchbar';
+import { Fab as BaseFab } from '../Buttons';
+import { Modal as BaseModal } from '../Modal';
 
 
 import {
@@ -42,6 +45,24 @@ const Box = styled(MuiBox)(( {theme} ) => ({
     // to style the grid if needed
 }));
 
+const Stack = styled(MuiStack)(( {theme} ) => ({
+    
+    width: '90%'
+
+}));
+const Paper = styled(MuiPaper)(( {theme} ) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1e202a' : '#ffffff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+}));
+
+const Modal = styled(BaseModal)(( {theme} ) => ({
+    // to style the grid if needed
+    width: '30%',
+    margin: 'auto'
+}));
 
 
 const Grid = styled(MuiGrid)(( {theme} ) => ({
@@ -130,6 +151,12 @@ const QueryButton = styled(BaseIconButton)(( {theme} ) => ({
 }));
 
 
+const AddRotBtn = styled(BaseIconButton)(( {theme} ) => ({
+    borderRadius: theme.spacing(1),
+
+}));
+
+
 const CircularProgress = styled(MuiCircularProgress)(( {theme} ) => ({
     color: theme.palette.success.main,
     position: 'absolute',
@@ -156,6 +183,9 @@ const SaveIcon = styled(MuiSaveIcon)(( {theme} ) => ({
     // to style the SaveIcon if needed
 }));
 
+const AddBoxIcon = styled(MuiAddBox)(( {theme} ) => ({
+    // to style the AddBoxIcon if needed
+}));
 
 
 const QueryForm = styled('form')(( {theme} ) => ({
@@ -166,6 +196,12 @@ const QueryForm = styled('form')(( {theme} ) => ({
     }
 }));
 
+const AddRotForm = styled('form')(( { theme } ) => ({
+    '& .MuiFormControl-root':{    
+        width: '80%',
+        margin: theme.spacing(1),
+    }
+}));
 
 const DoubleArrowIcon = styled(MuiDoubleArrow)(( {theme} ) => ({
     // to style QueryForm if needed
@@ -183,8 +219,12 @@ const QuerySearchBar = styled(SearchBar)(( {theme} ) => ({
 
 const Styles = {
     StudentForm,
+    AddRotForm,
     QueryForm,
+    Modal,
     Grid,
+    Stack,
+    Paper,
     Box,
     Input,
     Select,
@@ -200,10 +240,12 @@ const Styles = {
     Fab,
     SuccessFab,
     SuccessButton,
+    AddRotBtn,
     AddButton,
     QueryButton,
     DelButton,
     DoubleArrowIcon,
+    AddBoxIcon,
     QuerySearchBar,
 }
 

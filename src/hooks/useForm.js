@@ -8,14 +8,14 @@ export default function useForm(
     validateOnChange=false, 
     currentData=SMSRecordService.getInitialStudentValues(), 
     userFeedbackObj,
+    addRotObj,
     recordForEdit=null) {
         
-
-
-
     // form state
     const [values, setValues] = useState(currentData);
+    const [rotationValues, setRotationValues] = useState({programName: '', rotation: ''})
     const [errors, setErrors] = useState({});
+    const [rotationErrors, setRotationErrors] = useState({})
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
     const progressTimer = useRef();
@@ -28,6 +28,8 @@ export default function useForm(
             so hooks for each state will still be called the same order 
         **/
         if (recordForEdit !== null) {
+            console.log('recordForEdit: ', recordForEdit)
+            console.log('recordForEdit.rotation: ', recordForEdit.rotation)
             setValues({
                 ...recordForEdit
             })
@@ -57,6 +59,43 @@ export default function useForm(
         }
     }
 
+    const handleAddRotInputChange = e => {
+        const { name, value } = e.target
+
+        setRotationValues({
+            ...rotationValues,
+            [name] : value
+        })
+    }
+
+    const handleAddRotSubmit = e => {
+        e.preventDefault()
+
+        if (validate.useAddRotValidation(rotationValues, setRotationErrors, rotationErrors)){
+            const {        
+                setNotify,
+                notify
+            } = userFeedbackObj
+
+            setNotify({
+                isOpen: true,
+                message: 'Rotation added successfully',
+                type: 'success', 
+                Transition: notify.Transition
+            })
+
+            setRotationValues({programName: '', rotation: ''})
+            handleAddRotClear()
+            handleCloseAddRot()
+        }
+
+    }
+
+    const handleAddRotClear = () => {
+        setRotationValues({programName: '', rotation: ''})
+        setRotationErrors({})
+ 
+    }
 
     const createOrUpdate = (record, resetForm) => {
 
@@ -133,7 +172,15 @@ export default function useForm(
 
     }
 
+    const handleAddRot = () =>{
+        const { openAddRotModal } = addRotObj
+        openAddRotModal()
+    }
 
+    const handleCloseAddRot = () => {
+        const { closeAddRotModal } = addRotObj
+        closeAddRotModal()
+    }
 
     const  {getCourseOptions, getRotationOptions } = SMSRecordService
     const hoursWorkedRadioItems  = SMSRecordService.getHoursWorkedRadioItems()
@@ -162,6 +209,15 @@ export default function useForm(
         convertToDefaultEventParam,
         success,
         loading,
+
+
+        handleAddRot,
+        handleCloseAddRot,
+        handleAddRotInputChange,
+        handleAddRotSubmit,
+        handleAddRotClear,
+        rotationValues,
+        rotationErrors,
     }
 }
 

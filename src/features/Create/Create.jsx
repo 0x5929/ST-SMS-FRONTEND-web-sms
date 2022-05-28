@@ -1,7 +1,7 @@
 import React from "react";
 
 import Styles from './styles'
-import { useForm, useNotification } from '../../hooks'
+import { useForm, useNotification, useAddRotationModal } from '../../hooks'
 import * as SMSRecordService from '../../services/SMSRecordService'
 
 
@@ -15,22 +15,43 @@ export default function Create() {
     } = useNotification(Styles.NotificationSlide)
 
     const {
+        addRotModalOpen,
+        openAddRotModal,
+        closeAddRotModal,
+        addRotModalTitle
+    }  = useAddRotationModal()
+
+    const {
         values, 
         errors,
         handleInputChange,
         handleSubmit,
         handleCancel,
+
         getCourseOptions,
         getRotationOptions,
         hoursWorkedRadioItems,
         convertToDefaultEventParam,
         success,
         loading,
+
+
+        handleAddRot,
+        handleCloseAddRot,
+        handleAddRotInputChange,
+        handleAddRotSubmit,
+        handleAddRotClear,
+        rotationValues,
+        rotationErrors,
         
     } = useForm(true, SMSRecordService.getInitialStudentValues(), 
             {
                 setNotify,
                 notify
+            },
+            {
+                openAddRotModal,
+                closeAddRotModal,
             }
         );
 
@@ -48,12 +69,21 @@ export default function Create() {
                 handleInputChange={handleInputChange}
                 handleCancel={handleCancel}
                 handleSubmit={handleSubmit}
+                handleAddRot={handleAddRot}
+                handleCloseAddRot={handleCloseAddRot}
                 getCourseOptions={getCourseOptions}
                 getRotationOptions={getRotationOptions}
                 hoursWorkedRadioItems={hoursWorkedRadioItems}
                 convertToDefaultEventParam={convertToDefaultEventParam}
                 success={success}
                 loading={loading}
+                addRotModalOpen={addRotModalOpen}
+                addRotModalTitle={addRotModalTitle}
+                handleAddRotInputChange={handleAddRotInputChange}
+                handleAddRotSubmit={handleAddRotSubmit}
+                handleAddRotClear={handleAddRotClear}
+                rotationValues={rotationValues}
+                rotationErrors={rotationErrors}
             />
 
             <Styles.Notification 

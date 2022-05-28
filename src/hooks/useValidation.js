@@ -29,7 +29,21 @@ const useLoginValidation = (arrFieldValues, setErrors, errors) => {
     return Object.values(temp).every(x => x === '')
 }
 
+// returns true or false, and sets error object for validation
+const useAddRotValidation = (arrFieldValues, setErrors, errors) => {
+    let temp = {...errors}
 
+    let rotationRegex = /^[1-9]{1,}$/;
+
+    if ('programName' in arrFieldValues)
+        temp.programName = arrFieldValues.programName !== '' ? '' : 'This field is required.'
+    if ('rotation' in arrFieldValues)
+            temp.rotation = (rotationRegex.test(arrFieldValues.rotation))?'':'Only numeric format is allowed.'
+
+    // returns false if any of the above if statements evaluates to false
+    setErrors({...temp})
+    return Object.values(temp).every(x => x === '')
+}
 // returns true or false, and sets error object for validation 
 const useCreateValidation = (fieldValues, setErrors, errors) => {
     let temp = {...errors}
@@ -79,7 +93,8 @@ const validate = {
 
     useCreateValidation,
     useQueryValidation,
-    useLoginValidation
+    useLoginValidation,
+    useAddRotValidation
     
 }
 

@@ -8,7 +8,7 @@ const initialStudentValues = {
     email: '',
     mailingAddress : '',
     course: '',
-    rotation: '',
+    rotation: '1',
     startDate: new Date(),
     completionDate: new Date(),
     dateEnrollmentAgreementSigned: new Date(),
