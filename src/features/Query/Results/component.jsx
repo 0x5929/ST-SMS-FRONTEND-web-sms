@@ -64,8 +64,9 @@ export default function QueryResults(props) {
         handleDeletePress,
 
         // edit forms
-        values, 
-        errors,
+        studentFormState,
+        // values, 
+        // errors,
         handleInputChange,
         handleEditSubmit,
         handleEditCancel,
@@ -73,8 +74,8 @@ export default function QueryResults(props) {
         getRotationOptions,
         hoursWorkedRadioItems,
         convertToDefaultEventParam,
-        success,
-        loading,
+        // success,
+        // loading,
 
         addRotModalOpen,
         addRotModalTitle,
@@ -83,8 +84,8 @@ export default function QueryResults(props) {
         handleAddRotInputChange,
         handleAddRotSubmit,
         handleAddRotClear,
-        rotationValues,
-        rotationErrors,
+        // rotationValues,
+        // rotationErrors,
         
 
     } = useQueryResultTable({
@@ -149,8 +150,13 @@ export default function QueryResults(props) {
                 closeModal={closeModal}
             >
                 <Styles.StudentForm
-                    values={values}
-                    errors={errors}
+                    values={studentFormState.studentFormValues}
+                    errors={studentFormState.studentFormErrors}
+                    success={studentFormState.submitSuccess}
+                    loading={studentFormState.submitLoading}
+                    rotationValues={studentFormState.rotationFormValues}
+                    rotationErrors={studentFormState.rotationFormErrors}
+
                     handleInputChange={handleInputChange}
                     handleCancel={handleEditCancel}
                     handleAddRot={handleAddRot}
@@ -160,15 +166,11 @@ export default function QueryResults(props) {
                     hoursWorkedRadioItems={hoursWorkedRadioItems}
                     convertToDefaultEventParam={convertToDefaultEventParam}
                     handleSubmit={handleEditSubmit}
-                    success={success}
-                    loading={loading}
                     addRotModalOpen={addRotModalOpen}
                     addRotModalTitle={addRotModalTitle}
                     handleAddRotInputChange={handleAddRotInputChange}
                     handleAddRotSubmit={handleAddRotSubmit}
                     handleAddRotClear={handleAddRotClear}
-                    rotationValues={rotationValues}
-                    rotationErrors={rotationErrors}
                 />
             </Styles.Modal>
             <Styles.Modal

@@ -16,26 +16,27 @@ export function useEditModal (studentValues, setRecordForEdit, setRecords, userF
     }  = useAddRotationModal()
 
     const {
-        values, 
-        setValues,
-        errors,
-        setErrors,
+        studentFormState,
+        studentFormDispatch,
+        // values, 
+        // errors,
+
         handleInputChange,
         handleSubmit,
         getCourseOptions,
         getRotationOptions,
         hoursWorkedRadioItems,
         convertToDefaultEventParam,
-        success,
-        loading,
+        // success,
+        // loading,
 
         handleAddRot,
         handleCloseAddRot,
         handleAddRotInputChange,
         handleAddRotSubmit,
         handleAddRotClear,
-        rotationValues,
-        rotationErrors,
+        // rotationValues,
+        // rotationErrors,
     } = useForm(true, studentValues, userFeedbackObj, {
             openAddRotModal,
             closeAddRotModal,
@@ -48,14 +49,15 @@ export function useEditModal (studentValues, setRecordForEdit, setRecords, userF
     }
 
     const closeModal = () => {
-        setErrors({})
+        studentFormDispatch({type: 'studentFormErrors', payload: {}})
+        //setErrors({})
         setOpenModal(false)
     }
 
     const handleEditSubmit = e => {
-        if (validate.useCreateValidation(values, setErrors, errors)){
+        if (validate.useCreateValidation(studentFormState.studentFormValues, studentFormDispatch, studentFormState.studentFormErrors)){
             handleSubmit(e)
-            setRecordForEdit(values)
+            setRecordForEdit(studentFormState.studentFormValues)
             
             // lets try to figure out how to wait until handleSUbmit to finish then excute code after, wait one second then close modal, then pop notification
             //closeModal()
@@ -67,15 +69,15 @@ export function useEditModal (studentValues, setRecordForEdit, setRecords, userF
     }
 
     const handleEditCancel = ()=> {
-        setErrors({})
+        //setErrors({})
+        studentFormDispatch({type: 'studentFormErrors', payload: {}})
         closeModal()
     }
 
     return {
-        values, 
-        setValues,
-        errors,
-        setErrors,
+        studentFormState,
+        // values, 
+        // errors,
         handleInputChange,
         handleEditSubmit,
         handleEditCancel,
@@ -90,8 +92,8 @@ export function useEditModal (studentValues, setRecordForEdit, setRecords, userF
         setOpenModal ,
         closeModal,
         convertToDefaultEventParam,
-        success,
-        loading,
+        // success,
+        // loading,
 
         addRotModalOpen,
         addRotModalTitle,
@@ -99,8 +101,8 @@ export function useEditModal (studentValues, setRecordForEdit, setRecords, userF
         handleAddRotInputChange,
         handleAddRotSubmit,
         handleAddRotClear,
-        rotationValues,
-        rotationErrors,
+        // rotationValues,
+        // rotationErrors,
     }
 }
 

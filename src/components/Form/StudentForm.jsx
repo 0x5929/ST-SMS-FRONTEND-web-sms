@@ -288,6 +288,7 @@ export function StudentForm(props) {
             modalTitle={addRotModalTitle}
             openModal={addRotModalOpen}
             closeModal={handleCloseAddRot}
+            onBackdropClick={handleCloseAddRot}
         >
             <AddRotationForm 
                 handleAddRotInputChange={handleAddRotInputChange}

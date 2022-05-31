@@ -51,10 +51,11 @@ export function useQueryResultTable(userFeedbackObj, results) {
     const { 
 
       // returned by useForm() for editing student record
-      values, 
-      setValues,
-      errors,
-      setErrors,
+    //   values, 
+    //   setValues,
+    //   errors,
+    //   setErrors,
+      studentFormState,
       handleInputChange,
       handleEditSubmit,
       handleEditCancel,
@@ -69,8 +70,8 @@ export function useQueryResultTable(userFeedbackObj, results) {
       openInModal,
       setOpenModal,
       closeModal,
-      success,
-      loading,
+    //   success,
+    //   loading,
 
       addRotModalOpen,
       addRotModalTitle,
@@ -80,8 +81,8 @@ export function useQueryResultTable(userFeedbackObj, results) {
       handleAddRotInputChange,
       handleAddRotSubmit,
       handleAddRotClear,
-      rotationValues,
-      rotationErrors,
+    //   rotationValues,
+    //   rotationErrors,
 
     } = useEditModal(
         SMSRecordService.getInitialStudentValues, 
@@ -192,10 +193,11 @@ export function useQueryResultTable(userFeedbackObj, results) {
         handleDeletePress,
 
         // used for edit forms
-        values, 
-        setValues,
-        errors,
-        setErrors,
+        studentFormState,
+        // values, 
+        // setValues,
+        // errors,
+        // setErrors,
         handleInputChange,
         handleEditSubmit,
         handleEditCancel,
@@ -203,8 +205,8 @@ export function useQueryResultTable(userFeedbackObj, results) {
         getRotationOptions,
         hoursWorkedRadioItems,
         convertToDefaultEventParam,
-        success,
-        loading,
+        // success,
+        // loading,
 
         addRotModalOpen,
         addRotModalTitle,
@@ -213,8 +215,8 @@ export function useQueryResultTable(userFeedbackObj, results) {
         handleAddRotInputChange,
         handleAddRotSubmit,
         handleAddRotClear,
-        rotationValues,
-        rotationErrors,
+        // rotationValues,
+        // rotationErrors,
         
     }
 }

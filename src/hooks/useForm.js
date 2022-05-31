@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useReducer } from 'react'
 
 import * as SMSRecordService from '../services/SMSRecordService'
 import validate from './useValidation'
@@ -13,26 +13,80 @@ export default function useForm(
         
     // form states 
     // consider refactor  using useReducer to help maintain states
-    const [values, setValues] = useState(currentData);
-    const [rotationValues, setRotationValues] = useState({programName: '', rotation: ''})
-    const [errors, setErrors] = useState({});
-    const [rotationErrors, setRotationErrors] = useState({})
-    const [loading, setLoading] = useState(false);
-    const [success, setSuccess] = useState(false);
+    // const [values, setValues] = useState(currentData);
+    // const [rotationValues, setRotationValues] = useState({programName: '', rotation: ''})
+    // const [errors, setErrors] = useState({});
+    // const [rotationErrors, setRotationErrors] = useState({})
+    // const [loading, setLoading] = useState(false);
+    // const [success, setSuccess] = useState(false);
     const progressTimer = useRef();
 
 
+    const initialStudentFormState = {
+        studentFormValues: currentData,
+        rotationFormValues: {programName: '', rotation: ''},
+        studentFormErrors: {},
+        rotationFormErrors: {},
+        submitLoading: false,
+        submitSuccess: false
+    }
+
+    function reducer(state, action) {
+        switch (action.type) {
+            case 'set-studentFormValues': 
+                return {...state, studentFormValues: action.payload}
+            case 'set-rotationFormValues': 
+                return {...state, rotationFormValues: action.payload}
+            case 'set-studentFormErrors': 
+                return {...state, studentFormErrors: action.payload}
+            case 'set-rotationFormErrors': 
+                return {...state, rotationFormErrors: action.payload}
+            case 'set-submitLoading': 
+                return {...state, submitLoading: action.payload}
+            case 'set-submitSuccess': 
+                return {...state, submitSuccess: action.payload}
+            case 'clear-rotationForm' : 
+                return {
+                    ...state, 
+                    rotationFormValues: initialStudentFormState.rotationFormValues,
+                    rotationFormErrors: initialStudentFormState.rotationFormErrors
+                }
+            case 'clear-studentForm' : 
+                return {
+                    ...state,
+                    studentFormValues: initialStudentFormState.studentFormValues,
+                    studentFormErrors: initialStudentFormState.studentFormErrors,
+                    submitSuccess: initialStudentFormState.submitSuccess
+                }
+            case 'form-submissionSuccess' : 
+                return {
+                    ...state, 
+                    submitLoading : false,
+                    submitSuccess: true
+                }
+                case 'form-submissionLoading' : 
+                return {
+                    ...state, 
+                    submitLoading : true,
+                    submitSuccess: false
+                }
+            default: 
+                throw new Error('StudentForm State Reducer Error!');
+        }
+    }
+
+
+    const [ studentFormState, studentFormDispatch ] = useReducer(reducer, initialStudentFormState)
+
+
     useEffect(()=>{
-        /* this looks like it could violate the rule of hooks
-            however, the condition statement really just separates the logics between two component/features that uses useForm hook (create and edit form)
-            one will have recordForEdit, one will not. Two conditions are on two different states, 
-            so hooks for each state will still be called the same order 
-        **/
+
         if (recordForEdit !== null) {
 
-            setValues({
-                ...recordForEdit
-            })
+            studentFormDispatch({type: 'set-studentFormValues', payload: {...recordForEdit}})
+            // setValues({
+            //     ...recordForEdit
+            // })
         }
     }, [recordForEdit])
     
@@ -49,13 +103,17 @@ export default function useForm(
         const { name, value } = e.target
 
         // set value of the changed input, and add the rest of values obj
-        setValues({
-            ...values,
+        // setValues({
+        //     ...values,
+        //     [name] : value
+        // })
+        studentFormDispatch({type: 'set-studentFormValues', payload: {
+            ...studentFormState.studentFormValues,
             [name] : value
-        })
+        }})
         
         if (validateOnChange){
-            validate.useCreateValidation({[name]: value}, setErrors, errors)
+            validate.useCreateValidation({[name]: value}, studentFormDispatch, studentFormState.studentFormErrors)
         }
     }
 
@@ -63,16 +121,21 @@ export default function useForm(
     const handleAddRotInputChange = e => {
         const { name, value } = e.target
 
-        setRotationValues({
-            ...rotationValues,
+        // setRotationValues({
+        //     ...rotationValues,
+        //     [name] : value
+        // })
+
+        studentFormDispatch({type: 'set-rotationFormValues', payload: {
+            ...studentFormState.rotationFormValues,
             [name] : value
-        })
+        }})
     }
 
     const handleAddRotSubmit = e => {
         e.preventDefault()
 
-        if (validate.useAddRotValidation(rotationValues, setRotationErrors, rotationErrors)){
+        if (validate.useAddRotValidation(studentFormState.rotationFormValues, studentFormDispatch, studentFormState.rotationFormErrors,)){
             const {        
                 setNotify,
                 notify
@@ -85,7 +148,9 @@ export default function useForm(
                 Transition: notify.Transition
             })
 
-            setRotationValues({programName: '', rotation: ''})
+           // setRotationValues({programName: '', rotation: ''})
+
+            //studentFormDispatch({type: 'set-rotationFormValues', payload: initialStudentFormState.rotationFormValues})
             handleAddRotClear()
             handleCloseAddRot()
         }
@@ -93,9 +158,9 @@ export default function useForm(
     }
 
     const handleAddRotClear = () => {
-        setRotationValues({programName: '', rotation: ''})
-        setRotationErrors({})
- 
+        // setRotationValues({programName: '', rotation: ''})
+        //setRotationErrors({})
+        studentFormDispatch({type: 'clear-rotationForm'})
     }
 
     const createOrUpdate = (record, resetForm) => {
@@ -139,25 +204,29 @@ export default function useForm(
 
 
 
-    const handleCancel = e =>{
-        setValues(SMSRecordService.getInitialStudentValues())
-        setErrors({})
-        setSuccess(false)
+    const handleCancel = e => {
+        //setValues(SMSRecordService.getInitialStudentValues())
+        // setErrors({})
+        // setSuccess(false)
+        studentFormDispatch({type: 'clear-studentForm'})
     }
 
 
 
 
     const handleProgress = (callback) => {
-        if (!loading) {
+        if (!studentFormState.submitLoading) {
 
-            setSuccess(false);
-            setLoading(true);
+            // setSuccess(false);
+            // setLoading(true);
+
+            studentFormDispatch({type: 'form-submissionLoading'})
             
             // this would be connected to axio to fetch back end API, instead of using a timeout callback
             progressTimer.current = callback(() => {
-              setSuccess(true);
-              setLoading(false);
+            //   setSuccess(true);
+            //   setLoading(false);
+            studentFormDispatch({type: 'form-submissionSuccess'})
             }, 2000);
           }
     }
@@ -167,8 +236,8 @@ export default function useForm(
         // DEV configuration so we dont refresh the page when testing submit button
         e.preventDefault()
 
-        if (validate.useCreateValidation(values, setErrors, errors)){
-            createOrUpdate(values, handleCancel)
+        if (validate.useCreateValidation(studentFormState.studentFormValues, studentFormDispatch, studentFormState.studentFormErrors)){
+            createOrUpdate(studentFormState.studentFormValues, handleCancel)
         }
 
     }
@@ -180,6 +249,7 @@ export default function useForm(
 
     const handleCloseAddRot = () => {
         const { closeAddRotModal } = addRotObj
+        console.log('asdf')
         closeAddRotModal()
     }
 
@@ -197,8 +267,10 @@ export default function useForm(
 
     // return an obj that contains our state 
     return {
-        values, 
-        errors,
+        studentFormState,
+        studentFormDispatch,
+        // values, 
+        // errors,
         handleInputChange,
         handleSubmit,
         handleCancel,
@@ -206,17 +278,17 @@ export default function useForm(
         getRotationOptions,
         hoursWorkedRadioItems,
         convertToDefaultEventParam,
-        success,
-        loading,
+        // success,
+        // loading,
 
-
+        
         handleAddRot,
         handleCloseAddRot,
         handleAddRotInputChange,
         handleAddRotSubmit,
         handleAddRotClear,
-        rotationValues,
-        rotationErrors,
+        // rotationValues,
+        // rotationErrors,
     }
 }
 

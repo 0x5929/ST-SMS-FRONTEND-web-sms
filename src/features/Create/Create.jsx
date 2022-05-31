@@ -22,8 +22,9 @@ export default function Create() {
     }  = useAddRotationModal()
 
     const {
-        values, 
-        errors,
+        studentFormState,
+        // values, 
+        // errors,
         handleInputChange,
         handleSubmit,
         handleCancel,
@@ -32,8 +33,8 @@ export default function Create() {
         getRotationOptions,
         hoursWorkedRadioItems,
         convertToDefaultEventParam,
-        success,
-        loading,
+        // success,
+        // loading,
 
 
         handleAddRot,
@@ -41,8 +42,8 @@ export default function Create() {
         handleAddRotInputChange,
         handleAddRotSubmit,
         handleAddRotClear,
-        rotationValues,
-        rotationErrors,
+        // rotationValues,
+        // rotationErrors,
         
     } = useForm(true, SMSRecordService.getInitialStudentValues(), 
             {
@@ -64,8 +65,8 @@ export default function Create() {
         />
 
             <Styles.StudentForm
-                values={values}
-                errors={errors}
+                values={studentFormState.studentFormValues}
+                errors={studentFormState.studentFormErrors}
                 handleInputChange={handleInputChange}
                 handleCancel={handleCancel}
                 handleSubmit={handleSubmit}
@@ -73,8 +74,8 @@ export default function Create() {
                 getRotationOptions={getRotationOptions}
                 hoursWorkedRadioItems={hoursWorkedRadioItems}
                 convertToDefaultEventParam={convertToDefaultEventParam}
-                success={success}
-                loading={loading}
+                success={studentFormState.submitSuccess}
+                loading={studentFormState.submitLoading}
 
                 handleAddRot={handleAddRot}
                 handleCloseAddRot={handleCloseAddRot}
@@ -83,8 +84,8 @@ export default function Create() {
                 handleAddRotInputChange={handleAddRotInputChange}
                 handleAddRotSubmit={handleAddRotSubmit}
                 handleAddRotClear={handleAddRotClear}
-                rotationValues={rotationValues}
-                rotationErrors={rotationErrors}
+                rotationValues={studentFormState.rotationFormValues}
+                rotationErrors={studentFormState.rotationFormErrors}
             />
 
             <Styles.Notification 
