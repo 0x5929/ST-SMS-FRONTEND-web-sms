@@ -50,9 +50,9 @@ export function QueryTblBody(props) {
 
     const { 
         records, 
-        openInModal,
+        handleOpenEditModal,
         handleDeletePress,
-        openInDetail,
+        handleDetailedViewModalOpen,
      } = props
 
     return (
@@ -68,7 +68,7 @@ export function QueryTblBody(props) {
                     <Styles.TableCell>
                         <Styles.ActionButton 
                             variant="text"
-                            onClick={()=> openInDetail(record)}
+                            onClick={()=> handleDetailedViewModalOpen(record)}
                             size="small"
                             color="primary"
                         >
@@ -79,7 +79,7 @@ export function QueryTblBody(props) {
                         </Styles.ActionButton>
                         <Styles.ActionButton 
                             variant="text"
-                            onClick={() =>openInModal(record)}
+                            onClick={() =>handleOpenEditModal(record)}
                             size="small"
                             color="secondary"
                         >

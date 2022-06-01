@@ -6,30 +6,36 @@ export function StudentForm(props) {
 
 
     const { 
-            values, 
-            errors, 
+            studentFormState,   
+
             handleInputChange, 
             handleCancel,
             handleSubmit,
-            addRotModalOpen,
-            addRotModalTitle,
             getCourseOptions,
             getRotationOptions,
             hoursWorkedRadioItems, 
             convertToDefaultEventParam,
-            success,
-            loading,
 
-
-            handleAddRot,
-            handleCloseAddRot,
+            handleOpenAddRotModal,
+            handleCloseAddRotModal,
+            isAddRotModalOpen,
+            addRotModalTitle,
             handleAddRotInputChange,
             handleAddRotSubmit,
             handleAddRotClear,
             rotationValues,
             rotationErrors,
+
             } = props
 
+
+
+    const {
+        studentFormValues,
+        studentFormErrors,
+        submitLoading,
+        submitSuccess,
+    } = studentFormState
 
     return (
     <>
@@ -39,49 +45,49 @@ export function StudentForm(props) {
                     <Styles.Input 
                         name="studentId"
                         label="Student ID"
-                        value={values.studentId}
+                        value={studentFormValues.studentId}
                         onChange={handleInputChange}
-                        error={errors.studentId}
+                        error={studentFormErrors.studentId}
                         
                     />
                     <Styles.Input 
                         name="firstName"
                         label="First Name"
-                        value={values.firstName}
+                        value={studentFormValues.firstName}
                         onChange={handleInputChange}  
-                        error={errors.firstName}
+                        error={studentFormErrors.firstName}
                         
                     />
                     <Styles.Input 
                         name="lastName"
                         label="Last Name"
-                        value={values.lastName}
+                        value={studentFormValues.lastName}
                         onChange={handleInputChange} 
-                        error={errors.lastName}
+                        error={studentFormErrors.lastName}
                         
                     />
                     <Styles.Input 
                         name="phoneNumber"
                         label="Phone Number"
-                        value={values.phoneNumber}
+                        value={studentFormValues.phoneNumber}
                         onChange={handleInputChange} 
-                        error={errors.phoneNumber}
+                        error={studentFormErrors.phoneNumber}
                         
                     />
                     <Styles.Input 
                         name="email"
                         label="Email"
-                        value={values.email}
+                        value={studentFormValues.email}
                         onChange={handleInputChange} 
-                        error={errors.email}
+                        error={studentFormErrors.email}
                         
                     />
                     <Styles.Input 
                         name="mailingAddress"
                         label="Mailing Address"
-                        value={values.mailingAddress}
+                        value={studentFormValues.mailingAddress}
                         onChange={handleInputChange}  
-                        error={errors.mailingAddress}
+                        error={studentFormErrors.mailingAddress}
                         
                     />
                     <Styles.Select
@@ -89,8 +95,8 @@ export function StudentForm(props) {
                         label="Course"
                         onChange={handleInputChange}
                         options={getCourseOptions()}
-                        error={errors.course}
-                        value={values.course}
+                        error={studentFormErrors.course}
+                        value={studentFormValues.course}
                         defaultValue={getCourseOptions()[0].value}
                     />
                     <Styles.Stack direction="row" spacing={1}>
@@ -98,68 +104,68 @@ export function StudentForm(props) {
                             name="rotation"
                             label="Rotation"
                             onChange={handleInputChange}
-                            options={getRotationOptions(values.course)}
-                            error={errors.rotation}
-                            value={values.rotation}
+                            options={getRotationOptions(studentFormValues.course)}
+                            error={studentFormErrors.rotation}
+                            value={studentFormValues.rotation}
                             defaultValue={getRotationOptions()[0].rotation}
                         />
-                        <Styles.AddRotBtn size="medium" onClick={handleAddRot}>
+                        <Styles.AddRotBtn size="medium" onClick={handleOpenAddRotModal}>
                             <Styles.AddBoxIcon />
                         </Styles.AddRotBtn>
                     </Styles.Stack>
                     <Styles.DatePicker
                         name="startDate"
                         label="Program Start Date"
-                        value={values.startDate}
+                        value={studentFormValues.startDate}
                         onChange={handleInputChange}
                         convertToDefaultEventParam={convertToDefaultEventParam}
-                        error={errors.startDate}
+                        error={studentFormErrors.startDate}
                     />
                     <Styles.DatePicker
                         name="completionDate"
                         label="Program Completion Date"
-                        value={values.completionDate}
+                        value={studentFormValues.completionDate}
                         onChange={handleInputChange}
                         convertToDefaultEventParam={convertToDefaultEventParam}
-                        error={errors.completionDate}
+                        error={studentFormErrors.completionDate}
                     />
                     <Styles.DatePicker
                         name="dateEnrollmentAgreementSigned"
                         label="Date Enrollment Agreement Signed"
-                        value={values.dateEnrollmentAgreementSigned}
+                        value={studentFormValues.dateEnrollmentAgreementSigned}
                         onChange={handleInputChange}
                         convertToDefaultEventParam={convertToDefaultEventParam}
-                        error={errors.dateEnrollmentAgreementSigned}
+                        error={studentFormErrors.dateEnrollmentAgreementSigned}
                         disableFuture
                     />
                     <Styles.Input 
                         name="thirdPartyPayerInfo"
                         label="Third Party Payer Info"
-                        value={values.thirdPartyPayerInfo}
+                        value={studentFormValues.thirdPartyPayerInfo}
                         onChange={handleInputChange}
                     />
                     <Styles.Input 
                         name="courseCost"
                         label="Course Cost"
-                        value={values.courseCost}
+                        value={studentFormValues.courseCost}
                         onChange={handleInputChange}
-                        error={errors.courseCost}
+                        error={studentFormErrors.courseCost}
                         
                     />
                     <Styles.Input 
                         name="chargesCharged"
                         label="Charges Charged"
-                        value={values.chargesCharged}
+                        value={studentFormValues.chargesCharged}
                         onChange={handleInputChange}
-                        error={errors.chargesCharged}
+                        error={studentFormErrors.chargesCharged}
                         
                     />
                     <Styles.Input 
                         name="chargesPaid"
                         label="Charges Paid"
-                        value={values.chargesPaid}
+                        value={studentFormValues.chargesPaid}
                         onChange={handleInputChange}
-                        error={errors.chargesPaid}
+                        error={studentFormErrors.chargesPaid}
                         
                     />
                 </Styles.Grid>
@@ -167,66 +173,66 @@ export function StudentForm(props) {
                     <Styles.Checkbox 
                         name="graduated"
                         label="Graduated"
-                        value={values.graduated}
+                        value={studentFormValues.graduated}
                         onChange={handleInputChange}
                         convertToDefaultEventParam={convertToDefaultEventParam}
                     />
                     <Styles.Checkbox 
                         name="passedFirstExam"
                         label="Passed First Exam"
-                        value={values.passedFirstExam}
+                        value={studentFormValues.passedFirstExam}
                         onChange={handleInputChange}
                         convertToDefaultEventParam={convertToDefaultEventParam}
                     />
                     <Styles.Checkbox 
                         name="passedSecondOrThird"
                         label="Passed Second or Third Exam"
-                        value={values.passedSecondOrThird}
+                        value={studentFormValues.passedSecondOrThird}
                         onChange={handleInputChange}
                         convertToDefaultEventParam={convertToDefaultEventParam}
                     />
                     <Styles.Checkbox 
                         name="employed"
                         label="Employed"
-                        value={values.employed}
+                        value={studentFormValues.employed}
                         onChange={handleInputChange}
                         convertToDefaultEventParam={convertToDefaultEventParam}
                     />
                     <Styles.Input 
                         name="position"
                         label="Employment Position"
-                        value={values.position}
+                        value={studentFormValues.position}
                         onChange={handleInputChange}
                     />
                     <Styles.Input 
                         name="placeOfEmployment"
                         label="Place of Employment"
-                        value={values.placeOfEmployment}
+                        value={studentFormValues.placeOfEmployment}
                         onChange={handleInputChange}
                     />
                     <Styles.Input 
                         name="employmentAddress"
                         label="Employment Address"
-                        value={values.employmentAddress}
+                        value={studentFormValues.employmentAddress}
                         onChange={handleInputChange}
                     />
                     <Styles.Input 
                         name="startingWage"
                         label="Starting Wage"
-                        value={values.startingWage}
+                        value={studentFormValues.startingWage}
                         onChange={handleInputChange}
                     />
                     <Styles.RadioGroup
                         name="hoursWorked"
                         label="Hours Worked"
-                        value={values.hoursWorked}
+                        value={studentFormValues.hoursWorked}
                         onChange={handleInputChange}
                         items={hoursWorkedRadioItems}
                     />
                     <Styles.Input 
                         name="descriptionAttempts"
                         label="Comments"
-                        value={values.descriptionAttempts}
+                        value={studentFormValues.descriptionAttempts}
                         onChange={handleInputChange}
                         multiline
                         rows={15}
@@ -237,7 +243,7 @@ export function StudentForm(props) {
                     <Styles.Box sx={{display: 'flex', alignItems: 'center'}}>
                         <Styles.Box sx={{ m: 1, position: 'relative'}}>
                             {
-                                success ? 
+                                submitSuccess ? 
                                 <Styles.SuccessFab
                                     aria-label="save"
                                     color="primary"
@@ -256,7 +262,7 @@ export function StudentForm(props) {
 
                             }
                             {
-                                loading && (
+                                submitLoading && (
                                 <Styles.CircularProgress size={68} />
                                 )
                             }
@@ -265,10 +271,10 @@ export function StudentForm(props) {
                             <Styles.Button
                                 type="submit"
                                 text="Submit"
-                                disabled={loading}
+                                disabled={submitLoading}
                             />
                             {
-                                loading && (
+                                submitLoading && (
                                 <Styles.ButtonCircularProgress size={24} />   
                                 )
                             }
@@ -286,9 +292,9 @@ export function StudentForm(props) {
         </Styles.StudentForm>
         <Styles.Modal
             modalTitle={addRotModalTitle}
-            openModal={addRotModalOpen}
-            closeModal={handleCloseAddRot}
-            onBackdropClick={handleCloseAddRot}
+            openModal={isAddRotModalOpen}
+            closeModal={handleCloseAddRotModal}
+            onBackdropClick={handleCloseAddRotModal}
         >
             <AddRotationForm 
                 handleAddRotInputChange={handleAddRotInputChange}

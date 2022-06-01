@@ -1,7 +1,7 @@
 import React from "react";
 
 import Styles from './styles'
-import { useForm, useNotification, useAddRotationModal } from '../../hooks'
+import { useStudentForm, useNotification } from '../../hooks'
 import * as SMSRecordService from '../../services/SMSRecordService'
 
 
@@ -14,45 +14,34 @@ export default function Create() {
 
     } = useNotification(Styles.NotificationSlide)
 
-    const {
-        addRotModalOpen,
-        openAddRotModal,
-        closeAddRotModal,
-        addRotModalTitle
-    }  = useAddRotationModal()
 
     const {
         studentFormState,
-        // values, 
-        // errors,
+
         handleInputChange,
         handleSubmit,
         handleCancel,
-
         getCourseOptions,
         getRotationOptions,
         hoursWorkedRadioItems,
         convertToDefaultEventParam,
-        // success,
-        // loading,
 
-
-        handleAddRot,
-        handleCloseAddRot,
-        handleAddRotInputChange,
+        rotationFormValues,
+        rotationFormErrors,
+        isAddRotModalOpen,
+        addRotModalTitle,
+        handleOpenAddRotModal,
+        handleCloseAddRotModal,
         handleAddRotSubmit,
-        handleAddRotClear,
-        // rotationValues,
-        // rotationErrors,
+        handleAddRotInputChange,
+        handleAddRotClear
+
+
         
-    } = useForm(true, SMSRecordService.getInitialStudentValues(), 
+    } = useStudentForm(true, SMSRecordService.getInitialStudentValues(), 
             {
                 setNotify,
                 notify
-            },
-            {
-                openAddRotModal,
-                closeAddRotModal,
             }
     );
 
@@ -65,8 +54,7 @@ export default function Create() {
         />
 
             <Styles.StudentForm
-                values={studentFormState.studentFormValues}
-                errors={studentFormState.studentFormErrors}
+                studentFormState={studentFormState}
                 handleInputChange={handleInputChange}
                 handleCancel={handleCancel}
                 handleSubmit={handleSubmit}
@@ -74,18 +62,16 @@ export default function Create() {
                 getRotationOptions={getRotationOptions}
                 hoursWorkedRadioItems={hoursWorkedRadioItems}
                 convertToDefaultEventParam={convertToDefaultEventParam}
-                success={studentFormState.submitSuccess}
-                loading={studentFormState.submitLoading}
 
-                handleAddRot={handleAddRot}
-                handleCloseAddRot={handleCloseAddRot}
-                addRotModalOpen={addRotModalOpen}
+                handleOpenAddRotModal={handleOpenAddRotModal}
+                handleCloseAddRotModal={handleCloseAddRotModal}
+                isAddRotModalOpen={isAddRotModalOpen}
                 addRotModalTitle={addRotModalTitle}
                 handleAddRotInputChange={handleAddRotInputChange}
                 handleAddRotSubmit={handleAddRotSubmit}
                 handleAddRotClear={handleAddRotClear}
-                rotationValues={studentFormState.rotationFormValues}
-                rotationErrors={studentFormState.rotationFormErrors}
+                rotationValues={rotationFormValues}
+                rotationErrors={rotationFormErrors}
             />
 
             <Styles.Notification 

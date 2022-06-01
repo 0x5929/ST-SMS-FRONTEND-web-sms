@@ -25,67 +25,59 @@ export default function QueryResults(props) {
 
     const {
         
-        // table
-        records,
+        // table 
+        records, 
         tableData,
+        filterLabel,
+        pages,
+        page,
+        order,
+        orderBy,
+        textInput,
+        rowsPerPage,
+
+        handleClear,
+        handleFilter,
+        handleChangePage,
+        handleSortRequest,
+        handleChangeRowsPerPage,
+        handleDeletePress,
         getFinalDisplayRecords,
 
 
-        // paging
-        pages,
-        page,
-        rowsPerPage,
-        handleChangePage,
-        handleChangeRowsPerPage,
-
-
-        //filtering
-        filterLabel,
-        textInput,
-        handleClear,
-
-        // sorting
-        orderBy,
-        order,
-        handleSortRequest,
-        handleFilter,
-
-        // modals
-        modalTitle, 
-        openModal, 
-        openInModal,
-        closeModal,
-
-        // modal handling for view
-        recordForView,
-        setRecordForView,
-
-        // delete operations
-        handleDeletePress,
-
-        // edit forms
+        // modal handling for edit
         studentFormState,
-        // values, 
-        // errors,
         handleInputChange,
-        handleEditSubmit,
-        handleEditCancel,
         getCourseOptions,
         getRotationOptions,
         hoursWorkedRadioItems,
         convertToDefaultEventParam,
-        // success,
-        // loading,
 
-        addRotModalOpen,
+        rotationFormValues,
+        rotationFormErrors,
+        isAddRotModalOpen,
         addRotModalTitle,
-        handleAddRot,
-        handleCloseAddRot,
-        handleAddRotInputChange,
+        handleOpenAddRotModal,
+        handleCloseAddRotModal,
         handleAddRotSubmit,
+        handleAddRotInputChange,
         handleAddRotClear,
-        // rotationValues,
-        // rotationErrors,
+
+        handleEditSubmit,
+        handleEditCancel,
+
+        editModalTitle,
+        isEditModalOpen, 
+        handleOpenEditModal,
+        handleCloseEditModal,
+
+
+        // detailed view table
+        detailedViewModalTitle,
+        isDetailedViewModalOpen,
+        handleDetailedViewModalClose,
+        handleDetailedViewModalOpen,
+        getDetailedRecord,
         
 
     } = useQueryResultTable({
@@ -95,13 +87,7 @@ export default function QueryResults(props) {
         setConfirmDialog
     }, results)
 
-    const {
-        detailedViewModalTitle,
-        detailedViewOpen,
-        detailedViewClose,
-        openInDetail,
-        getDetailedRecord,
-    } = useDetailedViewTable(recordForView, setRecordForView)
+
     
     return (
         <>
@@ -131,8 +117,8 @@ export default function QueryResults(props) {
                 />
                 <Styles.QueryTblBody 
                     records={getFinalDisplayRecords()}
-                    openInModal={openInModal}
-                    openInDetail={openInDetail}
+                    handleOpenEditModal={handleOpenEditModal}
+                    handleDetailedViewModalOpen={handleDetailedViewModalOpen}
                     handleDeletePress={handleDeletePress}
                 />
             </Styles.QueryTblContainer>
@@ -145,39 +131,37 @@ export default function QueryResults(props) {
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />
             <Styles.Modal
-                modalTitle={modalTitle}
-                openModal={openModal}
-                closeModal={closeModal}
+                modalTitle={editModalTitle}
+                openModal={isEditModalOpen}
+                closeModal={handleCloseEditModal}
             >
                 <Styles.StudentForm
-                    values={studentFormState.studentFormValues}
-                    errors={studentFormState.studentFormErrors}
-                    success={studentFormState.submitSuccess}
-                    loading={studentFormState.submitLoading}
-                    rotationValues={studentFormState.rotationFormValues}
-                    rotationErrors={studentFormState.rotationFormErrors}
-
+                    studentFormState={studentFormState}
                     handleInputChange={handleInputChange}
                     handleCancel={handleEditCancel}
-                    handleAddRot={handleAddRot}
-                    handleCloseAddRot={handleCloseAddRot}
+                    handleSubmit={handleEditSubmit}
                     getCourseOptions={getCourseOptions}
                     getRotationOptions={getRotationOptions}
                     hoursWorkedRadioItems={hoursWorkedRadioItems}
                     convertToDefaultEventParam={convertToDefaultEventParam}
-                    handleSubmit={handleEditSubmit}
-                    addRotModalOpen={addRotModalOpen}
+
+                    handleOpenAddRotModal={handleOpenAddRotModal}
+                    handleCloseAddRotModal={handleCloseAddRotModal}
+                    isAddRotModalOpen={isAddRotModalOpen}
                     addRotModalTitle={addRotModalTitle}
                     handleAddRotInputChange={handleAddRotInputChange}
                     handleAddRotSubmit={handleAddRotSubmit}
                     handleAddRotClear={handleAddRotClear}
+                    rotationValues={rotationFormValues}
+                    rotationErrors={rotationFormErrors}
+
                 />
             </Styles.Modal>
             <Styles.Modal
                 modalTitle={detailedViewModalTitle}
-                openModal={detailedViewOpen}
-                closeModal={detailedViewClose}
-                onBackdropClick={detailedViewClose}
+                openModal={isDetailedViewModalOpen}
+                closeModal={handleDetailedViewModalClose}
+                onBackdropClick={handleDetailedViewModalClose}
             >
                 <Styles.DetailedTblContainer>
                     <Styles.DetailedTblHead 

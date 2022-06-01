@@ -29,9 +29,7 @@ export function useQueryResultTable(userFeedbackObj, results) {
     // sorting
     const {
       order,
-      setOrder,
       orderBy,
-      setOrderBy,
       handleSortRequest,
       recordsAfterSorting
 
@@ -50,46 +48,49 @@ export function useQueryResultTable(userFeedbackObj, results) {
 
     const { 
 
-      // returned by useForm() for editing student record
-    //   values, 
-    //   setValues,
-    //   errors,
-    //   setErrors,
-      studentFormState,
-      handleInputChange,
-      handleEditSubmit,
-      handleEditCancel,
-      getCourseOptions,
-      getRotationOptions,
-      hoursWorkedRadioItems,
-      convertToDefaultEventParam,
-      
-      // used for modal config
-      modalTitle, 
-      openModal, 
-      openInModal,
-      setOpenModal,
-      closeModal,
-    //   success,
-    //   loading,
+        studentFormState,
+        handleInputChange,
+        getCourseOptions,
+        getRotationOptions,
+        hoursWorkedRadioItems,
+        convertToDefaultEventParam,
 
-      addRotModalOpen,
-      addRotModalTitle,
+        rotationFormValues,
+        rotationFormErrors,
+        isAddRotModalOpen,
+        addRotModalTitle,
+        handleOpenAddRotModal,
+        handleCloseAddRotModal,
+        handleAddRotSubmit,
+        handleAddRotInputChange,
+        handleAddRotClear,
 
-      handleAddRot,
-      handleCloseAddRot,
-      handleAddRotInputChange,
-      handleAddRotSubmit,
-      handleAddRotClear,
-    //   rotationValues,
-    //   rotationErrors,
+        handleEditSubmit,
+        handleEditCancel,
+
+        editModalTitle,
+        isEditModalOpen, 
+        handleOpenEditModal,
+        handleCloseEditModal,
+
+
 
     } = useEditModal(
-        SMSRecordService.getInitialStudentValues, 
+        SMSRecordService.getInitialStudentValues(), 
         setRecordForEdit, 
         setRecords, 
         userFeedbackObj, 
         recordForEdit)
+
+
+
+    const {
+        detailedViewModalTitle,
+        isDetailedViewModalOpen,
+        handleDetailedViewModalClose,
+        handleDetailedViewModalOpen,
+        getDetailedRecord,
+    } = useDetailedViewTable(recordForView, setRecordForView)
 
 
     const getFinalDisplayRecords = () =>{
@@ -139,84 +140,66 @@ export function useQueryResultTable(userFeedbackObj, results) {
     
     const tableData = SMSRecordService.getTableData()
   
+
+
+
     return {
 
         // table 
         records, 
-        setRecords,
         tableData,
-
-        //paging 
+        filterLabel,
         pages,
         page,
-        // setPage,
-        rowsPerPage,
-        // setRowsPerPage
-        handleChangePage,
-        handleChangeRowsPerPage,
-        recordsAfterPaging,
-
-
-        // sorting
         order,
-        setOrder,
         orderBy,
-        setOrderBy,
-        handleSortRequest,
-        recordsAfterSorting,
-
-        // filtering
-        recordsAfterFiltering,
-        handleFilter,
         textInput,
+        rowsPerPage,
+        recordsAfterFiltering,
+        recordsAfterPaging,
+        recordsAfterSorting,
         handleClear,
-        filterLabel,
-
-        
-        // final display records
+        handleFilter,
+        handleChangePage,
+        handleSortRequest,
+        handleChangeRowsPerPage,
+        handleDeletePress,
         getFinalDisplayRecords,
 
 
         // modal handling for edit
-        modalTitle, 
-        openModal, 
-        openInModal,
-        setOpenModal,
-        closeModal,
-        recordForEdit,
-
-        // modal handling for view
-        recordForView,
-        setRecordForView,
-
-        // delete operations
-        handleDeletePress,
-
-        // used for edit forms
         studentFormState,
-        // values, 
-        // setValues,
-        // errors,
-        // setErrors,
         handleInputChange,
-        handleEditSubmit,
-        handleEditCancel,
         getCourseOptions,
         getRotationOptions,
         hoursWorkedRadioItems,
         convertToDefaultEventParam,
-        // success,
-        // loading,
 
-        addRotModalOpen,
+        rotationFormValues,
+        rotationFormErrors,
+        isAddRotModalOpen,
         addRotModalTitle,
-        handleAddRot,
-        handleCloseAddRot,
-        handleAddRotInputChange,
+        handleOpenAddRotModal,
+        handleCloseAddRotModal,
         handleAddRotSubmit,
+        handleAddRotInputChange,
         handleAddRotClear,
-        // rotationValues,
-        // rotationErrors,
+
+        handleEditSubmit,
+        handleEditCancel,
+
+        editModalTitle,
+        isEditModalOpen, 
+        handleOpenEditModal,
+        handleCloseEditModal,
+
+
+        // detailed view table
+        detailedViewModalTitle,
+        isDetailedViewModalOpen,
+        handleDetailedViewModalClose,
+        handleDetailedViewModalOpen,
+        getDetailedRecord,
         
     }
 }
@@ -232,16 +215,16 @@ export function useDetailedViewTable (recordForView, setRecordForView) {
 
     const {
         detailedViewModalTitle,
-        detailedViewOpen,
-        detailedViewClose,
-        openInDetail,
+        isDetailedViewModalOpen,
+        handleDetailedViewModalClose,
+        handleDetailedViewModalOpen,
     } = useDetailedViewModal(setRecordForView)
     
     return {
         detailedViewModalTitle,
-        detailedViewOpen,
-        detailedViewClose,
-        openInDetail,
+        isDetailedViewModalOpen,
+        handleDetailedViewModalClose,
+        handleDetailedViewModalOpen,
         getDetailedRecord,
     }
 }

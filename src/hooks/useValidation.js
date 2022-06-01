@@ -30,7 +30,7 @@ const useLoginValidation = (arrFieldValues, setErrors, errors) => {
 }
 
 // returns true or false, and sets error object for validation
-const useAddRotValidation = (arrFieldValues, studentFormDispatch, errors) => {
+const useAddRotValidation = (arrFieldValues, setRotationFormErrors, errors) => {
     let temp = {...errors}
 
     let rotationRegex = /^[1-9]{1,}$/;
@@ -41,11 +41,11 @@ const useAddRotValidation = (arrFieldValues, studentFormDispatch, errors) => {
             temp.rotation = (rotationRegex.test(arrFieldValues.rotation))?'':'Only numeric format is allowed.'
 
     // returns false if any of the above if statements evaluates to false
-    studentFormDispatch({type: 'set-rotationFormErrors', payload: {...temp}})
+    setRotationFormErrors({...temp})
     return Object.values(temp).every(x => x === '')
 }
 // returns true or false, and sets error object for validation 
-const useCreateValidation = (fieldValues, studentFormDispatch, errors) => {
+const useCreateValidation = (fieldValues, handleSetStudentFormErrorCallback, errors) => {
     let temp = {...errors}
 
     let simpleEmailRegex = /.+@.+..+/;
@@ -84,7 +84,8 @@ const useCreateValidation = (fieldValues, studentFormDispatch, errors) => {
             temp.rotation = fieldValues.rotation !== ''?'':'This field is required.'
 
     // returns false if any of the above if statements evaluates to false
-    studentFormDispatch({type: 'set-studentFormErrors', payload: {...temp}})
+    handleSetStudentFormErrorCallback(temp)
+    
     return Object.values(temp).every( x => x === '') 
 
 }

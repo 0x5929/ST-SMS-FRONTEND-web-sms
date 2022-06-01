@@ -60,9 +60,7 @@ export default function useSorting () {
   return {
     
     order,
-    setOrder,
     orderBy,
-    setOrderBy,
     handleSortRequest,
     recordsAfterSorting
   }
