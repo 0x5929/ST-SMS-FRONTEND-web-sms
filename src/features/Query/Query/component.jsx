@@ -8,17 +8,12 @@ import { useQueryForm } from '../../../hooks'
 export default function Query() {
 
     const {
-        errors,
+        queryFormState,
         textInput,
+        queryLabel,
+        getQueryOptions,
         handleClear,
         handleSubmit,
-        queryLabel,
-        showResults,
-        results,
-        openBackdrop,
-
-        getQueryOptions,
-        queryOptions,
         handleAddNewQuery,
         handleDelQuery,
         handleQueryOnChange,
@@ -30,7 +25,7 @@ export default function Query() {
     return (
         <Styles.Paper>
             {            
-                !showResults &&
+                !queryFormState.showResults &&
 
                 <>
                     <Styles.QueryForm 
@@ -39,25 +34,25 @@ export default function Query() {
                         handleSubmit={handleSubmit}
                         queryLabel={queryLabel}
                         getQueryOptions={getQueryOptions}
-                        queryOptions={queryOptions}
+                        queryOptions={queryFormState.queryOptions}
                         handleAddNewQuery={handleAddNewQuery}
                         handleDelQuery={handleDelQuery}
                         handleQueryOnChange={handleQueryOnChange}
                         handleQueryOptionOnChange={handleQueryOptionOnChange}
-                        errors={errors}
+                        errors={queryFormState.queryFormErrors}
                     />
                     <Styles.Box>
                         <Styles.Statistics />
                     </Styles.Box>
                     <Styles.SimpleBackDrop 
-                        openBackdrop={openBackdrop}
+                        openBackdrop={queryFormState.isBackdropOpen}
                     />
                 </>
             }
             {
-                showResults &&  
+                queryFormState.showResults &&  
                 <QueryResults 
-                    results={results}
+                    results={queryFormState.queryResults}
                     handleBacktoQuery={handleBacktoQuery}
                 />
             }

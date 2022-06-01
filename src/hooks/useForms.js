@@ -353,7 +353,7 @@ export function useQueryForm(){
         }
 
         //setQueryOptions([...queryFormState.queryOptions, {query: '', value: '', pk: newPk()}])
-        queryFormDispatch({action: 'set-queryOptions', payload: {query: '', value: '', pk: newPk()}})
+        queryFormDispatch({type: 'set-queryOptions', payload: [...queryFormState.queryOptions, {query: '', value: '', pk: newPk()}]})
 
     }
 
@@ -366,7 +366,7 @@ export function useQueryForm(){
 
         // setting queries to anything but the ones we are trying to delete
        // setQueryOptions(queries.filter( item => item.pk !== pk ) )
-        queryFormDispatch({action: 'set-queryOptions', payload: queries.filter( item => item.pk !== pk )})
+        queryFormDispatch({type: 'set-queryOptions', payload: queries.filter( item => item.pk !== pk )})
 
     }
 
@@ -382,7 +382,7 @@ export function useQueryForm(){
             queries[index].value = value;
 
         //setQueryOptions(queries)
-        queryFormDispatch({action: 'set-queryOptions', payload: queries})
+        queryFormDispatch({type: 'set-queryOptions', payload: queries})
 
     }
 
@@ -397,7 +397,7 @@ export function useQueryForm(){
         queries[index].query = value;
 
         //setQueryOptions(queries)
-        queryFormDispatch({action: 'set-queryOptions', payload: queries})
+        queryFormDispatch({type: 'set-queryOptions', payload: queries})
     }
 
     const getQueryOptions = SMSRecordService.getQueryOptions
@@ -411,7 +411,7 @@ export function useQueryForm(){
         }
         
         //setErrors(errObj)
-        queryFormDispatch({action: 'set-queryFormErrors', payload: errObj})
+        queryFormDispatch({type: 'set-queryFormErrors', payload: errObj})
     }
 
     const handleClear = (textInput, index, pk=null) =>{
@@ -426,7 +426,7 @@ export function useQueryForm(){
 
     const handleBackdrop = () =>{
         //setOpenBackdrop(true)
-        //queryFormDispatch({type: 'set-isBackdropOpen', payload: true})
+        queryFormDispatch({type: 'set-isBackdropOpen', payload: true})
         setTimeout(()=> {
             queryFormDispatch({type: 'set-isBackdropOpen', payload: true})
             fetchResults()
@@ -476,16 +476,10 @@ export function useQueryForm(){
     return {
         queryFormState,
         textInput,
+        queryLabel,
+        getQueryOptions,
         handleClear,
         handleSubmit,
-        queryLabel,
-
-
-
-
-
-        getQueryOptions,
-
         handleAddNewQuery,
         handleDelQuery,
         handleQueryOnChange,

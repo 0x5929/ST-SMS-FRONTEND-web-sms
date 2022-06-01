@@ -1,5 +1,5 @@
 // returns true or false, and sets error object for validation 
-const useQueryValidation = (arrFieldValues, setErrors, errors) => {
+const useQueryValidation = (arrFieldValues, handleSetQueryFormErrorCallback, errors) => {
     let temp = {...errors}
 
     for (var index = 0; index < arrFieldValues.length; index++ ){
@@ -9,7 +9,7 @@ const useQueryValidation = (arrFieldValues, setErrors, errors) => {
     }
 
     // returns false if any of the above if statements evaluates to false
-    setErrors({...temp})
+    handleSetQueryFormErrorCallback(temp)
     return Object.values(temp).every(x => x === '')
 }
 
