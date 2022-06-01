@@ -2,7 +2,7 @@ import React from "react";
 import { QueryResults } from '../Results'
 import Styles from './styles';
 
-import { useQuery } from '../../../hooks'
+import { useQueryForm } from '../../../hooks'
 
 
 export default function Query() {
@@ -25,7 +25,7 @@ export default function Query() {
         handleQueryOptionOnChange,
         handleBacktoQuery,
 
-    } = useQuery()
+    } = useQueryForm()
 
     return (
         <Styles.Paper>
