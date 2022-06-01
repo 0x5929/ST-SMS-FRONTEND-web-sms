@@ -301,15 +301,50 @@ export function useQueryForm(){
     const queryLabel = 'Search Student Database'
 
     // consider using useReducer hook to help manage states below
-    const [ results, setResults ] = useState([])
-    const [errors, setErrors] = useState({});
-    const [ showResults, setShowResults ] = useState(false)
-    const [ openBackdrop, setOpenBackdrop ] = useState(false)
-    const [ queryOptions, setQueryOptions ] = useState([{query: 'clast_name', value: '', pk: 100}])
+    // const [ results, setResults ] = useState([])
+    // const [errors, setErrors] = useState({});
+    // const [ showResults, setShowResults ] = useState(false)
+    // const [ openBackdrop, setOpenBackdrop ] = useState(false)
+    // const [ queryOptions, setQueryOptions ] = useState([{query: 'clast_name', value: '', pk: 100}])
+
+
+    const initialQueryFormState = {
+        queryResults: [],
+        queryFormErrors: {},
+        showResults: false,
+        isBackdropOpen: false,
+        queryOptions: [{query: 'clast_name', value: '', pk: 0 }]
+    }
+
+    function reducer(state, action) {
+        switch (action.type){
+            case 'set-queryResults' : 
+                return {...state, queryResults: action.payload}
+            case 'set-queryFormErrors':
+                return {...state, queryFormErrors: action.payload}
+            case 'set-showResults': 
+                return {...state, showResults: action.payload}
+            case 'set-isBackdropOpen': 
+                return {...state, isBackdropOpen: action.payload}
+            case 'set-queryOptions' : 
+                return {...state, queryOptions: action.payload}
+            case 'form-backToQuery' :
+                return {
+                    ...state,
+                    showResults: false,
+                    isBackdropOpen: false
+                }
+            default: 
+                throw new Error('QueryForm State Reducer Error!')
+        }
+    }
+
+
+    const [ queryFormState, queryFormDispatch ] = useReducer(reducer, initialQueryFormState)
 
     const handleAddNewQuery = (index) =>{
         function newPk() {
-            let lastElPk = queryOptions[ queryOptions.length - 1 ]['pk']
+            let lastElPk = queryFormState.queryOptions[ queryFormState.queryOptions.length - 1 ]['pk']
             return lastElPk + 1;
         }
 
@@ -317,7 +352,9 @@ export function useQueryForm(){
             return 
         }
 
-        setQueryOptions([...queryOptions, {query: '', value: '', pk: newPk()}])
+        //setQueryOptions([...queryFormState.queryOptions, {query: '', value: '', pk: newPk()}])
+        queryFormDispatch({action: 'set-queryOptions', payload: {query: '', value: '', pk: newPk()}})
+
     }
 
 
@@ -325,10 +362,11 @@ export function useQueryForm(){
         // clear Errors
         clearError(pk)
 
-        let queries = [...queryOptions]
+        let queries = [...queryFormState.queryOptions]
 
         // setting queries to anything but the ones we are trying to delete
-        setQueryOptions(queries.filter( item => item.pk !== pk ) )
+       // setQueryOptions(queries.filter( item => item.pk !== pk ) )
+        queryFormDispatch({action: 'set-queryOptions', payload: queries.filter( item => item.pk !== pk )})
 
     }
 
@@ -338,12 +376,14 @@ export function useQueryForm(){
             //name, 
             value 
         } = e.target
-        const queries = [...queryOptions]
+        const queries = [...queryFormState.queryOptions]
 
         if (typeof index != 'undefined')
             queries[index].value = value;
 
-        setQueryOptions(queries)
+        //setQueryOptions(queries)
+        queryFormDispatch({action: 'set-queryOptions', payload: queries})
+
     }
 
 
@@ -353,23 +393,25 @@ export function useQueryForm(){
             value 
         } = e.target
 
-        const queries = [...queryOptions]
+        const queries = [...queryFormState.queryOptions]
         queries[index].query = value;
 
-        setQueryOptions(queries)
+        //setQueryOptions(queries)
+        queryFormDispatch({action: 'set-queryOptions', payload: queries})
     }
 
     const getQueryOptions = SMSRecordService.getQueryOptions
 
     const clearError = (pk) => {
-        let errObj = {...errors}
+        let errObj = {...queryFormState.queryFormErrors}
 
         if ( typeof pk != 'undefined'){
             delete errObj['query' + pk.toString()]
             delete errObj['value' + pk.toString()]
         }
         
-        setErrors(errObj)
+        //setErrors(errObj)
+        queryFormDispatch({action: 'set-queryFormErrors', payload: errObj})
     }
 
     const handleClear = (textInput, index, pk=null) =>{
@@ -383,10 +425,10 @@ export function useQueryForm(){
     }
 
     const handleBackdrop = () =>{
-        setOpenBackdrop(true)
-
+        //setOpenBackdrop(true)
+        //queryFormDispatch({type: 'set-isBackdropOpen', payload: true})
         setTimeout(()=> {
-            setOpenBackdrop(true)
+            queryFormDispatch({type: 'set-isBackdropOpen', payload: true})
             fetchResults()
         }, 1000)
 
@@ -394,22 +436,25 @@ export function useQueryForm(){
         function fetchResults() {
     
             handleClear(textInput)
-            setShowResults(true)
+            //setShowResults(true)
+            queryFormDispatch({type: 'set-showResults', payload: true})
+            
         }
     }
 
     const handleSubmit = (e, queryOptions) => {
         e.preventDefault()
 
-        if (validate.useQueryValidation(queryOptions, setErrors, errors)){
+        if (validate.useQueryValidation(queryOptions, handleSetQueryFormErrorCallback, queryFormState.queryFormErrors)){
             // load sample data for result table for dev and testing
             SMSRecordService.insertSampleRecords()
 
             console.log('QUERY PARAM AND DATA: ', queryOptions)
             console.log('setting query results')
             // send the queryOptions to backend API
-            setResults(SMSRecordService.getAllRecords())
-    
+
+            //setResults(SMSRecordService.getAllRecords())
+            queryFormDispatch({type: 'set-queryResults', payload: SMSRecordService.getAllRecords()})
     
             handleBackdrop()            
         }
@@ -418,27 +463,29 @@ export function useQueryForm(){
     }
 
     const handleBacktoQuery = () => {
-        setShowResults(false)
-        setOpenBackdrop(false)
+        // setShowResults(false)
+        // setOpenBackdrop(false)
+        queryFormDispatch({type: 'form-backToQuery'})
     }
 
 
-
+    const handleSetQueryFormErrorCallback = useCallback((temp)=>{
+        queryFormDispatch({type: 'set-queryFormErrors', payload: {...temp}})
+    }, [])
 
     return {
-        errors,
+        queryFormState,
         textInput,
         handleClear,
         handleSubmit,
         queryLabel,
-        showResults,
-        setShowResults,
-        results,
-        openBackdrop,
-        setOpenBackdrop,
+
+
+
+
 
         getQueryOptions,
-        queryOptions,
+
         handleAddNewQuery,
         handleDelQuery,
         handleQueryOnChange,
