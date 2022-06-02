@@ -48,7 +48,6 @@ export default function useFilter(setRecords) {
 
     return {
         filterFn,
-        setFilterFn,
         handleFilter,
         recordsAfterFiltering,
         textInput,

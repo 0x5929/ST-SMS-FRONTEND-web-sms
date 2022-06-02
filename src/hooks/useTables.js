@@ -6,7 +6,7 @@ import * as SMSRecordService from '../services/SMSRecordService'
 
 
 
-export function useQueryResultTable(userFeedbackObj, results) {
+export default function useQueryResultTable(userFeedbackObj, results) {
 
     // consider to use useReducer to help manage more states set from the state var
     // if this increases by more than 5 sets of states total
@@ -18,11 +18,11 @@ export function useQueryResultTable(userFeedbackObj, results) {
     const {
       pages,
       page,
-      // setPage,
       rowsPerPage,
-      // setRowsPerPage
+
       handleChangePage,
       handleChangeRowsPerPage,
+      
       recordsAfterPaging
     } = usePagination(records)
 
@@ -205,7 +205,7 @@ export function useQueryResultTable(userFeedbackObj, results) {
 }
 
 
-export function useDetailedViewTable (recordForView, setRecordForView) {
+function useDetailedViewTable (recordForView, setRecordForView) {
 
     
     const getDetailedRecord = () => {

@@ -29,9 +29,8 @@ export default function usePagination(records) {
     return {
         pages,
         page,
-        setPage,
         rowsPerPage,
-        setRowsPerPage,
+
         handleChangePage,
         handleChangeRowsPerPage,
         recordsAfterPaging

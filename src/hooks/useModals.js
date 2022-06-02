@@ -1,6 +1,5 @@
 import { useState } from "react";
 import {useStudentForm} from "./useForms";
-import validate from './useValidation';
 import * as studentRecordService from '../services/SMSRecordService';
 
 export function useEditModal (studentValues, setRecordForEdit, setRecords, userFeedbackObj, recordForEdit) {
@@ -39,25 +38,12 @@ export function useEditModal (studentValues, setRecordForEdit, setRecords, userF
     }
 
     const handleCloseEditModal = () => {
-        console.log('handleCloseEditModal called')
         handleClearStudentFormErrorCallback()
         setIsEditModalOpen(false)
     }
 
     const handleEditSubmit = e => {
-        // if (validate.useCreateValidation(studentFormState.studentFormValues, handleSetStudentFormErrorCallback, studentFormState.studentFormErrors)){
 
-        //     handleSubmit(e)
-        //     setRecordForEdit(studentFormState.studentFormValues)
-            
-        //     // lets try to figure out how to wait until handleSUbmit to finish then excute code after, wait one second then close modal, then pop notification
-        //     //closeModal()
-        //     setRecords(studentRecordService.getAllRecords())
-
-        // }
-        // else {
-        //     e.preventDefault()
-        // }
         handleSubmit(e)
         setRecordForEdit(studentFormState.studentFormValues)
         

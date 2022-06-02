@@ -5,18 +5,22 @@ import Styles from './styles'
 export function QueryForm(props) {
 
     const {
+        queryFormState,
         textInput,
         handleClear,
         queryLabel,
         handleSubmit,
         getQueryOptions,
-        queryOptions,
         handleAddNewQuery,
         handleDelQuery,
         handleQueryOnChange,
         handleQueryOptionOnChange,
-        errors,
     } = props;
+
+    const {
+        queryOptions,
+        queryFormErrors,
+    } = queryFormState
 
     return (
             <Styles.QueryForm onSubmit={(e)=>(handleSubmit(e, queryOptions))}>
@@ -32,7 +36,7 @@ export function QueryForm(props) {
                                         name={queryOptions[index]['query']}
                                         value={queryOptions[index]['value']}
                                         onChange={(e) => (handleQueryOnChange(e, index))}
-                                        error={errors['value' + query.pk.toString()]}
+                                        error={queryFormErrors['value' + query.pk.toString()]}
                                         textInput={textInput}
                                         handleClear={handleClear}
                                     />
@@ -44,7 +48,7 @@ export function QueryForm(props) {
                                         name="options"
                                         value={queryOptions[index]['query']}
                                         onChange={(e)=>(handleQueryOptionOnChange(e, index))}
-                                        error={errors['query' + query.pk.toString()]}
+                                        error={queryFormErrors['query' + query.pk.toString()]}
                                         options={getQueryOptions()}
                                         variant={'standard'}
                                         autoWidth

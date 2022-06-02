@@ -1,7 +1,7 @@
 
 export { useEditModal, useDetailedViewModal, useAddRotationModal } from './useModals';
 export { useNotification, useConfirmDialog } from './useFeedbacks';
-export { useQueryResultTable, useDetailedViewTable } from './useTables';
+export { default as useQueryResultTable } from './useTables';
 export { useStudentForm, useQueryForm } from './useForms';
 export { default as useHeader } from './useHeader'
 export { default as useDrawer } from './useDrawer';

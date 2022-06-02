@@ -28,18 +28,17 @@ export default function Query() {
                 !queryFormState.showResults &&
 
                 <>
-                    <Styles.QueryForm 
+                    <Styles.QueryForm
+                        queryFormState={queryFormState}
                         textInput={textInput}
                         handleClear={handleClear}
                         handleSubmit={handleSubmit}
                         queryLabel={queryLabel}
                         getQueryOptions={getQueryOptions}
-                        queryOptions={queryFormState.queryOptions}
                         handleAddNewQuery={handleAddNewQuery}
                         handleDelQuery={handleDelQuery}
                         handleQueryOnChange={handleQueryOnChange}
                         handleQueryOptionOnChange={handleQueryOptionOnChange}
-                        errors={queryFormState.queryFormErrors}
                     />
                     <Styles.Box>
                         <Styles.Statistics />
@@ -52,7 +51,7 @@ export default function Query() {
             {
                 queryFormState.showResults &&  
                 <QueryResults 
-                    results={queryFormState.queryResults}
+                    queryResults={queryFormState.queryResults}
                     handleBacktoQuery={handleBacktoQuery}
                 />
             }

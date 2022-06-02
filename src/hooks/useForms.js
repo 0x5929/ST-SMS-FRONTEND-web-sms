@@ -300,13 +300,6 @@ export function useQueryForm(){
     var textInput = useRef(null);
     const queryLabel = 'Search Student Database'
 
-    // consider using useReducer hook to help manage states below
-    // const [ results, setResults ] = useState([])
-    // const [errors, setErrors] = useState({});
-    // const [ showResults, setShowResults ] = useState(false)
-    // const [ openBackdrop, setOpenBackdrop ] = useState(false)
-    // const [ queryOptions, setQueryOptions ] = useState([{query: 'clast_name', value: '', pk: 100}])
-
 
     const initialQueryFormState = {
         queryResults: [],
@@ -352,7 +345,6 @@ export function useQueryForm(){
             return 
         }
 
-        //setQueryOptions([...queryFormState.queryOptions, {query: '', value: '', pk: newPk()}])
         queryFormDispatch({type: 'set-queryOptions', payload: [...queryFormState.queryOptions, {query: '', value: '', pk: newPk()}]})
 
     }
@@ -365,7 +357,6 @@ export function useQueryForm(){
         let queries = [...queryFormState.queryOptions]
 
         // setting queries to anything but the ones we are trying to delete
-       // setQueryOptions(queries.filter( item => item.pk !== pk ) )
         queryFormDispatch({type: 'set-queryOptions', payload: queries.filter( item => item.pk !== pk )})
 
     }
@@ -373,7 +364,6 @@ export function useQueryForm(){
 
     const handleQueryOnChange = (e, index) => {
         const { 
-            //name, 
             value 
         } = e.target
         const queries = [...queryFormState.queryOptions]
@@ -381,7 +371,6 @@ export function useQueryForm(){
         if (typeof index != 'undefined')
             queries[index].value = value;
 
-        //setQueryOptions(queries)
         queryFormDispatch({type: 'set-queryOptions', payload: queries})
 
     }
@@ -389,14 +378,12 @@ export function useQueryForm(){
 
     const handleQueryOptionOnChange = (e, index) =>{
         const { 
-            //name, 
             value 
         } = e.target
 
         const queries = [...queryFormState.queryOptions]
         queries[index].query = value;
 
-        //setQueryOptions(queries)
         queryFormDispatch({type: 'set-queryOptions', payload: queries})
     }
 
@@ -410,7 +397,6 @@ export function useQueryForm(){
             delete errObj['value' + pk.toString()]
         }
         
-        //setErrors(errObj)
         queryFormDispatch({type: 'set-queryFormErrors', payload: errObj})
     }
 
@@ -418,15 +404,14 @@ export function useQueryForm(){
         // textInput is not used here, because we have set the value of the searchbar/textField, so instead, we will manipulate the value from its state obj
         if (pk !== null) {
             clearError(pk)
-    
             handleQueryOnChange({target: {name: '', value: ''}}, index)
 
         }
     }
 
     const handleBackdrop = () =>{
-        //setOpenBackdrop(true)
         queryFormDispatch({type: 'set-isBackdropOpen', payload: true})
+
         setTimeout(()=> {
             queryFormDispatch({type: 'set-isBackdropOpen', payload: true})
             fetchResults()
@@ -436,7 +421,6 @@ export function useQueryForm(){
         function fetchResults() {
     
             handleClear(textInput)
-            //setShowResults(true)
             queryFormDispatch({type: 'set-showResults', payload: true})
             
         }
@@ -450,7 +434,6 @@ export function useQueryForm(){
             SMSRecordService.insertSampleRecords()
 
             console.log('QUERY PARAM AND DATA: ', queryOptions)
-            console.log('setting query results')
             // send the queryOptions to backend API
 
             //setResults(SMSRecordService.getAllRecords())
@@ -463,8 +446,6 @@ export function useQueryForm(){
     }
 
     const handleBacktoQuery = () => {
-        // setShowResults(false)
-        // setOpenBackdrop(false)
         queryFormDispatch({type: 'form-backToQuery'})
     }
 

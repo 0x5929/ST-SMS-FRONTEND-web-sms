@@ -12,7 +12,6 @@ export default function useDrawer(){
 
     return {
         drawerOpen,
-        setDrawerOpen,
         toggleDrawer,
         anchorDirection, 
 

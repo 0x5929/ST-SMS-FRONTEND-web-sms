@@ -1,11 +1,11 @@
 import React from 'react'
 
-import { useQueryResultTable, useDetailedViewTable, useNotification, useConfirmDialog } from '../../../hooks'
+import { useQueryResultTable, useNotification, useConfirmDialog } from '../../../hooks'
 import Styles from './styles'
 
 export default function QueryResults(props) {
 
-    const { handleBacktoQuery, results } = props;
+    const { handleBacktoQuery, queryResults } = props;
 
     const {
 
@@ -85,7 +85,7 @@ export default function QueryResults(props) {
         notify,
         confirmDialog,
         setConfirmDialog
-    }, results)
+    }, queryResults)
 
 
     
