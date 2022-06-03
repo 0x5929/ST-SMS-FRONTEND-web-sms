@@ -14,7 +14,7 @@ const Box = styled(MuiBox)(( {theme} ) => ({
 }));
 
 const SearchBar = styled(Components.SearchBar)(( {theme} ) => ({
-    // styling SearchBar if needed
+    flexGrow: 0
 }));
 
 const BaseButton = styled(Components.BaseButton)(( {theme} ) => ({

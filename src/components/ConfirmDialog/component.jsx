@@ -2,9 +2,9 @@ import React from 'react'
 
 import Styles from './styles'
 
-export default function ConfirmDialog(props) {
+export default function ConfirmDialog({ confirmDialog, confirmDialogHandlers }) {
 
-    const { confirmDialog, handleUnconfirmed } = props;
+    const { handleUnconfirmed } = confirmDialogHandlers;
 
     return (
         <Styles.Dialog open={confirmDialog.isOpen}>

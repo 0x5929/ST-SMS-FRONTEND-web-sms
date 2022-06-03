@@ -10,19 +10,26 @@ export function useNotification(Transition) {
         Transition: Transition
     })
 
-    const closeNotification = (e, reason) => {
+    const handleCloseNotification = () => {
         setNotify({
             ...notify,
             isOpen: false
         })
     }
-    
 
-    return {
-        notify,
-        setNotify,
-        closeNotification,
+    const handleOpenNotification = (message, type='success') => {
+        setNotify({
+            ...notify,
+            isOpen: true,
+            message: message,
+            type: type
+        })
     }
+    
+    const notificationHandlers = { handleOpenNotification,handleCloseNotification }
+
+    return [notify, notificationHandlers]
+
 }
 
 
@@ -42,10 +49,18 @@ export function useConfirmDialog(){
             isOpen: false
         })
     }
-    
-    return {
-        confirmDialog,
-        setConfirmDialog,
-        handleUnconfirmed
+
+    const handleConfirmed = (title, subTitle, confirmCallback) => {
+        setConfirmDialog({
+            isOpen: true,
+            title: title,
+            subTitle: subTitle,
+            onConfirm: confirmCallback
+        })
     }
+    
+    const confirmDialogHandlers = { handleConfirmed,handleUnconfirmed }
+
+    return [confirmDialog, confirmDialogHandlers]
+
 }

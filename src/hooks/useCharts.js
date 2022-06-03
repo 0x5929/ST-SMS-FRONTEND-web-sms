@@ -5,8 +5,8 @@ export default function useCharts(){
 
     const data = getStats()
     const theme = useTheme()
-    return {
+    return [
         data,
         theme
-    }
+    ]
 }

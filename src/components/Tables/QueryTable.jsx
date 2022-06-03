@@ -18,7 +18,11 @@ export function QueryTblContainer(props) {
 
 export function QueryTblHead(props) {
 
-    const { tableData, order, orderBy, handleSortRequest } = props
+    const { tableData, sortingStates, sortingHandlers } = props
+
+    const { orderBy, order } = sortingStates
+    const { handleSortRequest } = sortingHandlers
+
     return (
         <Styles.TableHead>
             <Styles.TableRow>
@@ -46,72 +50,89 @@ export function QueryTblHead(props) {
     )
 }
 
-export function QueryTblBody(props) {
+export function QueryTblBody({ handlers }) {
 
-    const { 
-        records, 
-        handleOpenEditModal,
+     const {
+        getFinalDisplayRecords,
         handleDeletePress,
-        handleDetailedViewModalOpen,
-     } = props
+
+        detailedViewTableHandlers,
+        editModalHandlers
+     } = handlers
+
+    const records = getFinalDisplayRecords()
+    const { handleOpenEditModal } = editModalHandlers
+
+    const { detailedViewModalHandlers } = detailedViewTableHandlers
+    const { handleDetailedViewModalOpen } = detailedViewModalHandlers
 
     return (
-    <Styles.TableBody>
-        {records.map(record => (
-                <Styles.TableRow key={ record.pk }>
-                    <Styles.TableCell>{ record.studentId }</Styles.TableCell>
-                    <Styles.TableCell>{ record.firstName }</Styles.TableCell>
-                    <Styles.TableCell>{ record.lastName }</Styles.TableCell>
-                    <Styles.TableCell>{ record.phoneNumber }</Styles.TableCell>
-                    <Styles.TableCell>{ record.email }</Styles.TableCell>
-                    <Styles.TableCell>{ record.course }</Styles.TableCell>
-                    <Styles.TableCell>
-                        <Styles.ActionButton 
-                            variant="text"
-                            onClick={()=> handleDetailedViewModalOpen(record)}
-                            size="small"
-                            color="primary"
-                        >
-                            <Styles.VisibilityRoundedIcon 
-                                fontSize="small"
-                                color="primary"
-                            />
-                        </Styles.ActionButton>
-                        <Styles.ActionButton 
-                            variant="text"
-                            onClick={() =>handleOpenEditModal(record)}
-                            size="small"
-                            color="secondary"
-                        >
-                            <Styles.EditOutlinedIcon 
-                                fontSize="small"
-                                color="secondary"
-                            />
-                        </Styles.ActionButton>
-                        <Styles.ActionButton 
-                            variant="text"
-                            onClick={()=> handleDeletePress(record)}
-                            size="small"
-                            color="error"
-                        >
-                            <Styles.CloseOutlinedIcon 
-                                fontSize="small"
-                                color="error"
-                            />
-                        </Styles.ActionButton>
-                    </Styles.TableCell>
-                </Styles.TableRow>
-        ))}
-    </Styles.TableBody>
+            <Styles.TableBody>
+                {records.map(record => (
+                        <Styles.TableRow key={ record.pk }>
+                            <Styles.TableCell>{ record.studentId }</Styles.TableCell>
+                            <Styles.TableCell>{ record.firstName }</Styles.TableCell>
+                            <Styles.TableCell>{ record.lastName }</Styles.TableCell>
+                            <Styles.TableCell>{ record.phoneNumber }</Styles.TableCell>
+                            <Styles.TableCell>{ record.email }</Styles.TableCell>
+                            <Styles.TableCell>{ record.course }</Styles.TableCell>
+                            <Styles.TableCell>
+                                <Styles.ActionButton 
+                                    variant="text"
+                                    onClick={()=> handleDetailedViewModalOpen(record)}
+                                    size="small"
+                                    color="primary"
+                                >
+                                    <Styles.VisibilityRoundedIcon 
+                                        fontSize="small"
+                                        color="primary"
+                                    />
+                                </Styles.ActionButton>
+                                <Styles.ActionButton 
+                                    variant="text"
+                                    onClick={() =>handleOpenEditModal(record)}
+                                    size="small"
+                                    color="secondary"
+                                >
+                                    <Styles.EditOutlinedIcon 
+                                        fontSize="small"
+                                        color="secondary"
+                                    />
+                                </Styles.ActionButton>
+                                <Styles.ActionButton 
+                                    variant="text"
+                                    onClick={()=> handleDeletePress(record)}
+                                    size="small"
+                                    color="error"
+                                >
+                                    <Styles.CloseOutlinedIcon 
+                                        fontSize="small"
+                                        color="error"
+                                    />
+                                </Styles.ActionButton>
+                            </Styles.TableCell>
+                        </Styles.TableRow>
+                ))}
+            </Styles.TableBody>
     )
 }
 
 export function QueryTblPagination(props) {
 
+    const { count, paginationStates, paginationHandlers } = props
+
+    const { pages, page, rowsPerPage } = paginationStates
+    const { handleChangePage, handleChangeRowsPerPage } = paginationHandlers
+
     return (
     <Styles.TablePagination 
         component="div"
-        { ...props}
+        count={count}
+        page={page}
+        rowsPerPage={rowsPerPage}
+        rowsPerPageOptions={pages}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
     />
     )
 }

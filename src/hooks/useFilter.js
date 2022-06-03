@@ -3,7 +3,7 @@ import * as SMSRecordService from '../services/SMSRecordService'
 
 export default function useFilter(setRecords) {
 
-    const filterLabel = 'Search Results'
+    const textInput = useRef(null);
     const [filterFn, setFilterFn] = useState({ fn: items => {return items}})
 
     const handleFilter = e => {
@@ -37,7 +37,6 @@ export default function useFilter(setRecords) {
         return filterFn.fn(records)
     }
   
-    const textInput = useRef(null);
 
     const handleClear = (textInput, index) => {
         // index is ignored here, since we only have one search/filterbar
@@ -46,12 +45,8 @@ export default function useFilter(setRecords) {
         setRecords(SMSRecordService.getAllRecords())
     }
 
-    return {
-        filterFn,
-        handleFilter,
-        recordsAfterFiltering,
-        textInput,
-        handleClear,
-        filterLabel
-    }
+    const filterStates = { textInput, filterFn }
+    const filterHandlers = {handleFilter, handleClear, recordsAfterFiltering} 
+
+    return [ filterStates, filterHandlers ]
 }

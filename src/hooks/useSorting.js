@@ -57,11 +57,8 @@ export default function useSorting () {
       return stableSort(recordsAfterPaging, getComparator(order, orderBy))
   }
 
-  return {
-    
-    order,
-    orderBy,
-    handleSortRequest,
-    recordsAfterSorting
-  }
+  const sortingStates = { order, orderBy }
+  const sortingHandlers = { handleSortRequest, recordsAfterSorting }
+
+  return [sortingStates, sortingHandlers]
 }

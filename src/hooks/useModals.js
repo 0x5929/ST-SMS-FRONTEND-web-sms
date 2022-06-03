@@ -4,32 +4,9 @@ import * as studentRecordService from '../services/SMSRecordService';
 
 export function useEditModal (studentValues, setRecordForEdit, setRecords, userFeedbackObj, recordForEdit) {
 
-    const editModalTitle = 'Edit Student Data'
+
     const [isEditModalOpen, setIsEditModalOpen] = useState(false)
-
-
-
-    const {
-        studentFormState,
-        handleClearStudentFormErrorCallback,
-        handleInputChange,
-        handleSubmit,
-        getCourseOptions,
-        getRotationOptions,
-        hoursWorkedRadioItems,
-        convertToDefaultEventParam,
-
-        rotationFormValues,
-        rotationFormErrors,
-        isAddRotModalOpen,
-        addRotModalTitle,
-        handleOpenAddRotModal,
-        handleCloseAddRotModal,
-        handleAddRotSubmit,
-        handleAddRotInputChange,
-        handleAddRotClear
-
-    } = useStudentForm(true, studentValues, userFeedbackObj, recordForEdit);
+    const [studentFormStates, studentFormHandlers] = useStudentForm(true, studentValues, userFeedbackObj, recordForEdit);
 
 
     const handleOpenEditModal = item =>{
@@ -38,14 +15,15 @@ export function useEditModal (studentValues, setRecordForEdit, setRecords, userF
     }
 
     const handleCloseEditModal = () => {
-        handleClearStudentFormErrorCallback()
+        studentFormHandlers.handleClearStudentFormErrorCallback()
+        console.log('called here')
         setIsEditModalOpen(false)
     }
 
     const handleEditSubmit = e => {
 
-        handleSubmit(e)
-        setRecordForEdit(studentFormState.studentFormValues)
+        studentFormHandlers.handleSubmit(e)
+        setRecordForEdit(studentFormStates.studentFormState.studentFormValues)
         
         // lets try to figure out how to wait until handleSUbmit to finish then excute code after, wait one second then close modal, then pop notification
         //closeModal()
@@ -53,44 +31,28 @@ export function useEditModal (studentValues, setRecordForEdit, setRecords, userF
     }
 
     const handleEditCancel = ()=> {
-        handleClearStudentFormErrorCallback()
+        studentFormHandlers.handleClearStudentFormErrorCallback()
         handleCloseEditModal()
     }
 
-    return {
-        studentFormState,
-
-        handleInputChange,
-        getCourseOptions,
-        getRotationOptions,
-        hoursWorkedRadioItems,
-        convertToDefaultEventParam,
-
-        rotationFormValues,
-        rotationFormErrors,
-        isAddRotModalOpen,
-        addRotModalTitle,
-        handleOpenAddRotModal,
-        handleCloseAddRotModal,
-        handleAddRotSubmit,
-        handleAddRotInputChange,
-        handleAddRotClear,
-
-        handleEditSubmit,
-        handleEditCancel,
-
-        editModalTitle,
-        isEditModalOpen, 
+    const editModalStates = { isEditModalOpen, studentFormStates }
+    
+    const editModalHandlers = {
         handleOpenEditModal,
         handleCloseEditModal,
-
+        handleEditSubmit,
+        handleEditCancel,
+        studentFormHandlers
     }
+
+
+    return [editModalStates, editModalHandlers]
 }
 
 
 export function useDetailedViewModal (setRecordForView){
 
-    const detailedViewModalTitle = 'Detail View'
+
     const [isDetailedViewModalOpen, setIsDetailedViewModalOpen] = useState(false)
 
     const handleDetailedViewModalClose = ()=> {
@@ -102,19 +64,15 @@ export function useDetailedViewModal (setRecordForView){
         setIsDetailedViewModalOpen(true)
     }
 
-    return {
-
-        detailedViewModalTitle,
-        isDetailedViewModalOpen,
-        handleDetailedViewModalClose,
-        handleDetailedViewModalOpen,
-    }
+    const detailedViewModalStates = { isDetailedViewModalOpen  }
+    const detailedViewModalHandlers = { handleDetailedViewModalOpen, handleDetailedViewModalClose}
+    
+    return [detailedViewModalStates, detailedViewModalHandlers] 
 }
 
 
 export function useAddRotationModal (){
     const [isAddRotModalOpen, setIsAddRotModalOpen] = useState(false)
-    const addRotModalTitle = 'Add Rotation'
 
     const handleOpenAddRotModal = () => {
         setIsAddRotModalOpen(true)
@@ -123,11 +81,9 @@ export function useAddRotationModal (){
     const handleCloseAddRotModal = () => {
         setIsAddRotModalOpen(false)
     }
-    return {
-        isAddRotModalOpen,
-        handleOpenAddRotModal,
-        handleCloseAddRotModal,
-        addRotModalTitle
-    }
+
+    const addRotModalHandlers = { handleOpenAddRotModal,handleCloseAddRotModal }
+
+    return [isAddRotModalOpen, addRotModalHandlers]
 
 } 

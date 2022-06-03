@@ -1,13 +1,9 @@
 import React from 'react';
 import Styles from './styles'
 
-export default function Notification(props) {
+export default function Notification({ notify, notificationHandlers }) {
     
-    const { 
-        notify, 
-        closeNotification,
-
-    } = props;
+    const { handleCloseNotification } = notificationHandlers
     
     const anchorOrigin = {vertical: 'bottom', horizontal: 'center'}
 
@@ -17,12 +13,12 @@ export default function Notification(props) {
             autoHideDuration={2000}
             anchorOrigin={anchorOrigin}
             TransitionComponent={notify.Transition}
-            onClose={closeNotification}
+            onClose={handleCloseNotification}
 
         >
             <Styles.Alert
                 severity={notify.type}
-                onClose={closeNotification}
+                onClose={handleCloseNotification}
             >
                 {notify.message}
             </Styles.Alert>

@@ -6,10 +6,7 @@ import { useCharts } from "../../../hooks";
 
 export default function Statistics() {
 
-  const { 
-    data, 
-    theme  
-  } = useCharts()
+  const [data, theme] = useCharts()
 
 
   const {

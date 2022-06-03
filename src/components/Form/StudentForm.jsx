@@ -2,33 +2,14 @@ import React from 'react';
 import Styles from './styles'
 import { AddRotationForm } from './AddRotationForm';
 
-export function StudentForm(props) {
+export function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHandlers }) {
 
 
-    const { 
-            studentFormState,   
-
-            handleInputChange, 
-            handleCancel,
-            handleSubmit,
-            getCourseOptions,
-            getRotationOptions,
-            hoursWorkedRadioItems, 
-            convertToDefaultEventParam,
-
-            handleOpenAddRotModal,
-            handleCloseAddRotModal,
-            isAddRotModalOpen,
-            addRotModalTitle,
-            handleAddRotInputChange,
-            handleAddRotSubmit,
-            handleAddRotClear,
-            rotationValues,
-            rotationErrors,
-
-            } = props
-
-
+    // destructed below
+    const {
+        studentFormState,
+        addRotStates,
+    } = studentFormStates
 
     const {
         studentFormValues,
@@ -37,9 +18,68 @@ export function StudentForm(props) {
         submitSuccess,
     } = studentFormState
 
+    const {
+        rotationFormValues,
+        rotationFormErrors,
+        isAddRotModalOpen,
+    } = addRotStates
+    
+    const {
+
+        handleInputChange,
+        handleSubmit,
+        handleCancel,
+        convertToDefaultEventParam,
+        getCourseOptions, 
+        getRotationOptions, 
+        getHoursWorkedRadioItems,
+
+        // destructed below
+        addRotHandlers
+    } = studentFormHandlers
+
+    const {
+        handleAddRotSubmit, 
+        handleAddRotInputChange, 
+        handleAddRotClear,
+
+         // destructed below
+        addRotModalHandlers
+    } = addRotHandlers
+
+    const {
+        handleOpenAddRotModal,
+        handleCloseAddRotModal
+    } = addRotModalHandlers
+
+
+
+
+
+    // React.useEffect(()=>{
+    //     if (studentEditFormHandlers['handleEditSubmit']){
+    //         var handleEditSubmit = studentEditFormHandlers.handleEditSubmit
+    //         var handleEditCancel = studentEditFormHandlers.handleEditCancel
+    //     }
+    //     else{
+    //         var handleEditSubmit = false
+    //         var handleEditCancel = false
+    //     }
+    // }, [])
+
+    if (studentEditFormHandlers !== undefined) {
+            var handleEditSubmit = studentEditFormHandlers.handleEditSubmit
+            var handleEditCancel = studentEditFormHandlers.handleEditCancel
+    }
+    else {
+        var handleEditSubmit = false
+        var handleEditCancel = false
+    }
+
+
     return (
     <>
-        <Styles.StudentForm onSubmit={handleSubmit}>
+        <Styles.StudentForm onSubmit={handleEditSubmit || handleSubmit}>
             <Styles.Grid container>
                 <Styles.Grid item laptop={6} tablet={12}>
                     <Styles.Input 
@@ -227,7 +267,7 @@ export function StudentForm(props) {
                         label="Hours Worked"
                         value={studentFormValues.hoursWorked}
                         onChange={handleInputChange}
-                        items={hoursWorkedRadioItems}
+                        items={getHoursWorkedRadioItems()}
                     />
                     <Styles.Input 
                         name="descriptionAttempts"
@@ -283,7 +323,7 @@ export function StudentForm(props) {
                             <Styles.Button
                                 color="error"
                                 text="Cancel"
-                                onClick={handleCancel}
+                                onClick={handleEditCancel || handleCancel}
                             />
                         </Styles.Box>
                     </Styles.Box>
@@ -291,17 +331,16 @@ export function StudentForm(props) {
             </Styles.Grid>
         </Styles.StudentForm>
         <Styles.Modal
-            modalTitle={addRotModalTitle}
-            openModal={isAddRotModalOpen}
-            closeModal={handleCloseAddRotModal}
-            onBackdropClick={handleCloseAddRotModal}
+            modalTitle="Add Rotation"
+            isModalOpen={isAddRotModalOpen}
+            handleCloseModal={handleCloseAddRotModal}
         >
             <AddRotationForm 
                 handleAddRotInputChange={handleAddRotInputChange}
                 handleAddRotSubmit={handleAddRotSubmit}
                 handleAddRotClear={handleAddRotClear}
-                rotationValues={rotationValues}
-                rotationErrors={rotationErrors}
+                rotationFormValues={rotationFormValues}
+                rotationFormErrors={rotationFormErrors}
                 getCourseOptions={getCourseOptions}
             />
         </Styles.Modal>

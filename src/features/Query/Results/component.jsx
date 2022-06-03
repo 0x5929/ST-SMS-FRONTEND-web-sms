@@ -3,102 +3,60 @@ import React from 'react'
 import { useQueryResultTable, useNotification, useConfirmDialog } from '../../../hooks'
 import Styles from './styles'
 
-export default function QueryResults(props) {
+export default function QueryResults({ handleBacktoQuery, queryResults } ) {
 
-    const { handleBacktoQuery, queryResults } = props;
 
-    const {
-
-        notify,
-        setNotify,
-        closeNotification,
-
-    } = useNotification(Styles.NotificationSlide)
-    
-
-    const {
-        confirmDialog,
-        setConfirmDialog,
-        handleUnconfirmed
-    } = useConfirmDialog()
-
+    const [notify, notificationHandlers]= useNotification(Styles.NotificationSlide)
+    const [confirmDialog, confirmDialogHandlers] = useConfirmDialog()
+    const [useQueryResultTableStates, useQueryResultTableHandlers] = useQueryResultTable(
+        {
+        notificationHandlers,
+        confirmDialogHandlers
+        }, queryResults
+    )
 
     const {
-        
-        // table 
         records, 
-        tableData,
-        filterLabel,
-        pages,
-        page,
-        order,
-        orderBy,
-        textInput,
-        rowsPerPage,
+        paginationStates, 
+        sortingStates,
+        filterStates,
+        detailedViewTableStates,
+        editModalStates
+    } = useQueryResultTableStates
 
-        handleClear,
-        handleFilter,
-        handleChangePage,
-        handleSortRequest,
-        handleChangeRowsPerPage,
-        handleDeletePress,
+    const {
+        getTableData,
         getFinalDisplayRecords,
+        handleDeletePress,
 
-
-        // modal handling for edit
-        studentFormState,
-        handleInputChange,
-        getCourseOptions,
-        getRotationOptions,
-        hoursWorkedRadioItems,
-        convertToDefaultEventParam,
-
-        rotationFormValues,
-        rotationFormErrors,
-        isAddRotModalOpen,
-        addRotModalTitle,
-        handleOpenAddRotModal,
-        handleCloseAddRotModal,
-        handleAddRotSubmit,
-        handleAddRotInputChange,
-        handleAddRotClear,
-
-        handleEditSubmit,
-        handleEditCancel,
-
-        editModalTitle,
-        isEditModalOpen, 
-        handleOpenEditModal,
-        handleCloseEditModal,
-
-
-        // detailed view table
-        detailedViewModalTitle,
-        isDetailedViewModalOpen,
-        handleDetailedViewModalClose,
-        handleDetailedViewModalOpen,
-        getDetailedRecord,
-        
-
-    } = useQueryResultTable({
-        setNotify,
-        notify,
-        confirmDialog,
-        setConfirmDialog
-    }, queryResults)
-
-
+        paginationHandlers,
+        sortingHandlers,
+        filterHandlers,
+        detailedViewTableHandlers,
+        editModalHandlers,
+    } = useQueryResultTableHandlers
     
+    const {
+        handleCloseEditModal, 
+        studentFormHandlers ,
+        handleEditCancel, 
+        handleEditSubmit} = editModalHandlers
+
+    const {isEditModalOpen, studentFormStates} = editModalStates
+
+    const {detailedViewModalStates} = detailedViewTableStates
+    const { isDetailedViewModalOpen } = detailedViewModalStates
+
+    const { getDetailedRecord, detailedViewModalHandlers } = detailedViewTableHandlers
+    const { handleDetailedViewModalClose } = detailedViewModalHandlers
+
     return (
         <>
             <Styles.Box>
                 <Styles.SearchBar 
-                    onChange={handleFilter}
-                    textInput={textInput}
-                    handleClear={handleClear}
-                    label={filterLabel}
-                    style={{flexGrow: 0}}
-
+                    label="Search Results"
+                    textInput={filterStates.textInput}
+                    handleClear={filterHandlers.handleClear}
                 />
                 <Styles.BaseButton
                     text="Back to query"
@@ -110,76 +68,56 @@ export default function QueryResults(props) {
             </Styles.Box>
             <Styles.QueryTblContainer>
                 <Styles.QueryTblHead 
-                    tableData={tableData} 
-                    handleSortRequest={handleSortRequest}
-                    orderBy={orderBy}
-                    order={order}
+                    tableData={getTableData()} 
+                    sortingStates={sortingStates}
+                    sortingHandlers={sortingHandlers}
                 />
                 <Styles.QueryTblBody 
-                    records={getFinalDisplayRecords()}
-                    handleOpenEditModal={handleOpenEditModal}
-                    handleDetailedViewModalOpen={handleDetailedViewModalOpen}
-                    handleDeletePress={handleDeletePress}
+                    handlers={{
+                        getFinalDisplayRecords,
+                        handleDeletePress,
+                        detailedViewTableHandlers,
+                        editModalHandlers}}
                 />
             </Styles.QueryTblContainer>
             <Styles.QueryTblPagination 
-                page={page}
-                rowsPerPage={rowsPerPage}
-                rowsPerPageOptions={pages}
                 count={records.length}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
+                paginationStates={paginationStates}
+                paginationHandlers={paginationHandlers}
             />
             <Styles.Modal
-                modalTitle={editModalTitle}
-                openModal={isEditModalOpen}
-                closeModal={handleCloseEditModal}
+                modalTitle="Edit Student Data"
+                isModalOpen={isEditModalOpen}
+                handleCloseModal={handleCloseEditModal}
             >
                 <Styles.StudentForm
-                    studentFormState={studentFormState}
-                    handleInputChange={handleInputChange}
-                    handleCancel={handleEditCancel}
-                    handleSubmit={handleEditSubmit}
-                    getCourseOptions={getCourseOptions}
-                    getRotationOptions={getRotationOptions}
-                    hoursWorkedRadioItems={hoursWorkedRadioItems}
-                    convertToDefaultEventParam={convertToDefaultEventParam}
-
-                    handleOpenAddRotModal={handleOpenAddRotModal}
-                    handleCloseAddRotModal={handleCloseAddRotModal}
-                    isAddRotModalOpen={isAddRotModalOpen}
-                    addRotModalTitle={addRotModalTitle}
-                    handleAddRotInputChange={handleAddRotInputChange}
-                    handleAddRotSubmit={handleAddRotSubmit}
-                    handleAddRotClear={handleAddRotClear}
-                    rotationValues={rotationFormValues}
-                    rotationErrors={rotationFormErrors}
-
+                    studentFormStates={studentFormStates}
+                    studentFormHandlers={studentFormHandlers}
+                    studentEditFormHandlers={{handleEditCancel,handleEditSubmit}}
                 />
             </Styles.Modal>
             <Styles.Modal
-                modalTitle={detailedViewModalTitle}
-                openModal={isDetailedViewModalOpen}
-                closeModal={handleDetailedViewModalClose}
-                onBackdropClick={handleDetailedViewModalClose}
+                modalTitle="Detail View"
+                isModalOpen={isDetailedViewModalOpen}
+                handleCloseModal={handleDetailedViewModalClose}
             >
                 <Styles.DetailedTblContainer>
                     <Styles.DetailedTblHead 
-                        tableData={tableData} 
+                        tableData={getTableData()} 
                     />
                     <Styles.DetailedTblBody 
                         record={getDetailedRecord()}
-                        tableData={tableData}
+                        tableData={getTableData()}
                     />
                 </Styles.DetailedTblContainer>
             </Styles.Modal>
             <Styles.Notification 
                 notify={notify}
-                closeNotification={closeNotification}
+                notificationHandlers={notificationHandlers}
             />
             <Styles.ConfirmDialog 
                 confirmDialog={confirmDialog}
-                handleUnconfirmed={handleUnconfirmed}
+                confirmDialogHandlers={confirmDialogHandlers}
             />
         </>
     )

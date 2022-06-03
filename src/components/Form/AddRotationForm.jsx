@@ -7,8 +7,8 @@ export function AddRotationForm(props) {
         handleAddRotInputChange,
         handleAddRotSubmit,
         handleAddRotClear,
-        rotationValues,
-        rotationErrors,
+        rotationFormValues,
+        rotationFormErrors,
         getCourseOptions
     } = props
 
@@ -20,16 +20,16 @@ export function AddRotationForm(props) {
                     label="Program Name"
                     onChange={handleAddRotInputChange}
                     options={getCourseOptions()}
-                    error={rotationErrors.programName}
-                    value={rotationValues.programName}
+                    error={rotationFormErrors.programName}
+                    value={rotationFormValues.programName}
                     defaultValue={getCourseOptions()[0].value}
                 />
                 <Styles.Input 
                     name="rotation"
                     label="Rotation Number"
-                    value={rotationValues.rotation}
+                    value={rotationFormValues.rotation}
                     onChange={handleAddRotInputChange}
-                    error={rotationErrors.rotation}
+                    error={rotationFormErrors.rotation}
                 />
                 <Styles.Stack direction="row" spacing={1}>
                     <Styles.Button 

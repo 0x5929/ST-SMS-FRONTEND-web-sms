@@ -8,223 +8,93 @@ import * as SMSRecordService from '../services/SMSRecordService'
 
 export default function useQueryResultTable(userFeedbackObj, results) {
 
-    // consider to use useReducer to help manage more states set from the state var
-    // if this increases by more than 5 sets of states total
     const [records, setRecords] = useState(results)
     const [recordForEdit, setRecordForEdit] = useState(null)
     const [recordForView, setRecordForView] = useState(null)
+    const [paginationStates, paginationHandlers] = usePagination(records)
+    const [sortingStates, sortingHandlers]= useSorting()
+    const [filterStates, filterHandlers] = useFilter(setRecords)
+    const [detailedViewTableStates, detailedViewTableHandlers] = useDetailedViewTable(recordForView, setRecordForView)
+    const [editModalStates, editModalHandlers] = useEditModal(
 
-    // pagination
-    const {
-      pages,
-      page,
-      rowsPerPage,
-
-      handleChangePage,
-      handleChangeRowsPerPage,
-      
-      recordsAfterPaging
-    } = usePagination(records)
-
-    // sorting
-    const {
-      order,
-      orderBy,
-      handleSortRequest,
-      recordsAfterSorting
-
-    } = useSorting()
-
-
-    // filtering
-    const { 
-      recordsAfterFiltering,
-      handleFilter,
-      textInput,
-      handleClear,
-      filterLabel,
-    } = useFilter(setRecords)
-
-
-    const { 
-
-        studentFormState,
-        handleInputChange,
-        getCourseOptions,
-        getRotationOptions,
-        hoursWorkedRadioItems,
-        convertToDefaultEventParam,
-
-        rotationFormValues,
-        rotationFormErrors,
-        isAddRotModalOpen,
-        addRotModalTitle,
-        handleOpenAddRotModal,
-        handleCloseAddRotModal,
-        handleAddRotSubmit,
-        handleAddRotInputChange,
-        handleAddRotClear,
-
-        handleEditSubmit,
-        handleEditCancel,
-
-        editModalTitle,
-        isEditModalOpen, 
-        handleOpenEditModal,
-        handleCloseEditModal,
-
-
-
-    } = useEditModal(
         SMSRecordService.getInitialStudentValues(), 
         setRecordForEdit, 
         setRecords, 
         userFeedbackObj, 
-        recordForEdit)
+        recordForEdit
+    )
 
-
-
-    const {
-        detailedViewModalTitle,
-        isDetailedViewModalOpen,
-        handleDetailedViewModalClose,
-        handleDetailedViewModalOpen,
-        getDetailedRecord,
-    } = useDetailedViewTable(recordForView, setRecordForView)
-
+    const { getTableData } = SMSRecordService
+    const { notificationHandlers, confirmDialogHandlers } = userFeedbackObj
 
     const getFinalDisplayRecords = () =>{
-      let filteredResults = recordsAfterFiltering(records)
-      let sortedResults = recordsAfterSorting(filteredResults)
+      let filteredResults = filterHandlers.recordsAfterFiltering(records)
+      let sortedResults = sortingHandlers.recordsAfterSorting(filteredResults)
 
-      return recordsAfterPaging(sortedResults)
+      return paginationHandlers.recordsAfterPaging(sortedResults)
     }
 
-    const {
 
-        notify,
-        setNotify,
-        confirmDialog,
-        setConfirmDialog,
+    const _handleDelete = (record) => {
 
-    } = userFeedbackObj
-
-    const handleDelete = (record) => {
-
-        setConfirmDialog({
-            ...confirmDialog,
-            isOpen: false
-        })
+        confirmDialogHandlers.handleUnconfirmed()
 
         SMSRecordService.deleteRecord(record.pk)
         setRecords(SMSRecordService.getAllRecords())
 
-        setNotify({
-            isOpen: true,
-            message: 'Student record deleted!',
-            type: 'error', 
-            Transition: notify.Transition
-        })
-        
+        notificationHandlers.handleOpenNotification('Student record deleted!', 'error')
+
         console.log('Delete successful: ', record)
     }
 
     const handleDeletePress = (record) =>{
-        
-        setConfirmDialog({
-            isOpen: true,
-            title: 'Are you sure you want to delete this student record?',
-            subTitle: 'This operation cannot be undone, so you must be sure.',
-            onConfirm: ()=> (handleDelete(record))
-    })}
-    
-    const tableData = SMSRecordService.getTableData()
-  
 
-
-
-    return {
-
-        // table 
-        records, 
-        tableData,
-        filterLabel,
-        pages,
-        page,
-        order,
-        orderBy,
-        textInput,
-        rowsPerPage,
-        recordsAfterFiltering,
-        recordsAfterPaging,
-        recordsAfterSorting,
-        handleClear,
-        handleFilter,
-        handleChangePage,
-        handleSortRequest,
-        handleChangeRowsPerPage,
-        handleDeletePress,
-        getFinalDisplayRecords,
-
-
-        // modal handling for edit
-        studentFormState,
-        handleInputChange,
-        getCourseOptions,
-        getRotationOptions,
-        hoursWorkedRadioItems,
-        convertToDefaultEventParam,
-
-        rotationFormValues,
-        rotationFormErrors,
-        isAddRotModalOpen,
-        addRotModalTitle,
-        handleOpenAddRotModal,
-        handleCloseAddRotModal,
-        handleAddRotSubmit,
-        handleAddRotInputChange,
-        handleAddRotClear,
-
-        handleEditSubmit,
-        handleEditCancel,
-
-        editModalTitle,
-        isEditModalOpen, 
-        handleOpenEditModal,
-        handleCloseEditModal,
-
-
-        // detailed view table
-        detailedViewModalTitle,
-        isDetailedViewModalOpen,
-        handleDetailedViewModalClose,
-        handleDetailedViewModalOpen,
-        getDetailedRecord,
+        confirmDialogHandlers.handleConfirmed(
+            'Are you sure you want to delete this student record?', 
+            'This operation cannot be undone, so you must be sure.',
+            ()=> (_handleDelete(record)))
         
     }
+    
+  
+    const useQueryResultTableStates = { 
+        records, 
+        recordForEdit, 
+        recordForView, 
+
+        paginationStates, 
+        sortingStates,
+        filterStates,
+        detailedViewTableStates,
+        editModalStates
+    }
+
+    const useQueryResultTableHandlers = {
+        getTableData,
+        getFinalDisplayRecords,
+        handleDeletePress,
+
+        paginationHandlers,
+        sortingHandlers,
+        filterHandlers,
+        detailedViewTableHandlers,
+        editModalHandlers,
+    }
+
+    return [useQueryResultTableStates, useQueryResultTableHandlers]
+
 }
 
 
 function useDetailedViewTable (recordForView, setRecordForView) {
 
-    
     const getDetailedRecord = () => {
         return recordForView
     }
-    
 
-    const {
-        detailedViewModalTitle,
-        isDetailedViewModalOpen,
-        handleDetailedViewModalClose,
-        handleDetailedViewModalOpen,
-    } = useDetailedViewModal(setRecordForView)
-    
-    return {
-        detailedViewModalTitle,
-        isDetailedViewModalOpen,
-        handleDetailedViewModalClose,
-        handleDetailedViewModalOpen,
-        getDetailedRecord,
-    }
+    const [detailedViewModalStates, detailedViewModalHandlers]  = useDetailedViewModal(setRecordForView)
+    const detailedViewTableStates = { detailedViewModalStates }
+    const detailedViewTableHandlers = { getDetailedRecord, detailedViewModalHandlers}
+
+    return [detailedViewTableStates, detailedViewTableHandlers]
 }
