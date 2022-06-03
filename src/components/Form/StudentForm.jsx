@@ -53,27 +53,13 @@ export function StudentForm({ studentFormStates, studentFormHandlers, studentEdi
     } = addRotModalHandlers
 
 
-
-
-
-    // React.useEffect(()=>{
-    //     if (studentEditFormHandlers['handleEditSubmit']){
-    //         var handleEditSubmit = studentEditFormHandlers.handleEditSubmit
-    //         var handleEditCancel = studentEditFormHandlers.handleEditCancel
-    //     }
-    //     else{
-    //         var handleEditSubmit = false
-    //         var handleEditCancel = false
-    //     }
-    // }, [])
-
     if (studentEditFormHandlers !== undefined) {
             var handleEditSubmit = studentEditFormHandlers.handleEditSubmit
             var handleEditCancel = studentEditFormHandlers.handleEditCancel
     }
     else {
-        var handleEditSubmit = false
-        var handleEditCancel = false
+        handleEditSubmit = false
+        handleEditCancel = false
     }
 
 
