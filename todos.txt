@@ -13,3 +13,13 @@
 05242022:Add rotation and add rotation:i
 
 
+
+
+Anything that is non-state relavant should be inside their individual components, not the custom hooks
+a hook should have a signature of [{values}, {handlers}], a hook calling another hook should have keys for that custom hook handlers and values in the final return
+all hooks should still be called in the feature lvl, that way all states are shared there at the upper feature lvl between its components. If for future performances, if some hooks perform better being called at a child component, we will do just that and document it
+but before optimiazating, readablility is concern
+Also, get rid of small things like title, is not stateful, so shouldnt be in hook, put inside its own component.
+
+
+Get rid of image component? anyone still using it?
