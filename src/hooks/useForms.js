@@ -251,8 +251,6 @@ function useAddRotationForm(userFeedbackObj) {
 export function useQueryForm(){
 
     var textInput = useRef(null);
-    const queryLabel = 'Search Student Database'
-
 
     const initialQueryFormState = {
         queryResults: [],
@@ -394,8 +392,6 @@ export function useQueryForm(){
     
             handleBackdrop()            
         }
-
-
     }
 
     const handleBacktoQuery = () => {
@@ -407,10 +403,9 @@ export function useQueryForm(){
         queryFormDispatch({type: 'set-queryFormErrors', payload: {...temp}})
     }, [])
 
-    return {
-        queryFormState,
-        textInput,
-        queryLabel,
+
+    const queryFormStates = { queryFormState, textInput }
+    const queryFormHandlers = {
         getQueryOptions,
         handleClear,
         handleSubmit,
@@ -419,6 +414,8 @@ export function useQueryForm(){
         handleQueryOnChange,
         handleQueryOptionOnChange,
         handleBacktoQuery,
-
     }
+
+    return [queryFormStates, queryFormHandlers]
+
 }

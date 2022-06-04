@@ -7,20 +7,10 @@ import { useQueryForm } from '../../../hooks'
 
 export default function Query() {
 
-    const {
-        queryFormState,
-        textInput,
-        queryLabel,
-        getQueryOptions,
-        handleClear,
-        handleSubmit,
-        handleAddNewQuery,
-        handleDelQuery,
-        handleQueryOnChange,
-        handleQueryOptionOnChange,
-        handleBacktoQuery,
+    const [queryFormStates, queryFormHandlers] = useQueryForm()
 
-    } = useQueryForm()
+    const { queryFormState } = queryFormStates;
+    const { handleBacktoQuery } = queryFormHandlers;
 
     return (
         <Styles.Paper>
@@ -29,16 +19,8 @@ export default function Query() {
 
                 <>
                     <Styles.QueryForm
-                        queryFormState={queryFormState}
-                        textInput={textInput}
-                        handleClear={handleClear}
-                        handleSubmit={handleSubmit}
-                        queryLabel={queryLabel}
-                        getQueryOptions={getQueryOptions}
-                        handleAddNewQuery={handleAddNewQuery}
-                        handleDelQuery={handleDelQuery}
-                        handleQueryOnChange={handleQueryOnChange}
-                        handleQueryOptionOnChange={handleQueryOptionOnChange}
+                        queryFormStates={queryFormStates}
+                        queryFormHandlers={queryFormHandlers}
                     />
                     <Styles.Box>
                         <Styles.Statistics />

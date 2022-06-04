@@ -24,12 +24,10 @@ export default function Create() {
             text="CREATE NEW STUDENT RECORD"
             align='center'
         />
-
             <Styles.StudentForm
                 studentFormStates={studentFormStates}
                 studentFormHandlers={studentFormHandlers}
             />
-
             <Styles.Notification 
                 notify={notify}
                 notificationHandlers={notificationHandlers}

@@ -2,26 +2,28 @@ import React from 'react';
 import Styles from './styles'
 
 
-export function QueryForm(props) {
+export function QueryForm({queryFormStates, queryFormHandlers}) {
 
     const {
         queryFormState,
-        textInput,
-        handleClear,
-        queryLabel,
-        handleSubmit,
-        getQueryOptions,
-        handleAddNewQuery,
-        handleDelQuery,
-        handleQueryOnChange,
-        handleQueryOptionOnChange,
-    } = props;
+        textInput
+    } = queryFormStates;
 
     const {
         queryOptions,
         queryFormErrors,
     } = queryFormState
 
+    const {
+        getQueryOptions,
+        handleSubmit,
+        handleQueryOnChange,
+        handleClear,
+        handleQueryOptionOnChange,
+        handleDelQuery,
+        handleAddNewQuery,
+    } = queryFormHandlers
+    
     return (
             <Styles.QueryForm onSubmit={(e)=>(handleSubmit(e, queryOptions))}>
                 <Styles.Grid container rowSpacing={0} columnSpacing={0}>
@@ -30,9 +32,9 @@ export function QueryForm(props) {
                             <Styles.Grid container item key={query.pk} spacing={0}>
                                 <Styles.Grid item laptop={9} tablet={12} mobile={12}>
                                     <Styles.QuerySearchBar 
+                                        label="Search Student Database"
                                         index={index}
                                         pk={query.pk}
-                                        label={queryLabel}
                                         name={queryOptions[index]['query']}
                                         value={queryOptions[index]['value']}
                                         onChange={(e) => (handleQueryOnChange(e, index))}
@@ -62,7 +64,7 @@ export function QueryForm(props) {
                                                     text="Delete"
                                                     color="error"
                                                     variant="outlined"
-                                                    onClick={ ()=> (handleDelQuery(index, query.pk))}
+                                                    onClick={ ()=> (handleDelQuery(index, query.pk)) }
                                                 />             
                                             </Styles.Grid>
                                         )
@@ -76,22 +78,19 @@ export function QueryForm(props) {
                                                     text="ADD NEW"
                                                     color="primary"
                                                     variant="outlined"
-                                                    onClick={() => (handleAddNewQuery(index))}
+                                                    onClick={ () => (handleAddNewQuery(index)) }
                                                 />                        
                                                 <Styles.QueryButton 
                                                 type="Submit"
                                                 color="secondary"
                                             >
-                                                
                                                 <Styles.DoubleArrowIcon 
                                                     fontSize="large"
                                                 />
                                             </Styles.QueryButton>    
                                             </Styles.Grid> 
                                         )
-
                                     }
-
                             </Styles.Grid>
                         ))
 
