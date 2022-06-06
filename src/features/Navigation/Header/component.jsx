@@ -17,16 +17,9 @@ export default function Header({ Link }) {
         logout
     } = useAuthContext()
 
-    const {
-        headerTitle
-    } = useHeader()
+    const headerTitle = useHeader()
 
-    const [
-
-        isDrawerOpen,
-        handleToggleDrawer, 
-
-    ] = useDrawer()
+    const [ isDrawerOpen,handleToggleDrawer ] = useDrawer()
 
 
     

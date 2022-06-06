@@ -11,7 +11,6 @@ export default function useHeader(){
     else if (isSmallerThanLaptop === true) headerTitle = 'Student Management'
 
 
-    return {
-        headerTitle
-    }
+    return  headerTitle
+    
 }
