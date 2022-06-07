@@ -38,7 +38,7 @@ const StudentForm = styled('form')(( {theme} ) => ({
     '& .MuiFormControl-root':{    
         width: '80%',
         margin: theme.spacing(1)
-    }
+    },
 }));
 
 const Box = styled(MuiBox)(( {theme} ) => ({
@@ -46,10 +46,9 @@ const Box = styled(MuiBox)(( {theme} ) => ({
 }));
 
 const Stack = styled(MuiStack)(( {theme} ) => ({
-    
     width: '90%'
-
 }));
+
 const Paper = styled(MuiPaper)(( {theme} ) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1e202a' : '#ffffff',
     ...theme.typography.body2,
@@ -59,9 +58,8 @@ const Paper = styled(MuiPaper)(( {theme} ) => ({
 }));
 
 const Modal = styled(BaseModal)(( {theme} ) => ({
-    // to style the grid if needed
-    width: '30%',
-    margin: 'auto'
+
+
 }));
 
 
@@ -198,7 +196,7 @@ const QueryForm = styled('form')(( {theme} ) => ({
 
 const AddRotForm = styled('form')(( { theme } ) => ({
     '& .MuiFormControl-root':{    
-        width: '80%',
+        width: '100%',
         margin: theme.spacing(1),
     }
 }));

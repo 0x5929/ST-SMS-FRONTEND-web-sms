@@ -14,7 +14,6 @@ export default function Modal(props) {
         <Styles.Dialog 
             open={isModalOpen}
             maxWidth="laptop"
-            fullWidth={true}
             onBackdropClick={handleCloseModal}
         >
             <Styles.DialogTitle>
