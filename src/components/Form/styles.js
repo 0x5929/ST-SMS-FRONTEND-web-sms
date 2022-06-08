@@ -14,6 +14,7 @@ import {
 } from '@mui/icons-material';
 
 import { styled } from '@mui/material/styles';
+import { AddRotationForm } from './AddRotationForm';
 import { SearchBar } from '../Searchbar';
 import { Fab as BaseFab } from '../Buttons';
 import { Modal as BaseModal } from '../Modal';
@@ -39,6 +40,7 @@ const StudentForm = styled('form')(( {theme} ) => ({
         width: '80%',
         margin: theme.spacing(1)
     },
+
 }));
 
 const Box = styled(MuiBox)(( {theme} ) => ({
@@ -55,12 +57,19 @@ const Paper = styled(MuiPaper)(( {theme} ) => ({
     padding: theme.spacing(1),
     textAlign: 'center',
     color: theme.palette.text.secondary,
+
+    
 }));
 
-const Modal = styled(BaseModal)(( {theme} ) => ({
+const Modal = styled(BaseModal)(( {theme} ) => {
+    console.log('called')
+    return {    
+        '& .MuiDialog-paperScrollPaper' : {
+        backgroundColor : 'red'
+    }
 
+}});
 
-}));
 
 
 const Grid = styled(MuiGrid)(( {theme} ) => ({
@@ -201,6 +210,8 @@ const AddRotForm = styled('form')(( { theme } ) => ({
     }
 }));
 
+
+
 const DoubleArrowIcon = styled(MuiDoubleArrow)(( {theme} ) => ({
     // to style QueryForm if needed
 }));
@@ -219,6 +230,7 @@ const Styles = {
     StudentForm,
     AddRotForm,
     QueryForm,
+    AddRotationForm,
     Modal,
     Grid,
     Stack,

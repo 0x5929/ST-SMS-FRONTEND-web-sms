@@ -41,7 +41,6 @@ const QueryTblPagination = styled(Components.QueryTblPagination)(( {theme} ) => 
 }));
 
 const Modal = styled(Components.Modal)(( {theme} ) => ({
-    // styling Modal if needed
 }));
 
 const StudentForm = styled(Components.StudentForm)(( {theme} ) => ({

@@ -7,8 +7,9 @@ export default function Modal(props) {
         modalTitle, 
         isModalOpen, 
         handleCloseModal, 
-        children, 
+        children,
        } = props;
+    
 
     return (
         <Styles.Dialog 

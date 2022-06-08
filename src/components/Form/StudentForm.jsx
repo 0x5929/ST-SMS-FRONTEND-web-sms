@@ -1,6 +1,5 @@
 import React from 'react';
 import Styles from './styles'
-import { AddRotationForm } from './AddRotationForm';
 
 export function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHandlers }) {
 
@@ -321,7 +320,7 @@ export function StudentForm({ studentFormStates, studentFormHandlers, studentEdi
             isModalOpen={isAddRotModalOpen}
             handleCloseModal={handleCloseAddRotModal}
         >
-            <AddRotationForm 
+            <Styles.AddRotationForm 
                 handleAddRotInputChange={handleAddRotInputChange}
                 handleAddRotSubmit={handleAddRotSubmit}
                 handleAddRotClear={handleAddRotClear}

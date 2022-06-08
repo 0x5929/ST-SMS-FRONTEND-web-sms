@@ -16,7 +16,6 @@ export function useEditModal (studentValues, setRecordForEdit, setRecords, userF
 
     const handleCloseEditModal = () => {
         studentFormHandlers.handleClearStudentFormErrorCallback()
-        console.log('called here')
         setIsEditModalOpen(false)
     }
 
