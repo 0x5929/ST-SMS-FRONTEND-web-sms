@@ -5,16 +5,18 @@ import Styles from './styles'
 export function QueryForm({queryFormStates, queryFormHandlers}) {
 
     const {
-        queryFormState,
+
+        queryFormState : {
+
+            queryOptions,
+            queryFormErrors,
+        },
+
         textInput
     } = queryFormStates;
 
     const {
-        queryOptions,
-        queryFormErrors,
-    } = queryFormState
 
-    const {
         getQueryOptions,
         handleSubmit,
         handleQueryOnChange,
@@ -22,6 +24,7 @@ export function QueryForm({queryFormStates, queryFormHandlers}) {
         handleQueryOptionOnChange,
         handleDelQuery,
         handleAddNewQuery,
+        
     } = queryFormHandlers
     
     return (
@@ -81,13 +84,13 @@ export function QueryForm({queryFormStates, queryFormHandlers}) {
                                                     onClick={ () => (handleAddNewQuery(index)) }
                                                 />                        
                                                 <Styles.QueryButton 
-                                                type="Submit"
-                                                color="secondary"
-                                            >
-                                                <Styles.DoubleArrowIcon 
-                                                    fontSize="large"
-                                                />
-                                            </Styles.QueryButton>    
+                                                    type="Submit"
+                                                    color="secondary"
+                                                >
+                                                    <Styles.DoubleArrowIcon 
+                                                        fontSize="large"
+                                                    />
+                                                </Styles.QueryButton>    
                                             </Styles.Grid> 
                                         )
                                     }

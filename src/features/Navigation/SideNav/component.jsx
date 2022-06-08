@@ -12,8 +12,6 @@ export default function Drawer (props) {
     } = props
 
 
-
-
     return (
         <Styles.Drawer
             anchor="left"

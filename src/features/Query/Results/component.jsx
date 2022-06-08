@@ -16,15 +16,30 @@ export default function QueryResults({ handleBacktoQuery, queryResults } ) {
     )
 
     const {
+
         records, 
         paginationStates, 
         sortingStates,
         filterStates,
-        detailedViewTableStates,
-        editModalStates
+
+        detailedViewTableStates :  {
+
+            detailedViewModalStates : {
+
+                isDetailedViewModalOpen
+            }
+        },
+
+        editModalStates : {
+
+            isEditModalOpen, 
+            studentFormStates,
+
+        }
     } = useQueryResultTableStates
 
     const {
+
         getTableData,
         getFinalDisplayRecords,
         handleDeletePress,
@@ -32,23 +47,26 @@ export default function QueryResults({ handleBacktoQuery, queryResults } ) {
         paginationHandlers,
         sortingHandlers,
         filterHandlers,
-        detailedViewTableHandlers,
-        editModalHandlers,
+        detailedViewTableHandlers : {
+
+            getDetailedRecord, 
+            detailedViewModalHandlers : {
+
+                handleDetailedViewModalClose
+            }
+        },
+
+        editModalHandlers: {
+
+            handleCloseEditModal, 
+            studentFormHandlers ,
+            handleEditCancel, 
+            handleEditSubmit
+        },
+        
     } = useQueryResultTableHandlers
     
-    const {
-        handleCloseEditModal, 
-        studentFormHandlers ,
-        handleEditCancel, 
-        handleEditSubmit} = editModalHandlers
 
-    const {isEditModalOpen, studentFormStates} = editModalStates
-
-    const {detailedViewModalStates} = detailedViewTableStates
-    const { isDetailedViewModalOpen } = detailedViewModalStates
-
-    const { getDetailedRecord, detailedViewModalHandlers } = detailedViewTableHandlers
-    const { handleDetailedViewModalClose } = detailedViewModalHandlers
 
     return (
         <>
@@ -76,8 +94,8 @@ export default function QueryResults({ handleBacktoQuery, queryResults } ) {
                     handlers={{
                         getFinalDisplayRecords,
                         handleDeletePress,
-                        detailedViewTableHandlers,
-                        editModalHandlers}}
+                        detailedViewTableHandlers : useQueryResultTableHandlers.detailedViewTableHandlers,
+                        editModalHandlers: useQueryResultTableHandlers.editModalHandlers}}
                 />
             </Styles.QueryTblContainer>
             <Styles.QueryTblPagination 

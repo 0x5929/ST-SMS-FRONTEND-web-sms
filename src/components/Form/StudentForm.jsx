@@ -4,25 +4,22 @@ import Styles from './styles'
 export function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHandlers }) {
 
 
-    // destructed below
     const {
-        studentFormState,
-        addRotStates,
+    
+        studentFormState : {
+            studentFormValues,
+            studentFormErrors,
+            submitLoading,
+            submitSuccess,
+        },
+
+        addRotStates : {
+            rotationFormValues,
+            rotationFormErrors,
+            isAddRotModalOpen,
+        }
     } = studentFormStates
 
-    const {
-        studentFormValues,
-        studentFormErrors,
-        submitLoading,
-        submitSuccess,
-    } = studentFormState
-
-    const {
-        rotationFormValues,
-        rotationFormErrors,
-        isAddRotModalOpen,
-    } = addRotStates
-    
     const {
 
         handleInputChange,
@@ -33,23 +30,19 @@ export function StudentForm({ studentFormStates, studentFormHandlers, studentEdi
         getRotationOptions, 
         getHoursWorkedRadioItems,
 
-        // destructed below
-        addRotHandlers
+        addRotHandlers : {
+
+            handleAddRotSubmit, 
+            handleAddRotInputChange, 
+            handleAddRotClear,
+
+            addRotModalHandlers : {
+
+                handleOpenAddRotModal,
+                handleCloseAddRotModal
+            }
+        }
     } = studentFormHandlers
-
-    const {
-        handleAddRotSubmit, 
-        handleAddRotInputChange, 
-        handleAddRotClear,
-
-         // destructed below
-        addRotModalHandlers
-    } = addRotHandlers
-
-    const {
-        handleOpenAddRotModal,
-        handleCloseAddRotModal
-    } = addRotModalHandlers
 
 
     if (studentEditFormHandlers !== undefined) {
