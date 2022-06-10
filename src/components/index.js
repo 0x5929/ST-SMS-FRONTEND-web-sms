@@ -1,7 +1,7 @@
 import { StudentForm, QueryForm } from './Form';
 import { Paper } from './Paper';
 import { Card } from './Card';
-import { Image } from './Image';
+//import { Image } from './Image';
 import { SearchBar } from './Searchbar';
 import { Modal } from './Modal';
 import { BaseTypography } from './Typography';

@@ -17,15 +17,9 @@ export default function Header({ Link }) {
         logout
     } = useAuthContext()
 
-    const {
-        headerTitle
-    } = useHeader()
+    const headerTitle = useHeader()
 
-    const {
-        drawerOpen,
-        toggleDrawer,
-        anchorDirection, 
-    } = useDrawer()
+    const [ isDrawerOpen,handleToggleDrawer ] = useDrawer()
 
 
     
@@ -39,7 +33,7 @@ export default function Header({ Link }) {
                             size="large"
                             edge="start"
                             aria-label="menu"
-                            onClick={()=>(toggleDrawer(drawerOpen))}
+                            onClick={()=>(handleToggleDrawer(isDrawerOpen))}
                         >
                             <Styles.MenuIcon />
                         </Styles.IconButton>
@@ -72,9 +66,8 @@ export default function Header({ Link }) {
                     }
                     <Styles.Drawer 
                         Link={Link}
-                        drawerOpen={drawerOpen}
-                        toggleDrawer={toggleDrawer}
-                        anchorDirection={anchorDirection}
+                        isDrawerOpen={isDrawerOpen}
+                        handleToggleDrawer={handleToggleDrawer}
                     />
                 </Styles.Toolbar>
             </Styles.AppBar>

@@ -1,5 +1,5 @@
 // returns true or false, and sets error object for validation 
-const useQueryValidation = (arrFieldValues, setErrors, errors) => {
+const useQueryValidation = (arrFieldValues, handleSetQueryFormErrorCallback, errors) => {
     let temp = {...errors}
 
     for (var index = 0; index < arrFieldValues.length; index++ ){
@@ -9,7 +9,7 @@ const useQueryValidation = (arrFieldValues, setErrors, errors) => {
     }
 
     // returns false if any of the above if statements evaluates to false
-    setErrors({...temp})
+    handleSetQueryFormErrorCallback(temp)
     return Object.values(temp).every(x => x === '')
 }
 
@@ -30,7 +30,7 @@ const useLoginValidation = (arrFieldValues, setErrors, errors) => {
 }
 
 // returns true or false, and sets error object for validation
-const useAddRotValidation = (arrFieldValues, setErrors, errors) => {
+const useAddRotValidation = (arrFieldValues, setRotationFormErrors, errors) => {
     let temp = {...errors}
 
     let rotationRegex = /^[1-9]{1,}$/;
@@ -41,11 +41,11 @@ const useAddRotValidation = (arrFieldValues, setErrors, errors) => {
             temp.rotation = (rotationRegex.test(arrFieldValues.rotation))?'':'Only numeric format is allowed.'
 
     // returns false if any of the above if statements evaluates to false
-    setErrors({...temp})
+    setRotationFormErrors({...temp})
     return Object.values(temp).every(x => x === '')
 }
 // returns true or false, and sets error object for validation 
-const useCreateValidation = (fieldValues, setErrors, errors) => {
+const useCreateValidation = (fieldValues, handleSetStudentFormErrorCallback, errors) => {
     let temp = {...errors}
 
     let simpleEmailRegex = /.+@.+..+/;
@@ -84,7 +84,8 @@ const useCreateValidation = (fieldValues, setErrors, errors) => {
             temp.rotation = fieldValues.rotation !== ''?'':'This field is required.'
 
     // returns false if any of the above if statements evaluates to false
-    setErrors({...temp})
+    handleSetStudentFormErrorCallback(temp)
+    
     return Object.values(temp).every( x => x === '') 
 
 }

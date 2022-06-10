@@ -26,14 +26,9 @@ export default function usePagination(records) {
         return recordsTobePaged.slice(page * rowsPerPage, (page + 1) * rowsPerPage)
     }
 
-    return {
-        pages,
-        page,
-        setPage,
-        rowsPerPage,
-        setRowsPerPage,
-        handleChangePage,
-        handleChangeRowsPerPage,
-        recordsAfterPaging
-    }
+    const paginationStates = { pages, page, rowsPerPage }
+    const paginationHandlers = { handleChangePage, handleChangeRowsPerPage, recordsAfterPaging}
+    
+    return [paginationStates, paginationHandlers]
+    
 }

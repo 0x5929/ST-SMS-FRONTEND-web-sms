@@ -2,19 +2,15 @@ import { useState } from 'react';
 
 export default function useDrawer(){
     
-    const [ drawerOpen, setDrawerOpen ] = useState(false)
+    const [ isDrawerOpen, setIsDrawerOpen ] = useState(false)
 
-    const anchorDirection = 'left'
-
-    const toggleDrawer = (state) => {
-        setDrawerOpen(!state)
+    const handleToggleDrawer = (state) => {
+        setIsDrawerOpen(!state)
     }
 
-    return {
-        drawerOpen,
-        setDrawerOpen,
-        toggleDrawer,
-        anchorDirection, 
 
-    }
+    return [
+        isDrawerOpen,
+        handleToggleDrawer, 
+    ]
 }

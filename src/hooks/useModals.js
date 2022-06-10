@@ -1,151 +1,88 @@
 import { useState } from "react";
-import useForm from "./useForm";
-import validate from './useValidation';
+import {useStudentForm} from "./useForms";
 import * as studentRecordService from '../services/SMSRecordService';
 
 export function useEditModal (studentValues, setRecordForEdit, setRecords, userFeedbackObj, recordForEdit) {
 
-    const modalTitle = 'Edit Student Data'
-    const [openModal, setOpenModal] = useState(false)
 
-    const {
-        addRotModalOpen,
-        openAddRotModal,
-        closeAddRotModal,
-        addRotModalTitle
-    }  = useAddRotationModal()
-
-    const {
-        values, 
-        setValues,
-        errors,
-        setErrors,
-        handleInputChange,
-        handleSubmit,
-        getCourseOptions,
-        getRotationOptions,
-        hoursWorkedRadioItems,
-        convertToDefaultEventParam,
-        success,
-        loading,
-
-        handleAddRot,
-        handleCloseAddRot,
-        handleAddRotInputChange,
-        handleAddRotSubmit,
-        handleAddRotClear,
-        rotationValues,
-        rotationErrors,
-    } = useForm(true, studentValues, userFeedbackObj, {
-            openAddRotModal,
-            closeAddRotModal,
-        }, recordForEdit);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+    const [studentFormStates, studentFormHandlers] = useStudentForm(true, studentValues, userFeedbackObj, recordForEdit);
 
 
-    const openInModal = item =>{
+    const handleOpenEditModal = item =>{
         setRecordForEdit(item)
-        setOpenModal(true)
+        setIsEditModalOpen(true)
     }
 
-    const closeModal = () => {
-        setErrors({})
-        setOpenModal(false)
+    const handleCloseEditModal = () => {
+        studentFormHandlers.handleClearStudentFormErrorCallback()
+        setIsEditModalOpen(false)
     }
 
     const handleEditSubmit = e => {
-        if (validate.useCreateValidation(values, setErrors, errors)){
-            handleSubmit(e)
-            setRecordForEdit(values)
-            
-            // lets try to figure out how to wait until handleSUbmit to finish then excute code after, wait one second then close modal, then pop notification
-            //closeModal()
-            setRecords(studentRecordService.getAllRecords())
-        }
-        else {
-            e.preventDefault()
-        }
+
+        studentFormHandlers.handleSubmit(e)
+        setRecordForEdit(studentFormStates.studentFormState.studentFormValues)
+        
+        // lets try to figure out how to wait until handleSUbmit to finish then excute code after, wait one second then close modal, then pop notification
+        //closeModal()
+        setRecords(studentRecordService.getAllRecords())
     }
 
     const handleEditCancel = ()=> {
-        setErrors({})
-        closeModal()
+        studentFormHandlers.handleClearStudentFormErrorCallback()
+        handleCloseEditModal()
     }
 
-    return {
-        values, 
-        setValues,
-        errors,
-        setErrors,
-        handleInputChange,
+    const editModalStates = { isEditModalOpen, studentFormStates }
+    
+    const editModalHandlers = {
+        handleOpenEditModal,
+        handleCloseEditModal,
         handleEditSubmit,
         handleEditCancel,
-        handleAddRot,
-        handleCloseAddRot,
-        getCourseOptions,
-        getRotationOptions,
-        hoursWorkedRadioItems,
-        modalTitle,
-        openModal, 
-        openInModal,
-        setOpenModal ,
-        closeModal,
-        convertToDefaultEventParam,
-        success,
-        loading,
-
-        addRotModalOpen,
-        addRotModalTitle,
-
-        handleAddRotInputChange,
-        handleAddRotSubmit,
-        handleAddRotClear,
-        rotationValues,
-        rotationErrors,
+        studentFormHandlers
     }
+
+
+    return [editModalStates, editModalHandlers]
 }
 
 
 export function useDetailedViewModal (setRecordForView){
 
-    const detailedViewModalTitle = 'Detail View'
-    const [detailedViewOpen, setDetailedViewOpen] = useState(false)
 
-    const detailedViewClose = ()=> {
-        setDetailedViewOpen(false)
+    const [isDetailedViewModalOpen, setIsDetailedViewModalOpen] = useState(false)
+
+    const handleDetailedViewModalClose = ()=> {
+        setIsDetailedViewModalOpen(false)
     }
 
-    const openInDetail = item => {
+    const handleDetailedViewModalOpen = item => {
         setRecordForView(item)
-        setDetailedViewOpen(true)
+        setIsDetailedViewModalOpen(true)
     }
 
-    return {
-
-        detailedViewModalTitle,
-        detailedViewOpen,
-        detailedViewClose,
-        setDetailedViewOpen,
-        openInDetail,
-    }
+    const detailedViewModalStates = { isDetailedViewModalOpen  }
+    const detailedViewModalHandlers = { handleDetailedViewModalOpen, handleDetailedViewModalClose}
+    
+    return [detailedViewModalStates, detailedViewModalHandlers] 
 }
 
 
 export function useAddRotationModal (){
-    const [addRotModalOpen, setAddRotModalOpen] = useState(false)
-    const addRotModalTitle = 'Add Rotation'
+    const [isAddRotModalOpen, setIsAddRotModalOpen] = useState(false)
 
-    const openAddRotModal = () => {
-        setAddRotModalOpen(true)
+    const handleOpenAddRotModal = () => {
+        setIsAddRotModalOpen(true)
     }
 
-    const closeAddRotModal = () => {
-        setAddRotModalOpen(false)
+    const handleCloseAddRotModal = () => {
+        setIsAddRotModalOpen(false)
     }
-    return {
-        addRotModalOpen,
-        openAddRotModal,
-        closeAddRotModal,
-        addRotModalTitle
-    }
+
+    const addRotModalHandlers = { handleOpenAddRotModal,handleCloseAddRotModal }
+
+    return [isAddRotModalOpen, addRotModalHandlers]
 
 } 

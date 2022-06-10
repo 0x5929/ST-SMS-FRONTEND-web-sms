@@ -3,14 +3,23 @@ import Styles from './styles'
 
 export default function Modal(props) {
 
-    const { modalTitle, openModal, closeModal, children, ...others } = props;
+    const { 
+        modalTitle, 
+        isModalOpen, 
+        handleCloseModal, 
+        children,
+
+        ...others
+       } = props;
+    
 
     return (
         <Styles.Dialog 
-            open={openModal}
+            open={isModalOpen}
             maxWidth="laptop"
+            onBackdropClick={handleCloseModal}
             fullWidth={true}
-            onBackdropClick={closeModal}
+
             { ...others }
         >
             <Styles.DialogTitle>
@@ -25,7 +34,7 @@ export default function Modal(props) {
                         variant="text"
                         size="small"
                         color="secondary"
-                        onClick={closeModal}
+                        onClick={handleCloseModal}
                     >
                         <Styles.CloseOutlinedIcon 
                             fontSize="small"

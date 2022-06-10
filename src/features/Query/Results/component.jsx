@@ -1,117 +1,80 @@
 import React from 'react'
 
-import { useQueryResultTable, useDetailedViewTable, useNotification, useConfirmDialog } from '../../../hooks'
+import { useQueryResultTable, useNotification, useConfirmDialog } from '../../../hooks'
 import Styles from './styles'
 
-export default function QueryResults(props) {
+export default function QueryResults({ handleBacktoQuery, queryResults } ) {
 
-    const { handleBacktoQuery, results } = props;
+
+    const [notify, notificationHandlers]= useNotification(Styles.NotificationSlide)
+    const [confirmDialog, confirmDialogHandlers] = useConfirmDialog()
+    const [useQueryResultTableStates, useQueryResultTableHandlers] = useQueryResultTable(
+        {
+        notificationHandlers,
+        confirmDialogHandlers
+        }, queryResults
+    )
+
+    const {
+
+        records, 
+        paginationStates, 
+        sortingStates,
+        filterStates,
+
+        detailedViewTableStates :  {
+
+            detailedViewModalStates : {
+
+                isDetailedViewModalOpen
+            }
+        },
+
+        editModalStates : {
+
+            isEditModalOpen, 
+            studentFormStates,
+
+        }
+    } = useQueryResultTableStates
 
     const {
 
-        notify,
-        setNotify,
-        closeNotification,
-
-    } = useNotification(Styles.NotificationSlide)
-    
-
-    const {
-        confirmDialog,
-        setConfirmDialog,
-        handleUnconfirmed
-    } = useConfirmDialog()
-
-
-    const {
-        
-        // table
-        records,
-        tableData,
+        getTableData,
         getFinalDisplayRecords,
-
-
-        // paging
-        pages,
-        page,
-        rowsPerPage,
-        handleChangePage,
-        handleChangeRowsPerPage,
-
-
-        //filtering
-        filterLabel,
-        textInput,
-        handleClear,
-
-        // sorting
-        orderBy,
-        order,
-        handleSortRequest,
-        handleFilter,
-
-        // modals
-        modalTitle, 
-        openModal, 
-        openInModal,
-        closeModal,
-
-        // modal handling for view
-        recordForView,
-        setRecordForView,
-
-        // delete operations
         handleDeletePress,
 
-        // edit forms
-        values, 
-        errors,
-        handleInputChange,
-        handleEditSubmit,
-        handleEditCancel,
-        getCourseOptions,
-        getRotationOptions,
-        hoursWorkedRadioItems,
-        convertToDefaultEventParam,
-        success,
-        loading,
+        paginationHandlers,
+        sortingHandlers,
+        filterHandlers,
+        detailedViewTableHandlers : {
 
-        addRotModalOpen,
-        addRotModalTitle,
-        handleAddRot,
-        handleCloseAddRot,
-        handleAddRotInputChange,
-        handleAddRotSubmit,
-        handleAddRotClear,
-        rotationValues,
-        rotationErrors,
+            getDetailedRecord, 
+            detailedViewModalHandlers : {
+
+                handleDetailedViewModalClose
+            }
+        },
+
+        editModalHandlers: {
+
+            handleCloseEditModal, 
+            studentFormHandlers ,
+            handleEditCancel, 
+            handleEditSubmit
+        },
         
-
-    } = useQueryResultTable({
-        setNotify,
-        notify,
-        confirmDialog,
-        setConfirmDialog
-    }, results)
-
-    const {
-        detailedViewModalTitle,
-        detailedViewOpen,
-        detailedViewClose,
-        openInDetail,
-        getDetailedRecord,
-    } = useDetailedViewTable(recordForView, setRecordForView)
+    } = useQueryResultTableHandlers
     
+
+
     return (
         <>
             <Styles.Box>
                 <Styles.SearchBar 
-                    onChange={handleFilter}
-                    textInput={textInput}
-                    handleClear={handleClear}
-                    label={filterLabel}
-                    style={{flexGrow: 0}}
-
+                    label="Search Results"
+                    textInput={filterStates.textInput}
+                    handleClear={filterHandlers.handleClear}
                 />
                 <Styles.BaseButton
                     text="Back to query"
@@ -123,77 +86,56 @@ export default function QueryResults(props) {
             </Styles.Box>
             <Styles.QueryTblContainer>
                 <Styles.QueryTblHead 
-                    tableData={tableData} 
-                    handleSortRequest={handleSortRequest}
-                    orderBy={orderBy}
-                    order={order}
+                    tableData={getTableData()} 
+                    sortingStates={sortingStates}
+                    sortingHandlers={sortingHandlers}
                 />
                 <Styles.QueryTblBody 
-                    records={getFinalDisplayRecords()}
-                    openInModal={openInModal}
-                    openInDetail={openInDetail}
-                    handleDeletePress={handleDeletePress}
+                    handlers={{
+                        getFinalDisplayRecords,
+                        handleDeletePress,
+                        detailedViewTableHandlers : useQueryResultTableHandlers.detailedViewTableHandlers,
+                        editModalHandlers: useQueryResultTableHandlers.editModalHandlers}}
                 />
             </Styles.QueryTblContainer>
             <Styles.QueryTblPagination 
-                page={page}
-                rowsPerPage={rowsPerPage}
-                rowsPerPageOptions={pages}
                 count={records.length}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
+                paginationStates={paginationStates}
+                paginationHandlers={paginationHandlers}
             />
             <Styles.Modal
-                modalTitle={modalTitle}
-                openModal={openModal}
-                closeModal={closeModal}
+                modalTitle="Edit Student Data"
+                isModalOpen={isEditModalOpen}
+                handleCloseModal={handleCloseEditModal}
             >
                 <Styles.StudentForm
-                    values={values}
-                    errors={errors}
-                    handleInputChange={handleInputChange}
-                    handleCancel={handleEditCancel}
-                    handleAddRot={handleAddRot}
-                    handleCloseAddRot={handleCloseAddRot}
-                    getCourseOptions={getCourseOptions}
-                    getRotationOptions={getRotationOptions}
-                    hoursWorkedRadioItems={hoursWorkedRadioItems}
-                    convertToDefaultEventParam={convertToDefaultEventParam}
-                    handleSubmit={handleEditSubmit}
-                    success={success}
-                    loading={loading}
-                    addRotModalOpen={addRotModalOpen}
-                    addRotModalTitle={addRotModalTitle}
-                    handleAddRotInputChange={handleAddRotInputChange}
-                    handleAddRotSubmit={handleAddRotSubmit}
-                    handleAddRotClear={handleAddRotClear}
-                    rotationValues={rotationValues}
-                    rotationErrors={rotationErrors}
+                    studentFormStates={studentFormStates}
+                    studentFormHandlers={studentFormHandlers}
+                    studentEditFormHandlers={{handleEditCancel,handleEditSubmit}}
                 />
             </Styles.Modal>
             <Styles.Modal
-                modalTitle={detailedViewModalTitle}
-                openModal={detailedViewOpen}
-                closeModal={detailedViewClose}
-                onBackdropClick={detailedViewClose}
+                modalTitle="Detail View"
+                isModalOpen={isDetailedViewModalOpen}
+                handleCloseModal={handleDetailedViewModalClose}
             >
                 <Styles.DetailedTblContainer>
                     <Styles.DetailedTblHead 
-                        tableData={tableData} 
+                        tableData={getTableData()} 
                     />
                     <Styles.DetailedTblBody 
                         record={getDetailedRecord()}
-                        tableData={tableData}
+                        tableData={getTableData()}
                     />
                 </Styles.DetailedTblContainer>
             </Styles.Modal>
             <Styles.Notification 
                 notify={notify}
-                closeNotification={closeNotification}
+                notificationHandlers={notificationHandlers}
             />
             <Styles.ConfirmDialog 
                 confirmDialog={confirmDialog}
-                handleUnconfirmed={handleUnconfirmed}
+                confirmDialogHandlers={confirmDialogHandlers}
             />
         </>
     )

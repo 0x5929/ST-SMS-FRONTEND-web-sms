@@ -1,57 +1,19 @@
 import React from "react";
 
 import Styles from './styles'
-import { useForm, useNotification, useAddRotationModal } from '../../hooks'
+import { useStudentForm, useNotification } from '../../hooks'
 import * as SMSRecordService from '../../services/SMSRecordService'
 
 
 export default function Create() {
 
-    const {
-        notify,
-        setNotify,
-        closeNotification,
-
-    } = useNotification(Styles.NotificationSlide)
-
-    const {
-        addRotModalOpen,
-        openAddRotModal,
-        closeAddRotModal,
-        addRotModalTitle
-    }  = useAddRotationModal()
-
-    const {
-        values, 
-        errors,
-        handleInputChange,
-        handleSubmit,
-        handleCancel,
-
-        getCourseOptions,
-        getRotationOptions,
-        hoursWorkedRadioItems,
-        convertToDefaultEventParam,
-        success,
-        loading,
+    const [notify, notificationHandlers] = useNotification(Styles.NotificationSlide)
 
 
-        handleAddRot,
-        handleCloseAddRot,
-        handleAddRotInputChange,
-        handleAddRotSubmit,
-        handleAddRotClear,
-        rotationValues,
-        rotationErrors,
-        
-    } = useForm(true, SMSRecordService.getInitialStudentValues(), 
+    const [studentFormStates, studentFormHandlers] = useStudentForm(true, SMSRecordService.getInitialStudentValues(), 
             {
-                setNotify,
+                notificationHandlers,
                 notify
-            },
-            {
-                openAddRotModal,
-                closeAddRotModal,
             }
     );
 
@@ -62,35 +24,13 @@ export default function Create() {
             text="CREATE NEW STUDENT RECORD"
             align='center'
         />
-
             <Styles.StudentForm
-                values={values}
-                errors={errors}
-                handleInputChange={handleInputChange}
-                handleCancel={handleCancel}
-                handleSubmit={handleSubmit}
-                getCourseOptions={getCourseOptions}
-                getRotationOptions={getRotationOptions}
-                hoursWorkedRadioItems={hoursWorkedRadioItems}
-                convertToDefaultEventParam={convertToDefaultEventParam}
-                success={success}
-                loading={loading}
-
-                handleAddRot={handleAddRot}
-                handleCloseAddRot={handleCloseAddRot}
-                addRotModalOpen={addRotModalOpen}
-                addRotModalTitle={addRotModalTitle}
-                handleAddRotInputChange={handleAddRotInputChange}
-                handleAddRotSubmit={handleAddRotSubmit}
-                handleAddRotClear={handleAddRotClear}
-                rotationValues={rotationValues}
-                rotationErrors={rotationErrors}
+                studentFormStates={studentFormStates}
+                studentFormHandlers={studentFormHandlers}
             />
-
             <Styles.Notification 
                 notify={notify}
-                setNotify={setNotify}
-                closeNotification={closeNotification}
+                notificationHandlers={notificationHandlers}
             />
         </Styles.Paper>
     )

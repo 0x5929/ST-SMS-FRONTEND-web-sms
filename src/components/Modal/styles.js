@@ -15,7 +15,8 @@ import { BaseIconButton } from '../Buttons';
 const Dialog = styled(MuiDialog)(( {theme} ) => ({
     padding: theme.spacing(2),
     position: 'absolute',
-    top: theme.spacing(5)
+    top: theme.spacing(5),
+
 }));
 
 const DialogTitle = styled(MuiDialogTitle)(( {theme} ) => ({

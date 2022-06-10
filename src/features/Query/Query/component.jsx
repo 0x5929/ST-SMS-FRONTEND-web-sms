@@ -2,62 +2,38 @@ import React from "react";
 import { QueryResults } from '../Results'
 import Styles from './styles';
 
-import { useQuery } from '../../../hooks'
+import { useQueryForm } from '../../../hooks'
 
 
 export default function Query() {
 
-    const {
-        errors,
-        textInput,
-        handleClear,
-        handleSubmit,
-        queryLabel,
-        showResults,
-        results,
-        openBackdrop,
+    const [queryFormStates, queryFormHandlers] = useQueryForm()
 
-        getQueryOptions,
-        queryOptions,
-        handleAddNewQuery,
-        handleDelQuery,
-        handleQueryOnChange,
-        handleQueryOptionOnChange,
-        handleBacktoQuery,
-
-    } = useQuery()
+    const { queryFormState } = queryFormStates;
+    const { handleBacktoQuery } = queryFormHandlers;
 
     return (
         <Styles.Paper>
             {            
-                !showResults &&
+                !queryFormState.showResults &&
 
                 <>
-                    <Styles.QueryForm 
-                        textInput={textInput}
-                        handleClear={handleClear}
-                        handleSubmit={handleSubmit}
-                        queryLabel={queryLabel}
-                        getQueryOptions={getQueryOptions}
-                        queryOptions={queryOptions}
-                        handleAddNewQuery={handleAddNewQuery}
-                        handleDelQuery={handleDelQuery}
-                        handleQueryOnChange={handleQueryOnChange}
-                        handleQueryOptionOnChange={handleQueryOptionOnChange}
-                        errors={errors}
+                    <Styles.QueryForm
+                        queryFormStates={queryFormStates}
+                        queryFormHandlers={queryFormHandlers}
                     />
                     <Styles.Box>
                         <Styles.Statistics />
                     </Styles.Box>
                     <Styles.SimpleBackDrop 
-                        openBackdrop={openBackdrop}
+                        openBackdrop={queryFormState.isBackdropOpen}
                     />
                 </>
             }
             {
-                showResults &&  
+                queryFormState.showResults &&  
                 <QueryResults 
-                    results={results}
+                    queryResults={queryFormState.queryResults}
                     handleBacktoQuery={handleBacktoQuery}
                 />
             }

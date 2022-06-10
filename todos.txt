@@ -9,7 +9,6 @@
 05182022:Implement circulr progress bar to create form at the submit button:c:05192022
 05182022:Add where you can also click on the student table row to invoke view function:c:05182022
 05242022:Redo feature sizes:c:05242022
-05242022:Redo drawer to show icons:i
-05242022:Add rotation and add rotation:i
-
-
+05242022:Redo drawer to show icons:i:decided not practical
+05242022:Add rotation and add rotation:c
+06092022:Change add rotation button sizes, why is one bigger than other?:i

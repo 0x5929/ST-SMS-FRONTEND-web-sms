@@ -14,6 +14,7 @@ import {
 } from '@mui/icons-material';
 
 import { styled } from '@mui/material/styles';
+import { AddRotationForm } from './AddRotationForm';
 import { SearchBar } from '../Searchbar';
 import { Fab as BaseFab } from '../Buttons';
 import { Modal as BaseModal } from '../Modal';
@@ -38,7 +39,8 @@ const StudentForm = styled('form')(( {theme} ) => ({
     '& .MuiFormControl-root':{    
         width: '80%',
         margin: theme.spacing(1)
-    }
+    },
+
 }));
 
 const Box = styled(MuiBox)(( {theme} ) => ({
@@ -46,23 +48,24 @@ const Box = styled(MuiBox)(( {theme} ) => ({
 }));
 
 const Stack = styled(MuiStack)(( {theme} ) => ({
-    
     width: '90%'
-
 }));
+
 const Paper = styled(MuiPaper)(( {theme} ) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1e202a' : '#ffffff',
     ...theme.typography.body2,
     padding: theme.spacing(1),
     textAlign: 'center',
     color: theme.palette.text.secondary,
+
+    
 }));
 
 const Modal = styled(BaseModal)(( {theme} ) => ({
-    // to style the grid if needed
-    width: '30%',
-    margin: 'auto'
+    margin: 'auto',
+    width: '30%'
 }));
+
 
 
 const Grid = styled(MuiGrid)(( {theme} ) => ({
@@ -198,10 +201,12 @@ const QueryForm = styled('form')(( {theme} ) => ({
 
 const AddRotForm = styled('form')(( { theme } ) => ({
     '& .MuiFormControl-root':{    
-        width: '80%',
+        width: '100%',
         margin: theme.spacing(1),
     }
 }));
+
+
 
 const DoubleArrowIcon = styled(MuiDoubleArrow)(( {theme} ) => ({
     // to style QueryForm if needed
@@ -221,6 +226,7 @@ const Styles = {
     StudentForm,
     AddRotForm,
     QueryForm,
+    AddRotationForm,
     Modal,
     Grid,
     Stack,

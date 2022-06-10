@@ -2,22 +2,31 @@ import React from 'react';
 import Styles from './styles'
 
 
-export function QueryForm(props) {
+export function QueryForm({queryFormStates, queryFormHandlers}) {
 
     const {
-        textInput,
-        handleClear,
-        queryLabel,
-        handleSubmit,
-        getQueryOptions,
-        queryOptions,
-        handleAddNewQuery,
-        handleDelQuery,
-        handleQueryOnChange,
-        handleQueryOptionOnChange,
-        errors,
-    } = props;
 
+        queryFormState : {
+
+            queryOptions,
+            queryFormErrors,
+        },
+
+        textInput
+    } = queryFormStates;
+
+    const {
+
+        getQueryOptions,
+        handleSubmit,
+        handleQueryOnChange,
+        handleClear,
+        handleQueryOptionOnChange,
+        handleDelQuery,
+        handleAddNewQuery,
+        
+    } = queryFormHandlers
+    
     return (
             <Styles.QueryForm onSubmit={(e)=>(handleSubmit(e, queryOptions))}>
                 <Styles.Grid container rowSpacing={0} columnSpacing={0}>
@@ -26,13 +35,13 @@ export function QueryForm(props) {
                             <Styles.Grid container item key={query.pk} spacing={0}>
                                 <Styles.Grid item laptop={9} tablet={12} mobile={12}>
                                     <Styles.QuerySearchBar 
+                                        label="Search Student Database"
                                         index={index}
                                         pk={query.pk}
-                                        label={queryLabel}
                                         name={queryOptions[index]['query']}
                                         value={queryOptions[index]['value']}
                                         onChange={(e) => (handleQueryOnChange(e, index))}
-                                        error={errors['value' + query.pk.toString()]}
+                                        error={queryFormErrors['value' + query.pk.toString()]}
                                         textInput={textInput}
                                         handleClear={handleClear}
                                     />
@@ -44,7 +53,7 @@ export function QueryForm(props) {
                                         name="options"
                                         value={queryOptions[index]['query']}
                                         onChange={(e)=>(handleQueryOptionOnChange(e, index))}
-                                        error={errors['query' + query.pk.toString()]}
+                                        error={queryFormErrors['query' + query.pk.toString()]}
                                         options={getQueryOptions()}
                                         variant={'standard'}
                                         autoWidth
@@ -58,7 +67,7 @@ export function QueryForm(props) {
                                                     text="Delete"
                                                     color="error"
                                                     variant="outlined"
-                                                    onClick={ ()=> (handleDelQuery(index, query.pk))}
+                                                    onClick={ ()=> (handleDelQuery(index, query.pk)) }
                                                 />             
                                             </Styles.Grid>
                                         )
@@ -72,22 +81,19 @@ export function QueryForm(props) {
                                                     text="ADD NEW"
                                                     color="primary"
                                                     variant="outlined"
-                                                    onClick={() => (handleAddNewQuery(index))}
+                                                    onClick={ () => (handleAddNewQuery(index)) }
                                                 />                        
                                                 <Styles.QueryButton 
-                                                type="Submit"
-                                                color="secondary"
-                                            >
-                                                
-                                                <Styles.DoubleArrowIcon 
-                                                    fontSize="large"
-                                                />
-                                            </Styles.QueryButton>    
+                                                    type="Submit"
+                                                    color="secondary"
+                                                >
+                                                    <Styles.DoubleArrowIcon 
+                                                        fontSize="large"
+                                                    />
+                                                </Styles.QueryButton>    
                                             </Styles.Grid> 
                                         )
-
                                     }
-
                             </Styles.Grid>
                         ))
 
