@@ -61,14 +61,10 @@ const Paper = styled(MuiPaper)(( {theme} ) => ({
     
 }));
 
-const Modal = styled(BaseModal)(( {theme} ) => {
-    console.log('called')
-    return {    
-        '& .MuiDialog-paperScrollPaper' : {
-        backgroundColor : 'red'
-    }
-
-}});
+const Modal = styled(BaseModal)(( {theme} ) => ({
+    margin: 'auto',
+    width: '30%'
+}));
 
 
 

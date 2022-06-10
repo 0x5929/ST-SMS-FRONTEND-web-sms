@@ -8,6 +8,8 @@ export default function Modal(props) {
         isModalOpen, 
         handleCloseModal, 
         children,
+
+        ...others
        } = props;
     
 
@@ -16,6 +18,9 @@ export default function Modal(props) {
             open={isModalOpen}
             maxWidth="laptop"
             onBackdropClick={handleCloseModal}
+            fullWidth={true}
+
+            { ...others }
         >
             <Styles.DialogTitle>
                 <div style={{display: 'flex'}}>
