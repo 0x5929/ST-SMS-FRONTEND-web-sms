@@ -16,7 +16,6 @@ import {
 import { styled } from '@mui/material/styles';
 import { AddRotationForm } from './AddRotationForm';
 import { SearchBar } from '../Searchbar';
-import { Fab as BaseFab } from '../Buttons';
 import { Modal as BaseModal } from '../Modal';
 
 
@@ -31,6 +30,7 @@ import {
 import {
     BaseButton,
     BaseIconButton,
+    Fab as BaseFab,
 } from '../Buttons'
 
 
