@@ -43,8 +43,13 @@ const StudentForm = styled('form')(( {theme} ) => ({
 
 }));
 
-const Box = styled(MuiBox)(( {theme} ) => ({
-    // to style the grid if needed
+const ButtonContainerBox = styled(MuiBox)(( {theme} ) => ({
+    display: 'flex', 
+    alignItems: 'center'
+}));
+
+const ButtonBox = styled(MuiBox)(( {theme} ) => ({
+    position: 'relative'
 }));
 
 const Stack = styled(MuiStack)(( {theme} ) => ({
@@ -231,7 +236,8 @@ const Styles = {
     Grid,
     Stack,
     Paper,
-    Box,
+    ButtonContainerBox,
+    ButtonBox,
     Input,
     Select,
     CircularProgress,

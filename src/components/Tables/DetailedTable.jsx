@@ -15,11 +15,11 @@ export function DetailedTblContainer(props) {
 }
 
 
-export function DetailedTblHead(props) {
+export function DetailedTblHead({ tableData, ...others}) {
 
-    const { tableData} = props
+
     return (
-        <Styles.TableHead>
+        <Styles.TableHead {...others}>
             <Styles.TableRow>
                 { 
                     tableData.detailedViewHeadCells.map( headCell => (
@@ -40,11 +40,13 @@ export function DetailedTblBody(props) {
 
     const { 
         record, 
-        tableData
+        tableData,
+
+        ...others
      } = props
 
     return (
-        <Styles.TableBody>
+        <Styles.TableBody {...others}>
             {
                 tableData.detailedViewColumnCells.map( col => (
                     <Styles.TableRow key={ col.id }>

@@ -2,7 +2,7 @@ import React from 'react';
 import Styles from './styles'
 
 
-export function QueryForm({queryFormStates, queryFormHandlers}) {
+export function QueryForm({queryFormStates, queryFormHandlers, ...others}) {
 
     const {
 
@@ -28,7 +28,7 @@ export function QueryForm({queryFormStates, queryFormHandlers}) {
     } = queryFormHandlers
     
     return (
-            <Styles.QueryForm onSubmit={(e)=>(handleSubmit(e, queryOptions))}>
+            <Styles.QueryForm onSubmit={(e)=>(handleSubmit(e, queryOptions))} {...others}>
                 <Styles.Grid container rowSpacing={0} columnSpacing={0}>
                     {
                         queryOptions.map((query, index) => (

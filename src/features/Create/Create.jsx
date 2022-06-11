@@ -10,11 +10,13 @@ export default function Create() {
     const [notify, notificationHandlers] = useNotification(Styles.NotificationSlide)
 
 
-    const [studentFormStates, studentFormHandlers] = useStudentForm(true, SMSRecordService.getInitialStudentValues(), 
-            {
-                notificationHandlers,
-                notify
-            }
+    const [studentFormStates, studentFormHandlers] = useStudentForm(
+        true, 
+        SMSRecordService.getInitialStudentValues(), 
+        {
+            notificationHandlers,
+            notify
+        }
     );
 
 

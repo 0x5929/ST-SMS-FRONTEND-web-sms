@@ -10,9 +10,10 @@ export default function QueryResults({ handleBacktoQuery, queryResults } ) {
     const [confirmDialog, confirmDialogHandlers] = useConfirmDialog()
     const [useQueryResultTableStates, useQueryResultTableHandlers] = useQueryResultTable(
         {
-        notificationHandlers,
-        confirmDialogHandlers
-        }, queryResults
+            notificationHandlers,
+            confirmDialogHandlers
+        }, 
+        queryResults
     )
 
     const {

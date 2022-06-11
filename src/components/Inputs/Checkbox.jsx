@@ -8,11 +8,13 @@ export default function Checkbox(props) {
         label, 
         value, 
         onChange, 
-        convertToDefaultEventParam 
+        convertToDefaultEventParam,
+
+        ...others
     } = props;
 
     return (  
-        <Styles.FormControl>
+        <Styles.FormControl {...others}>
             <Styles.FormControlLabel
                 label={label}
                 control={<Styles.Checkbox

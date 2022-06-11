@@ -3,17 +3,19 @@ import Styles from './styles'
 
 export default function RadioGroup (props) {
 
-    const { name, label, value, onChange, items } = props;
+    const { name, label, value, onChange, items, ...others } = props;
 
     return (  
-        <Styles.FormControl>
+        <Styles.FormControl {...others}>
             <Styles.FormLabel>
-                {label}
+                { label }
             </Styles.FormLabel>
-            <Styles.RadioGroup row
-            name={name}
-            value={value}
-            onChange={onChange}>
+            <Styles.RadioGroup 
+                row
+                name={name}
+                value={value}
+                onChange={onChange}
+            >
                 {
                     items.map(
                         item=> (

@@ -1,8 +1,7 @@
 import React from 'react';
 import Styles from './styles'
 
-// consider changing handleClear logic, feels too complicated, related files: 
-// component-QueryForm.jsx, componenets/Searchbar/component.jsx, hooks/useValidations.js and hooks/useQuery.js
+
 export default function SearchBar(props) {
 
     const { 
@@ -10,6 +9,7 @@ export default function SearchBar(props) {
         handleClear, 
         label, 
         index=0,
+
         ...others 
     } = props;
     
@@ -34,7 +34,6 @@ export default function SearchBar(props) {
                 inputRef={textInput}
 
                 { ...others }
-                
             />
         </Styles.Toolbar>
     );

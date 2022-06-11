@@ -14,11 +14,10 @@ export default function BaseTypography(props) {
             color={ color || defaultColor}
             component={component || variant || defaultVariant}
             gutterBottom
-            sx={{ margin: 1}}
             
-            {...others}
+            { ...others }
         >
-            {text}
+            { text }
         </Styles.Typography> 
     
     );

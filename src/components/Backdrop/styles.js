@@ -4,7 +4,7 @@ import { styled } from '@mui/material/styles';
 
 
 const Backdrop = styled(MuiBackdrop)(( {theme} ) => ({
-    // Backdrop styles, if needed
+    color: '#fff'
 
 }));
 

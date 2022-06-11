@@ -1,7 +1,7 @@
 import React from 'react';
 import Styles from './styles'
 
-export function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHandlers }) {
+export function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHandlers, ...others }) {
 
 
     const {
@@ -57,7 +57,7 @@ export function StudentForm({ studentFormStates, studentFormHandlers, studentEdi
 
     return (
     <>
-        <Styles.StudentForm onSubmit={handleEditSubmit || handleSubmit}>
+        <Styles.StudentForm onSubmit={handleEditSubmit || handleSubmit} {...others}>
             <Styles.Grid container>
                 <Styles.Grid item laptop={6} tablet={12}>
                     <Styles.Input 
@@ -258,10 +258,11 @@ export function StudentForm({ studentFormStates, studentFormHandlers, studentEdi
                     
                     {/* submission buttons */}
 
-                    <Styles.Box sx={{display: 'flex', alignItems: 'center'}}>
-                        <Styles.Box sx={{ m: 1, position: 'relative'}}>
+                    <Styles.ButtonContainerBox>
+                        <Styles.ButtonBox sx={{ m: 1 }}>
                             {
                                 submitSuccess ? 
+                                
                                 <Styles.SuccessFab
                                     aria-label="save"
                                     color="primary"
@@ -269,7 +270,9 @@ export function StudentForm({ studentFormStates, studentFormHandlers, studentEdi
                                 >
                                     <Styles.CheckIcon />
                                 </Styles.SuccessFab>
-                                : 
+
+                                        : 
+
                                 <Styles.Fab
                                     aria-label="save"
                                     color="primary"
@@ -284,8 +287,8 @@ export function StudentForm({ studentFormStates, studentFormHandlers, studentEdi
                                 <Styles.CircularProgress size={68} />
                                 )
                             }
-                        </Styles.Box>
-                        <Styles.Box sx={{ position: 'relative'}}>
+                        </Styles.ButtonBox>
+                        <Styles.ButtonBox>
                             <Styles.Button
                                 type="submit"
                                 text="Submit"
@@ -296,15 +299,15 @@ export function StudentForm({ studentFormStates, studentFormHandlers, studentEdi
                                 <Styles.ButtonCircularProgress size={24} />   
                                 )
                             }
-                        </Styles.Box>
-                        <Styles.Box sx={{ position: 'relative'}}>
+                        </Styles.ButtonBox>
+                        <Styles.ButtonBox>
                             <Styles.Button
                                 color="error"
                                 text="Cancel"
                                 onClick={handleEditCancel || handleCancel}
                             />
-                        </Styles.Box>
-                    </Styles.Box>
+                        </Styles.ButtonBox>
+                    </Styles.ButtonContainerBox>
                 </Styles.Grid>
             </Styles.Grid>
         </Styles.StudentForm>

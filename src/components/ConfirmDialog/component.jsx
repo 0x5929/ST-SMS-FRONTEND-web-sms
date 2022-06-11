@@ -2,12 +2,12 @@ import React from 'react'
 
 import Styles from './styles'
 
-export default function ConfirmDialog({ confirmDialog, confirmDialogHandlers }) {
+export default function ConfirmDialog({ confirmDialog, confirmDialogHandlers, ...others }) {
 
     const { handleUnconfirmed } = confirmDialogHandlers;
 
     return (
-        <Styles.Dialog open={confirmDialog.isOpen}>
+        <Styles.Dialog open={confirmDialog.isOpen} {...others}>
             <Styles.DialogTitle>
                 <Styles.IconButton disableRipple>
                     <Styles.NotListedLocation />

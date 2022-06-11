@@ -4,7 +4,7 @@ import Styles from './styles'
 import { useLogin } from '../../../hooks';
 import { useAuthContext } from '../../../contexts';
 
-export default function Signin (props){
+export default function Signin (){
 
      const { 
         handleLogin,

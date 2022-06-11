@@ -1,7 +1,7 @@
 import React from 'react';
 import Styles from './styles'
 
-export default function Notification({ notify, notificationHandlers }) {
+export default function Notification({ notify, notificationHandlers, ...others }) {
     
     const { handleCloseNotification } = notificationHandlers
     
@@ -15,6 +15,7 @@ export default function Notification({ notify, notificationHandlers }) {
             TransitionComponent={notify.Transition}
             onClose={handleCloseNotification}
 
+            {...others}
         >
             <Styles.Alert
                 severity={notify.type}

@@ -83,10 +83,7 @@ export function useStudentForm(
     const _createOrUpdate = (record, resetForm) => {
 
         // notification on after form submission
-        const {        
-            notificationHandlers,
-            notify
-        } = userFeedbackObj
+        const {  notificationHandlers } = userFeedbackObj
 
         let op = undefined
 
@@ -168,6 +165,10 @@ export function useStudentForm(
 
     const handleClearStudentFormErrorCallback = useCallback(()=>{
         studentFormDispatch({type: 'set-studentFormErrors', payload: {}})
+
+        // added another dispatch so that submit success can be set to false, this is diff from clear-studentForm, 
+        // because it doesn't clear the values for edit!! which is used by callback
+        studentFormDispatch({type: 'set-submitSuccess', payload: false})
     }, [])
 
     const handleSetStudentFormErrorCallback = useCallback((temp)=>{

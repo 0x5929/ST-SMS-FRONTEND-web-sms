@@ -9,11 +9,13 @@ export function AddRotationForm(props) {
         handleAddRotClear,
         rotationFormValues,
         rotationFormErrors,
-        getCourseOptions
+        getCourseOptions,
+
+        ...others
     } = props
 
     return (
-        <Styles.AddRotForm onSubmit={(e)=>(handleAddRotSubmit(e))}>
+        <Styles.AddRotForm onSubmit={(e)=>(handleAddRotSubmit(e))} {...others}>
             <Styles.Stack>
                 <Styles.Select 
                     name="programName"

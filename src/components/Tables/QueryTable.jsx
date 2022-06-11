@@ -18,13 +18,13 @@ export function QueryTblContainer(props) {
 
 export function QueryTblHead(props) {
 
-    const { tableData, sortingStates, sortingHandlers } = props
+    const { tableData, sortingStates, sortingHandlers, ...others } = props
 
     const { orderBy, order } = sortingStates
     const { handleSortRequest } = sortingHandlers
 
     return (
-        <Styles.TableHead>
+        <Styles.TableHead {...others}>
             <Styles.TableRow>
                 { 
                     tableData.mainQueryResultHeadCells.map( headCell => (
@@ -50,7 +50,7 @@ export function QueryTblHead(props) {
     )
 }
 
-export function QueryTblBody({ handlers }) {
+export function QueryTblBody({ handlers, ...others }) {
 
      const {
         getFinalDisplayRecords,
@@ -67,7 +67,7 @@ export function QueryTblBody({ handlers }) {
     const { handleDetailedViewModalOpen } = detailedViewModalHandlers
 
     return (
-            <Styles.TableBody>
+            <Styles.TableBody { ...others }>
                 {records.map(record => (
                         <Styles.TableRow key={ record.pk }>
                             <Styles.TableCell>{ record.studentId }</Styles.TableCell>
@@ -119,21 +119,23 @@ export function QueryTblBody({ handlers }) {
 
 export function QueryTblPagination(props) {
 
-    const { count, paginationStates, paginationHandlers } = props
+    const { count, paginationStates, paginationHandlers, ...others } = props
 
     const { pages, page, rowsPerPage } = paginationStates
     const { handleChangePage, handleChangeRowsPerPage } = paginationHandlers
 
     return (
-    <Styles.TablePagination 
-        component="div"
-        count={count}
-        page={page}
-        rowsPerPage={rowsPerPage}
-        rowsPerPageOptions={pages}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-    />
+        <Styles.TablePagination 
+            component="div"
+            count={count}
+            page={page}
+            rowsPerPage={rowsPerPage}
+            rowsPerPageOptions={pages}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+
+            { ...others }
+        />
     )
 }
 
