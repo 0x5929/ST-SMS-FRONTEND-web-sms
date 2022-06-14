@@ -33,7 +33,7 @@ export function AddRotationForm(props) {
                     onChange={handleAddRotInputChange}
                     error={rotationFormErrors.rotation}
                 />
-                <Styles.Stack direction="row" spacing={1}>
+                <Styles.ButtonContainerBox>
                     <Styles.Button 
                         text="Submit"
                         type="submit"
@@ -43,7 +43,7 @@ export function AddRotationForm(props) {
                         color="error"
                         onClick={handleAddRotClear}
                     />
-                </Styles.Stack>
+                </Styles.ButtonContainerBox>
             </Styles.Stack>
         </Styles.AddRotForm>
   )
