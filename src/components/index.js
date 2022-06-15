@@ -1,11 +1,10 @@
 import { StudentForm, QueryForm } from './Form';
 import { Paper } from './Paper';
-import { Card } from './Card';
-//import { Image } from './Image';
+import { BaseCard } from './Card';
 import { SearchBar } from './Searchbar';
 import { Modal } from './Modal';
 import { BaseTypography } from './Typography';
-import { BaseButton, BaseIconButton, Fab } from './Buttons';
+import { BaseButton, BaseIconButton, BaseFab } from './Buttons';
 import { ConfirmDialog } from './ConfirmDialog';
 import { Notification, NotificationSlide } from './Notification';
 import { SimpleBackDrop } from './Backdrop';
@@ -25,13 +24,12 @@ import {
 
 
 const Components = {
-    Fab,
+    BaseFab,
     BaseButton,
     BaseIconButton,
     StudentForm,
     QueryForm,
-    Card,
-    Image,
+    BaseCard,
     Paper,
     Input,
     Select,

@@ -1,33 +1,26 @@
-import { Card as MuiCard, CardContent as MuiCardContent } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import { BaseTypography } from '../Typography';
+import { styled } from '@mui/material'
 
 
-
-const Card = styled(MuiCard)(( {theme} ) => ({
-    padding: theme.spacing(2),
-    margin: theme.spacing(2),
-    marginTop: theme.spacing(3),
-    borderRadius: 2,
-
-}));
+function createCardStyles(MuiCard, BaseTypography) {
 
 
+    const Card = styled(MuiCard)(( {theme} ) => ({
+        padding: theme.spacing(2),
+        margin: theme.spacing(2),
+        marginTop: theme.spacing(3),
+        borderRadius: 2,
+    
+    }));
+    
 
-const CardContent = styled(MuiCardContent)(( {theme} ) => ({
-
-}));
-
-
-const Typography = styled(BaseTypography)(( {theme} ) => ({
-    textAlign: 'center'
-}));
-
-
-const Styles = {
-    Card,
-    CardContent,
-    Typography
+    const Typography = styled(BaseTypography)(( {theme} ) => ({
+        textAlign: 'center'
+    }));
+    
+    return {
+        Card,
+        Typography
+    }
 }
 
-export default Styles 
+export default createCardStyles

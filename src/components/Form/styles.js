@@ -30,7 +30,7 @@ import {
 import {
     BaseButton,
     BaseIconButton,
-    Fab as BaseFab,
+    BaseFab,
 } from '../Buttons'
 
 

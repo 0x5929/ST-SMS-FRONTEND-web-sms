@@ -62,7 +62,7 @@ const Grid = styled(MuiGrid)(({ theme }) => ({
 }))
 
 
-const BaseCard = styled(Components.Card)(({ theme }) => ({
+const BaseCard = styled(Components.BaseCard)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1e202a' : '#ffffff',
     margin: theme.spacing(1),
 }))

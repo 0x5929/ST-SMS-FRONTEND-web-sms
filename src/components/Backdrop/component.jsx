@@ -1,13 +1,19 @@
 import React from 'react'
-import Styles from './styles'
+import { Backdrop, CircularProgress } from '@mui/material'
 
-export default function SimpleBackDrop(props) {
+import createBackdropStyles from './styles'
 
-    const { openBackdrop, ...others } = props
+const Styles = createBackdropStyles(Backdrop)
+
+
+function SimpleBackDrop({ openBackdrop, ...others }) {
 
     return (
         <Styles.Backdrop open={openBackdrop} {...others}>
-            <Styles.CircularProgress color="inherit" />
+            <CircularProgress color="inherit" />
         </Styles.Backdrop>
     )
 }
+
+
+export default SimpleBackDrop

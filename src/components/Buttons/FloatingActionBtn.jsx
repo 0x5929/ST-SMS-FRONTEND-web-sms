@@ -1,17 +1,19 @@
 import React from 'react';
-import Styles from './styles'
+import { Fab } from '@mui/material';
 
-export default function Fab(props) {
+function BaseFab(props) {
 
     const { children, ...others } = props
 
     return (
 
-        <Styles.Fab
+        <Fab
             {...others}
         >
             { children }
-        </Styles.Fab>
+        </Fab>
 
     )
 }
+
+export default BaseFab

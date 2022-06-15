@@ -1,10 +1,13 @@
-import React from 'react';
-import Styles from './styles';
+import React from 'react'
+import { Button } from '@mui/material';
+
+import { createButtonStyles } from './styles';
 
 
+const Styles = createButtonStyles(Button)
 
 
-export default function BaseButton(props) {
+function BaseButton(props) {
 
     const { text, size, color, variant, onClick, ...others } = props;
 
@@ -26,5 +29,5 @@ export default function BaseButton(props) {
     );
 }
 
-
+export default BaseButton
 

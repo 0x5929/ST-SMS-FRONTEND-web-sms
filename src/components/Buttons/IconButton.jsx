@@ -1,14 +1,19 @@
 import React from 'react';
-import Styles from './styles';
+import { IconButton } from '@mui/material';
+
+import { createIconBtnStyles } from './styles';
 
 
-export default function BaseIconButton(props) {
+const Styles = createIconBtnStyles(IconButton)
+
+function BaseIconButton(props) {
 
     const { children, size, color, variant, ...others } = props;
 
     var variantDefault = "text"
     var sizeDefault = "small"
     var colorDefault = "secondary"
+
     return (
         <Styles.IconButton
             variant={variant || variantDefault}
@@ -22,3 +27,5 @@ export default function BaseIconButton(props) {
         </Styles.IconButton>
     )
 }
+
+export default BaseIconButton
