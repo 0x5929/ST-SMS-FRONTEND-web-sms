@@ -1,6 +1,23 @@
 import React from 'react'
+import { 
+    Dialog, 
+    DialogActions, 
+    DialogContent, 
+    DialogTitle } from '@mui/material';
+    
+import { NotListedLocation  } from '@mui/icons-material';
 
-import Styles from './styles'
+import { BaseTypography as Typography } from '../Typography';
+import { BaseButton as Button, BaseIconButton } from '../Buttons';
+
+import createConfirmDialogStyles from './styles'
+
+const Styles = createConfirmDialogStyles(
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    BaseIconButton)
 
 export default function ConfirmDialog({ confirmDialog, confirmDialogHandlers, ...others }) {
 
@@ -10,26 +27,26 @@ export default function ConfirmDialog({ confirmDialog, confirmDialogHandlers, ..
         <Styles.Dialog open={confirmDialog.isOpen} {...others}>
             <Styles.DialogTitle>
                 <Styles.IconButton disableRipple>
-                    <Styles.NotListedLocation />
+                    <NotListedLocation />
                 </Styles.IconButton>
             </Styles.DialogTitle>
             <Styles.DialogContent>
-                <Styles.Typography 
+                <Typography 
                     variant="h6"
                     text={confirmDialog.title}
                 />
-                <Styles.Typography 
+                <Typography 
                     variant="subtitle1"
                     text={confirmDialog.subTitle}
                 />
             </Styles.DialogContent>
             <Styles.DialogActions>
-                <Styles.Button 
+                <Button 
                     color="primary"
                     text="No"
                     onClick={handleUnconfirmed}
                 />
-                <Styles.Button 
+                <Button 
                     color="error"
                     text="Yes"
                     onClick={confirmDialog.onConfirm}
