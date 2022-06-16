@@ -58,7 +58,7 @@ const Container = styled(MuiContainer)(( {theme} ) => ({
     // styling for Container if needed
 }));
 
-const BaseFab = styled(Components.Fab)(( {theme} ) => ({
+const BaseFab = styled(Components.BaseFab)(( {theme} ) => ({
     // styling for Fab if needed
 }));
 

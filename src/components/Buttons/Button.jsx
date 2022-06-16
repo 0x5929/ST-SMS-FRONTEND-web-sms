@@ -1,10 +1,10 @@
 import React from 'react'
-import { Button } from '@mui/material';
+import { Button as MuiButton } from '@mui/material';
 
 import { createButtonStyles } from './styles';
 
 
-const Styles = createButtonStyles(Button)
+const Styles = createButtonStyles({MuiButton})
 
 
 function BaseButton(props) {

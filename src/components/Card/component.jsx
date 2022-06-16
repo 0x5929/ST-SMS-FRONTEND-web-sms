@@ -1,10 +1,10 @@
 import React from 'react'
-import { Card  , CardContent  } from '@mui/material';
+import { Card as MuiCard ,CardContent  } from '@mui/material';
 import { BaseTypography } from '../Typography';
 
 import createCardStyles from './styles'
 
-const Styles = createCardStyles(Card, BaseTypography)
+const Styles = createCardStyles({MuiCard, BaseTypography})
 
 
 function BaseCard(props) {

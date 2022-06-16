@@ -2,13 +2,17 @@
 import { styled } from '@mui/material';
     
 
-function createConfirmDialogStyles(MuiDialog,
-                                MuiDialogAction,
-                                MuiDialogContent,
-                                MuiDialogTitle,
-                                BaseIconButton,
-    ) {
+function createConfirmDialogStyles(components) {
     
+    const {
+        
+        MuiDialog,
+        MuiDialogAction,
+        MuiDialogContent,
+        MuiDialogTitle,
+        BaseIconButton,
+
+    } = components
     
     const Dialog = styled(MuiDialog)(( {theme} ) => ({
         padding: theme.spacing(2),

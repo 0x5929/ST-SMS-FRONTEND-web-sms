@@ -1,10 +1,10 @@
 import React from 'react';
-import { IconButton } from '@mui/material';
+import { IconButton as MuiIconButton} from '@mui/material';
 
 import { createIconBtnStyles } from './styles';
 
 
-const Styles = createIconBtnStyles(IconButton)
+const Styles = createIconBtnStyles({MuiIconButton})
 
 function BaseIconButton(props) {
 

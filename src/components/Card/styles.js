@@ -1,7 +1,7 @@
 import { styled } from '@mui/material'
 
 
-function createCardStyles(MuiCard, BaseTypography) {
+function createCardStyles({MuiCard, BaseTypography}) {
 
 
     const Card = styled(MuiCard)(( {theme} ) => ({

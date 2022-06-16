@@ -1,9 +1,10 @@
 import React from 'react'
 import { 
-    Dialog, 
-    DialogActions, 
-    DialogContent, 
-    DialogTitle } from '@mui/material';
+    Dialog as MuiDialog, 
+    DialogActions as MuiDialogAction, 
+    DialogContent as MuiDialogContent, 
+    DialogTitle as MuiDialogTitle
+} from '@mui/material';
     
 import { NotListedLocation  } from '@mui/icons-material';
 
@@ -12,12 +13,14 @@ import { BaseButton as Button, BaseIconButton } from '../Buttons';
 
 import createConfirmDialogStyles from './styles'
 
-const Styles = createConfirmDialogStyles(
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    BaseIconButton)
+
+const Styles = createConfirmDialogStyles({
+    MuiDialog,
+    MuiDialogAction,
+    MuiDialogContent,
+    MuiDialogTitle,
+    BaseIconButton
+})
 
 export default function ConfirmDialog({ confirmDialog, confirmDialogHandlers, ...others }) {
 

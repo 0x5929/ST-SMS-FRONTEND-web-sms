@@ -1,5 +1,49 @@
 import React from 'react';
-import Styles from './styles'
+
+import { 
+    Grid, 
+    Box as MuiBox, 
+    CircularProgress as MuiCircularProgress,
+    Stack as MuiStack,
+
+} from '@mui/material';
+
+import { 
+    Check as CheckIcon, 
+    Save as SaveIcon,
+    AddBox as AddBoxIcon
+
+} from '@mui/icons-material';
+
+import { AddRotationForm } from './AddRotationForm'
+
+import {
+    Input,
+    Select,
+    DatePicker,
+    Checkbox,
+    RadioGroup
+} from '../Inputs'
+
+import {
+    BaseButton as Button,
+    BaseIconButton,
+    BaseFab,
+} from '../Buttons'
+
+import { Modal as BaseModal } from '../Modal';
+import { createStudentFormStyles } from './styles'
+
+
+const Styles = createStudentFormStyles({
+    MuiStack,
+    BaseIconButton,
+    MuiBox,
+    BaseFab,
+    BaseModal,
+    MuiCircularProgress
+})
+
 
 export function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHandlers, ...others }) {
 
@@ -58,9 +102,9 @@ export function StudentForm({ studentFormStates, studentFormHandlers, studentEdi
     return (
     <>
         <Styles.StudentForm onSubmit={handleEditSubmit || handleSubmit} {...others}>
-            <Styles.Grid container>
-                <Styles.Grid item laptop={6} tablet={12}>
-                    <Styles.Input 
+            <Grid container>
+                <Grid item laptop={6} tablet={12}>
+                    <Input 
                         name="studentId"
                         label="Student ID"
                         value={studentFormValues.studentId}
@@ -68,7 +112,7 @@ export function StudentForm({ studentFormStates, studentFormHandlers, studentEdi
                         error={studentFormErrors.studentId}
                         
                     />
-                    <Styles.Input 
+                    <Input 
                         name="firstName"
                         label="First Name"
                         value={studentFormValues.firstName}
@@ -76,7 +120,7 @@ export function StudentForm({ studentFormStates, studentFormHandlers, studentEdi
                         error={studentFormErrors.firstName}
                         
                     />
-                    <Styles.Input 
+                    <Input 
                         name="lastName"
                         label="Last Name"
                         value={studentFormValues.lastName}
@@ -84,7 +128,7 @@ export function StudentForm({ studentFormStates, studentFormHandlers, studentEdi
                         error={studentFormErrors.lastName}
                         
                     />
-                    <Styles.Input 
+                    <Input 
                         name="phoneNumber"
                         label="Phone Number"
                         value={studentFormValues.phoneNumber}
@@ -92,7 +136,7 @@ export function StudentForm({ studentFormStates, studentFormHandlers, studentEdi
                         error={studentFormErrors.phoneNumber}
                         
                     />
-                    <Styles.Input 
+                    <Input 
                         name="email"
                         label="Email"
                         value={studentFormValues.email}
@@ -100,7 +144,7 @@ export function StudentForm({ studentFormStates, studentFormHandlers, studentEdi
                         error={studentFormErrors.email}
                         
                     />
-                    <Styles.Input 
+                    <Input 
                         name="mailingAddress"
                         label="Mailing Address"
                         value={studentFormValues.mailingAddress}
@@ -108,7 +152,7 @@ export function StudentForm({ studentFormStates, studentFormHandlers, studentEdi
                         error={studentFormErrors.mailingAddress}
                         
                     />
-                    <Styles.Select
+                    <Select
                         name="course"
                         label="Course"
                         onChange={handleInputChange}
@@ -118,7 +162,7 @@ export function StudentForm({ studentFormStates, studentFormHandlers, studentEdi
                         defaultValue={getCourseOptions()[0].value}
                     />
                     <Styles.Stack direction="row" spacing={1}>
-                        <Styles.Select
+                        <Select
                             name="rotation"
                             label="Rotation"
                             onChange={handleInputChange}
@@ -128,10 +172,10 @@ export function StudentForm({ studentFormStates, studentFormHandlers, studentEdi
                             defaultValue={getRotationOptions()[0].rotation}
                         />
                         <Styles.AddRotBtn size="medium" onClick={handleOpenAddRotModal}>
-                            <Styles.AddBoxIcon />
+                            <AddBoxIcon />
                         </Styles.AddRotBtn>
                     </Styles.Stack>
-                    <Styles.DatePicker
+                    <DatePicker
                         name="startDate"
                         label="Program Start Date"
                         value={studentFormValues.startDate}
@@ -139,7 +183,7 @@ export function StudentForm({ studentFormStates, studentFormHandlers, studentEdi
                         convertToDefaultEventParam={convertToDefaultEventParam}
                         error={studentFormErrors.startDate}
                     />
-                    <Styles.DatePicker
+                    <DatePicker
                         name="completionDate"
                         label="Program Completion Date"
                         value={studentFormValues.completionDate}
@@ -147,7 +191,7 @@ export function StudentForm({ studentFormStates, studentFormHandlers, studentEdi
                         convertToDefaultEventParam={convertToDefaultEventParam}
                         error={studentFormErrors.completionDate}
                     />
-                    <Styles.DatePicker
+                    <DatePicker
                         name="dateEnrollmentAgreementSigned"
                         label="Date Enrollment Agreement Signed"
                         value={studentFormValues.dateEnrollmentAgreementSigned}
@@ -156,13 +200,13 @@ export function StudentForm({ studentFormStates, studentFormHandlers, studentEdi
                         error={studentFormErrors.dateEnrollmentAgreementSigned}
                         disableFuture
                     />
-                    <Styles.Input 
+                    <Input 
                         name="thirdPartyPayerInfo"
                         label="Third Party Payer Info"
                         value={studentFormValues.thirdPartyPayerInfo}
                         onChange={handleInputChange}
                     />
-                    <Styles.Input 
+                    <Input 
                         name="courseCost"
                         label="Course Cost"
                         value={studentFormValues.courseCost}
@@ -170,7 +214,7 @@ export function StudentForm({ studentFormStates, studentFormHandlers, studentEdi
                         error={studentFormErrors.courseCost}
                         
                     />
-                    <Styles.Input 
+                    <Input 
                         name="chargesCharged"
                         label="Charges Charged"
                         value={studentFormValues.chargesCharged}
@@ -178,7 +222,7 @@ export function StudentForm({ studentFormStates, studentFormHandlers, studentEdi
                         error={studentFormErrors.chargesCharged}
                         
                     />
-                    <Styles.Input 
+                    <Input 
                         name="chargesPaid"
                         label="Charges Paid"
                         value={studentFormValues.chargesPaid}
@@ -186,68 +230,68 @@ export function StudentForm({ studentFormStates, studentFormHandlers, studentEdi
                         error={studentFormErrors.chargesPaid}
                         
                     />
-                </Styles.Grid>
-                <Styles.Grid item laptop={6} tablet={12}>
-                    <Styles.Checkbox 
+                </Grid>
+                <Grid item laptop={6} tablet={12}>
+                    <Checkbox 
                         name="graduated"
                         label="Graduated"
                         value={studentFormValues.graduated}
                         onChange={handleInputChange}
                         convertToDefaultEventParam={convertToDefaultEventParam}
                     />
-                    <Styles.Checkbox 
+                    <Checkbox 
                         name="passedFirstExam"
                         label="Passed First Exam"
                         value={studentFormValues.passedFirstExam}
                         onChange={handleInputChange}
                         convertToDefaultEventParam={convertToDefaultEventParam}
                     />
-                    <Styles.Checkbox 
+                    <Checkbox 
                         name="passedSecondOrThird"
                         label="Passed Second or Third Exam"
                         value={studentFormValues.passedSecondOrThird}
                         onChange={handleInputChange}
                         convertToDefaultEventParam={convertToDefaultEventParam}
                     />
-                    <Styles.Checkbox 
+                    <Checkbox 
                         name="employed"
                         label="Employed"
                         value={studentFormValues.employed}
                         onChange={handleInputChange}
                         convertToDefaultEventParam={convertToDefaultEventParam}
                     />
-                    <Styles.Input 
+                    <Input 
                         name="position"
                         label="Employment Position"
                         value={studentFormValues.position}
                         onChange={handleInputChange}
                     />
-                    <Styles.Input 
+                    <Input 
                         name="placeOfEmployment"
                         label="Place of Employment"
                         value={studentFormValues.placeOfEmployment}
                         onChange={handleInputChange}
                     />
-                    <Styles.Input 
+                    <Input 
                         name="employmentAddress"
                         label="Employment Address"
                         value={studentFormValues.employmentAddress}
                         onChange={handleInputChange}
                     />
-                    <Styles.Input 
+                    <Input 
                         name="startingWage"
                         label="Starting Wage"
                         value={studentFormValues.startingWage}
                         onChange={handleInputChange}
                     />
-                    <Styles.RadioGroup
+                    <RadioGroup
                         name="hoursWorked"
                         label="Hours Worked"
                         value={studentFormValues.hoursWorked}
                         onChange={handleInputChange}
                         items={getHoursWorkedRadioItems()}
                     />
-                    <Styles.Input 
+                    <Input 
                         name="descriptionAttempts"
                         label="Comments"
                         value={studentFormValues.descriptionAttempts}
@@ -268,18 +312,18 @@ export function StudentForm({ studentFormStates, studentFormHandlers, studentEdi
                                     color="primary"
                                     onClick={handleSubmit}
                                 >
-                                    <Styles.CheckIcon />
+                                    <CheckIcon />
                                 </Styles.SuccessFab>
 
                                         : 
 
-                                <Styles.Fab
+                                <BaseFab
                                     aria-label="save"
                                     color="primary"
                                     onClick={handleSubmit}
                                 >
-                                    <Styles.SaveIcon />
-                                </Styles.Fab>
+                                    <SaveIcon />
+                                </BaseFab>
 
                             }
                             {
@@ -289,7 +333,7 @@ export function StudentForm({ studentFormStates, studentFormHandlers, studentEdi
                             }
                         </Styles.ButtonBox>
                         <Styles.ButtonBox>
-                            <Styles.Button
+                            <Button
                                 type="submit"
                                 text="Submit"
                                 disabled={submitLoading}
@@ -301,22 +345,22 @@ export function StudentForm({ studentFormStates, studentFormHandlers, studentEdi
                             }
                         </Styles.ButtonBox>
                         <Styles.ButtonBox>
-                            <Styles.Button
+                            <Button
                                 color="error"
                                 text="Cancel"
                                 onClick={handleEditCancel || handleCancel}
                             />
                         </Styles.ButtonBox>
                     </Styles.ButtonContainerBox>
-                </Styles.Grid>
-            </Styles.Grid>
+                </Grid>
+            </Grid>
         </Styles.StudentForm>
         <Styles.Modal
             modalTitle="Add Rotation"
             isModalOpen={isAddRotModalOpen}
             handleCloseModal={handleCloseAddRotModal}
         >
-            <Styles.AddRotationForm 
+            <AddRotationForm 
                 handleAddRotInputChange={handleAddRotInputChange}
                 handleAddRotSubmit={handleAddRotSubmit}
                 handleAddRotClear={handleAddRotClear}

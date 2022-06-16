@@ -1,8 +1,8 @@
 import { styled } from '@mui/material';
 
 
-function createBackdropStyles(MuiBackDrop) {
-    const Backdrop = styled(MuiBackDrop)(( {theme} ) => ({
+function createBackdropStyles({MuiBackdrop}) {
+    const Backdrop = styled(MuiBackdrop)(( {theme} ) => ({
         color: '#fff'
     
     }));

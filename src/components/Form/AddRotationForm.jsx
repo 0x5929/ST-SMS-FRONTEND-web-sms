@@ -1,5 +1,28 @@
 import React from 'react'
-import Styles from './styles'
+
+import { 
+
+    Box as MuiBox, 
+    Stack as MuiStack,
+
+} from '@mui/material';
+
+import {
+    Input,
+    Select,
+} from '../Inputs'
+
+import {
+    BaseButton as Button,
+
+} from '../Buttons'
+
+
+
+import { createAddRotFormStyles } from './styles'
+
+const Styles = createAddRotFormStyles({MuiStack, MuiBox})
+
 
 export function AddRotationForm(props) {
 
@@ -17,7 +40,7 @@ export function AddRotationForm(props) {
     return (
         <Styles.AddRotForm onSubmit={(e)=>(handleAddRotSubmit(e))} {...others}>
             <Styles.Stack>
-                <Styles.Select 
+                <Select 
                     name="programName"
                     label="Program Name"
                     onChange={handleAddRotInputChange}
@@ -26,7 +49,7 @@ export function AddRotationForm(props) {
                     value={rotationFormValues.programName}
                     defaultValue={getCourseOptions()[0].value}
                 />
-                <Styles.Input 
+                <Input 
                     name="rotation"
                     label="Rotation Number"
                     value={rotationFormValues.rotation}
@@ -34,11 +57,11 @@ export function AddRotationForm(props) {
                     error={rotationFormErrors.rotation}
                 />
                 <Styles.ButtonContainerBox>
-                    <Styles.Button 
+                    <Button 
                         text="Submit"
                         type="submit"
                     />
-                    <Styles.Button 
+                    <Button 
                         text="Cancel"
                         color="error"
                         onClick={handleAddRotClear}

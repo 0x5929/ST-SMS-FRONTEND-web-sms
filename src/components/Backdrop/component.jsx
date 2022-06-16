@@ -1,9 +1,9 @@
 import React from 'react'
-import { Backdrop, CircularProgress } from '@mui/material'
+import { Backdrop as MuiBackdrop, CircularProgress } from '@mui/material'
 
 import createBackdropStyles from './styles'
 
-const Styles = createBackdropStyles(Backdrop)
+const Styles = createBackdropStyles({MuiBackdrop})
 
 
 function SimpleBackDrop({ openBackdrop, ...others }) {

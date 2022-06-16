@@ -1,9 +1,7 @@
-
-
 import { styled } from '@mui/material';
 
 
-function createButtonStyles(MuiButton){
+function createButtonStyles({MuiButton}){
     const Button = styled(MuiButton)(( {theme} ) => ({
         textTransform: 'none',
         margin: theme.spacing(0.5)
@@ -14,7 +12,7 @@ function createButtonStyles(MuiButton){
     
 }
 
-function createIconBtnStyles(MuiIconButton) {
+function createIconBtnStyles({MuiIconButton}) {
     const IconButton = styled(MuiIconButton)(( {theme} ) => ({
         textTransform: 'none',
         margin: theme.spacing(0.5)

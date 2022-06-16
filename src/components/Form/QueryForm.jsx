@@ -1,6 +1,18 @@
 import React from 'react';
-import Styles from './styles'
+import { Grid } from '@mui/material';
+import { DoubleArrow as DoubleArrowIcon } from '@mui/icons-material';
 
+import { createQueryFormStyles } from './styles'
+import { SearchBar } from '../Searchbar';
+import { Select as BaseSelect } from '../Inputs'
+import {
+    BaseButton ,
+    BaseIconButton,
+
+} from '../Buttons'
+
+
+const Styles = createQueryFormStyles({SearchBar, BaseSelect, BaseButton, BaseIconButton})
 
 export function QueryForm({queryFormStates, queryFormHandlers, ...others}) {
 
@@ -26,14 +38,15 @@ export function QueryForm({queryFormStates, queryFormHandlers, ...others}) {
         handleAddNewQuery,
         
     } = queryFormHandlers
+
     
     return (
             <Styles.QueryForm onSubmit={(e)=>(handleSubmit(e, queryOptions))} {...others}>
-                <Styles.Grid container rowSpacing={0} columnSpacing={0}>
+                <Grid container rowSpacing={0} columnSpacing={0}>
                     {
                         queryOptions.map((query, index) => (
-                            <Styles.Grid container item key={query.pk} spacing={0}>
-                                <Styles.Grid item laptop={9} tablet={12} mobile={12}>
+                            <Grid container item key={query.pk} spacing={0}>
+                                <Grid item laptop={9} tablet={12} mobile={12}>
                                     <Styles.QuerySearchBar 
                                         label="Search Student Database"
                                         index={index}
@@ -46,8 +59,8 @@ export function QueryForm({queryFormStates, queryFormHandlers, ...others}) {
                                         handleClear={handleClear}
                                     />
 
-                                </Styles.Grid>
-                                <Styles.Grid item laptop={2} tablet={9} mobile={8}>                     
+                                </Grid>
+                                <Grid item laptop={2} tablet={9} mobile={8}>                     
                                     <Styles.QuerySelect
                                         label="Query By"
                                         name="options"
@@ -58,24 +71,24 @@ export function QueryForm({queryFormStates, queryFormHandlers, ...others}) {
                                         variant={'standard'}
                                         autoWidth
                                     />
-                                </Styles.Grid>
+                                </Grid>
                                     {
                                         queryOptions.length !== 1 && (
 
-                                            <Styles.Grid item laptop={1} tablet={3} mobile={4}>                                
+                                            <Grid item laptop={1} tablet={3} mobile={4}>                                
                                                 <Styles.DelButton 
                                                     text="Delete"
                                                     color="error"
                                                     variant="outlined"
                                                     onClick={ ()=> (handleDelQuery(index, query.pk)) }
                                                 />             
-                                            </Styles.Grid>
+                                            </Grid>
                                         )
                                     }              
                                     {
                                         queryOptions.length - 1 === index && (
                                             
-                                            <Styles.Grid item mobile={12}>
+                                            <Grid item mobile={12}>
 
                                                 <Styles.AddButton
                                                     text="ADD NEW"
@@ -87,19 +100,19 @@ export function QueryForm({queryFormStates, queryFormHandlers, ...others}) {
                                                     type="Submit"
                                                     color="secondary"
                                                 >
-                                                    <Styles.DoubleArrowIcon 
+                                                    <DoubleArrowIcon 
                                                         fontSize="large"
                                                     />
                                                 </Styles.QueryButton>    
-                                            </Styles.Grid> 
+                                            </Grid> 
                                         )
                                     }
-                            </Styles.Grid>
+                            </Grid>
                         ))
 
                     }
                     
-                </Styles.Grid>
+                </Grid>
             </Styles.QueryForm>
     )
 }

@@ -1,12 +1,12 @@
 import React from 'react'
-import { Box } from '@mui/material'
+import { Box as MuiBox } from '@mui/material'
 
 import createAppStyles from './styles'
 
 import { BackToTopButton } from '../features/Navigation/BackToTop'
 import { Header } from '../features/Navigation/Header'
 
-const Styles = createAppStyles(Box)
+const Styles = createAppStyles({MuiBox})
 
 function App({ Link, Outlet }) {
 
