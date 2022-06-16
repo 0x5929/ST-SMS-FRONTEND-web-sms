@@ -15,7 +15,7 @@ import {
 
 } from '@mui/icons-material';
 
-import { AddRotationForm } from './AddRotationForm'
+import AddRotationForm  from './AddRotationForm'
 
 import {
     Input,
@@ -45,7 +45,7 @@ const Styles = createStudentFormStyles({
 })
 
 
-export function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHandlers, ...others }) {
+function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHandlers, ...others }) {
 
 
     const {
@@ -372,3 +372,6 @@ export function StudentForm({ studentFormStates, studentFormHandlers, studentEdi
     </>
   )
 }
+
+
+export default StudentForm

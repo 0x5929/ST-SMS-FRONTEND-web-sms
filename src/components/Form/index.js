@@ -1,3 +1,3 @@
-export { StudentForm } from './StudentForm'
-export { QueryForm } from './QueryForm'
-export { AddRotationForm } from './AddRotationForm'
+export { default as StudentForm } from './StudentForm'
+export { default as QueryForm } from './QueryForm'
+export { default as AddRotationForm } from './AddRotationForm'

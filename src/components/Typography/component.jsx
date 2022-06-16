@@ -1,7 +1,11 @@
 import React from 'react';
-import Styles from './styles'
 
-export default function BaseTypography(props) {
+import { Typography as MuiTypography } from '@mui/material'
+import createTypographyStyles from './styles'
+
+const Styles = createTypographyStyles({MuiTypography})
+
+function BaseTypography(props) {
 
     const { variant, color, component, text, ...others} = props;
 
@@ -22,3 +26,5 @@ export default function BaseTypography(props) {
     
     );
 }
+
+export default BaseTypography

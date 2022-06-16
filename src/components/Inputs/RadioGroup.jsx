@@ -1,16 +1,25 @@
 import React from 'react';
-import Styles from './styles'
 
-export default function RadioGroup (props) {
+import { 
+    FormControl,
+    FormLabel,
+    FormControlLabel,
+    Radio,
+    RadioGroup as MuiRadioGroup,
+
+} from '@mui/material';
+
+function RadioGroup (props) {
 
     const { name, label, value, onChange, items, ...others } = props;
 
     return (  
-        <Styles.FormControl {...others}>
-            <Styles.FormLabel>
+
+        <FormControl {...others}>
+            <FormLabel>
                 { label }
-            </Styles.FormLabel>
-            <Styles.RadioGroup 
+            </FormLabel>
+            <MuiRadioGroup 
                 row
                 name={name}
                 value={value}
@@ -19,16 +28,18 @@ export default function RadioGroup (props) {
                 {
                     items.map(
                         item=> (
-                            <Styles.FormControlLabel 
+                            <FormControlLabel 
                                 key={item.value} 
                                 value={item.value}
                                 label={item.title} 
-                                control={<Styles.Radio />} 
+                                control={<Radio />} 
                             />
                         )
                     )
                 }
-            </Styles.RadioGroup>
-        </Styles.FormControl>
+            </MuiRadioGroup>
+        </FormControl>
     );
 }
+
+export default RadioGroup

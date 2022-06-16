@@ -1,5 +1,4 @@
 import { StudentForm, QueryForm } from './Form';
-import { Paper } from './Paper';
 import { BaseCard } from './Card';
 import { SearchBar } from './Searchbar';
 import { Modal } from './Modal';
@@ -30,7 +29,6 @@ const Components = {
     StudentForm,
     QueryForm,
     BaseCard,
-    Paper,
     Input,
     Select,
     DatePicker,

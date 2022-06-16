@@ -22,7 +22,7 @@ const Styles = createConfirmDialogStyles({
     BaseIconButton
 })
 
-export default function ConfirmDialog({ confirmDialog, confirmDialogHandlers, ...others }) {
+function ConfirmDialog({ confirmDialog, confirmDialogHandlers, ...others }) {
 
     const { handleUnconfirmed } = confirmDialogHandlers;
 
@@ -58,3 +58,5 @@ export default function ConfirmDialog({ confirmDialog, confirmDialogHandlers, ..
         </Styles.Dialog>
     )
 }
+
+export default ConfirmDialog

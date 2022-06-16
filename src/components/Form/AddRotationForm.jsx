@@ -24,7 +24,7 @@ import { createAddRotFormStyles } from './styles'
 const Styles = createAddRotFormStyles({MuiStack, MuiBox})
 
 
-export function AddRotationForm(props) {
+function AddRotationForm(props) {
 
     const {
         handleAddRotInputChange,
@@ -71,3 +71,5 @@ export function AddRotationForm(props) {
         </Styles.AddRotForm>
   )
 }
+
+export default AddRotationForm

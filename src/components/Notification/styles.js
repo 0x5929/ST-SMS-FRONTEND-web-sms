@@ -1,29 +1,28 @@
-import { 
-    Alert as MuiAlert, 
-    Snackbar as MuiSnackbar,
-    Slide as MuiSlide
-} from '@mui/material';
+/**  
+ *  this file is commented out because the base Notifications do not have any styling atm,
+ *  all styling, if needed, can be done here or at the feature level.
+ *  uncomment file and look at the sample styling solution if base Notifications need to be styled
+ *
+*/
 
-import { styled } from '@mui/material/styles';
-
-
-const Alert = styled(MuiAlert)(( {theme} ) => ({
-    // styling for Alert if needed
-}));
-
-const Snackbar = styled(MuiSnackbar)(( {theme} ) => ({
-    // styling for Alert if needed
-}));
-
-const Slide = styled(MuiSlide)(( {theme} ) => ({
-    // styling for Alert if needed
-}));
+// import { styled } from '@mui/material';
 
 
-const Styles = {
-    Alert,
-    Snackbar,
-    Slide
-}
+// function createNotificationStyles(){}
 
-export default Styles 
+// function createNotificationSlideStyles(){}
+
+
+// /***
+//  *   Sample styling solution
+//  *   function createNotificationSlideStyles({MuiSlide}){
+//  *      const Slide = styled(MuiSlide)(( {theme} ) => ({
+//  *          ... styles
+//  *      }));
+//  *      
+//  *      return { Slide }
+//  *  }
+//  * 
+//  */
+
+// export { createNotificationStyles, createNotificationSlideStyles }

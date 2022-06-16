@@ -1,7 +1,13 @@
-import React from 'react';
-import Styles from './styles'
+import React from 'react'
+import { 
 
-export default function Checkbox(props) {
+    FormControl,
+    FormControlLabel,
+    Checkbox as MuiCheckbox ,
+
+} from '@mui/material'
+
+function Checkbox(props) {
 
     const { 
         name, 
@@ -11,19 +17,21 @@ export default function Checkbox(props) {
         convertToDefaultEventParam,
 
         ...others
-    } = props;
+    } = props
 
     return (  
-        <Styles.FormControl {...others}>
-            <Styles.FormControlLabel
+        <FormControl {...others}>
+            <FormControlLabel
                 label={label}
-                control={<Styles.Checkbox
+                control={<MuiCheckbox
                     color="primary" 
                     name={name}
                     checked={value}
                     onChange={e => onChange(convertToDefaultEventParam(name, e.target.checked))}
                 />}
             />
-        </Styles.FormControl>
+        </FormControl>
     );
 }
+
+export default Checkbox

@@ -1,14 +1,20 @@
 import React from 'react';
-import Styles from './styles'
 
-export default function Notification({ notify, notificationHandlers, ...others }) {
+import { 
+    Alert, 
+    Snackbar
+
+} from '@mui/material';
+
+
+function Notification({ notify, notificationHandlers, ...others }) {
     
     const { handleCloseNotification } = notificationHandlers
     
     const anchorOrigin = {vertical: 'bottom', horizontal: 'center'}
 
     return (
-        <Styles.Snackbar
+        <Snackbar
             open={notify.isOpen}
             autoHideDuration={2000}
             anchorOrigin={anchorOrigin}
@@ -17,12 +23,14 @@ export default function Notification({ notify, notificationHandlers, ...others }
 
             {...others}
         >
-            <Styles.Alert
+            <Alert
                 severity={notify.type}
                 onClose={handleCloseNotification}
             >
                 {notify.message}
-            </Styles.Alert>
-        </Styles.Snackbar>
+            </Alert>
+        </Snackbar>
     )
 }
+
+export default Notification

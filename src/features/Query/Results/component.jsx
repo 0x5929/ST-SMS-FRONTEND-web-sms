@@ -5,7 +5,6 @@ import Styles from './styles'
 
 export default function QueryResults({ handleBacktoQuery, queryResults } ) {
 
-
     const [notify, notificationHandlers]= useNotification(Styles.NotificationSlide)
     const [confirmDialog, confirmDialogHandlers] = useConfirmDialog()
     const [useQueryResultTableStates, useQueryResultTableHandlers] = useQueryResultTable(
@@ -76,6 +75,7 @@ export default function QueryResults({ handleBacktoQuery, queryResults } ) {
                     label="Search Results"
                     textInput={filterStates.textInput}
                     handleClear={filterHandlers.handleClear}
+                    onChange={filterHandlers.handleFilter}
                 />
                 <Styles.BaseButton
                     text="Back to query"

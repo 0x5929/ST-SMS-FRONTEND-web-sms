@@ -1,79 +1,39 @@
-import { 
+/**  
+ *  this file is commented out because the base Inputs do not have any styling atm,
+ *  all styling, if needed, are done at the feature level for inputs.
+ *  uncomment file and look at the sample styling solution if base Inputs need to be styled
+ *
+*/
 
-    TextField as MuiTextField, 
-    FormControl as MuiFormControl,
-    FormControlLabel as MuiFormControlLabel,
-    Checkbox as MuiCheckbox,
-    FormLabel as MuiFormLabel, 
-    Radio as MuiRadio, 
-    RadioGroup as MuiRadioGroup,
-    InputLabel as MuiInputLabel, 
-    MenuItem as MuiMenuItem, 
-    Select as MuiSelect 
-
-} from '@mui/material';
-
-import { DatePicker as MuiDatePicker } from '@mui/lab';
-
-import { styled } from '@mui/material/styles';
+// import { styled } from '@mui/material';
 
 
-const TextField = styled(MuiTextField)(( {theme} ) => ({
-    // style TextField if needed
-}));
+// function createCheckBoxStyles(){}
 
-const FormControl = styled(MuiFormControl)(( {theme} ) => ({
-    // style TextFFormControlield if needed
-}));
+// function createDatePickerStyles(){}
 
-const FormControlLabel = styled(MuiFormControlLabel)(( {theme} ) => ({
-    // style TeFormControlLabeltField if needed
-}));
+// function createInputStyles(){}
 
-const Checkbox = styled(MuiCheckbox)(( {theme} ) => ({
-    // style Checkbox if needed
-}));
+// function createRadioGroupStyles(){}
 
-const DatePicker = styled(MuiDatePicker)(( {theme} ) => ({
-    // style DatePicker if needed
-}));
+// function createSelectStyles(){}
 
-const FormLabel = styled(MuiFormLabel)(( {theme} ) => ({
-    // style FormLabel if needed
-}));
+// /***
+//  *   Sample styling solution
+//  *   function createInputStyles({TextField}){
+//  *      const TextField = styled(TextField)(( {theme} ) => ({
+//  *          margin: 'auto',
+//  *      }));
+//  *      
+//  *      return { TextField }
+//  *  }
+//  * 
+//  */
 
-const Radio = styled(MuiRadio)(( {theme} ) => ({
-    // style Radio if needed
-}));
-
-const RadioGroup = styled(MuiRadioGroup)(( {theme} ) => ({
-    // style RadioGroup if needed
-}));
-
-const InputLabel = styled(MuiInputLabel)(( {theme} ) => ({
-    // style RadioGroup if needed
-}));
-
-const MenuItem = styled(MuiMenuItem)(( {theme} ) => ({
-    // style RadioGroup if needed
-}));
-
-const Select = styled(MuiSelect)(( {theme} ) => ({
-    // style RadioGroup if needed
-}));
-
-const Styles = {
-    TextField,
-    FormControl,
-    FormControlLabel,
-    Checkbox,
-    DatePicker,
-    FormLabel,
-    Radio,
-    RadioGroup,
-    InputLabel,
-    MenuItem,
-    Select
-}
-
-export default Styles 
+// export { 
+//     createCheckBoxStyles, 
+//     createDatePickerStyles, 
+//     createInputStyles,
+//     createRadioGroupStyles, 
+//     createSelectStyles
+// }

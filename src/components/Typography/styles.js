@@ -1,17 +1,14 @@
-import { Typography as MuiTypography } from '@mui/material'
 import { styled } from '@mui/material/styles';
 
 
 
-const Typography = styled(MuiTypography)(( {theme} ) => ({
+function createTypographyStyles({MuiTypography}){
+    const Typography = styled(MuiTypography)(( {theme} ) => ({
 
-    margin: theme.spacing(1)
-}));
+        margin: theme.spacing(1)
+    }));
 
-
-
-const Styles = {
-    Typography
+    return { Typography }
 }
 
-export default Styles 
+export default createTypographyStyles

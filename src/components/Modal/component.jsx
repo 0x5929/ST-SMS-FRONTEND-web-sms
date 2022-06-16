@@ -1,7 +1,24 @@
 import React from 'react'
-import Styles from './styles'
 
-export default function Modal(props) {
+import { 
+    
+    DialogContent,
+    Dialog as MuiDialog, 
+    DialogTitle as MuiDialogTitle, 
+
+} from '@mui/material';
+
+import { CloseOutlined as CloseOutlinedIcon } from '@mui/icons-material';
+
+import createModalStyles from './styles';
+
+import { BaseTypography as Typography } from '../Typography';
+import { BaseIconButton } from '../Buttons';
+
+
+const Styles = createModalStyles({ MuiDialog, MuiDialogTitle, BaseIconButton })
+
+function Modal(props) {
 
     const { 
         modalTitle, 
@@ -24,7 +41,7 @@ export default function Modal(props) {
         >
             <Styles.DialogTitle>
                 <div style={{display: 'flex'}}>
-                    <Styles.Typography
+                    <Typography
                         variant="h6"
                         component="div"
                         text={modalTitle}
@@ -36,20 +53,22 @@ export default function Modal(props) {
                         color="secondary"
                         onClick={handleCloseModal}
                     >
-                        <Styles.CloseOutlinedIcon 
+                        <CloseOutlinedIcon 
                             fontSize="small"
                             color="error"
                         />
                     </Styles.IconButton >
                 </div>
             </Styles.DialogTitle>
-            <Styles.DialogContent dividers>
+            <DialogContent dividers>
 
                  { children }
             
-            </Styles.DialogContent>
+            </DialogContent>
 
         </Styles.Dialog>
     
     )
 }
+
+export default Modal

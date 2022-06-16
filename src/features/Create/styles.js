@@ -1,11 +1,15 @@
 
 import { styled } from '@mui/material/styles';
+
+import { Paper as MuiPaper } from '@mui/material';
 import Components from '../../components';
 
 
 
 
-const Paper = styled(Components.Paper)(( {theme} ) => ({
+const Paper = styled(MuiPaper)(( {theme} ) => ({
+    'margin' : theme.spacing(5),
+    'padding': theme.spacing(3),
     backgroundColor: theme.palette.mode === 'dark' ? '#1e202a' : '#ffffff',
     width: '70%',
     marginLeft: 'auto',

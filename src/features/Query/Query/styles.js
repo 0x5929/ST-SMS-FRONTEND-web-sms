@@ -1,4 +1,4 @@
-import { Grid as MuiGrid, Box as MuiBox } from '@mui/material'; 
+import { Grid as MuiGrid, Box as MuiBox, Paper as MuiPaper } from '@mui/material'; 
 import { styled } from '@mui/material/styles';
 
 import {Statistics as BaseStatistics } from '../Statistics';
@@ -21,7 +21,10 @@ const Box = styled(MuiBox)(( {theme} ) => ({
 }));
 
 // styling paper and card to override the custom theme based on light or dark mode
-const Paper = styled(Components.Paper)(( {theme} ) => ({
+const Paper = styled(MuiPaper)(( {theme} ) => ({
+    'margin' : theme.spacing(5),
+    'padding': theme.spacing(3),
+    
     backgroundColor: theme.palette.mode === 'dark' ? '#1e202a' : '#ffffff',
     width: '70%',
     marginLeft: 'auto',

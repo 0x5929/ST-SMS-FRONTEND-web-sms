@@ -1,8 +1,18 @@
 import React from 'react';
-import Styles from './styles'
 
+import { 
+    InputAdornment, 
+    Toolbar
+} from '@mui/material'
 
-export default function SearchBar(props) {
+import { Clear as MuiClearIcon, Search as SearchIcon } from '@mui/icons-material'
+import { Input } from '../Inputs'
+
+import createSearchBarStyles from './styles'
+
+const Styles = createSearchBarStyles({MuiClearIcon})
+
+function SearchBar(props) {
 
     const { 
         textInput, 
@@ -14,28 +24,30 @@ export default function SearchBar(props) {
     } = props;
     
     return (  
-        <Styles.Toolbar>
-            <Styles.Input 
+        <Toolbar>
+            <Input 
                 label={label}
                 InputProps={{
                     startAdornment: (
-                        <Styles.InputAdornment position="start">
-                            <Styles.SearchIcon />
-                        </Styles.InputAdornment>
+                        <InputAdornment position="start">
+                            <SearchIcon />
+                        </InputAdornment>
                     ),
                     endAdornment: (
-                        <Styles.InputAdornment position="end">
+                        <InputAdornment position="end">
                             <Styles.ClearIcon 
                                 onClick={() => handleClear(textInput, index, props.pk)}
                             />
-                        </Styles.InputAdornment>
+                        </InputAdornment>
                     )
                 }}
                 inputRef={textInput}
 
                 { ...others }
             />
-        </Styles.Toolbar>
+        </Toolbar>
     );
 }
 
+
+export default SearchBar

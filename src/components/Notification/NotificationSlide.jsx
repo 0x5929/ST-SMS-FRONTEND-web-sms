@@ -1,12 +1,16 @@
 import React from 'react';
-import Styles from './styles'
 
-export default function NotificationSlide (props) {
+import { Slide } from '@mui/material';
+
+function NotificationSlide (props) {
 
     return (
-        <Styles.Slide 
+        <Slide 
             { ...props}
             direction="up" 
+            timeout={500}
         />
     );
 }
+
+export default NotificationSlide

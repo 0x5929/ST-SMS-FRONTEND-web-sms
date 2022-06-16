@@ -1,12 +1,13 @@
 import React from 'react';
-import Styles from './styles'
 
-export default function Input(props) {
+import { TextField } from '@mui/material';
+
+function Input(props) {
 
     const { name, label, value, error=null, onChange, ...others } = props
 
     return (  
-        <Styles.TextField 
+        <TextField 
             variant="outlined"
             color="primary"
             label={label}
@@ -14,8 +15,11 @@ export default function Input(props) {
             value={value}
             onChange={onChange}
             {...(error && { error:true, helperText: error })}
+            
             {...others}
         />
     );
 }
 
+
+export default Input

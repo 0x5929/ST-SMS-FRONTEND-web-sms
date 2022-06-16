@@ -14,7 +14,7 @@ import {
 
 const Styles = createQueryFormStyles({SearchBar, BaseSelect, BaseButton, BaseIconButton})
 
-export function QueryForm({queryFormStates, queryFormHandlers, ...others}) {
+function QueryForm({queryFormStates, queryFormHandlers, ...others}) {
 
     const {
 
@@ -116,3 +116,5 @@ export function QueryForm({queryFormStates, queryFormHandlers, ...others}) {
             </Styles.QueryForm>
     )
 }
+
+export default QueryForm

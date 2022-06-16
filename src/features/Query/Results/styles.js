@@ -66,6 +66,10 @@ const Notification = styled(Components.Notification)(( {theme} ) => ({
     // styling Notification if needed
 }));
 
+const NotificationSlide = styled(Components.NotificationSlide)(( {theme} ) => ({
+    // styling Notification if needed
+}));
+
 const ConfirmDialog = styled(Components.ConfirmDialog)(( {theme} ) => ({
     // styling ConfirmDialog if needed
 }));
@@ -86,6 +90,7 @@ const Styles = {
     DetailedTblHead,
     DetailedTblBody,
     Notification,
+    NotificationSlide,
     ConfirmDialog
 }
 
