@@ -20,7 +20,7 @@ export default function QueryResults({ handleBacktoQuery, queryResults } ) {
         records, 
         paginationStates, 
         sortingStates,
-        filterStates,
+        filterStates: { textInput },
 
         detailedViewTableStates :  {
 
@@ -36,6 +36,7 @@ export default function QueryResults({ handleBacktoQuery, queryResults } ) {
             studentFormStates,
 
         }
+        
     } = useQueryResultTableStates
 
     const {
@@ -46,7 +47,7 @@ export default function QueryResults({ handleBacktoQuery, queryResults } ) {
 
         paginationHandlers,
         sortingHandlers,
-        filterHandlers,
+        filterHandlers: { handleClear, handleFilter },
         detailedViewTableHandlers : {
 
             getDetailedRecord, 
@@ -73,9 +74,9 @@ export default function QueryResults({ handleBacktoQuery, queryResults } ) {
             <Styles.Box>
                 <Styles.SearchBar 
                     label="Search Results"
-                    textInput={filterStates.textInput}
-                    handleClear={filterHandlers.handleClear}
-                    onChange={filterHandlers.handleFilter}
+                    textInput={textInput}
+                    handleClear={handleClear}
+                    onChange={handleFilter}
                 />
                 <Styles.BaseButton
                     text="Back to query"

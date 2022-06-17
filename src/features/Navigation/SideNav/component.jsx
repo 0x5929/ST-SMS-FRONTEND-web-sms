@@ -1,8 +1,26 @@
 import React from 'react';
 
-import Styles from './styles'
+import { 
+    Divider, 
+    List as MuiList, 
+    ListItem as MuiListItem, 
+    ListItemIcon, 
+    ListItemText as MuiListItemText, 
+    Drawer as MuiDrawer } from '@mui/material'
 
-export default function Drawer (props) {
+import { 
+    ManageSearch as ManageSearchIcon,
+    CreateNewFolder as CreateNewFolderIcon } from '@mui/icons-material'
+
+import createSideNavStyles from './styles'
+
+const Styles = createSideNavStyles({
+    MuiList,
+    MuiListItem,
+    MuiListItemText
+})
+
+function Drawer (props) {
     
     const {
         Link,
@@ -13,7 +31,7 @@ export default function Drawer (props) {
 
 
     return (
-        <Styles.Drawer
+        <MuiDrawer
             anchor="left"
             open={isDrawerOpen}
             onClose={()=>(handleToggleDrawer(isDrawerOpen))}
@@ -21,22 +39,24 @@ export default function Drawer (props) {
             <Styles.List>
                 <Link to="/query" onClick={()=>{handleToggleDrawer(isDrawerOpen)}}>
                     <Styles.FirstListItem button disableRipple>
-                        <Styles.ListItemIcon>
-                            <Styles.ManageSearchIcon />
-                        </Styles.ListItemIcon>
+                        <ListItemIcon>
+                            <ManageSearchIcon />
+                        </ListItemIcon>
                         <Styles.ListItemText primary={'QUERY'} />
                     </Styles.FirstListItem>
                 </Link>
                 <Link to="/create" onClick={()=>{handleToggleDrawer(isDrawerOpen)}}>
-                    <Styles.ListItem button disableRipple>
-                        <Styles.ListItemIcon>
-                            <Styles.CreateNewFolderIcon />
-                        </Styles.ListItemIcon>
+                    <MuiListItem button disableRipple>
+                        <ListItemIcon>
+                            <CreateNewFolderIcon />
+                        </ListItemIcon>
                         <Styles.ListItemText primary={'CREATE'} />
-                    </Styles.ListItem>
+                    </MuiListItem>
                 </Link>
-                <Styles.Divider />
+                <Divider />
             </Styles.List>
-        </Styles.Drawer>
+        </MuiDrawer>
     )
 }
+
+export default Drawer

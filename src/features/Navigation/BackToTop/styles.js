@@ -1,14 +1,5 @@
-import { 
-    Box as MuiBox,
-    Container as MuiContainer,
-    Zoom as MuiZoom
-} from '@mui/material';
+import { styled, keyframes } from '@mui/material';
 
-import { KeyboardArrowUp as MuiKeyboardArrowUp } from '@mui/icons-material'
-
-import { styled, keyframes } from '@mui/material/styles';
-
-import  Components  from '../../../components';
 
 // https://animista.net/
 const heartbeat = keyframes`
@@ -47,53 +38,26 @@ from {
   }
 
 `;
-const FabBox = styled(MuiBox)(( {theme} ) => ({
-    position: 'fixed', 
-    bottom: theme.spacing(), 
-    right: theme.spacing()
-}));
 
 
-const Container = styled(MuiContainer)(( {theme} ) => ({
-    // styling for Container if needed
-}));
 
-const BaseFab = styled(Components.BaseFab)(( {theme} ) => ({
-    // styling for Fab if needed
-}));
+function createBackToTopStyles({MuiBox, BaseFab}){
+    const FabBox = styled(MuiBox)(( {theme} ) => ({
+        position: 'fixed', 
+        bottom: theme.spacing(), 
+        right: theme.spacing()
+    }));
 
-
-// with animation
-const Fab = styled(BaseFab)`
+    // with animation
+    const Fab = styled(BaseFab)`
 
     &:hover {
         animation: ${heartbeat} 1.2s ease-in-out infinite both;
     }
 
-`;
+    `;
 
-const Zoom = styled(MuiZoom)(( {theme} ) => ({
-    // styling for Zoom if needed
-}));
-
-const KeyboardArrowUpIcon = styled(MuiKeyboardArrowUp)(( {theme} ) => ({
-    // styling for KeyboardArrowUpIcon if needed
-}));
-
-
-
-const Typography = styled(Components.BaseTypography)(( {theme} ) => ({
-    // styling for Typography if needed
-}));
-
-
-const Styles = {
-    FabBox,
-    Container,
-    Fab,
-    Zoom,
-    KeyboardArrowUpIcon,
-    Typography
+    return { FabBox, Fab }
 }
 
-export default Styles 
+export default createBackToTopStyles

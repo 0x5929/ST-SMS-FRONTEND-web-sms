@@ -1,19 +1,11 @@
-import { styled } from '@mui/material/styles';
+// import { styled } from '@mui/material/styles';
 
-import Components from '../../../components';
+// function createcopyrightStyles({BaseTypography}) {
+//     const Typography = styled(BaseTypography)(( {theme} ) => ({
+//         // styling Typography
+//     }));
 
+//     return { Typography }
+// }
 
-
-
-const Typography = styled(Components.BaseTypography)(( {theme} ) => ({
-    // styling Typography if needed
-}));
-
-
-
-
-const Styles = {
-    Typography
-}
-
-export default Styles 
+// export default createcopyrightStyles

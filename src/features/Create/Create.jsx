@@ -1,11 +1,18 @@
-import React from "react";
+import React from "react"
+import { Paper as MuiPaper } from '@mui/material'
 
-import Styles from './styles'
+import createCreateFeatureStyles from './styles'
+import Components from '../../components'
 import { useStudentForm, useNotification } from '../../hooks'
 import * as SMSRecordService from '../../services/SMSRecordService'
 
 
-export default function Create() {
+const Styles = createCreateFeatureStyles({
+    MuiPaper,
+    BaseTypography: Components.BaseTypography
+})
+
+function Create() {
 
     const [notify, notificationHandlers] = useNotification(Styles.NotificationSlide)
 
@@ -26,14 +33,16 @@ export default function Create() {
             text="CREATE NEW STUDENT RECORD"
             align='center'
         />
-            <Styles.StudentForm
+            <Components.StudentForm
                 studentFormStates={studentFormStates}
                 studentFormHandlers={studentFormHandlers}
             />
-            <Styles.Notification 
+            <Components.Notification 
                 notify={notify}
                 notificationHandlers={notificationHandlers}
             />
         </Styles.Paper>
     )
 }
+
+export default Create

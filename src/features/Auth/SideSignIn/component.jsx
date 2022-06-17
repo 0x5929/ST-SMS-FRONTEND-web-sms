@@ -1,44 +1,66 @@
-import React from 'react';
-import Styles from './styles'
+import React from 'react'
 
+import { 
+    Grid as MuiGrid, 
+    CssBaseline,
+    Box as MuiBox,
+    Avatar as MuiAvatar,
+    FormControlLabel,
+    Checkbox,
+    Paper,
+    InputAdornment } from '@mui/material';
+
+import { 
+    LockOutlined as LockOutlinedIcon, 
+    Clear as MuiClearIcon, } from '@mui/icons-material';
+
+
+import createSigninStyles from './styles'
+import { Copyright as BaseCopyright } from '../Copyright'
 import { useLogin } from '../../../hooks';
 import { useAuthContext } from '../../../contexts';
 
-export default function Signin (){
 
-     const { 
-        handleLogin,
-        creds,
-        handleOnChange,
-        handleClearText,
-        errors,
-    } = useLogin(useAuthContext())
+import Components from '../../../components';
 
+const Styles = createSigninStyles({
+    MuiGrid,
+    MuiBox,
+    MuiAvatar,
+    MuiClearIcon,
+    BaseButton: Components.BaseButton,
+    BaseCopyright
+})
 
-    // we could also refactor this into a useLogin hook abstraction, if this grows?
+function Signin (){
+
+     const [ loginStates, loginHandlers ] = useLogin(useAuthContext())
+    
+     const { creds, errors } = loginStates
+     const { handleLogin, handleOnChange, handleClearText } = loginHandlers
     
     return (
             <Styles.MainGrid container component="main">
-                <Styles.CssBaseline />
+                <CssBaseline />
                 <Styles.ImageGrid
                     item
                     tablet={4}
                     laptop={7}
                 />
-                <Styles.Grid 
+                <MuiGrid 
                     item 
                     mobile={12} 
                     tablet={8} 
                     laptop={5} 
-                    component={Styles.Paper} 
+                    component={Paper} 
                     elevation={6} 
                     square
                 >
                     <Styles.SignInBox>
                         <Styles.Avatar>
-                            <Styles.LockOutlined />
+                            <LockOutlinedIcon />
                         </Styles.Avatar>
-                        <Styles.Typography 
+                        <Components.BaseTypography 
                             component="h1" 
                             variant="h5"
                             text="Sign in"
@@ -48,7 +70,7 @@ export default function Signin (){
                             noValidate 
                             onSubmit={handleLogin} 
                         >
-                        <Styles.TextField
+                        <Components.Input
                             margin="normal"
                             required
                             fullWidth
@@ -61,15 +83,15 @@ export default function Signin (){
                             error={errors.email}
                             InputProps={{
                                 endAdornment: (
-                                    <Styles.InputAdornment position="end">
+                                    <InputAdornment position="end">
                                         <Styles.ClearIcon 
                                             onClick={()=>(handleClearText('email'))}
                                         />
-                                    </Styles.InputAdornment>
+                                    </InputAdornment>
                                 )
                             }}
                         />
-                        <Styles.TextField
+                        <Components.Input
                             margin="normal"
                             required
                             fullWidth
@@ -83,17 +105,17 @@ export default function Signin (){
                             error={errors.password}
                             InputProps={{
                                 endAdornment: (
-                                    <Styles.InputAdornment position="end">
+                                    <InputAdornment position="end">
                                         <Styles.ClearIcon 
                                             onClick={()=>(handleClearText('password'))}
                                         />
-                                    </Styles.InputAdornment>
+                                    </InputAdornment>
                                 )
                             }}
                         />
-                        <Styles.FormControlLabel
+                        <FormControlLabel
                             control=
-                                {<Styles.Checkbox 
+                                {<Checkbox 
                                     value="remember" 
                                     color="primary" 
                                 />}
@@ -108,7 +130,10 @@ export default function Signin (){
                         <Styles.Copyright />
                         </Styles.FormBox>
                     </Styles.SignInBox>
-                </Styles.Grid>
+                </MuiGrid>
             </Styles.MainGrid>
     )
 }
+
+
+export default Signin

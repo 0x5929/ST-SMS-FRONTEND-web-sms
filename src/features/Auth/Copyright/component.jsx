@@ -1,16 +1,19 @@
 import React from 'react';
-import Styles from './styles'
+import Components from '../../../components';
 
 
-export default function Copyright(props) {
+function Copyright(props) {
     return (
-        <Styles.Typography 
+        <Components.BaseTypography 
             variant="p" 
             color="text.secondary" 
             align="center"
-            text={`Copyright © Company name ${new Date().getFullYear()}.`}
+            text={`Copyright © Elemental Software Solutions ${new Date().getFullYear()}.`}
             
             {...props}
         />
     );
   }
+
+
+export default Copyright

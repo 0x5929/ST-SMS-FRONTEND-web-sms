@@ -1,17 +1,24 @@
-import React from 'react';
-import { useScrollToTop } from '../../../hooks';
+import React from 'react'
 
-import Styles from './styles'
+import {  Box as MuiBox, Zoom } from '@mui/material'
 
-export default function BackToTopButton(props) {
+import { KeyboardArrowUp as KeyboardArrowUpIcon } from '@mui/icons-material'
 
-    const {
-        handleClick,
-        showScroll,
-    } = useScrollToTop()
+import createBackToTopStyles from './styles'
+import  Components  from '../../../components';
+import { useScrollToTop } from '../../../hooks'
+
+const Styles = createBackToTopStyles({
+    MuiBox,
+    BaseFab: Components.BaseFab
+})
+
+function BackToTopButton(props) {
+
+    const [ handleClick, showScroll ] = useScrollToTop()
     
     return (
-        <Styles.Zoom in={showScroll} >
+        <Zoom in={showScroll} >
             <Styles.FabBox
                 onClick={handleClick}
                 role="presentation"
@@ -21,9 +28,11 @@ export default function BackToTopButton(props) {
                     size="small" 
                     aria-label="scroll back to top"
                 >
-                    <Styles.KeyboardArrowUpIcon />
+                    <KeyboardArrowUpIcon />
                 </Styles.Fab>
             </Styles.FabBox>
-      </Styles.Zoom>
+      </Zoom>
     )
 }
+
+export default BackToTopButton

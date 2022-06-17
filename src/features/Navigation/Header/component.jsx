@@ -1,11 +1,34 @@
-import React from 'react';
-import { useDrawer, useHeader } from '../../../hooks';
+import React from 'react'
+
+import { 
+    Box as MuiBox, 
+    AppBar as MuiAppBar, 
+    Toolbar,
+    Switch as MuiSwitch } from '@mui/material'
+
+ import { 
+    Menu as MenuIcon, 
+    Brightness4 as Brightness4Icon, 
+    BrightnessHigh as BrightnessHighIcon } from '@mui/icons-material'
+
+
+import createHeaderStyles from './styles'
+import { Drawer } from '../SideNav';
+import Components from '../../../components'
+import { useDrawer, useHeader } from '../../../hooks'
 import { useThemeContext, useAuthContext } from '../../../contexts'
 
-import Styles from './styles'
 
+const Styles = createHeaderStyles({
+    MuiBox,
+    MuiAppBar,
+    BaselineIconButton: Components.BaseIconButton,
+    BaseTypography: Components.BaseTypography,
+    MuiSwitch,
+    BaseButton: Components.BaseButton
+})
 
-export default function Header({ Link }) {
+function Header({ Link }) {
     
     const {
         toggleColorMode,
@@ -26,17 +49,17 @@ export default function Header({ Link }) {
     return (
         <Styles.Box>
             <Styles.AppBar position="static" enableColorOnDark>
-                <Styles.Toolbar>
+                <Toolbar>
                     {
                         authed &&
-                        <Styles.IconButton
+                        <Styles.BaseIconButton
                             size="large"
                             edge="start"
                             aria-label="menu"
                             onClick={()=>(handleToggleDrawer(isDrawerOpen))}
                         >
-                            <Styles.MenuIcon />
-                        </Styles.IconButton>
+                            <MenuIcon />
+                        </Styles.BaseIconButton>
                     }
 
                     <Styles.Typography 
@@ -53,7 +76,7 @@ export default function Header({ Link }) {
                     >
                         {
                             darkMode ? 
-                                <Styles.BrightnessHighIcon /> : <Styles.Brightness4Icon />
+                                <BrightnessHighIcon /> : <Brightness4Icon />
                         }
                     </Styles.IconButton>
                     {
@@ -64,13 +87,15 @@ export default function Header({ Link }) {
                             onClick={logout}
                         />
                     }
-                    <Styles.Drawer 
+                    <Drawer 
                         Link={Link}
                         isDrawerOpen={isDrawerOpen}
                         handleToggleDrawer={handleToggleDrawer}
                     />
-                </Styles.Toolbar>
+                </Toolbar>
             </Styles.AppBar>
         </Styles.Box>
     );
 }
+
+export default Header

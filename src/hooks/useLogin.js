@@ -55,11 +55,8 @@ export default function useLogin ({ authed, user, login }) {
 
     }
 
-    return {
-        creds,
-        errors,
-        handleLogin,
-        handleOnChange,
-        handleClearText,
-     }
+    const loginStates = { creds, errors }
+    const loginHandlers = { handleLogin, handleOnChange, handleClearText }
+
+    return [ loginStates, loginHandlers ]
 }
