@@ -1,63 +1,78 @@
-import React from "react";
-import Styles from "./styles";
+import React from "react"
 
-import { useCharts } from "../../../hooks";
+import { Grid as MuiGrid } from '@mui/material'
+import {
+	BarChart,
+	XAxis,
+	YAxis,
+	Tooltip,
+	Bar,
+	ResponsiveContainer } from "recharts";
 
+import createStatisticsStyles from "./styles"
+
+import Components from '../../../components'
+import { useCharts } from "../../../hooks"
+
+const Styles = createStatisticsStyles({
+	MuiGrid,
+	BaseTypography: Components.BaseTypography,
+	BaselineCard: Components.BaseCard
+})
 
 export default function Statistics() {
 
-  const [data, theme] = useCharts()
+	const [data, theme] = useCharts()
 
+	const {
+		chartWidth,
+		chartHeight,
+		axisStroke,
+		axisStyle,
+		barFill,
+		chartMargins
+	} = Styles.ReChartsStyles(theme)
 
-  const {
-    chartWidth,
-    chartHeight,
-    axisStroke,
-    axisStyle,
-    barFill,
-    chartMargins
-  } = Styles.ReChartsStyles(theme)
+	return (
 
-    return (
+			<Styles.GridContainer container>
+				<Styles.Grid item mobile={12}>
+					<Styles.Typography text="Statistics" variant="h2"/>
+				</Styles.Grid>
+				{
+					Object.keys(data).map((key, index)=>(
+						<Styles.Grid item laptop={6} key={key}>
+							<Styles.Card
+								title={`Student ${key}s`}
+							>
+								<ResponsiveContainer 
+									width={chartWidth}
+									height={chartHeight}
+								>
+										<BarChart
+											data={data[key]}
+											margin={chartMargins}
+										>
+										<XAxis 
+											dataKey="year"
+											stroke={axisStroke}
+											style={axisStyle}
+										/>
+										<YAxis          
+											stroke={axisStroke}
+											style={axisStyle}
+										/>
+										<Tooltip />
+										<Bar dataKey="count" fill={barFill} />
+									</BarChart>
+								</ResponsiveContainer>
+							</Styles.Card>
+						</Styles.Grid>
+					))
+				}
 
-          <Styles.GridContainer container>
-                <Styles.Grid item mobile={12}>
-                    <Styles.Typography text="Statistics" variant="h2"/>
-                </Styles.Grid>
-            {
-              Object.keys(data).map((key, index)=>(
-                <Styles.Grid item laptop={6} key={key}>
-                <Styles.Card
-                  title={`Student ${key}s`}
-                >
-                  <Styles.ResponsiveContainer 
-                    width={chartWidth}
-                    height={chartHeight}
-                  >
-                    <Styles.BarChart
-                      data={data[key]}
-                      margin={chartMargins}
-                    >
-                      <Styles.XAxis 
-                        dataKey="year"
-                        stroke={axisStroke}
-                        style={axisStyle}
-                      />
-                      <Styles.YAxis          
-                        stroke={axisStroke}
-                        style={axisStyle}
-                      />
-                      <Styles.Tooltip />
-                      <Styles.Bar dataKey="count" fill={barFill} />
-                    </Styles.BarChart>
-                  </Styles.ResponsiveContainer>
-                </Styles.Card>
-              </Styles.Grid>
-              ))
-            }
-
-          </Styles.GridContainer>
-    )
+			</Styles.GridContainer>
+	)
 }
 
 

@@ -1,11 +1,17 @@
-import React from "react";
-import { QueryResults } from '../Results'
-import Styles from './styles';
+import React from "react"
+import { Box as MuiBox, Paper as MuiPaper } from '@mui/material'; 
 
+import createQueryStyles from './styles'
+
+import { QueryResults } from '../Results'
+import { Statistics  } from '../Statistics'
+import Components from '../../../components'
 import { useQueryForm } from '../../../hooks'
 
 
-export default function Query() {
+const Styles = createQueryStyles({ MuiPaper, MuiBox })
+
+function Query() {
 
     const [queryFormStates, queryFormHandlers] = useQueryForm()
 
@@ -18,14 +24,14 @@ export default function Query() {
                 !queryFormState.showResults &&
 
                 <>
-                    <Styles.QueryForm
+                    <Components.QueryForm
                         queryFormStates={queryFormStates}
                         queryFormHandlers={queryFormHandlers}
                     />
                     <Styles.Box>
-                        <Styles.Statistics />
+                        <Statistics />
                     </Styles.Box>
-                    <Styles.SimpleBackDrop 
+                    <Components.SimpleBackDrop 
                         openBackdrop={queryFormState.isBackdropOpen}
                     />
                 </>
@@ -40,3 +46,5 @@ export default function Query() {
         </Styles.Paper>
     )
 }
+
+export default Query

@@ -1,9 +1,22 @@
 import React from 'react'
 
 import { useQueryResultTable, useNotification, useConfirmDialog } from '../../../hooks'
-import Styles from './styles'
 
-export default function QueryResults({ handleBacktoQuery, queryResults } ) {
+import { Box as MuiBox } from '@mui/material'
+
+import Components from '../../../components'
+
+import createResultsStyles from './styles'
+
+
+const Styles = createResultsStyles({
+    MuiBox,
+    BaseSearchBar: Components.SearchBar,
+    BaseQueryTblContainer: Components.QueryTblContainer,
+    BaseDetailedTblContainer: Components.DetailedTblContainer
+})
+
+function QueryResults({ handleBacktoQuery, queryResults } ) {
 
     const [notify, notificationHandlers]= useNotification(Styles.NotificationSlide)
     const [confirmDialog, confirmDialogHandlers] = useConfirmDialog()
@@ -78,7 +91,7 @@ export default function QueryResults({ handleBacktoQuery, queryResults } ) {
                     handleClear={handleClear}
                     onChange={handleFilter}
                 />
-                <Styles.BaseButton
+                <Components.BaseButton
                     text="Back to query"
                     size="small"
                     color="secondary"
@@ -87,12 +100,12 @@ export default function QueryResults({ handleBacktoQuery, queryResults } ) {
                 />
             </Styles.Box>
             <Styles.QueryTblContainer>
-                <Styles.QueryTblHead 
+                <Components.QueryTblHead 
                     tableData={getTableData()} 
                     sortingStates={sortingStates}
                     sortingHandlers={sortingHandlers}
                 />
-                <Styles.QueryTblBody 
+                <Components.QueryTblBody 
                     handlers={{
                         getFinalDisplayRecords,
                         handleDeletePress,
@@ -100,45 +113,47 @@ export default function QueryResults({ handleBacktoQuery, queryResults } ) {
                         editModalHandlers: useQueryResultTableHandlers.editModalHandlers}}
                 />
             </Styles.QueryTblContainer>
-            <Styles.QueryTblPagination 
+            <Components.QueryTblPagination 
                 count={records.length}
                 paginationStates={paginationStates}
                 paginationHandlers={paginationHandlers}
             />
-            <Styles.Modal
+            <Components.Modal
                 modalTitle="Edit Student Data"
                 isModalOpen={isEditModalOpen}
                 handleCloseModal={handleCloseEditModal}
             >
-                <Styles.StudentForm
+                <Components.StudentForm
                     studentFormStates={studentFormStates}
                     studentFormHandlers={studentFormHandlers}
                     studentEditFormHandlers={{handleEditCancel,handleEditSubmit}}
                 />
-            </Styles.Modal>
-            <Styles.Modal
+            </Components.Modal>
+            <Components.Modal
                 modalTitle="Detail View"
                 isModalOpen={isDetailedViewModalOpen}
                 handleCloseModal={handleDetailedViewModalClose}
             >
                 <Styles.DetailedTblContainer>
-                    <Styles.DetailedTblHead 
+                    <Components.DetailedTblHead 
                         tableData={getTableData()} 
                     />
-                    <Styles.DetailedTblBody 
+                    <Components.DetailedTblBody 
                         record={getDetailedRecord()}
                         tableData={getTableData()}
                     />
                 </Styles.DetailedTblContainer>
-            </Styles.Modal>
-            <Styles.Notification 
+            </Components.Modal>
+            <Components.Notification 
                 notify={notify}
                 notificationHandlers={notificationHandlers}
             />
-            <Styles.ConfirmDialog 
+            <Components.ConfirmDialog 
                 confirmDialog={confirmDialog}
                 confirmDialogHandlers={confirmDialogHandlers}
             />
         </>
     )
 }
+
+export default QueryResults
