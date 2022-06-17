@@ -1,22 +1,44 @@
 import React from 'react'
-import Styles from './styles'
 
-export function QueryTblContainer(props) {
+import { 
+    Paper as MuiPaper,
+    Table as MuiTable, 
+    TableContainer,
+    TableCell,
+    TableHead,
+    TableRow, 
+    TableSortLabel, 
+    TableBody, 
+    TablePagination } from '@mui/material';
+
+import { 
+    EditOutlined as EditOutlinedIcon,  
+    CloseOutlined as CloseOutlinedIcon, 
+    VisibilityRounded as VisibilityRoundedIcon } from '@mui/icons-material';
+
+import { BaseIconButton } from '../Buttons';
+
+import { createQueryTableStyles } from './styles'
+
+
+const Styles = createQueryTableStyles({MuiPaper, MuiTable, BaseIconButton})
+
+function QueryTblContainer(props) {
 
     const { children, ...others } = props
 
     return (
-        <Styles.TableContainer component={Styles.Paper}>
+        <TableContainer component={Styles.Paper}>
             <Styles.Table
                 { ...others }
             >
                 { children }
             </Styles.Table>
-        </Styles.TableContainer>
+        </TableContainer>
     )
 }
 
-export function QueryTblHead(props) {
+function QueryTblHead(props) {
 
     const { tableData, sortingStates, sortingHandlers, ...others } = props
 
@@ -24,33 +46,33 @@ export function QueryTblHead(props) {
     const { handleSortRequest } = sortingHandlers
 
     return (
-        <Styles.TableHead {...others}>
-            <Styles.TableRow>
+        <TableHead {...others}>
+            <TableRow>
                 { 
                     tableData.mainQueryResultHeadCells.map( headCell => (
 
-                        <Styles.TableCell 
+                        <TableCell 
                             key={ headCell.id }
                             sortDirection={orderBy === headCell.id ? order : false}
                         >
                             { headCell.disableSorting? headCell.label : 
-                                <Styles.TableSortLabel
+                                <TableSortLabel
                                     active={ orderBy === headCell.id }
                                     direction={ orderBy === headCell.id ? order: 'asc' }
                                     onClick={ ()=>{handleSortRequest(headCell.id)} }
                                 >
                                     { headCell.label }
-                                </Styles.TableSortLabel>
+                                </TableSortLabel>
                             }
-                        </Styles.TableCell>
+                        </TableCell>
                     ))
                 }
-            </Styles.TableRow>
-        </Styles.TableHead>
+            </TableRow>
+        </TableHead>
     )
 }
 
-export function QueryTblBody({ handlers, ...others }) {
+function QueryTblBody({ handlers, ...others }) {
 
      const {
         getFinalDisplayRecords,
@@ -67,23 +89,23 @@ export function QueryTblBody({ handlers, ...others }) {
     const { handleDetailedViewModalOpen } = detailedViewModalHandlers
 
     return (
-            <Styles.TableBody { ...others }>
+            <TableBody { ...others }>
                 {records.map(record => (
-                        <Styles.TableRow key={ record.pk }>
-                            <Styles.TableCell>{ record.studentId }</Styles.TableCell>
-                            <Styles.TableCell>{ record.firstName }</Styles.TableCell>
-                            <Styles.TableCell>{ record.lastName }</Styles.TableCell>
-                            <Styles.TableCell>{ record.phoneNumber }</Styles.TableCell>
-                            <Styles.TableCell>{ record.email }</Styles.TableCell>
-                            <Styles.TableCell>{ record.course }</Styles.TableCell>
-                            <Styles.TableCell>
+                        <TableRow key={ record.pk }>
+                            <TableCell>{ record.studentId }</TableCell>
+                            <TableCell>{ record.firstName }</TableCell>
+                            <TableCell>{ record.lastName }</TableCell>
+                            <TableCell>{ record.phoneNumber }</TableCell>
+                            <TableCell>{ record.email }</TableCell>
+                            <TableCell>{ record.course }</TableCell>
+                            <TableCell>
                                 <Styles.ActionButton 
                                     variant="text"
                                     onClick={()=> handleDetailedViewModalOpen(record)}
                                     size="small"
                                     color="primary"
                                 >
-                                    <Styles.VisibilityRoundedIcon 
+                                    <VisibilityRoundedIcon 
                                         fontSize="small"
                                         color="primary"
                                     />
@@ -94,7 +116,7 @@ export function QueryTblBody({ handlers, ...others }) {
                                     size="small"
                                     color="secondary"
                                 >
-                                    <Styles.EditOutlinedIcon 
+                                    <EditOutlinedIcon 
                                         fontSize="small"
                                         color="secondary"
                                     />
@@ -105,19 +127,19 @@ export function QueryTblBody({ handlers, ...others }) {
                                     size="small"
                                     color="error"
                                 >
-                                    <Styles.CloseOutlinedIcon 
+                                    <CloseOutlinedIcon 
                                         fontSize="small"
                                         color="error"
                                     />
                                 </Styles.ActionButton>
-                            </Styles.TableCell>
-                        </Styles.TableRow>
+                            </TableCell>
+                        </TableRow>
                 ))}
-            </Styles.TableBody>
+            </TableBody>
     )
 }
 
-export function QueryTblPagination(props) {
+function QueryTblPagination(props) {
 
     const { count, paginationStates, paginationHandlers, ...others } = props
 
@@ -125,7 +147,7 @@ export function QueryTblPagination(props) {
     const { handleChangePage, handleChangeRowsPerPage } = paginationHandlers
 
     return (
-        <Styles.TablePagination 
+        <TablePagination 
             component="div"
             count={count}
             page={page}
@@ -139,3 +161,9 @@ export function QueryTblPagination(props) {
     )
 }
 
+export {
+    QueryTblContainer,
+    QueryTblHead,
+    QueryTblBody,
+    QueryTblPagination
+}

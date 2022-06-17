@@ -1,9 +1,6 @@
 import React from 'react';
 
-import { 
-    InputAdornment, 
-    Toolbar
-} from '@mui/material'
+import { InputAdornment, Toolbar } from '@mui/material'
 
 import { Clear as MuiClearIcon, Search as SearchIcon } from '@mui/icons-material'
 import { Input } from '../Inputs'

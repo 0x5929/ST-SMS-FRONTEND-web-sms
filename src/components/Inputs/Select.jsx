@@ -5,9 +5,7 @@ import {
     FormControl,
     InputLabel, 
     MenuItem, 
-    Select as MuiSelect 
-
-} from '@mui/material';
+    Select as MuiSelect } from '@mui/material';
 
 function Select(props) {
 

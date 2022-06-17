@@ -3,9 +3,7 @@ import {
 
     FormControl,
     FormControlLabel,
-    Checkbox as MuiCheckbox ,
-
-} from '@mui/material'
+    Checkbox as MuiCheckbox } from '@mui/material'
 
 function Checkbox(props) {
 

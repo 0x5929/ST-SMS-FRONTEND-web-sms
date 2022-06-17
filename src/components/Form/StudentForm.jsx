@@ -4,16 +4,12 @@ import {
     Grid, 
     Box as MuiBox, 
     CircularProgress as MuiCircularProgress,
-    Stack as MuiStack,
-
-} from '@mui/material';
+    Stack as MuiStack } from '@mui/material';
 
 import { 
     Check as CheckIcon, 
     Save as SaveIcon,
-    AddBox as AddBoxIcon
-
-} from '@mui/icons-material';
+    AddBox as AddBoxIcon } from '@mui/icons-material';
 
 import AddRotationForm  from './AddRotationForm'
 
@@ -22,14 +18,12 @@ import {
     Select,
     DatePicker,
     Checkbox,
-    RadioGroup
-} from '../Inputs'
+    RadioGroup } from '../Inputs'
 
 import {
     BaseButton as Button,
     BaseIconButton,
-    BaseFab,
-} from '../Buttons'
+    BaseFab } from '../Buttons'
 
 import { Modal as BaseModal } from '../Modal';
 import { createStudentFormStyles } from './styles'

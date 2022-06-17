@@ -5,9 +5,7 @@ import {
     FormLabel,
     FormControlLabel,
     Radio,
-    RadioGroup as MuiRadioGroup,
-
-} from '@mui/material';
+    RadioGroup as MuiRadioGroup } from '@mui/material';
 
 function RadioGroup (props) {
 

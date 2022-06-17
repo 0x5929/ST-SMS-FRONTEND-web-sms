@@ -1,10 +1,6 @@
 import React from 'react';
 
-import { 
-    Alert, 
-    Snackbar
-
-} from '@mui/material';
+import { Alert, Snackbar } from '@mui/material';
 
 
 function Notification({ notify, notificationHandlers, ...others }) {

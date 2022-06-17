@@ -4,9 +4,7 @@ import {
     
     DialogContent,
     Dialog as MuiDialog, 
-    DialogTitle as MuiDialogTitle, 
-
-} from '@mui/material';
+    DialogTitle as MuiDialogTitle } from '@mui/material';
 
 import { CloseOutlined as CloseOutlinedIcon } from '@mui/icons-material';
 

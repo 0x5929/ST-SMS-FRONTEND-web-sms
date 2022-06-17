@@ -3,8 +3,7 @@ import {
     Dialog as MuiDialog, 
     DialogActions as MuiDialogAction, 
     DialogContent as MuiDialogContent, 
-    DialogTitle as MuiDialogTitle
-} from '@mui/material';
+    DialogTitle as MuiDialogTitle } from '@mui/material';
     
 import { NotListedLocation  } from '@mui/icons-material';
 
