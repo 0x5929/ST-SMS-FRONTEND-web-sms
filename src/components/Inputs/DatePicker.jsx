@@ -28,4 +28,4 @@ function DatePicker (props) {
     );
 }
 
-export default DatePicker
+export default React.memo(DatePicker)

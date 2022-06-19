@@ -27,4 +27,4 @@ function BaseTypography(props) {
     );
 }
 
-export default BaseTypography
+export default React.memo(BaseTypography)

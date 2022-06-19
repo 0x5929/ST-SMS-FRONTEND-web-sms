@@ -23,7 +23,7 @@ import { createQueryTableStyles } from './styles'
 
 const Styles = createQueryTableStyles({MuiPaper, MuiTable, BaseIconButton})
 
-function QueryTblContainer(props) {
+const QueryTblContainer= React.memo((props) => {
 
     const { children, ...others } = props
 
@@ -36,9 +36,9 @@ function QueryTblContainer(props) {
             </Styles.Table>
         </TableContainer>
     )
-}
+})
 
-function QueryTblHead(props) {
+const QueryTblHead = React.memo((props) => {
 
     const { tableData, sortingStates, sortingHandlers, ...others } = props
 
@@ -70,9 +70,9 @@ function QueryTblHead(props) {
             </TableRow>
         </TableHead>
     )
-}
+})
 
-function QueryTblBody({ handlers, ...others }) {
+const QueryTblBody = React.memo(({ handlers, ...others }) => {
 
      const {
         getFinalDisplayRecords,
@@ -137,9 +137,9 @@ function QueryTblBody({ handlers, ...others }) {
                 ))}
             </TableBody>
     )
-}
+})
 
-function QueryTblPagination(props) {
+const QueryTblPagination = React.memo((props) => {
 
     const { count, paginationStates, paginationHandlers, ...others } = props
 
@@ -159,7 +159,7 @@ function QueryTblPagination(props) {
             { ...others }
         />
     )
-}
+})
 
 export {
     QueryTblContainer,

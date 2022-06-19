@@ -156,4 +156,4 @@ function QueryResults({ handleBacktoQuery, queryResults } ) {
     )
 }
 
-export default QueryResults
+export default React.memo(QueryResults)

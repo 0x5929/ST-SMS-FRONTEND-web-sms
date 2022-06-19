@@ -29,5 +29,5 @@ function BaseButton(props) {
     );
 }
 
-export default BaseButton
+export default React.memo(BaseButton)
 

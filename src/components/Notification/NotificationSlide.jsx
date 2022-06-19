@@ -13,4 +13,4 @@ function NotificationSlide (props) {
     );
 }
 
-export default NotificationSlide
+export default React.memo(NotificationSlide)

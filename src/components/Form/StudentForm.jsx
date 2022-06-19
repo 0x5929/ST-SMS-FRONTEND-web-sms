@@ -368,4 +368,4 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
 }
 
 
-export default StudentForm
+export default React.memo(StudentForm)

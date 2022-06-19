@@ -35,4 +35,4 @@ function BackToTopButton(props) {
     )
 }
 
-export default BackToTopButton
+export default React.memo(BackToTopButton)

@@ -69,4 +69,4 @@ function Modal(props) {
     )
 }
 
-export default Modal
+export default React.memo(Modal)

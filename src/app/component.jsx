@@ -22,4 +22,4 @@ function App({ Link, Outlet }) {
 }
 
 
-export default App
+export default React.memo(App)

@@ -65,4 +65,4 @@ function AddRotationForm(props) {
   )
 }
 
-export default AddRotationForm
+export default React.memo(AddRotationForm)

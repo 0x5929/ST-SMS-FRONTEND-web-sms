@@ -58,4 +58,4 @@ function ConfirmDialog({ confirmDialog, confirmDialogHandlers, ...others }) {
     )
 }
 
-export default ConfirmDialog
+export default React.memo(ConfirmDialog)

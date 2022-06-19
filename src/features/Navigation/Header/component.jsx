@@ -98,4 +98,4 @@ function Header({ Link }) {
     );
 }
 
-export default Header
+export default React.memo(Header)

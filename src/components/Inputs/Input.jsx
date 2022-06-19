@@ -22,4 +22,4 @@ function Input(props) {
 }
 
 
-export default Input
+export default React.memo(Input)

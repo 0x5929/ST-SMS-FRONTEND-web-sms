@@ -32,4 +32,4 @@ function Checkbox(props) {
     );
 }
 
-export default Checkbox
+export default React.memo(Checkbox)

@@ -16,4 +16,4 @@ function Copyright(props) {
   }
 
 
-export default Copyright
+export default React.memo(Copyright)

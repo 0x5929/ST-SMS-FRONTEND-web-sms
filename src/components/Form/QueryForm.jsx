@@ -117,4 +117,4 @@ function QueryForm({queryFormStates, queryFormHandlers, ...others}) {
     )
 }
 
-export default QueryForm
+export default React.memo(QueryForm)

@@ -29,4 +29,4 @@ function Notification({ notify, notificationHandlers, ...others }) {
     )
 }
 
-export default Notification
+export default React.memo(Notification)

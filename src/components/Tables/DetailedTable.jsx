@@ -11,7 +11,7 @@ import { createDetailedTableStyles } from './styles'
 
 const Styles = createDetailedTableStyles({MuiTable})
 
-function DetailedTblContainer(props) {
+const DetailedTblContainer = React.memo((props) => {
 
     const { children, ...others } = props
 
@@ -22,10 +22,10 @@ function DetailedTblContainer(props) {
             { children }
         </Styles.Table>
     )
-}
+})
 
 
-function DetailedTblHead({ tableData, ...others}) {
+const DetailedTblHead = React.memo(({ tableData, ...others}) => {
 
 
     return (
@@ -44,9 +44,9 @@ function DetailedTblHead({ tableData, ...others}) {
             </TableRow>
         </TableHead>
     )
-}
+})
 
-function DetailedTblBody(props) {
+const DetailedTblBody = React.memo((props) => {
 
     const { 
         record, 
@@ -67,7 +67,7 @@ function DetailedTblBody(props) {
             }
         </TableBody>
     )
-}
+})
 
 export {
     DetailedTblContainer,

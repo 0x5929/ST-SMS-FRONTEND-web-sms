@@ -28,4 +28,4 @@ function BaseIconButton(props) {
     )
 }
 
-export default BaseIconButton
+export default React.memo(BaseIconButton)

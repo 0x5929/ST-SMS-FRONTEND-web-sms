@@ -16,4 +16,4 @@ function BaseFab(props) {
     )
 }
 
-export default BaseFab
+export default React.memo(BaseFab)

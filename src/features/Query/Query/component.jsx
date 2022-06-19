@@ -47,4 +47,4 @@ function Query() {
     )
 }
 
-export default Query
+export default React.memo(Query)

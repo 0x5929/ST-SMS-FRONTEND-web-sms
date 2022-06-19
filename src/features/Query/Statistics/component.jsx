@@ -20,7 +20,7 @@ const Styles = createStatisticsStyles({
 	BaselineCard: Components.BaseCard
 })
 
-export default function Statistics() {
+function Statistics() {
 
 	const [data, theme] = useCharts()
 
@@ -77,3 +77,4 @@ export default function Statistics() {
 
 
 
+export default React.memo(Statistics)

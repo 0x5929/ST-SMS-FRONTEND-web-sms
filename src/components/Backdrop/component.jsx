@@ -16,4 +16,4 @@ function SimpleBackDrop({ openBackdrop, ...others }) {
 }
 
 
-export default SimpleBackDrop
+export default React.memo(SimpleBackDrop)

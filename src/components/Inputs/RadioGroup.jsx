@@ -40,4 +40,4 @@ function RadioGroup (props) {
     );
 }
 
-export default RadioGroup
+export default React.memo(RadioGroup)

@@ -9,4 +9,4 @@ function RequiredAuth({ children }) {
     return authed === true ? children : <Navigate to="/" replace />;
 }
 
-export default RequiredAuth
+export default React.memo(RequiredAuth)
