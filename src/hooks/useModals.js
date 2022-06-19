@@ -1,5 +1,5 @@
-import { useState } from "react";
-import {useStudentForm} from "./useForms";
+import { useState, useCallback } from "react";
+import { useStudentForm } from "./useForms";
 import * as studentRecordService from '../services/SMSRecordService';
 
 export function useEditModal (studentValues, setRecordForEdit, setRecords, userFeedbackObj, recordForEdit) {
@@ -9,17 +9,17 @@ export function useEditModal (studentValues, setRecordForEdit, setRecords, userF
     const [studentFormStates, studentFormHandlers] = useStudentForm(true, studentValues, userFeedbackObj, recordForEdit);
 
 
-    const handleOpenEditModal = item =>{
+    const handleOpenEditModal = useCallback(item =>{
         setRecordForEdit(item)
         setIsEditModalOpen(true)
-    }
+    }, [setRecordForEdit])
 
-    const handleCloseEditModal = () => {
+    const handleCloseEditModal = useCallback(() => {
         studentFormHandlers.handleClearStudentFormErrorCallback()
         setIsEditModalOpen(false)
-    }
+    }, [studentFormHandlers])
 
-    const handleEditSubmit = e => {
+    const handleEditSubmit = useCallback(e => {
 
         studentFormHandlers.handleSubmit(e)
         setRecordForEdit(studentFormStates.studentFormState.studentFormValues)
@@ -27,12 +27,13 @@ export function useEditModal (studentValues, setRecordForEdit, setRecords, userF
         // lets try to figure out how to wait until handleSUbmit to finish then excute code after, wait one second then close modal, then pop notification
         //closeModal()
         setRecords(studentRecordService.getAllRecords())
-    }
+    }, [setRecordForEdit, setRecords, studentFormHandlers, studentFormStates.studentFormState.studentFormValues])
 
-    const handleEditCancel = ()=> {
+
+    const handleEditCancel = useCallback(()=> {
         studentFormHandlers.handleClearStudentFormErrorCallback()
         handleCloseEditModal()
-    }
+    }, [handleCloseEditModal, studentFormHandlers])
 
     const editModalStates = { isEditModalOpen, studentFormStates }
     
@@ -54,14 +55,14 @@ export function useDetailedViewModal (setRecordForView){
 
     const [isDetailedViewModalOpen, setIsDetailedViewModalOpen] = useState(false)
 
-    const handleDetailedViewModalClose = ()=> {
+    const handleDetailedViewModalClose = useCallback(()=> {
         setIsDetailedViewModalOpen(false)
-    }
+    }, [])
 
-    const handleDetailedViewModalOpen = item => {
+    const handleDetailedViewModalOpen = useCallback(item => {
         setRecordForView(item)
         setIsDetailedViewModalOpen(true)
-    }
+    }, [setRecordForView])
 
     const detailedViewModalStates = { isDetailedViewModalOpen  }
     const detailedViewModalHandlers = { handleDetailedViewModalOpen, handleDetailedViewModalClose}
@@ -73,13 +74,13 @@ export function useDetailedViewModal (setRecordForView){
 export function useAddRotationModal (){
     const [isAddRotModalOpen, setIsAddRotModalOpen] = useState(false)
 
-    const handleOpenAddRotModal = () => {
+    const handleOpenAddRotModal = useCallback(() => {
         setIsAddRotModalOpen(true)
-    }
+    }, [])
 
-    const handleCloseAddRotModal = () => {
+    const handleCloseAddRotModal = useCallback(() => {
         setIsAddRotModalOpen(false)
-    }
+    }, [])
 
     const addRotModalHandlers = { handleOpenAddRotModal,handleCloseAddRotModal }
 

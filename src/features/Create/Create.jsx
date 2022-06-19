@@ -14,7 +14,7 @@ const Styles = createCreateFeatureStyles({
 
 function Create() {
 
-    const [notify, notificationHandlers] = useNotification(Styles.NotificationSlide)
+    const [notify, notificationHandlers] = useNotification(Components.NotificationSlide)
 
 
     const [studentFormStates, studentFormHandlers] = useStudentForm(

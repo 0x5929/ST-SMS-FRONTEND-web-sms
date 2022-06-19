@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 
 export function useNotification(Transition) {
@@ -10,21 +10,21 @@ export function useNotification(Transition) {
         Transition: Transition
     })
 
-    const handleCloseNotification = () => {
+    const handleCloseNotification = useCallback(() => {
         setNotify({
             ...notify,
             isOpen: false
         })
-    }
+    }, [notify])
 
-    const handleOpenNotification = (message, type='success') => {
+    const handleOpenNotification = useCallback((message, type='success') => {
         setNotify({
             ...notify,
             isOpen: true,
             message: message,
             type: type
         })
-    }
+    }, [notify])
     
     const notificationHandlers = { handleOpenNotification,handleCloseNotification }
 
@@ -42,24 +42,24 @@ export function useConfirmDialog(){
         onConfirm: undefined
     })
 
-    const handleUnconfirmed = ()=>{
+    const handleUnconfirmed = useCallback(()=>{
         
         setConfirmDialog({
             ...confirmDialog,
             isOpen: false
         })
-    }
+    }, [confirmDialog])
 
-    const handleConfirmed = (title, subTitle, confirmCallback) => {
+    const handleConfirmed = useCallback((title, subTitle, confirmCallback) => {
         setConfirmDialog({
             isOpen: true,
             title: title,
             subTitle: subTitle,
             onConfirm: confirmCallback
         })
-    }
+    }, [])
     
-    const confirmDialogHandlers = { handleConfirmed,handleUnconfirmed }
+    const confirmDialogHandlers = { handleConfirmed, handleUnconfirmed }
 
     return [confirmDialog, confirmDialogHandlers]
 

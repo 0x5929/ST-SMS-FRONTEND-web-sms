@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
-import validate from './useValidation'
+import useValidations from './useValidations'
 
 export default function useLogin ({ authed, user, login }) {
     const [ creds, setCreds ] = useState({email: '', password: ''})
     const [ errors, setErrors ] = useState({})
+    const { loginValidation } = useValidations()
 
     const navigate = useNavigate()
 
@@ -26,24 +27,25 @@ export default function useLogin ({ authed, user, login }) {
 
 
     // this will replace handleSubmit 
-    const handleLogin = (event) => {
+    const handleLogin = useCallback((event) => {
 
         event.preventDefault();
-        if (validate.useLoginValidation(creds, setErrors, errors)){
+        if (loginValidation(creds, setErrors, errors)){
             login({email: creds.email, password: creds.password})
         }
-    }
+    }, [creds, errors, login, loginValidation])
 
-    const handleOnChange = (event) => {
+
+    const handleOnChange = useCallback((event) => {
         const { name, value } = event.target
         setCreds({
             ...creds,
             [name] : value
         })
 
-    }
+    }, [creds])
 
-    const handleClearText = (name) => {
+    const handleClearText = useCallback((name) => {
         setErrors({
             ...errors,
             [name] : ''
@@ -53,7 +55,7 @@ export default function useLogin ({ authed, user, login }) {
             [name] : ''
         });
 
-    }
+    }, [creds, errors])
 
     const loginStates = { creds, errors }
     const loginHandlers = { handleLogin, handleOnChange, handleClearText }

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 
 import { useEditModal, useDetailedViewModal, usePagination, useSorting, useFilter } from  './index'
 
@@ -27,15 +27,15 @@ export default function useQueryResultTable(userFeedbackObj, results) {
     const { getTableData } = SMSRecordService
     const { notificationHandlers, confirmDialogHandlers } = userFeedbackObj
 
-    const getFinalDisplayRecords = () =>{
+    const getFinalDisplayRecords = useCallback(() =>{
       let filteredResults = filterHandlers.recordsAfterFiltering(records)
       let sortedResults = sortingHandlers.recordsAfterSorting(filteredResults)
 
       return paginationHandlers.recordsAfterPaging(sortedResults)
-    }
+    }, [filterHandlers, paginationHandlers, records, sortingHandlers])
 
 
-    const _handleDelete = (record) => {
+    const _handleDelete = useCallback((record) => {
 
         confirmDialogHandlers.handleUnconfirmed()
 
@@ -45,16 +45,16 @@ export default function useQueryResultTable(userFeedbackObj, results) {
         notificationHandlers.handleOpenNotification('Student record deleted!', 'error')
 
         console.log('Delete successful: ', record)
-    }
+    }, [confirmDialogHandlers, notificationHandlers])
 
-    const handleDeletePress = (record) =>{
+    const handleDeletePress = useCallback((record) =>{
 
         confirmDialogHandlers.handleConfirmed(
             'Are you sure you want to delete this student record?', 
             'This operation cannot be undone, so you must be sure.',
             ()=> (_handleDelete(record)))
         
-    }
+    },[_handleDelete, confirmDialogHandlers])
     
   
     const useQueryResultTableStates = { 
@@ -88,9 +88,9 @@ export default function useQueryResultTable(userFeedbackObj, results) {
 
 function useDetailedViewTable (recordForView, setRecordForView) {
 
-    const getDetailedRecord = () => {
+    const getDetailedRecord = useCallback(() => {
         return recordForView
-    }
+    }, [recordForView])
 
     const [detailedViewModalStates, detailedViewModalHandlers]  = useDetailedViewModal(setRecordForView)
     const detailedViewTableStates = { detailedViewModalStates }

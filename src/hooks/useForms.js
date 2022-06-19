@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useReducer, useCallback } from 'react'
 
 import { useAddRotationModal } from './useModals';
-import validate from './useValidation'
+import useValidations from './useValidations'
 
 import * as SMSRecordService from '../services/SMSRecordService'
 
@@ -58,7 +58,7 @@ export function useStudentForm(
 
 
     const [ studentFormState, studentFormDispatch ] = useReducer(reducer, initialStudentFormState)
-
+    const { createValidation } = useValidations()
 
     useEffect(()=>{
 
@@ -80,7 +80,38 @@ export function useStudentForm(
 
     const [addRotStates, addRotHandlers] = useAddRotationForm(userFeedbackObj)
 
-    const _createOrUpdate = (record, resetForm) => {
+
+
+    const handleCancel = useCallback(e => {
+        studentFormDispatch({type: 'clear-studentForm'})
+    }, [])
+
+    const handleSetStudentFormErrorCallback = useCallback((temp)=>{
+        studentFormDispatch({type: 'set-studentFormErrors', payload: {...temp}})
+    }, [])
+
+    const handleClearStudentFormErrorCallback = useCallback(()=>{
+        studentFormDispatch({type: 'set-studentFormErrors', payload: {}})
+
+        // added another dispatch so that submit success can be set to false, this is diff from clear-studentForm, 
+        // because it doesn't clear the values for edit!! which is used by callback
+        studentFormDispatch({type: 'set-submitSuccess', payload: false})
+    }, [])
+
+
+    const handleProgress = useCallback((callback) => {
+        if (!studentFormState.submitLoading) {
+
+            studentFormDispatch({type: 'form-submissionLoading'})
+            
+            // this would be connected to axio to fetch back end API, instead of using a timeout callback
+            progressTimer.current = callback(() => {
+            studentFormDispatch({type: 'form-submissionSuccess'})
+            }, 2000);
+          }
+    }, [studentFormState.submitLoading])
+
+    const _createOrUpdate = useCallback((record, resetForm) => {
 
         // notification on after form submission
         const {  notificationHandlers } = userFeedbackObj
@@ -109,19 +140,19 @@ export function useStudentForm(
         resetForm()
 
         console.log(op, ' success with: ', record)
-    }
+    }, [handleProgress, userFeedbackObj])
 
     const  { getCourseOptions, getRotationOptions, getHoursWorkedRadioItems } = SMSRecordService
     
 
-    const convertToDefaultEventParam = (name, value) => ({
+    const convertToDefaultEventParam = useCallback((name, value) => ({
         target: {
             name,
             value
         }
-    })
+    }), [])
     
-    const handleInputChange = e => {
+    const handleInputChange = useCallback(e => {
         const { name, value } = e.target
 
         studentFormDispatch({type: 'set-studentFormValues', payload: {
@@ -130,50 +161,35 @@ export function useStudentForm(
         }})
         
         if (validateOnChange){
-            validate.useCreateValidation({[name]: value}, handleSetStudentFormErrorCallback, studentFormState.studentFormErrors)
+            createValidation({[name]: value}, handleSetStudentFormErrorCallback, studentFormState.studentFormErrors)
         }
-    }
+
+    }, [
+        createValidation, 
+        handleSetStudentFormErrorCallback, 
+        studentFormState.studentFormErrors, 
+        studentFormState.studentFormValues, 
+        validateOnChange
+    ])
 
 
-    const handleProgress = (callback) => {
-        if (!studentFormState.submitLoading) {
-
-            studentFormDispatch({type: 'form-submissionLoading'})
-            
-            // this would be connected to axio to fetch back end API, instead of using a timeout callback
-            progressTimer.current = callback(() => {
-            studentFormDispatch({type: 'form-submissionSuccess'})
-            }, 2000);
-          }
-    }
-
-
-    const handleSubmit = e =>{
+    const handleSubmit = useCallback((e) =>{
         // DEV configuration so we dont refresh the page when testing submit button
         e.preventDefault()
 
-        if (validate.useCreateValidation(studentFormState.studentFormValues, handleSetStudentFormErrorCallback, studentFormState.studentFormErrors)){
+        if (createValidation(studentFormState.studentFormValues, handleSetStudentFormErrorCallback, studentFormState.studentFormErrors)){
             _createOrUpdate(studentFormState.studentFormValues, handleCancel)
         }
 
-    }
 
-    const handleCancel = e => {
-        studentFormDispatch({type: 'clear-studentForm'})
-    }
-
-
-    const handleClearStudentFormErrorCallback = useCallback(()=>{
-        studentFormDispatch({type: 'set-studentFormErrors', payload: {}})
-
-        // added another dispatch so that submit success can be set to false, this is diff from clear-studentForm, 
-        // because it doesn't clear the values for edit!! which is used by callback
-        studentFormDispatch({type: 'set-submitSuccess', payload: false})
-    }, [])
-
-    const handleSetStudentFormErrorCallback = useCallback((temp)=>{
-        studentFormDispatch({type: 'set-studentFormErrors', payload: {...temp}})
-    }, [])
+    }, [
+        createValidation, 
+        studentFormState.studentFormValues, 
+        studentFormState.studentFormErrors, 
+        handleSetStudentFormErrorCallback, 
+        _createOrUpdate, 
+        handleCancel
+    ])
 
 
     const studentFormStates = { 
@@ -207,21 +223,28 @@ function useAddRotationForm(userFeedbackObj) {
     const [rotationFormValues, setRotationFormValues] = useState({programName: '', rotation: ''})
     const [rotationFormErrors, setRotationFormErrors] = useState({})
     const [isAddRotModalOpen, addRotModalHandlers] = useAddRotationModal()
+    const { addRotValidation } = useValidations()
 
-
-    const handleAddRotInputChange = e => {
+    const handleAddRotInputChange = useCallback(e => {
         const { name, value } = e.target
 
         setRotationFormValues({
             ...rotationFormValues,
             [name] : value
         })
-    }
-    
-    const handleAddRotSubmit = e => {
+    }, [rotationFormValues])
+
+
+    const handleAddRotClear = useCallback(() => {
+        setRotationFormValues({programName: '', rotation: ''})
+        setRotationFormErrors({})
+    }, [])
+
+
+    const handleAddRotSubmit = useCallback(e => {
         e.preventDefault()
 
-        if (validate.useAddRotValidation(rotationFormValues, setRotationFormErrors, rotationFormErrors)){
+        if (addRotValidation(rotationFormValues, setRotationFormErrors, rotationFormErrors)){
 
             notificationHandlers.handleOpenNotification('Rotation added successfully')
 
@@ -229,12 +252,14 @@ function useAddRotationForm(userFeedbackObj) {
             addRotModalHandlers.handleCloseAddRotModal()
         }
 
-    }
-
-    const handleAddRotClear = () => {
-        setRotationFormValues({programName: '', rotation: ''})
-        setRotationFormErrors({})
-    }
+    }, [
+        addRotValidation, 
+        rotationFormValues, 
+        rotationFormErrors, 
+        notificationHandlers, 
+        handleAddRotClear, 
+        addRotModalHandlers
+    ])
 
 
     const addRotStates = { rotationFormValues, rotationFormErrors, isAddRotModalOpen }
@@ -286,8 +311,24 @@ export function useQueryForm(){
 
 
     const [ queryFormState, queryFormDispatch ] = useReducer(reducer, initialQueryFormState)
+    const { queryValidation } = useValidations()
 
-    const handleAddNewQuery = (index) =>{
+    const handleSetQueryFormErrorCallback = useCallback((temp)=>{
+        queryFormDispatch({type: 'set-queryFormErrors', payload: {...temp}})
+    }, [])
+
+    const clearError = useCallback((pk) => {
+        let errObj = {...queryFormState.queryFormErrors}
+
+        if ( typeof pk != 'undefined'){
+            delete errObj['query' + pk.toString()]
+            delete errObj['value' + pk.toString()]
+        }
+        
+        queryFormDispatch({type: 'set-queryFormErrors', payload: errObj})
+    }, [queryFormState.queryFormErrors])
+
+    const handleAddNewQuery = useCallback((index) =>{
         function newPk() {
             let lastElPk = queryFormState.queryOptions[ queryFormState.queryOptions.length - 1 ]['pk']
             return lastElPk + 1;
@@ -299,10 +340,10 @@ export function useQueryForm(){
 
         queryFormDispatch({type: 'set-queryOptions', payload: [...queryFormState.queryOptions, {query: '', value: '', pk: newPk()}]})
 
-    }
+    },[queryFormState.queryOptions])
 
 
-    const handleDelQuery = async (index, pk) =>{
+    const handleDelQuery = useCallback((index, pk) =>{
         // clear Errors
         clearError(pk)
 
@@ -311,10 +352,10 @@ export function useQueryForm(){
         // setting queries to anything but the ones we are trying to delete
         queryFormDispatch({type: 'set-queryOptions', payload: queries.filter( item => item.pk !== pk )})
 
-    }
+    }, [clearError, queryFormState.queryOptions])
 
 
-    const handleQueryOnChange = (e, index) => {
+    const handleQueryOnChange = useCallback((e, index) => {
         const { 
             value 
         } = e.target
@@ -325,10 +366,10 @@ export function useQueryForm(){
 
         queryFormDispatch({type: 'set-queryOptions', payload: queries})
 
-    }
+    }, [queryFormState.queryOptions])
 
 
-    const handleQueryOptionOnChange = (e, index) =>{
+    const handleQueryOptionOnChange = useCallback((e, index) =>{
         const { 
             value 
         } = e.target
@@ -337,31 +378,22 @@ export function useQueryForm(){
         queries[index].query = value;
 
         queryFormDispatch({type: 'set-queryOptions', payload: queries})
-    }
+    }, [queryFormState.queryOptions])
 
     const getQueryOptions = SMSRecordService.getQueryOptions
 
-    const clearError = (pk) => {
-        let errObj = {...queryFormState.queryFormErrors}
 
-        if ( typeof pk != 'undefined'){
-            delete errObj['query' + pk.toString()]
-            delete errObj['value' + pk.toString()]
-        }
-        
-        queryFormDispatch({type: 'set-queryFormErrors', payload: errObj})
-    }
 
-    const handleClear = (textInput, index, pk=null) =>{
+    const handleClear = useCallback((textInput, index, pk=null) =>{
         // textInput is not used here, because we have set the value of the searchbar/textField, so instead, we will manipulate the value from its state obj
         if (pk !== null) {
             clearError(pk)
             handleQueryOnChange({target: {name: '', value: ''}}, index)
 
         }
-    }
+    }, [clearError, handleQueryOnChange])
 
-    const handleBackdrop = () =>{
+    const handleBackdrop = useCallback(() =>{
         queryFormDispatch({type: 'set-isBackdropOpen', payload: true})
 
         setTimeout(()=> {
@@ -376,12 +408,14 @@ export function useQueryForm(){
             queryFormDispatch({type: 'set-showResults', payload: true})
             
         }
-    }
+    }, [handleClear])
 
-    const handleSubmit = (e, queryOptions) => {
+
+
+    const handleSubmit = useCallback((e, queryOptions) => {
         e.preventDefault()
 
-        if (validate.useQueryValidation(queryOptions, handleSetQueryFormErrorCallback, queryFormState.queryFormErrors)){
+        if (queryValidation(queryOptions, handleSetQueryFormErrorCallback, queryFormState.queryFormErrors)){
             // load sample data for result table for dev and testing
             SMSRecordService.insertSampleRecords()
 
@@ -393,15 +427,16 @@ export function useQueryForm(){
     
             handleBackdrop()            
         }
-    }
+    }, [
+        handleBackdrop, 
+        handleSetQueryFormErrorCallback, 
+        queryFormState.queryFormErrors, 
+        queryValidation
+    ])
 
-    const handleBacktoQuery = () => {
+    
+    const handleBacktoQuery = useCallback(() => {
         queryFormDispatch({type: 'form-backToQuery'})
-    }
-
-
-    const handleSetQueryFormErrorCallback = useCallback((temp)=>{
-        queryFormDispatch({type: 'set-queryFormErrors', payload: {...temp}})
     }, [])
 
 

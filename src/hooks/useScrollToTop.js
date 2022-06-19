@@ -1,15 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 export default function useScrollToTop() {
 
     const [ showScroll, setShowScroll ] = useState(false)
 
-    const handleClick = (event) => {
+    const handleClick = useCallback((event) => {
         window.scrollTo({
           top: 0, 
           behavior: 'smooth'
         });
-      };
+    }, [])
 
 
 
