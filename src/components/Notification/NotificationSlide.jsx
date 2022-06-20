@@ -3,7 +3,7 @@ import React from 'react';
 import { Slide } from '@mui/material';
 
 function NotificationSlide (props) {
-
+    console.log('NotificationSlide component rendered')
     return (
         <Slide 
             { ...props}

@@ -8,7 +8,7 @@ import {
     Select as MuiSelect } from '@mui/material';
 
 function Select(props) {
-
+    console.log('Select component rendered')
     const {
         name, 
         label, 

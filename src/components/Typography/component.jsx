@@ -6,7 +6,7 @@ import createTypographyStyles from './styles'
 const Styles = createTypographyStyles({MuiTypography})
 
 function BaseTypography(props) {
-
+    console.log('BaseTypography component rendered')
     const { variant, color, component, text, ...others} = props;
 
     var defaultVariant = 'h6'

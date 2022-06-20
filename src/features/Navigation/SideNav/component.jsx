@@ -22,6 +22,7 @@ const Styles = createSideNavStyles({
 
 function Drawer (props) {
     
+    console.log('Drawer feature rendered')
     const {
         Link,
         isDrawerOpen,

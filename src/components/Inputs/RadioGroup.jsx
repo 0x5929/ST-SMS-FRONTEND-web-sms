@@ -8,7 +8,7 @@ import {
     RadioGroup as MuiRadioGroup } from '@mui/material';
 
 function RadioGroup (props) {
-
+    console.log('RadioGroup component rendered')
     const { name, label, value, onChange, items, ...others } = props;
 
     return (  

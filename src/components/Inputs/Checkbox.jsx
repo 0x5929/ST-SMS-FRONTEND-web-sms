@@ -6,7 +6,7 @@ import {
     Checkbox as MuiCheckbox } from '@mui/material'
 
 function Checkbox(props) {
-
+    console.log('Checkbox component rendered')
     const { 
         name, 
         label, 

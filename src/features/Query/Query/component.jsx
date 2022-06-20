@@ -13,6 +13,7 @@ const Styles = createQueryStyles({ MuiPaper, MuiBox })
 
 function Query() {
 
+    console.log('Query feature rendered')
     const [queryFormStates, queryFormHandlers] = useQueryForm()
 
     const { queryFormState } = queryFormStates;

@@ -41,7 +41,7 @@ const Styles = createStudentFormStyles({
 
 function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHandlers, ...others }) {
 
-
+    console.log('StudentForm component rendered')
     const {
     
         studentFormState : {

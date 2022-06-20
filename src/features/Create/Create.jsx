@@ -13,7 +13,7 @@ const Styles = createCreateFeatureStyles({
 })
 
 function Create() {
-
+    console.log('Create feature rendered')
     const [notify, notificationHandlers] = useNotification(Components.NotificationSlide)
 
 

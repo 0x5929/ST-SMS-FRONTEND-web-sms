@@ -33,7 +33,7 @@ const Styles = createSigninStyles({
 })
 
 function Signin (){
-
+    console.log('Signin feature rendered')
      const [ loginStates, loginHandlers ] = useLogin(useAuthContext())
     
      const { creds, errors } = loginStates
@@ -70,6 +70,8 @@ function Signin (){
                             noValidate 
                             onSubmit={handleLogin} 
                         >
+
+                        {/* Try using MuiTextField to see if it helps performance, so the TextField render is only on itself? */}
                         <Components.Input
                             margin="normal"
                             required
