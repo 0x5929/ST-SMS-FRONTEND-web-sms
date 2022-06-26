@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useRef } from 'react';
 
 import { 
     Grid, 
@@ -15,6 +15,7 @@ import AddRotationForm  from './AddRotationForm'
 
 import {
     Input,
+    Input2,
     Select,
     DatePicker,
     Checkbox,
@@ -92,12 +93,31 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
         handleEditCancel = false
     }
 
+    
+    const refs = {testRef: useRef(null)}
+    const handleTestSubmit = (e)=> {
+        e.preventDefault()
+
+        console.log('testRef: ', refs.testRef.current.value)
+    }
 
     return (
     <>
         <Styles.StudentForm onSubmit={handleEditSubmit || handleSubmit} {...others}>
             <Grid container>
                 <Grid item laptop={6} tablet={12}>
+                    <Input2 
+                        ref={refs.testRef}
+                        name="test"
+                        label="test label"
+                        initialValue=""
+                        errorHandler={useCallback((value)=>{
+                            if (value !== '') 
+                                return {}
+                            else
+                                return { error: true, helperText: 'Cannot be blank dummy' }
+                        }, [])}
+                    />
                     <Input 
                         name="studentId"
                         label="Student ID"
