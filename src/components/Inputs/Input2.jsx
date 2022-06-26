@@ -24,7 +24,7 @@ const Input2 = forwardRef((props, parentRef) => {
             name={name}
             value={value}
             onChange={inputOnChange}
-            {...(showError && errorHandler(value) || error)  }
+            {...((showError && errorHandler(value)) || error)  }
 
             
             {...others}
