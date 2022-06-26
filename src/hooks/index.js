@@ -11,5 +11,6 @@ export { default as useValidations } from './useValidations';
 export { default as useFilter } from './useFilter';
 export { default as usePagination } from './usePagination';
 export { default as useSorting } from './useSorting';
+export { default as useToggle } from './useToggle';
 export { default as useLogin } from './useLogin';
 export { default as useScrollToTop } from './useScrollToTop';

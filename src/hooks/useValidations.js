@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 
 function useValidations() {
         // returns true or false, and sets error object for validation 
@@ -94,34 +94,36 @@ function useValidations() {
 
     }, [])
 
-    const createValidation2 = useCallback(() => {
-        let simpleEmailRegex = /.+@.+..+/;
-        let studentIdRegex = /^(RO|AL)-(CNA|HHA|SG|ESOL|BLS|HSFA)-\d{1,3}-\d{4}-[A-Z]{2}$/;
-        let phoneRegex = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
-        let moneyRegex = /^[0-9]+\.?[0-9]?[0-9]?$/;
+    const useCreateValidation2 = () => {
+        let simpleEmailRegex = useMemo(()=>/.+@.+..+/, []);
+        let studentIdRegex = useMemo(()=>/^(RO|AL)-(CNA|HHA|SG|ESOL|BLS|HSFA)-\d{1,3}-\d{4}-[A-Z]{2}$/, []);
+        let phoneRegex = useMemo(()=>/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/, []);
+        let moneyRegex = useMemo(()=>/^[0-9]+\.?[0-9]?[0-9]?$/, []);
         
+        // NOTE: DRY violated here because useCallback cant be called in for loop or a forEach callback
         return {
-            studentId : (value) => (studentIdRegex.test(value)) ? '' : 'Please enter the correct format. ie: RO-CNA-10-1005-KR',
-            firstName : (value) => value !== '' ? '' : 'This field is required.',
-            lastName : (value) => value !== '' ? '' : 'This field is required.',
-            mailingAddress : (value) => value !== '' ? '' : 'This field is required.',
-            email: (value) => (simpleEmailRegex.test(value))?'':'Incorrect email format.',
-            phoneNumber : (value) => (phoneRegex.test(value)) ? '' : 'Please enter the correct format. ie: xxx-xxx-xxxx',
-            course : (value) => value !== '' ? '' : 'This field is required.',
-            rotation : (value) => value !== '' ? '' : 'This field is required.',
-            courseCost : (value) => (moneyRegex.test(value)) ? '' : 'Please enter the correct format. ie: xxxx.xx',
-            chargesCharged : (value) => (moneyRegex.test(value)) ? '' : 'Please enter the correct format. ie: xxxx.xx',
-            chargesPaid : (value) => (moneyRegex.test(value)) ? '' : 'Please enter the correct format. ie: xxxx.xx',
-            startDate : (value) => value !== '' ? '' : 'This field is required.',
-            completionDate : (value) => value !== '' ? '' : 'This field is required.',
-            dateEnrollmentAgreementSigned : (value) => value !== '' ? '' : 'This field is required.',
+            studentId                       : useCallback((value) => (studentIdRegex.test(value)) ? {} : { error: true, helperText: 'Please enter the correct format. ie: RO-CNA-10-1005-KR' }, [studentIdRegex]),
+            firstName                       : useCallback((value) => value !== '' ? {} : { error: true, helperText: 'This field is required.' }, []),
+            lastName                        : useCallback((value) => value !== '' ? {} : { error: true, helperText: 'This field is required.' }, []),
+            mailingAddress                  : useCallback((value) => value !== '' ? {} : { error: true, helperText: 'This field is required.' }, []),
+            email                           : useCallback((value) => (simpleEmailRegex.test(value)) ? {} : { error: true, helperText: 'Incorrect email format.' }, [simpleEmailRegex]),
+            phoneNumber                     : useCallback((value) => (phoneRegex.test(value)) ? {} : { error: true, helperText: 'Please enter the correct format. ie: xxx-xxx-xxxx' }, [phoneRegex]),
+            course                          : useCallback((value) => value !== '' ? {} : { error: true, helperText: 'This field is required.' }, []),
+            rotation                        : useCallback((value) => value !== '' ? {} : { error: true, helperText: 'This field is required.' }, []),
+            courseCost                      : useCallback((value) => (moneyRegex.test(value)) ? {} : { error: true, helperText: 'Please enter the correct format. ie: xxxx.xx' }, [moneyRegex]),
+            chargesCharged                  : useCallback((value) => (moneyRegex.test(value)) ? {} : { error: true, helperText: 'Please enter the correct format. ie: xxxx.xx' }, [moneyRegex]),
+            chargesPaid                     : useCallback((value) => (moneyRegex.test(value)) ? {} : { error: true, helpText: 'Please enter the correct format. ie: xxxx.xx' }, [moneyRegex]),
+            startDate                       : useCallback((value) => value !== '' ? {} : { error: true, helperText: 'This field is required.' }, []),
+            completionDate                  : useCallback((value) => value !== '' ? {} : { error: true, helperText: 'This field is required.' }, []),
+            dateEnrollmentAgreementSigned   : useCallback((value) => value !== '' ? {} : { error: true, helperText: 'This field is required.' }, []),
         }
-    }, [])
+
+    }
 
     
     return {
         createValidation,
-        createValidation2,
+        useCreateValidation2,
         queryValidation,
         loginValidation,
         addRotValidation
