@@ -108,6 +108,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                 <Grid item laptop={6} tablet={12}>
                     <Input2 
                         ref={refs.testRef}
+                        showError={true}
                         name="test"
                         label="test label"
                         initialValue=""
