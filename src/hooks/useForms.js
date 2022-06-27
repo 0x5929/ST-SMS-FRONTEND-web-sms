@@ -4,6 +4,7 @@ import { useAddRotationModal } from './useModals';
 import useValidations from './useValidations'
 
 import * as SMSRecordService from '../services/SMSRecordService'
+import useToggle from './useToggle';
 
 // FORM STATE
 export function useStudentForm(
@@ -58,6 +59,8 @@ export function useStudentForm(
 
 
     const [ studentFormState, studentFormDispatch ] = useReducer(reducer, initialStudentFormState)
+    const [ showError, handleToggleError ] = useToggle(false)
+    const [ clearFields, handleToggleClearFields ] = useToggle(false)
     const { createValidation } = useValidations()
 
     useEffect(()=>{
@@ -82,17 +85,17 @@ export function useStudentForm(
 
 
 
-    const handleCancel = useCallback( (e, inputRefs, handleToggle) => {
+    const handleCancel = useCallback( (showError,  handleToggleClearFields, handleToggleError) => {
 
-        //
-        Object.keys(inputRefs).forEach(function(key) {
-            if ('value' in inputRefs[key].current)
-                inputRefs[key].current.value = ''
-        });
+        handleToggleClearFields(!clearFields)
+        
+        if (showError)
+            handleToggleError(false)
+        
 
-        handleToggle()
+
         //studentFormDispatch({type: 'clear-studentForm'})
-    }, [])
+    }, [clearFields])
 
     const handleSetStudentFormErrorCallback = useCallback((temp)=>{
         studentFormDispatch({type: 'set-studentFormErrors', payload: {...temp}})
@@ -181,9 +184,11 @@ export function useStudentForm(
     ])
 
 
-    const handleSubmit = useCallback((e, inputRefs, handleToggle) =>{
+    const handleSubmit = useCallback((e, inputRefs, handleToggleError) =>{
         // DEV configuration so we dont refresh the page when testing submit button
         e.preventDefault()
+
+        console.log('inputRefs: ', inputRefs)
 
         // validation logic
         let validationObj = {}
@@ -207,7 +212,7 @@ export function useStudentForm(
         function checkForError(validations) {
             for ( var i = 0; i < Object.keys(validations).length; i++ ) {
                 if (!isEmpty(Object.keys(validations)[i])) {
-                    handleToggle()
+                    handleToggleError(true)
                     return false
                 }
             }
@@ -230,6 +235,8 @@ export function useStudentForm(
 
     const studentFormStates = { 
         studentFormState, 
+        showError,
+        clearFields,
         addRotStates: {...addRotStates}
     }
 
@@ -243,6 +250,8 @@ export function useStudentForm(
         getCourseOptions, 
         getRotationOptions, 
         getHoursWorkedRadioItems,
+        handleToggleError,
+        handleToggleClearFields,
         addRotHandlers: {...addRotHandlers}
 
     }

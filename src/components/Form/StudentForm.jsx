@@ -57,7 +57,8 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
             submitLoading,
             submitSuccess,
         },
-
+        showError,
+        clearFields,
         addRotStates : {
             rotationFormValues,
             rotationFormErrors,
@@ -68,6 +69,8 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
     const {
 
         handleInputChange,
+        handleToggleError,
+        handleToggleClearFields,
         handleSubmit,
         handleCancel,
         convertToDefaultEventParam,
@@ -136,13 +139,13 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
     }
 
     // can also use useToggle 
-    const [ showError, handleToggle ] = useToggle(false)
+
     const validations = useValidations().useCreateValidation2()
 
 
     return (
     <>
-        <Styles.StudentForm onSubmit={handleEditSubmit || ( (e) => handleSubmit(e, inputRefs, handleToggle) )} {...others}>
+        <Styles.StudentForm onSubmit={handleEditSubmit || ( (e) => handleSubmit(e, inputRefs, handleToggleError) )} {...others}>
             <Grid container>
                 <Grid item laptop={6} tablet={12}>
                     <Input2
@@ -150,7 +153,8 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                         name="studentId"
                         label="Student ID"
                         errorHandler={validations.studentId}
-                        showError={showError} 
+                        showError={showError}
+                        clearFields={clearFields}
                     />
                     <Input2
                         ref={inputRefs.firstName}
@@ -158,6 +162,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                         label="First Name"
                         errorHandler={validations.firstName}
                         showError={showError} 
+                        clearFields={clearFields}
                     />
                     <Input2 
                         ref={inputRefs.lastName}
@@ -165,6 +170,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                         label="Last Name"
                         errorHandler={validations.lastName}
                         showError={showError} 
+                        clearFields={clearFields}
                     />
                     <Input2 
                         ref={inputRefs.phoneNumber}
@@ -172,6 +178,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                         label="Phone Number"
                         errorHandler={validations.phoneNumber}
                         showError={showError} 
+                        clearFields={clearFields}
                     />
                     <Input2 
                         ref={inputRefs.email}
@@ -179,13 +186,15 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                         label="Email"
                         errorHandler={validations.email}
                         showError={showError}   
+                        clearFields={clearFields}
                     />
                     <Input2 
                         ref={inputRefs.mailingAddress}
                         name="mailingAddress"
                         label="Mailing Address"
                         errorHandler={validations.mailingAddress}
-                        showError={showError}                        
+                        showError={showError}    
+                        clearFields={clearFields}                    
                     />
                     <Select2
                         ref={inputRefs.course}
@@ -194,7 +203,8 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                         options={getCourseOptions()}
                         defaultValue={getCourseOptions()[0].value}
                         errorHandler={validations.course}
-                        showError={showError}                        
+                        showError={showError}     
+                        clearFields={clearFields}                   
                     />
                     <Styles.Stack direction="row" spacing={1}>
                         <Select2
@@ -204,7 +214,8 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                             options={getRotationOptions(studentFormValues.course)}
                             defaultValue={getRotationOptions()[0].rotation}
                             errorHandler={validations.rotation}
-                            showError={showError}                        
+                            showError={showError}
+                            clearFields={clearFields}                        
                         />
                         <Styles.AddRotBtn size="medium" onClick={handleOpenAddRotModal}>
                             <AddBoxIcon />
@@ -217,7 +228,8 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                         initialValue={useMemo(() => new Date(), [])}
                         convertToDefaultEventParam={convertToDefaultEventParam}
                         errorHandler={validations.startDate}
-                        showError={showError}                        
+                        showError={showError}   
+                        clearFields={clearFields}                     
                     />
                     <DatePicker2
                         ref={inputRefs.completionDate}
@@ -226,7 +238,8 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                         initialValue={useMemo(() => new Date(), [])}
                         convertToDefaultEventParam={convertToDefaultEventParam}
                         errorHandler={validations.completionDate}
-                        showError={showError}                        
+                        showError={showError}     
+                        clearFields={clearFields}                   
                     />
                     <DatePicker2
                         ref={inputRefs.dateEnrollmentAgreementSigned}
@@ -235,14 +248,15 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                         initialValue={useMemo(() => new Date(), [])}
                         convertToDefaultEventParam={convertToDefaultEventParam}
                         errorHandler={validations.dateEnrollmentAgreementSigned}
-                        showError={showError}                        
+                        showError={showError}        
+                        clearFields={clearFields}                
                         disableFuture
                     />
                     <Input2 
                         ref={inputRefs.thirdPartyPayerInfo}
                         name="thirdPartyPayerInfo"
                         label="Third Party Payer Info" 
-
+                        clearFields={clearFields}
                     />
                     <Input2
                         ref={inputRefs.courseCost}
@@ -250,7 +264,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                         label="Course Cost"
                         errorHandler={validations.courseCost}
                         showError={showError} 
-                        
+                        clearFields={clearFields}
                     />
                     <Input2 
                         ref={inputRefs.chargesCharged}
@@ -258,7 +272,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                         label="Charges Charged"
                         errorHandler={validations.chargesCharged}
                         showError={showError} 
-                        
+                        clearFields={clearFields}
                     />
                     <Input2 
                         ref={inputRefs.chargesPaid}
@@ -266,7 +280,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                         label="Charges Paid"
                         errorHandler={validations.chargesPaid}
                         showError={showError} 
-                        
+                        clearFields={clearFields}
                     />
                 </Grid>
                 <Grid item laptop={6} tablet={12}>
@@ -275,57 +289,66 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                         name="graduated"
                         label="Graduated"
                         convertToDefaultEventParam={convertToDefaultEventParam}
+                        clearFields={clearFields}
                     />
                     <Checkbox2 
                         ref={inputRefs.passedFirstExam}
                         name="passedFirstExam"
                         label="Passed First Exam"
                         convertToDefaultEventParam={convertToDefaultEventParam}
+                        clearFields={clearFields}
                     />
                     <Checkbox2 
                         ref={inputRefs.passedSecondOrThird}
                         name="passedSecondOrThird"
                         label="Passed Second or Third Exam"
                         convertToDefaultEventParam={convertToDefaultEventParam}
+                        clearFields={clearFields}
                     />
                     <Checkbox2 
                         ref={inputRefs.employed}
                         name="employed"
                         label="Employed"
                         convertToDefaultEventParam={convertToDefaultEventParam}
+                        clearFields={clearFields}
                     />
                     <Input2 
                         ref={inputRefs.position}
                         name="position"
                         label="Employment Position"
-
+                        clearFields={clearFields}
                     />
                     <Input2 
                         ref={inputRefs.placeOfEmployment}
                         name="placeOfEmployment"
                         label="Place of Employment"
+                        clearFields={clearFields}
                     />
                     <Input2 
                         ref={inputRefs.employmentAddress}
                         name="employmentAddress"
                         label="Employment Address"
+                        clearFields={clearFields}
                     />
                     <Input2 
                         ref={inputRefs.startingWage}
                         name="startingWage"
                         label="Starting Wage"
+                        clearFields={clearFields}
                     />
                     <RadioGroup2
                         ref={inputRefs.hoursWorked}
                         name="hoursWorked"
                         label="Hours Worked"
                         items={getHoursWorkedRadioItems()}
+                        clearFields={clearFields}
                     />
                     <Input2 
                         ref={inputRefs.descriptionAttempts}
                         name="descriptionAttempts"
                         label="Comments"
                         multiline
+                        clearFields={clearFields}
                         rows={15}
                     />
                     
@@ -339,7 +362,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                                 <Styles.SuccessFab
                                     aria-label="save"
                                     color="primary"
-                                    onClick={(e) => handleSubmit(e, inputRefs, handleToggle)}
+                                    onClick={(e) => handleSubmit(e, inputRefs, handleToggleError)}
                                 >
                                     <CheckIcon />
                                 </Styles.SuccessFab>
@@ -349,7 +372,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                                 <BaseFab
                                     aria-label="save"
                                     color="primary"
-                                    onClick={(e) => handleSubmit(e, inputRefs, handleToggle)}
+                                    onClick={(e) => handleSubmit(e, inputRefs, handleToggleError)}
                                 >
                                     <SaveIcon />
                                 </BaseFab>
@@ -377,7 +400,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                             <Button
                                 color="error"
                                 text="Cancel"
-                                onClick={handleEditCancel || ( (e) => handleCancel(e, inputRefs, handleToggle) )}
+                                onClick={handleEditCancel || ( () => handleCancel(showError,handleToggleClearFields, handleToggleError) )}
                             />
                         </Styles.ButtonBox>
                     </Styles.ButtonContainerBox>
