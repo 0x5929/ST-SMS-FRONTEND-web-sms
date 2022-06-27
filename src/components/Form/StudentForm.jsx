@@ -33,7 +33,7 @@ import {
 import { Modal as BaseModal } from '../Modal';
 import { createStudentFormStyles } from './styles'
 
-import { useValidations } from '../../hooks';
+import { useValidations, useToggle } from '../../hooks';
 
 
 const Styles = createStudentFormStyles({
@@ -136,28 +136,15 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
     }
 
     // can also use useToggle 
-    const [ showError, setShowError ] = useState(false)
+    const [ showError, handleToggle ] = useToggle(false)
     const validations = useValidations().useCreateValidation2()
 
 
     return (
     <>
-        <Styles.StudentForm onSubmit={handleEditSubmit || handleSubmit} {...others}>
+        <Styles.StudentForm onSubmit={handleEditSubmit || ( (e) => handleSubmit(e, inputRefs, handleToggle) )} {...others}>
             <Grid container>
                 <Grid item laptop={6} tablet={12}>
-                    {/* <Input2 
-                        ref={inputRefs.testRef}
-                        showError={true}
-                        name="test"
-                        label="test label"
-                        initialValue=""
-                        errorHandler={useCallback((value)=>{
-                            if (value !== '') 
-                                return {}
-                            else
-                                return { error: true, helperText: 'Cannot be blank dummy' }
-                        }, [])}
-                    /> */}
                     <Input2
                         ref={inputRefs.studentId}
                         name="studentId"
@@ -352,7 +339,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                                 <Styles.SuccessFab
                                     aria-label="save"
                                     color="primary"
-                                    onClick={handleSubmit}
+                                    onClick={(e) => handleSubmit(e, inputRefs, handleToggle)}
                                 >
                                     <CheckIcon />
                                 </Styles.SuccessFab>
@@ -362,7 +349,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                                 <BaseFab
                                     aria-label="save"
                                     color="primary"
-                                    onClick={handleSubmit}
+                                    onClick={(e) => handleSubmit(e, inputRefs, handleToggle)}
                                 >
                                     <SaveIcon />
                                 </BaseFab>
@@ -390,7 +377,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                             <Button
                                 color="error"
                                 text="Cancel"
-                                onClick={handleEditCancel || handleCancel}
+                                onClick={handleEditCancel || ( (e) => handleCancel(e, inputRefs) )}
                             />
                         </Styles.ButtonBox>
                     </Styles.ButtonContainerBox>

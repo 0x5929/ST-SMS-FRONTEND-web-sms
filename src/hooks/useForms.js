@@ -14,7 +14,7 @@ export function useStudentForm(
         
     // form states 
     const progressTimer = useRef();
-
+    const validations = useValidations().useCreateValidation2()
     const initialStudentFormState = {
         studentFormValues: currentData,
         studentFormErrors: {},
@@ -82,8 +82,13 @@ export function useStudentForm(
 
 
 
-    const handleCancel = useCallback(e => {
-        studentFormDispatch({type: 'clear-studentForm'})
+    const handleCancel = useCallback( (e, inputRefs) => {
+
+        //
+        Object.keys(inputRefs).forEach(function(key) {
+            inputRefs[key].current.value = ''
+        });
+        //studentFormDispatch({type: 'clear-studentForm'})
     }, [])
 
     const handleSetStudentFormErrorCallback = useCallback((temp)=>{
@@ -173,13 +178,47 @@ export function useStudentForm(
     ])
 
 
-    const handleSubmit = useCallback((e) =>{
+    const handleSubmit = useCallback((e, inputRefs, handleToggle) =>{
         // DEV configuration so we dont refresh the page when testing submit button
         e.preventDefault()
 
-        if (createValidation(studentFormState.studentFormValues, handleSetStudentFormErrorCallback, studentFormState.studentFormErrors)){
-            _createOrUpdate(studentFormState.studentFormValues, handleCancel)
+        // validation logic
+        let validationObj = {}
+
+        Object.keys(inputRefs).forEach(function(key) {
+            // both objs have the same key
+            validationObj[key] = validations[key](inputRefs[key].current.value)
+        });
+
+        if (checkForError(validationObj)) {
+
+            let data = {}
+            Object.keys(inputRefs).forEach(function(key) {
+                // both objs have the same key
+                data[key] = inputRefs[key].current.value
+            });
+            _createOrUpdate(data, handleCancel)
         }
+
+        function checkForError(validations) {
+            for ( var i = 0; i < Object.keys(validations).length; i++ ) {
+                if (!isEmpty(Object.keys(validations)[i])) {
+                    handleToggle()
+                    return false
+                }
+            }
+            return true
+        }
+
+        function isEmpty(obj) {
+            return Object.keys(obj).length === 0;
+        }
+
+        
+
+        // if (createValidation(studentFormState.studentFormValues, handleSetStudentFormErrorCallback, studentFormState.studentFormErrors)){
+        //     _createOrUpdate(studentFormState.studentFormValues, handleCancel)
+        // }
 
 
     }, [
