@@ -14,7 +14,7 @@ const Styles = createBackToTopStyles({
 })
 
 function BackToTopButton(props) {
-
+    console.log('BackToTopButton feature rendered')
     const [ handleClick, showScroll ] = useScrollToTop()
     
     return (

@@ -17,7 +17,7 @@ import { BaseIconButton } from '../Buttons';
 const Styles = createModalStyles({ MuiDialog, MuiDialogTitle, BaseIconButton })
 
 function Modal(props) {
-
+    console.log('Modal component rendered')
     const { 
         modalTitle, 
         isModalOpen, 

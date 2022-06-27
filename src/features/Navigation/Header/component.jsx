@@ -30,6 +30,7 @@ const Styles = createHeaderStyles({
 
 function Header({ Link }) {
     
+    console.log('Header feature rendered')
     const {
         toggleColorMode,
         darkMode

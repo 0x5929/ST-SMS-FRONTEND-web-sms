@@ -9,6 +9,7 @@ const Styles = createButtonStyles({MuiButton})
 
 function BaseButton(props) {
 
+    console.log('BaseButton component rendered')
     const { text, size, color, variant, onClick, ...others } = props;
 
     var variantDefault = "contained"

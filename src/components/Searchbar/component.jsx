@@ -10,7 +10,7 @@ import createSearchBarStyles from './styles'
 const Styles = createSearchBarStyles({MuiClearIcon})
 
 function SearchBar(props) {
-
+    console.log('SearchBar component rendered')
     const { 
         textInput, 
         handleClear, 

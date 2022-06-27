@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useCallback, useRef, useMemo } from 'react';
 
 import { 
     Grid, 
@@ -15,10 +15,15 @@ import AddRotationForm  from './AddRotationForm'
 
 import {
     Input,
+    Input2,
     Select,
+    Select2,
     DatePicker,
+    DatePicker2,
     Checkbox,
-    RadioGroup } from '../Inputs'
+    Checkbox2,
+    RadioGroup,
+    RadioGroup2 } from '../Inputs'
 
 import {
     BaseButton as Button,
@@ -27,6 +32,8 @@ import {
 
 import { Modal as BaseModal } from '../Modal';
 import { createStudentFormStyles } from './styles'
+
+import { useValidations, useToggle } from '../../hooks';
 
 
 const Styles = createStudentFormStyles({
@@ -41,7 +48,7 @@ const Styles = createStudentFormStyles({
 
 function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHandlers, ...others }) {
 
-
+    console.log('StudentForm component rendered')
     const {
     
         studentFormState : {
@@ -92,204 +99,232 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
         handleEditCancel = false
     }
 
+    // put this into useStudentForms(), and return from custom hook
+    const inputRefs = {
+        studentId: useRef(null),
+        firstName: useRef(null),
+        lastName: useRef(null),
+        phoneNumber: useRef(null),
+        email: useRef(null),
+        mailingAddress: useRef(null),
+        course: useRef(null),
+        rotation: useRef(null),
+        startDate: useRef(null),
+        completionDate: useRef(null),
+        dateEnrollmentAgreementSigned: useRef(null),
+        thirdPartyPayerInfo: useRef(null),
+        courseCost: useRef(null),
+        chargesCharged: useRef(null),
+        chargesPaid: useRef(null),
+        paid: useRef(null),
+        graduated: useRef(null),
+        passedFirstExam: useRef(null),
+        passedSecondOrThird: useRef(null),
+        employed: useRef(null),
+        position: useRef(null),
+        placeOfEmployment: useRef(null),
+        employmentAddress: useRef(null),
+        startingWage: useRef(null),
+        hoursWorked: useRef(null),
+        descriptionAttempts: useRef(null)
+        
+    }
+    const handleTestSubmit = (e)=> {
+        e.preventDefault()
+
+        console.log('refs: ', inputRefs)
+    }
+
+    // can also use useToggle 
+    const [ showError, handleToggle ] = useToggle(false)
+    const validations = useValidations().useCreateValidation2()
+
 
     return (
     <>
-        <Styles.StudentForm onSubmit={handleEditSubmit || handleSubmit} {...others}>
+        <Styles.StudentForm onSubmit={handleEditSubmit || ( (e) => handleSubmit(e, inputRefs, handleToggle) )} {...others}>
             <Grid container>
                 <Grid item laptop={6} tablet={12}>
-                    <Input 
+                    <Input2
+                        ref={inputRefs.studentId}
                         name="studentId"
                         label="Student ID"
-                        value={studentFormValues.studentId}
-                        onChange={handleInputChange}
-                        error={studentFormErrors.studentId}
-                        
+                        errorHandler={validations.studentId}
+                        showError={showError} 
                     />
-                    <Input 
+                    <Input2
+                        ref={inputRefs.firstName}
                         name="firstName"
                         label="First Name"
-                        value={studentFormValues.firstName}
-                        onChange={handleInputChange}  
-                        error={studentFormErrors.firstName}
-                        
+                        errorHandler={validations.firstName}
+                        showError={showError} 
                     />
-                    <Input 
+                    <Input2 
+                        ref={inputRefs.lastName}
                         name="lastName"
                         label="Last Name"
-                        value={studentFormValues.lastName}
-                        onChange={handleInputChange} 
-                        error={studentFormErrors.lastName}
-                        
+                        errorHandler={validations.lastName}
+                        showError={showError} 
                     />
-                    <Input 
+                    <Input2 
+                        ref={inputRefs.phoneNumber}
                         name="phoneNumber"
                         label="Phone Number"
-                        value={studentFormValues.phoneNumber}
-                        onChange={handleInputChange} 
-                        error={studentFormErrors.phoneNumber}
-                        
+                        errorHandler={validations.phoneNumber}
+                        showError={showError} 
                     />
-                    <Input 
+                    <Input2 
+                        ref={inputRefs.email}
                         name="email"
                         label="Email"
-                        value={studentFormValues.email}
-                        onChange={handleInputChange} 
-                        error={studentFormErrors.email}
-                        
+                        errorHandler={validations.email}
+                        showError={showError}   
                     />
-                    <Input 
+                    <Input2 
+                        ref={inputRefs.mailingAddress}
                         name="mailingAddress"
                         label="Mailing Address"
-                        value={studentFormValues.mailingAddress}
-                        onChange={handleInputChange}  
-                        error={studentFormErrors.mailingAddress}
-                        
+                        errorHandler={validations.mailingAddress}
+                        showError={showError}                        
                     />
-                    <Select
+                    <Select2
+                        ref={inputRefs.course}
                         name="course"
                         label="Course"
-                        onChange={handleInputChange}
                         options={getCourseOptions()}
-                        error={studentFormErrors.course}
-                        value={studentFormValues.course}
                         defaultValue={getCourseOptions()[0].value}
+                        errorHandler={validations.course}
+                        showError={showError}                        
                     />
                     <Styles.Stack direction="row" spacing={1}>
-                        <Select
+                        <Select2
+                            ref={inputRefs.rotation}
                             name="rotation"
                             label="Rotation"
-                            onChange={handleInputChange}
                             options={getRotationOptions(studentFormValues.course)}
-                            error={studentFormErrors.rotation}
-                            value={studentFormValues.rotation}
                             defaultValue={getRotationOptions()[0].rotation}
+                            errorHandler={validations.rotation}
+                            showError={showError}                        
                         />
                         <Styles.AddRotBtn size="medium" onClick={handleOpenAddRotModal}>
                             <AddBoxIcon />
                         </Styles.AddRotBtn>
                     </Styles.Stack>
-                    <DatePicker
+                    <DatePicker2
+                        ref={inputRefs.startDate}
                         name="startDate"
                         label="Program Start Date"
-                        value={studentFormValues.startDate}
-                        onChange={handleInputChange}
+                        initialValue={useMemo(() => new Date(), [])}
                         convertToDefaultEventParam={convertToDefaultEventParam}
-                        error={studentFormErrors.startDate}
+                        errorHandler={validations.startDate}
+                        showError={showError}                        
                     />
-                    <DatePicker
+                    <DatePicker2
+                        ref={inputRefs.completionDate}
                         name="completionDate"
                         label="Program Completion Date"
-                        value={studentFormValues.completionDate}
-                        onChange={handleInputChange}
+                        initialValue={useMemo(() => new Date(), [])}
                         convertToDefaultEventParam={convertToDefaultEventParam}
-                        error={studentFormErrors.completionDate}
+                        errorHandler={validations.completionDate}
+                        showError={showError}                        
                     />
-                    <DatePicker
+                    <DatePicker2
+                        ref={inputRefs.dateEnrollmentAgreementSigned}
                         name="dateEnrollmentAgreementSigned"
                         label="Date Enrollment Agreement Signed"
-                        value={studentFormValues.dateEnrollmentAgreementSigned}
-                        onChange={handleInputChange}
+                        initialValue={useMemo(() => new Date(), [])}
                         convertToDefaultEventParam={convertToDefaultEventParam}
-                        error={studentFormErrors.dateEnrollmentAgreementSigned}
+                        errorHandler={validations.dateEnrollmentAgreementSigned}
+                        showError={showError}                        
                         disableFuture
                     />
-                    <Input 
+                    <Input2 
+                        ref={inputRefs.thirdPartyPayerInfo}
                         name="thirdPartyPayerInfo"
-                        label="Third Party Payer Info"
-                        value={studentFormValues.thirdPartyPayerInfo}
-                        onChange={handleInputChange}
+                        label="Third Party Payer Info" 
+
                     />
-                    <Input 
+                    <Input2
+                        ref={inputRefs.courseCost}
                         name="courseCost"
                         label="Course Cost"
-                        value={studentFormValues.courseCost}
-                        onChange={handleInputChange}
-                        error={studentFormErrors.courseCost}
+                        errorHandler={validations.courseCost}
+                        showError={showError} 
                         
                     />
-                    <Input 
+                    <Input2 
+                        ref={inputRefs.chargesCharged}
                         name="chargesCharged"
                         label="Charges Charged"
-                        value={studentFormValues.chargesCharged}
-                        onChange={handleInputChange}
-                        error={studentFormErrors.chargesCharged}
+                        errorHandler={validations.chargesCharged}
+                        showError={showError} 
                         
                     />
-                    <Input 
+                    <Input2 
+                        ref={inputRefs.chargesPaid}
                         name="chargesPaid"
                         label="Charges Paid"
-                        value={studentFormValues.chargesPaid}
-                        onChange={handleInputChange}
-                        error={studentFormErrors.chargesPaid}
+                        errorHandler={validations.chargesPaid}
+                        showError={showError} 
                         
                     />
                 </Grid>
                 <Grid item laptop={6} tablet={12}>
-                    <Checkbox 
+                    <Checkbox2
+                        ref={inputRefs.graduated}
                         name="graduated"
                         label="Graduated"
-                        value={studentFormValues.graduated}
-                        onChange={handleInputChange}
                         convertToDefaultEventParam={convertToDefaultEventParam}
                     />
-                    <Checkbox 
+                    <Checkbox2 
+                        ref={inputRefs.passedFirstExam}
                         name="passedFirstExam"
                         label="Passed First Exam"
-                        value={studentFormValues.passedFirstExam}
-                        onChange={handleInputChange}
                         convertToDefaultEventParam={convertToDefaultEventParam}
                     />
-                    <Checkbox 
+                    <Checkbox2 
+                        ref={inputRefs.passedSecondOrThird}
                         name="passedSecondOrThird"
                         label="Passed Second or Third Exam"
-                        value={studentFormValues.passedSecondOrThird}
-                        onChange={handleInputChange}
                         convertToDefaultEventParam={convertToDefaultEventParam}
                     />
-                    <Checkbox 
+                    <Checkbox2 
+                        ref={inputRefs.employed}
                         name="employed"
                         label="Employed"
-                        value={studentFormValues.employed}
-                        onChange={handleInputChange}
                         convertToDefaultEventParam={convertToDefaultEventParam}
                     />
-                    <Input 
+                    <Input2 
+                        ref={inputRefs.position}
                         name="position"
                         label="Employment Position"
-                        value={studentFormValues.position}
-                        onChange={handleInputChange}
+
                     />
-                    <Input 
+                    <Input2 
+                        ref={inputRefs.placeOfEmployment}
                         name="placeOfEmployment"
                         label="Place of Employment"
-                        value={studentFormValues.placeOfEmployment}
-                        onChange={handleInputChange}
                     />
-                    <Input 
+                    <Input2 
+                        ref={inputRefs.employmentAddress}
                         name="employmentAddress"
                         label="Employment Address"
-                        value={studentFormValues.employmentAddress}
-                        onChange={handleInputChange}
                     />
-                    <Input 
+                    <Input2 
+                        ref={inputRefs.startingWage}
                         name="startingWage"
                         label="Starting Wage"
-                        value={studentFormValues.startingWage}
-                        onChange={handleInputChange}
                     />
-                    <RadioGroup
+                    <RadioGroup2
+                        ref={inputRefs.hoursWorked}
                         name="hoursWorked"
                         label="Hours Worked"
-                        value={studentFormValues.hoursWorked}
-                        onChange={handleInputChange}
                         items={getHoursWorkedRadioItems()}
                     />
-                    <Input 
+                    <Input2 
+                        ref={inputRefs.descriptionAttempts}
                         name="descriptionAttempts"
                         label="Comments"
-                        value={studentFormValues.descriptionAttempts}
-                        onChange={handleInputChange}
                         multiline
                         rows={15}
                     />
@@ -304,7 +339,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                                 <Styles.SuccessFab
                                     aria-label="save"
                                     color="primary"
-                                    onClick={handleSubmit}
+                                    onClick={(e) => handleSubmit(e, inputRefs, handleToggle)}
                                 >
                                     <CheckIcon />
                                 </Styles.SuccessFab>
@@ -314,7 +349,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                                 <BaseFab
                                     aria-label="save"
                                     color="primary"
-                                    onClick={handleSubmit}
+                                    onClick={(e) => handleSubmit(e, inputRefs, handleToggle)}
                                 >
                                     <SaveIcon />
                                 </BaseFab>
@@ -342,7 +377,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                             <Button
                                 color="error"
                                 text="Cancel"
-                                onClick={handleEditCancel || handleCancel}
+                                onClick={handleEditCancel || ( (e) => handleCancel(e, inputRefs) )}
                             />
                         </Styles.ButtonBox>
                     </Styles.ButtonContainerBox>

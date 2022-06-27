@@ -1,5 +1,10 @@
 export { default as Checkbox } from './Checkbox';
+export { default as Checkbox2 } from './Checkbox2';
 export { default as DatePicker } from './DatePicker';
+export { default as DatePicker2 } from './DatePicker2';
 export { default as Input } from './Input';
+export { default as Input2 } from './Input2';
 export { default as RadioGroup } from './RadioGroup';
+export { default as RadioGroup2 } from './RadioGroup2';
 export { default as Select } from './Select';
+export { default as Select2 } from './Select2';

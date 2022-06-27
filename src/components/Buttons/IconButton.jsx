@@ -7,7 +7,7 @@ import { createIconBtnStyles } from './styles';
 const Styles = createIconBtnStyles({MuiIconButton})
 
 function BaseIconButton(props) {
-
+    console.log('BaseIconButton component rendered')
     const { children, size, color, variant, ...others } = props;
 
     var variantDefault = "text"

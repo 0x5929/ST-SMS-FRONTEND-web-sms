@@ -1,5 +1,4 @@
-import React from 'react';
-
+import React, { forwardRef } from 'react';
 import { 
 
     FormControl,
@@ -7,19 +6,25 @@ import {
     MenuItem, 
     Select as MuiSelect } from '@mui/material';
 
-function Select(props) {
-    console.log('Select component rendered')
-    const {
+import { useInputValue } from '../../hooks'
+
+const Select2 = forwardRef((props, parentRef) => {
+
+    console.log('Select2 component rendered')
+
+    const { 
         name, 
         label, 
-        error=null, 
-        value, 
+        initialValue='', 
+        errorHandler, 
+        showError, 
         required, 
-        options, 
-        
-        ...others
-    } = props;
+        options,  ...others } = props
     
+    const [ inputStates, inputHandlers ] = useInputValue(initialValue, errorHandler)
+    const { value, error } = inputStates
+    const { inputOnChange } = inputHandlers
+
     return (
         <FormControl
             variant="outlined"
@@ -27,11 +32,12 @@ function Select(props) {
         >
             <InputLabel> { label }</InputLabel>
             <MuiSelect
+                inputRef={parentRef}
                 label={label}
                 name={name}
                 value={value}
-
-                {...(error && { error:true})}
+                onChange={inputOnChange}
+                { ...((showError && errorHandler(value)) || error)  }
 
                 {...others}
             >
@@ -51,6 +57,6 @@ function Select(props) {
         </FormControl>
 
       );
-}
+});
 
-export default React.memo(Select)
+export default React.memo(Select2)

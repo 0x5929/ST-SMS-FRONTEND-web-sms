@@ -18,7 +18,7 @@ const Styles = createAddRotFormStyles({MuiStack, MuiBox})
 
 
 function AddRotationForm(props) {
-
+    console.log('AddRotationForm component rendered')
     const {
         handleAddRotInputChange,
         handleAddRotSubmit,

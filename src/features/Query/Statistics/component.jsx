@@ -21,6 +21,7 @@ const Styles = createStatisticsStyles({
 })
 
 function Statistics() {
+    console.log('Statistics feature rendered')
 
 	const [data, theme] = useCharts()
 

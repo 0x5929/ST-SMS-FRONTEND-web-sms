@@ -22,7 +22,7 @@ const Styles = createConfirmDialogStyles({
 })
 
 function ConfirmDialog({ confirmDialog, confirmDialogHandlers, ...others }) {
-
+    console.log('ConfirmDialog component rendered')
     const { handleUnconfirmed } = confirmDialogHandlers;
 
     return (

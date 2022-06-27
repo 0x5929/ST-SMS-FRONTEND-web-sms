@@ -8,7 +8,7 @@ const Styles = createCardStyles({MuiCard, BaseTypography})
 
 
 function BaseCard(props) {
-
+    console.log('BaseCard component rendered')
     const { title, children, ...others } = props
 
     return (

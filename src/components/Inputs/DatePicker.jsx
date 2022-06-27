@@ -7,7 +7,7 @@ import { DatePicker as MuiDatePicker } from '@mui/lab';
 import { TextField } from '@mui/material';
 
 function DatePicker (props) {
-    
+    console.log('DatePicker component rendered')
     const { name, label, value, onChange, convertToDefaultEventParam, ...others } = props;
 
     return (  
