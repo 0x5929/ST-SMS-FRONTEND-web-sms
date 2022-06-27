@@ -82,12 +82,15 @@ export function useStudentForm(
 
 
 
-    const handleCancel = useCallback( (e, inputRefs) => {
+    const handleCancel = useCallback( (e, inputRefs, handleToggle) => {
 
         //
         Object.keys(inputRefs).forEach(function(key) {
-            inputRefs[key].current.value = ''
+            if ('value' in inputRefs[key].current)
+                inputRefs[key].current.value = ''
         });
+
+        handleToggle()
         //studentFormDispatch({type: 'clear-studentForm'})
     }, [])
 
@@ -187,7 +190,8 @@ export function useStudentForm(
 
         Object.keys(inputRefs).forEach(function(key) {
             // both objs have the same key
-            validationObj[key] = validations[key](inputRefs[key].current.value)
+            if ( key in validations)
+                validationObj[key] = validations[key](inputRefs[key].current.value)
         });
 
         if (checkForError(validationObj)) {
@@ -221,14 +225,7 @@ export function useStudentForm(
         // }
 
 
-    }, [
-        createValidation, 
-        studentFormState.studentFormValues, 
-        studentFormState.studentFormErrors, 
-        handleSetStudentFormErrorCallback, 
-        _createOrUpdate, 
-        handleCancel
-    ])
+    }, [_createOrUpdate, handleCancel, validations])
 
 
     const studentFormStates = { 

@@ -377,7 +377,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                             <Button
                                 color="error"
                                 text="Cancel"
-                                onClick={handleEditCancel || ( (e) => handleCancel(e, inputRefs) )}
+                                onClick={handleEditCancel || ( (e) => handleCancel(e, inputRefs, handleToggle) )}
                             />
                         </Styles.ButtonBox>
                     </Styles.ButtonContainerBox>
