@@ -119,7 +119,6 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
         courseCost: useRef(null),
         chargesCharged: useRef(null),
         chargesPaid: useRef(null),
-        paid: useRef(null),
         graduated: useRef(null),
         passedFirstExam: useRef(null),
         passedSecondOrThird: useRef(null),
@@ -400,7 +399,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                             <Button
                                 color="error"
                                 text="Cancel"
-                                onClick={handleEditCancel || ( () => handleCancel(showError,handleToggleClearFields, handleToggleError) )}
+                                onClick={handleEditCancel || ( () => handleCancel(showError, handleToggleError) )}
                             />
                         </Styles.ButtonBox>
                     </Styles.ButtonContainerBox>

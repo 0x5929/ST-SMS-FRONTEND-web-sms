@@ -85,7 +85,7 @@ export function useStudentForm(
 
 
 
-    const handleCancel = useCallback( (showError,  handleToggleClearFields, handleToggleError) => {
+    const handleCancel = useCallback( (showError, handleToggleError) => {
 
         handleToggleClearFields(!clearFields)
         
@@ -206,12 +206,17 @@ export function useStudentForm(
                 // both objs have the same key
                 data[key] = inputRefs[key].current.value
             });
+
+            console.log('submit called')
             _createOrUpdate(data, handleCancel)
         }
 
         function checkForError(validations) {
-            for ( var i = 0; i < Object.keys(validations).length; i++ ) {
-                if (!isEmpty(Object.keys(validations)[i])) {
+            let validationKeys = Object.keys(validations)
+            for ( var i = 0; i < validationKeys.length; i++ ) {
+                if (!isEmpty(validations[validationKeys[i]])) {
+                    console.log('returned false, Object.keys(validations)[i]: ', Object.keys(validations)[i])
+                    console.log('validations: ', validations)
                     handleToggleError(true)
                     return false
                 }
