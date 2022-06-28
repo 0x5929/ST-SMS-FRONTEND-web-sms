@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useMemo } from 'react';
+import React from 'react';
 
 import { 
     Grid, 
@@ -33,7 +33,7 @@ import {
 import { Modal as BaseModal } from '../Modal';
 import { createStudentFormStyles } from './styles'
 
-import { useValidations, useToggle } from '../../hooks';
+import { useValidations } from '../../hooks';
 
 
 const Styles = createStudentFormStyles({
@@ -59,6 +59,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
         },
         showError,
         clearFields,
+        inputRefs,
         addRotStates : {
             rotationFormValues,
             rotationFormErrors,
@@ -68,9 +69,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
 
     const {
 
-        handleInputChange,
-        handleToggleError,
-        handleToggleClearFields,
+
         handleSubmit,
         handleCancel,
         convertToDefaultEventParam,
@@ -102,41 +101,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
         handleEditCancel = false
     }
 
-    // put this into useStudentForms(), and return from custom hook
-    const inputRefs = {
-        studentId: useRef(null),
-        firstName: useRef(null),
-        lastName: useRef(null),
-        phoneNumber: useRef(null),
-        email: useRef(null),
-        mailingAddress: useRef(null),
-        course: useRef(null),
-        rotation: useRef(null),
-        startDate: useRef(null),
-        completionDate: useRef(null),
-        dateEnrollmentAgreementSigned: useRef(null),
-        thirdPartyPayerInfo: useRef(null),
-        courseCost: useRef(null),
-        chargesCharged: useRef(null),
-        chargesPaid: useRef(null),
-        graduated: useRef(null),
-        passedFirstExam: useRef(null),
-        passedSecondOrThird: useRef(null),
-        employed: useRef(null),
-        position: useRef(null),
-        placeOfEmployment: useRef(null),
-        employmentAddress: useRef(null),
-        startingWage: useRef(null),
-        hoursWorked: useRef(null),
-        descriptionAttempts: useRef(null)
-        
-    }
-    const handleTestSubmit = (e)=> {
-        e.preventDefault()
-
-        console.log('refs: ', inputRefs)
-    }
-
+ 
     // can also use useToggle 
 
     const validations = useValidations().useCreateValidation2()
@@ -396,7 +361,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                             <Button
                                 color="error"
                                 text="Cancel"
-                                onClick={handleEditCancel || ( () => handleCancel() )}
+                                onClick={handleEditCancel || handleCancel}
                             />
                         </Styles.ButtonBox>
                     </Styles.ButtonContainerBox>

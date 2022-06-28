@@ -15,6 +15,39 @@ export function useStudentForm(
         
     // form states 
     const progressTimer = useRef();
+
+   // put this into useStudentForms(), and return from custom hook
+   const inputRefs = {
+    studentId: useRef(null),
+    firstName: useRef(null),
+    lastName: useRef(null),
+    phoneNumber: useRef(null),
+    email: useRef(null),
+    mailingAddress: useRef(null),
+    course: useRef(null),
+    rotation: useRef(null),
+    startDate: useRef(null),
+    completionDate: useRef(null),
+    dateEnrollmentAgreementSigned: useRef(null),
+    thirdPartyPayerInfo: useRef(null),
+    courseCost: useRef(null),
+    chargesCharged: useRef(null),
+    chargesPaid: useRef(null),
+    graduated: useRef(null),
+    passedFirstExam: useRef(null),
+    passedSecondOrThird: useRef(null),
+    employed: useRef(null),
+    position: useRef(null),
+    placeOfEmployment: useRef(null),
+    employmentAddress: useRef(null),
+    startingWage: useRef(null),
+    hoursWorked: useRef(null),
+    descriptionAttempts: useRef(null)
+    
+}
+
+
+
     const validations = useValidations().useCreateValidation2()
     const initialStudentFormState = {
         studentFormValues: currentData,
@@ -22,6 +55,7 @@ export function useStudentForm(
         submitLoading: false,
         submitSuccess: false
     }
+
 
     function reducer(state, action) {
         switch (action.type) {
@@ -239,21 +273,20 @@ export function useStudentForm(
         studentFormState, 
         showError,
         clearFields,
+        inputRefs,
         addRotStates: {...addRotStates}
     }
 
     var studentFormHandlers = { 
         handleClearStudentFormErrorCallback,
         handleSetStudentFormErrorCallback,
-        handleInputChange,
         handleSubmit,
         handleCancel,
         convertToDefaultEventParam,
         getCourseOptions, 
         getRotationOptions, 
         getHoursWorkedRadioItems,
-        handleToggleError,
-        handleToggleClearFields,
+
         addRotHandlers: {...addRotHandlers}
 
     }
