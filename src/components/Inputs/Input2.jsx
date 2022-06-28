@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect } from 'react';
+import React, { forwardRef } from 'react';
 import { TextField } from '@mui/material';
 import { useInputValue } from '../../hooks'
 
@@ -6,15 +6,10 @@ const Input2 = forwardRef((props, parentRef) => {
 
     console.log('Input2 component rendered')
 
-    const { name, label, initialValue='', errorHandler, showError, clearFields, ...others } = props
+    const { name, label, initialValue='', errorHandler, clearFields, showError, ...others } = props
 
-    const [ inputStates, inputHandlers ] = useInputValue(initialValue, errorHandler, showError)
-    const { value, error } = inputStates
-    const { inputOnChange, handleClear } = inputHandlers
+    const [ { value, error }, { inputOnChange } ] = useInputValue({initialValue, errorHandler, clearFields})
 
-    useEffect(() => {
-        handleClear()
-    }, [clearFields, handleClear])
 
     return (  
         <TextField 

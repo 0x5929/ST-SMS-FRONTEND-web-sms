@@ -17,6 +17,7 @@ const Checkbox2 = forwardRef((props, parentRef) => {
         label, 
         initialValue=false, 
         convertToDefaultEventParam,
+        clearFields,
 
         ...others
     } = props

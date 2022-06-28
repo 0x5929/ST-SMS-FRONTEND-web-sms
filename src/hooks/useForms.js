@@ -85,18 +85,14 @@ export function useStudentForm(
 
 
 
-    const handleCancel = useCallback( (showError, handleToggleError) => {
+    const handleCancel = useCallback( () => {
 
-        handleToggleClearFields(!clearFields)
+        handleToggleClearFields()
         // NOTE that the submission success and loading status should be in form level and not input level. 
         // this way in handleCancel, we can mark loading to be false, and success  to be false
         if (showError)
-            handleToggleError(false)
-        
-
-
-        //studentFormDispatch({type: 'clear-studentForm'})
-    }, [clearFields])
+            handleToggleError()
+    }, [showError, handleToggleClearFields, handleToggleError])
 
     const handleSetStudentFormErrorCallback = useCallback((temp)=>{
         studentFormDispatch({type: 'set-studentFormErrors', payload: {...temp}})
@@ -185,15 +181,15 @@ export function useStudentForm(
     ])
 
 
-    const handleSubmit = useCallback((e, inputRefs, handleToggleError) =>{
+
+    const handleSubmit = useCallback((e, inputRefs) =>{
         // DEV configuration so we dont refresh the page when testing submit button
         e.preventDefault()
 
-        console.log('inputRefs: ', inputRefs)
-
         // validation logic
         let validationObj = {}
-
+        
+        // grab validation
         Object.keys(inputRefs).forEach(function(key) {
             // both objs have the same key
             if ( key in validations)
@@ -204,11 +200,13 @@ export function useStudentForm(
 
             let data = {}
             Object.keys(inputRefs).forEach(function(key) {
-                // both objs have the same key
                 data[key] = inputRefs[key].current.value
+
+                if ( key === 'graduated' || key === 'employed' || key === 'passedFirstExam' || key === 'passedSecondOrThird' ) {
+                    data[key] = inputRefs[key].current.checked
+                }
             });
 
-            console.log('submit called')
             _createOrUpdate(data, handleCancel)
         }
 
@@ -216,9 +214,7 @@ export function useStudentForm(
             let validationKeys = Object.keys(validations)
             for ( var i = 0; i < validationKeys.length; i++ ) {
                 if (!isEmpty(validations[validationKeys[i]])) {
-                    console.log('returned false, Object.keys(validations)[i]: ', Object.keys(validations)[i])
-                    console.log('validations: ', validations)
-                    handleToggleError(true)
+                    handleToggleError()
                     return false
                 }
             }
@@ -236,7 +232,7 @@ export function useStudentForm(
         // }
 
 
-    }, [_createOrUpdate, handleCancel, validations])
+    }, [_createOrUpdate, handleCancel, handleToggleError, validations])
 
 
     const studentFormStates = { 

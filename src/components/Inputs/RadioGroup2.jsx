@@ -18,11 +18,11 @@ const RadioGroup2 = forwardRef((props, parentRef) => {
         name, 
         label,  
         initialValue='', 
+        clearFields,
         items, ...others } = props;
 
-    const [ inputStates, inputHandlers ] = useInputValue(initialValue)
-    const { value } = inputStates
-    const { inputOnChange } = inputHandlers
+    const [ { value }, { inputOnChange } ] = useInputValue({initialValue, clearFields})
+
 
     return (  
 

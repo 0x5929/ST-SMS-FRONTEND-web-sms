@@ -18,12 +18,12 @@ const Select2 = forwardRef((props, parentRef) => {
         initialValue='', 
         errorHandler, 
         showError, 
+        clearFields,
         required, 
         options,  ...others } = props
     
-    const [ inputStates, inputHandlers ] = useInputValue(initialValue, errorHandler)
-    const { value, error } = inputStates
-    const { inputOnChange } = inputHandlers
+    const [ { value, error }, { inputOnChange } ]  = useInputValue({initialValue, errorHandler, clearFields})
+
 
     return (
         <FormControl

@@ -144,7 +144,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
 
     return (
     <>
-        <Styles.StudentForm onSubmit={handleEditSubmit || ( (e) => handleSubmit(e, inputRefs, handleToggleError) )} {...others}>
+        <Styles.StudentForm onSubmit={handleEditSubmit || ( (e) => handleSubmit(e, inputRefs) )} {...others}>
             <Grid container>
                 <Grid item laptop={6} tablet={12}>
                     <Input2
@@ -224,7 +224,6 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                         ref={inputRefs.startDate}
                         name="startDate"
                         label="Program Start Date"
-                        initialValue={useMemo(() => new Date(), [])}
                         convertToDefaultEventParam={convertToDefaultEventParam}
                         errorHandler={validations.startDate}
                         showError={showError}   
@@ -234,7 +233,6 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                         ref={inputRefs.completionDate}
                         name="completionDate"
                         label="Program Completion Date"
-                        initialValue={useMemo(() => new Date(), [])}
                         convertToDefaultEventParam={convertToDefaultEventParam}
                         errorHandler={validations.completionDate}
                         showError={showError}     
@@ -244,7 +242,6 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                         ref={inputRefs.dateEnrollmentAgreementSigned}
                         name="dateEnrollmentAgreementSigned"
                         label="Date Enrollment Agreement Signed"
-                        initialValue={useMemo(() => new Date(), [])}
                         convertToDefaultEventParam={convertToDefaultEventParam}
                         errorHandler={validations.dateEnrollmentAgreementSigned}
                         showError={showError}        
@@ -361,7 +358,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                                 <Styles.SuccessFab
                                     aria-label="save"
                                     color="primary"
-                                    onClick={(e) => handleSubmit(e, inputRefs, handleToggleError)}
+                                    onClick={(e) => handleSubmit(e, inputRefs)}
                                 >
                                     <CheckIcon />
                                 </Styles.SuccessFab>
@@ -371,7 +368,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                                 <BaseFab
                                     aria-label="save"
                                     color="primary"
-                                    onClick={(e) => handleSubmit(e, inputRefs, handleToggleError)}
+                                    onClick={(e) => handleSubmit(e, inputRefs)}
                                 >
                                     <SaveIcon />
                                 </BaseFab>
@@ -399,7 +396,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                             <Button
                                 color="error"
                                 text="Cancel"
-                                onClick={handleEditCancel || ( () => handleCancel(showError, handleToggleError) )}
+                                onClick={handleEditCancel || ( () => handleCancel() )}
                             />
                         </Styles.ButtonBox>
                     </Styles.ButtonContainerBox>

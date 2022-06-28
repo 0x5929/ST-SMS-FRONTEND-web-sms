@@ -13,15 +13,16 @@ const DatePicker2 = forwardRef((props, parentRef) => {
     const { 
         name, 
         label, 
-        initialValue='', 
         errorHandler, 
         showError, 
+        clearFields,
         convertToDefaultEventParam, ...others } = props
 
-    const [ inputStates, inputHandlers ] = useInputValue(initialValue, errorHandler)
+    const initialValue = new Date()
+    const [ inputStates, inputHandlers ] = useInputValue({initialValue, errorHandler, clearFields})
     const { value, error } = inputStates
     const { inputOnChange } = inputHandlers
-
+    
     return (  
         <LocalizationProvider dateAdapter={AdapterDateFns}>
             <MuiDatePicker
@@ -29,6 +30,8 @@ const DatePicker2 = forwardRef((props, parentRef) => {
                 name={name}
                 label={label}
                 openTo="year"
+                inputFormat="yyyy-MM-dd"
+                mask="____-__-__"
                 views={['year', 'month', 'day']}
                 value={value}
                 onChange={date => inputOnChange(convertToDefaultEventParam(name, date))}
