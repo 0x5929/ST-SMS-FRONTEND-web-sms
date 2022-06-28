@@ -88,7 +88,8 @@ export function useStudentForm(
     const handleCancel = useCallback( (showError, handleToggleError) => {
 
         handleToggleClearFields(!clearFields)
-        
+        // NOTE that the submission success and loading status should be in form level and not input level. 
+        // this way in handleCancel, we can mark loading to be false, and success  to be false
         if (showError)
             handleToggleError(false)
         
