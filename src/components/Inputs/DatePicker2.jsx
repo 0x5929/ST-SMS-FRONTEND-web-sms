@@ -19,9 +19,8 @@ const DatePicker2 = forwardRef((props, parentRef) => {
         convertToDefaultEventParam, ...others } = props
 
     const initialValue = new Date()
-    const [ inputStates, inputHandlers ] = useInputValue({initialValue, errorHandler, clearFields})
-    const { value, error } = inputStates
-    const { inputOnChange } = inputHandlers
+    const [ { value, error }, { inputOnChange } ] = useInputValue({initialValue, errorHandler, clearFields})
+
     
     return (  
         <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -38,7 +37,7 @@ const DatePicker2 = forwardRef((props, parentRef) => {
                 renderInput={(params) => <TextField {...params} />}
                 { ...((showError && errorHandler(value)) || error)  }
 
-                {...others}
+                { ...others }
             />
         </LocalizationProvider>
 
