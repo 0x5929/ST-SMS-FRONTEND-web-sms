@@ -52,6 +52,8 @@ export function useStudentForm(
     const initialStudentFormState = {
         studentFormValues: currentData,
         studentFormErrors: {},
+        showError: false,
+        clearFields: false,
         submitLoading: false,
         submitSuccess: false
     }
@@ -85,6 +87,16 @@ export function useStudentForm(
                     ...state, 
                     submitLoading : true,
                     submitSuccess: false
+                }
+            case 'form-toggleShowErrors' : 
+                return {
+                    ...state,
+                    showError: !state.showError
+                }
+            case 'form-toggleClearFields' : 
+                return {
+                    ...state,
+                    clearFields: !state.clearFields
                 }
             default: 
                 throw new Error('StudentForm State Reducer Error!');
@@ -121,12 +133,13 @@ export function useStudentForm(
 
     const handleCancel = useCallback( () => {
 
-        handleToggleClearFields()
+        studentFormDispatch({type: 'form-toggleClearFields'})
         // NOTE that the submission success and loading status should be in form level and not input level. 
         // this way in handleCancel, we can mark loading to be false, and success  to be false
-        if (showError)
-            handleToggleError()
-    }, [showError, handleToggleClearFields, handleToggleError])
+        if (studentFormState.showError)
+            
+            studentFormDispatch({type:'form-toggleShowErrors'})
+    }, [studentFormState.showError])
 
     const handleSetStudentFormErrorCallback = useCallback((temp)=>{
         studentFormDispatch({type: 'set-studentFormErrors', payload: {...temp}})
@@ -248,7 +261,7 @@ export function useStudentForm(
             let validationKeys = Object.keys(validations)
             for ( var i = 0; i < validationKeys.length; i++ ) {
                 if (!isEmpty(validations[validationKeys[i]])) {
-                    handleToggleError()
+                    studentFormDispatch({type: 'form-toggleShowErrors'})
                     return false
                 }
             }
@@ -266,13 +279,13 @@ export function useStudentForm(
         // }
 
 
-    }, [_createOrUpdate, handleCancel, handleToggleError, validations])
+    }, [_createOrUpdate, handleCancel, validations])
 
 
     const studentFormStates = { 
         studentFormState, 
-        showError,
-        clearFields,
+        // showError,
+        // clearFields,
         inputRefs,
         addRotStates: {...addRotStates}
     }

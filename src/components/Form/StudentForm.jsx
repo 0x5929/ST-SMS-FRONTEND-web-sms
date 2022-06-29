@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 import { 
     Grid, 
@@ -54,11 +54,11 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
         studentFormState : {
             studentFormValues,
             studentFormErrors,
+            showError,
+            clearFields,
             submitLoading,
             submitSuccess,
         },
-        showError,
-        clearFields,
         inputRefs,
         addRotStates : {
             rotationFormValues,
@@ -106,6 +106,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
 
     const validations = useValidations().useCreateValidation2()
 
+    const currentCourse = useMemo(()=> inputRefs.course.current ? inputRefs.course.current.value : '', [inputRefs.course])
 
     return (
     <>
@@ -175,7 +176,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                             ref={inputRefs.rotation}
                             name="rotation"
                             label="Rotation"
-                            options={getRotationOptions(studentFormValues.course)}
+                            options={getRotationOptions( useMemo(()=> inputRefs.course.current ? inputRefs.course.current.value : '', [inputRefs.course.current]) )}
                             defaultValue={getRotationOptions()[0].rotation}
                             errorHandler={validations.rotation}
                             showError={showError}
