@@ -15,15 +15,13 @@ const Select2 = forwardRef((props, parentRef) => {
     const { 
         name, 
         label, 
-        initialValue='', 
+        value, 
         errorHandler, 
         showError, 
         clearFields,
         required, 
         options,  ...others } = props
     
-    const [ { value, error }, { inputOnChange } ]  = useInputValue({initialValue, errorHandler, clearFields})
-
 
     return (
         <FormControl

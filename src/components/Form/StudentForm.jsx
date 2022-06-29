@@ -11,7 +11,7 @@ import {
     Save as SaveIcon,
     AddBox as AddBoxIcon } from '@mui/icons-material';
 
-import AddRotationForm  from './AddRotationForm'
+import RotationForm  from './RotationForm'
 
 import {
     Input,
@@ -54,6 +54,8 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
         studentFormState : {
             studentFormValues,
             studentFormErrors,
+            rotation,
+            course,
             showError,
             clearFields,
             submitLoading,
@@ -374,7 +376,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
             isModalOpen={isAddRotModalOpen}
             handleCloseModal={handleCloseAddRotModal}
         >
-            <AddRotationForm 
+            <RotationForm 
                 handleAddRotInputChange={handleAddRotInputChange}
                 handleAddRotSubmit={handleAddRotSubmit}
                 handleAddRotClear={handleAddRotClear}

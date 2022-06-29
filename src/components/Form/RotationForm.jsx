@@ -12,12 +12,12 @@ import {  BaseButton as Button } from '../Buttons'
 
 
 
-import { createAddRotFormStyles } from './styles'
+import { createRotationFormStyles } from './styles'
 
-const Styles = createAddRotFormStyles({MuiStack, MuiBox})
+const Styles = createRotationFormStyles({MuiStack, MuiBox})
 
 
-function AddRotationForm(props) {
+function RotationForm(props) {
     console.log('AddRotationForm component rendered')
     const {
         handleAddRotInputChange,
@@ -65,4 +65,4 @@ function AddRotationForm(props) {
   )
 }
 
-export default React.memo(AddRotationForm)
+export default React.memo(RotationForm)

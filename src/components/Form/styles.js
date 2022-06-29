@@ -22,7 +22,6 @@ function createStudentFormStyles(components){
     const { 
 
         MuiStack, 
-        BaseIconButton, 
         MuiBox, // used for mulitple Box instances
         BaseFab,
         BaseModal,
@@ -45,10 +44,7 @@ function createStudentFormStyles(components){
     
     }));
 
-    const AddRotBtn = styled(BaseIconButton)(( {theme} ) => ({
-        borderRadius: theme.spacing(1),
-    
-    }));
+
 
 
     const ButtonBox = styled(MuiBox)(( {theme} ) => ({
@@ -88,7 +84,6 @@ function createStudentFormStyles(components){
     return {
         StudentForm,
         Stack,
-        AddRotBtn,
         ButtonContainerBox,
         ButtonBox,
         SuccessFab,
@@ -99,7 +94,7 @@ function createStudentFormStyles(components){
 
 }
 
-function createAddRotFormStyles({MuiStack, MuiBox}){
+function createRotationFormStyles({MuiStack, MuiBox}){
 
     const {Stack, ButtonContainerBox} = getCommonStyles({MuiStack,MuiBox})
 
@@ -181,4 +176,23 @@ function createQueryFormStyles({SearchBar, BaseSelect, BaseButton, BaseIconButto
 }
 
 
-export { createStudentFormStyles, createAddRotFormStyles, createQueryFormStyles }
+
+function createProgramFormStyles({MuiStack, MuiBox, BaseIconButton}){
+
+    const { Stack } = getCommonStyles({MuiStack,MuiBox})
+
+    const AddRotBtn = styled(BaseIconButton)(( {theme} ) => ({
+        borderRadius: theme.spacing(1),
+    
+    }));
+
+    return {
+        AddRotBtn,
+        Stack,
+        
+    }    
+    
+}
+
+
+export { createStudentFormStyles, createRotationFormStyles, createProgramFormStyles, createQueryFormStyles }
