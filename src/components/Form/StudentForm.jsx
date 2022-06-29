@@ -34,6 +34,7 @@ import { Modal as BaseModal } from '../Modal';
 import { createStudentFormStyles } from './styles'
 
 import { useValidations } from '../../hooks';
+import ProgramForm from './ProgramForm';
 
 
 const Styles = createStudentFormStyles({
@@ -71,7 +72,9 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
 
     const {
 
-
+        handleClearCourse,
+        handleCourseChange,
+        handleRotationChange,
         handleSubmit,
         handleCancel,
         convertToDefaultEventParam,
@@ -163,7 +166,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                         showError={showError}    
                         clearFields={clearFields}                    
                     />
-                    <Select2
+                    {/* <Select2
                         ref={inputRefs.course}
                         name="course"
                         label="Course"
@@ -187,7 +190,29 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                         <Styles.AddRotBtn size="medium" onClick={handleOpenAddRotModal}>
                             <AddBoxIcon />
                         </Styles.AddRotBtn>
-                    </Styles.Stack>
+                    </Styles.Stack> */}
+                    <ProgramForm 
+                        getRotationOptions={getRotationOptions}
+                        handleCourseChange={handleCourseChange}
+                        handleRotationChange={handleRotationChange}
+                        handleClearCourse={handleClearCourse}
+                        course={course}
+                        rotation={rotation}
+                        handleAddRotInputChange={handleAddRotInputChange}
+                        handleAddRotSubmit={handleAddRotSubmit}
+                        handleAddRotClear={handleAddRotClear}
+                        rotationFormValues={rotationFormValues}
+                        rotationFormErrors={rotationFormErrors}
+                        getCourseOptions={getCourseOptions}
+                        handleOpenAddRotModal={handleOpenAddRotModal}
+                        validations={validations}
+                        showError={showError}
+                        clearFields={clearFields}
+                        isAddRotModalOpen={isAddRotModalOpen}
+                        handleCloseAddRotModal={handleCloseAddRotModal}
+
+                    
+                    />
                     <DatePicker2
                         ref={inputRefs.startDate}
                         name="startDate"
@@ -371,7 +396,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                 </Grid>
             </Grid>
         </Styles.StudentForm>
-        <Styles.Modal
+        {/* <Styles.Modal
             modalTitle="Add Rotation"
             isModalOpen={isAddRotModalOpen}
             handleCloseModal={handleCloseAddRotModal}
@@ -384,7 +409,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                 rotationFormErrors={rotationFormErrors}
                 getCourseOptions={getCourseOptions}
             />
-        </Styles.Modal>
+        </Styles.Modal> */}
     </>
   )
 }

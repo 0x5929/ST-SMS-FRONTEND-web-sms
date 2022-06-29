@@ -177,7 +177,7 @@ function createQueryFormStyles({SearchBar, BaseSelect, BaseButton, BaseIconButto
 
 
 
-function createProgramFormStyles({MuiStack, MuiBox, BaseIconButton}){
+function createProgramFormStyles({MuiStack, MuiBox, BaseIconButton, BaseModal}){
 
     const { Stack } = getCommonStyles({MuiStack,MuiBox})
 
@@ -186,9 +186,15 @@ function createProgramFormStyles({MuiStack, MuiBox, BaseIconButton}){
     
     }));
 
+    const Modal = styled(BaseModal)(( {theme} ) => ({
+        margin: 'auto',
+        width: '30%'
+    }));
+
     return {
         AddRotBtn,
         Stack,
+        Modal,
         
     }    
     

@@ -232,8 +232,22 @@ export function useStudentForm(
         validateOnChange
     ])
 
+    const handleCourseChange = useCallback((e)=>{
+        const { name, value } = e.target
 
+        studentFormDispatch({type: 'set-course', payload: value})
+    }, [])
 
+    const handleRotationChange = useCallback((e)=> {
+        const { name, value } = e.target
+
+        studentFormDispatch({type: 'set-rotation', payload: value})
+    }, [])
+
+    const handleClearCourse = useCallback( ()=> {
+        studentFormDispatch({type: 'set-course', payload: ''})
+        studentFormDispatch({type: 'set-rotation', payload: ''})
+    }, [])
     const handleSubmit = useCallback((e, inputRefs) =>{
         // DEV configuration so we dont refresh the page when testing submit button
         e.preventDefault()
@@ -296,6 +310,9 @@ export function useStudentForm(
     }
 
     var studentFormHandlers = { 
+        handleClearCourse,
+        handleCourseChange,
+        handleRotationChange,
         handleClearStudentFormErrorCallback,
         handleSetStudentFormErrorCallback,
         handleSubmit,

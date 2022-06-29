@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { 
     Box as MuiBox, 
@@ -6,39 +6,65 @@ import {
 
 import { AddBox as AddBoxIcon } from '@mui/icons-material';
 
+
+import { Modal as BaseModal } from '../Modal';
 import { Select2 } from '../Inputs'
 
 import {  BaseIconButton  } from '../Buttons'
 
+import RotationForm from './RotationForm'
 
 
-import { createAddRotFormStyles } from './styles'
+import { createProgramFormStyles } from './styles'
 
-const Styles = createAddRotFormStyles({MuiStack, MuiBox, BaseIconButton})
-
-
-function ProgramForm({ course, rotation }) {
+const Styles = createProgramFormStyles({MuiStack, MuiBox, BaseIconButton, BaseModal})
 
 
+function ProgramForm(props) {
+
+    const { 
+        getRotationOptions, 
+        handleCourseChange, 
+        handleClearCourse, 
+        handleRotationChange,
+        course, 
+        rotation, 
+        handleOpenAddRotModal,
+        handleCloseAddRotModal,
+        isAddRotModalOpen,
+        handleAddRotInputChange,
+        handleAddRotSubmit,
+        getCourseOptions, 
+        handleAddRotClear,
+        rotationFormValues,
+        rotationFormErrors,
+        validations, 
+        showError, 
+        clearFields } = props;
+
+    useEffect(()=>{
+        handleClearCourse() 
+    }, [handleClearCourse, clearFields])
 
     return (
         <>
             <Select2
-                ref={inputRefs.course}
                 name="course"
                 label="Course"
+                value={course}
+                errorHandler={validations.course}
+                handleCourseChange={handleCourseChange}
                 options={getCourseOptions()}
                 defaultValue={getCourseOptions()[0].value}
-                errorHandler={validations.course}
                 showError={showError}     
                 clearFields={clearFields}                   
             />
             <Styles.Stack direction="row" spacing={1}>
             <Select2
-                ref={inputRefs.rotation}
+
                 name="rotation"
                 label="Rotation"
-                options={getRotationOptions( useMemo(()=> inputRefs.course.current ? inputRefs.course.current.value : '', [inputRefs.course.current]) )}
+                options={getRotationOptions(course)}
                 defaultValue={getRotationOptions()[0].rotation}
                 errorHandler={validations.rotation}
                 showError={showError}

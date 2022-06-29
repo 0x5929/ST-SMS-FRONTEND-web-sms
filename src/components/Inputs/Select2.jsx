@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React from 'react';
 import { 
 
     FormControl,
@@ -6,9 +6,9 @@ import {
     MenuItem, 
     Select as MuiSelect } from '@mui/material';
 
-import { useInputValue } from '../../hooks'
 
-const Select2 = forwardRef((props, parentRef) => {
+
+const Select2 = (props) => {
 
     console.log('Select2 component rendered')
 
@@ -16,7 +16,8 @@ const Select2 = forwardRef((props, parentRef) => {
         name, 
         label, 
         value, 
-        errorHandler, 
+        errorHandler,
+        handleCourseChange, 
         showError, 
         clearFields,
         required, 
@@ -30,12 +31,11 @@ const Select2 = forwardRef((props, parentRef) => {
         >
             <InputLabel> { label }</InputLabel>
             <MuiSelect
-                inputRef={parentRef}
                 label={label}
                 name={name}
                 value={value}
-                onChange={inputOnChange}
-                { ...((showError && errorHandler(value)) || error)  }
+                onChange={handleCourseChange}
+                { ...(showError && errorHandler(value)) }
 
                 {...others}
             >
@@ -55,6 +55,6 @@ const Select2 = forwardRef((props, parentRef) => {
         </FormControl>
 
       );
-});
+};
 
 export default React.memo(Select2)
