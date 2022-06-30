@@ -25,8 +25,6 @@ export function useStudentForm(
         phoneNumber: useRef(null),
         email: useRef(null),
         mailingAddress: useRef(null),
-        course: useRef(null),
-        rotation: useRef(null),
         startDate: useRef(null),
         completionDate: useRef(null),
         dateEnrollmentAgreementSigned: useRef(null),
@@ -141,9 +139,11 @@ export function useStudentForm(
         studentFormDispatch({type: 'form-toggleClearFields'})
         // NOTE that the submission success and loading status should be in form level and not input level. 
         // this way in handleCancel, we can mark loading to be false, and success  to be false
-        if (studentFormState.showError)
+        if (studentFormState.showError){
             
             studentFormDispatch({type:'form-toggleShowErrors'})
+        }
+        studentFormDispatch({type: 'set-submitSuccess', payload: false})
     }, [studentFormState.showError])
 
     const handleSetStudentFormErrorCallback = useCallback((temp)=>{
@@ -233,44 +233,73 @@ export function useStudentForm(
     ])
 
     const handleCourseChange = useCallback((e)=>{
-        const { name, value } = e.target
-
-        studentFormDispatch({type: 'set-course', payload: value})
+        studentFormDispatch({type: 'set-course', payload: e.target.value})
     }, [])
 
     const handleRotationChange = useCallback((e)=> {
-        const { name, value } = e.target
-
-        studentFormDispatch({type: 'set-rotation', payload: value})
+        studentFormDispatch({type: 'set-rotation', payload: e.target.value})
     }, [])
 
     const handleClearCourse = useCallback( ()=> {
         studentFormDispatch({type: 'set-course', payload: ''})
         studentFormDispatch({type: 'set-rotation', payload: ''})
     }, [])
+
+
     const handleSubmit = useCallback((e, inputRefs) =>{
         // DEV configuration so we dont refresh the page when testing submit button
         e.preventDefault()
 
         // validation logic
         let validationObj = {}
-        
+
         // grab validation
         Object.keys(inputRefs).forEach(function(key) {
             // both objs have the same key
-            if ( key in validations)
-                validationObj[key] = validations[key](inputRefs[key].current.value)
+            if ( key in validations) {
+
+                if (key === 'course' || key === 'rotation'){
+
+                    // try to think of a better way to achieve this. 
+                    // one can just remove course and rotation from useRefs, BUT, how can we validate course?
+                    validationObj[key] = validations[key](studentFormState[key])
+                }
+                else {
+
+                    validationObj[key] = validations[key](inputRefs[key].current.value)
+                }
+            }
         });
 
         if (checkForError(validationObj)) {
-
             let data = {}
             Object.keys(inputRefs).forEach(function(key) {
-                data[key] = inputRefs[key].current.value
 
-                if ( key === 'graduated' || key === 'employed' || key === 'passedFirstExam' || key === 'passedSecondOrThird' ) {
-                    data[key] = inputRefs[key].current.checked
+                switch(key) {
+                    case 'course': 
+                        data[key] = studentFormState[key]
+                        break;
+                    case 'rotation': 
+                        data[key] = studentFormState[key]
+                        break;
+                    case 'graduated':
+                        data[key] = inputRefs[key].current.checked
+                        break;
+                    case 'employed':
+                        data[key] = inputRefs[key].current.checked
+                        break;
+                    case 'passedFirstExam':
+                        data[key] = inputRefs[key].current.checked
+                        break;
+                    case 'passedSecondOrThird':
+                        data[key] = inputRefs[key].current.checked
+                        break;
+
+                    default: 
+                        data[key] = inputRefs[key].current.value
                 }
+
+
             });
 
             _createOrUpdate(data, handleCancel)

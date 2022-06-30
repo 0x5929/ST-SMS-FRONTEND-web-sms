@@ -17,18 +17,23 @@ import { createRotationFormStyles } from './styles'
 const Styles = createRotationFormStyles({MuiStack, MuiBox})
 
 
-function RotationForm(props) {
+function RotationForm({ getCourseOptions, addRotHandlers, addRotStates, ...others }) {
     console.log('AddRotationForm component rendered')
+
     const {
-        handleAddRotInputChange,
-        handleAddRotSubmit,
-        handleAddRotClear,
+
         rotationFormValues,
         rotationFormErrors,
-        getCourseOptions,
 
-        ...others
-    } = props
+    } = addRotStates
+
+    const {
+
+        handleAddRotSubmit, 
+        handleAddRotInputChange, 
+        handleAddRotClear,
+
+    } = addRotHandlers
 
     return (
         <Styles.AddRotForm onSubmit={(e)=>(handleAddRotSubmit(e))} {...others}>

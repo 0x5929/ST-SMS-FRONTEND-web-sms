@@ -17,7 +17,7 @@ const Select2 = (props) => {
         label, 
         value, 
         errorHandler,
-        handleCourseChange, 
+        handleChange, 
         showError, 
         clearFields,
         required, 
@@ -33,8 +33,8 @@ const Select2 = (props) => {
             <MuiSelect
                 label={label}
                 name={name}
-                value={value}
-                onChange={handleCourseChange}
+                value={(value ? value: '')}
+                onChange={handleChange}
                 { ...(showError && errorHandler(value)) }
 
                 {...others}

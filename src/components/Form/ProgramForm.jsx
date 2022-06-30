@@ -20,75 +20,85 @@ import { createProgramFormStyles } from './styles'
 const Styles = createProgramFormStyles({MuiStack, MuiBox, BaseIconButton, BaseModal})
 
 
-function ProgramForm(props) {
+function ProgramForm({ validations, studentFormStates, studentFormHandlers, ...others }) {
 
-    const { 
-        getRotationOptions, 
-        handleCourseChange, 
-        handleClearCourse, 
+    const {
+    
+        studentFormState : {
+            rotation,
+            course,
+            showError,
+            clearFields,
+        },
+        addRotStates : { isAddRotModalOpen }
+    } = studentFormStates
+
+    const {
+
+        handleClearCourse,
+        handleCourseChange,
         handleRotationChange,
-        course, 
-        rotation, 
-        handleOpenAddRotModal,
-        handleCloseAddRotModal,
-        isAddRotModalOpen,
-        handleAddRotInputChange,
-        handleAddRotSubmit,
         getCourseOptions, 
-        handleAddRotClear,
-        rotationFormValues,
-        rotationFormErrors,
-        validations, 
-        showError, 
-        clearFields } = props;
+        getRotationOptions, 
+
+        addRotHandlers : {
+
+
+            addRotModalHandlers : {
+
+                handleOpenAddRotModal,
+                handleCloseAddRotModal
+            }
+        }
+    } = studentFormHandlers
+
+
 
     useEffect(()=>{
         handleClearCourse() 
     }, [handleClearCourse, clearFields])
 
     return (
-        <>
+        <div { ...others }>
             <Select2
                 name="course"
                 label="Course"
-                value={course}
-                errorHandler={validations.course}
-                handleCourseChange={handleCourseChange}
                 options={getCourseOptions()}
+                value={course}
                 defaultValue={getCourseOptions()[0].value}
+                errorHandler={validations.course}
+                handleChange={handleCourseChange}
                 showError={showError}     
                 clearFields={clearFields}                   
             />
             <Styles.Stack direction="row" spacing={1}>
-            <Select2
-
-                name="rotation"
-                label="Rotation"
-                options={getRotationOptions(course)}
-                defaultValue={getRotationOptions()[0].rotation}
-                errorHandler={validations.rotation}
-                showError={showError}
-                clearFields={clearFields}                        
-            />
-            <Styles.AddRotBtn size="medium" onClick={handleOpenAddRotModal}>
-                <AddBoxIcon />
-            </Styles.AddRotBtn>
-        </Styles.Stack>
+                <Select2
+                    name="rotation"
+                    label="Rotation"
+                    options={getRotationOptions(course)}
+                    value={rotation}
+                    defaultValue={getRotationOptions()[0].rotation}
+                    errorHandler={validations.rotation}
+                    handleChange={handleRotationChange}
+                    showError={showError}
+                    clearFields={clearFields}                        
+                />
+                <Styles.AddRotBtn size="medium" onClick={handleOpenAddRotModal}>
+                    <AddBoxIcon />
+                </Styles.AddRotBtn>
+            </Styles.Stack>
             <Styles.Modal
-            modalTitle="Add Rotation"
-            isModalOpen={isAddRotModalOpen}
-            handleCloseModal={handleCloseAddRotModal}
-        >
-            <RotationForm 
-                handleAddRotInputChange={handleAddRotInputChange}
-                handleAddRotSubmit={handleAddRotSubmit}
-                handleAddRotClear={handleAddRotClear}
-                rotationFormValues={rotationFormValues}
-                rotationFormErrors={rotationFormErrors}
-                getCourseOptions={getCourseOptions}
-            />
-        </Styles.Modal>
-    </>
+                modalTitle="Add Rotation"
+                isModalOpen={isAddRotModalOpen}
+                handleCloseModal={handleCloseAddRotModal}
+            >
+                <RotationForm 
+                    getCourseOptions={getCourseOptions}
+                    addRotHandlers={studentFormHandlers.addRotHandlers}
+                    addRotStates={studentFormStates.addRotStates}
+                />
+            </Styles.Modal>
+        </div>
   )
 }
 
