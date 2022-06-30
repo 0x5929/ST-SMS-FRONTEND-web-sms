@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
 
 import { 
     Box as MuiBox, 
@@ -35,21 +35,29 @@ function RotationForm({ getCourseOptions, addRotHandlers, addRotStates, ...other
 
     } = addRotHandlers
 
+    const rotationRef = useRef(null)
+    const [ course, setCourse ] = useState('')
+    const [ showError, setShowError ] = useState(false)
+    const [ clearFields, setClearFields ] = useState(false)
+
     return (
         <Styles.AddRotForm onSubmit={(e)=>(handleAddRotSubmit(e))} {...others}>
             <Styles.Stack>
-                <Select 
+                <Select2
                     name="programName"
                     label="Program Name"
-                    onChange={handleAddRotInputChange}
                     options={getCourseOptions()}
-                    error={rotationFormErrors.programName}
                     value={rotationFormValues.programName}
                     defaultValue={getCourseOptions()[0].value}
+                    handleChange={handleAddRotInputChange}
+                    showError={showError}
+                    clearFields={clearFields}
                 />
                 <Input 
+                    ref={rotationRef}
                     name="rotation"
                     label="Rotation Number"
+                    errorHandler={}
                     value={rotationFormValues.rotation}
                     onChange={handleAddRotInputChange}
                     error={rotationFormErrors.rotation}
