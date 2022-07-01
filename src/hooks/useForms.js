@@ -108,9 +108,7 @@ export function useStudentForm(
 
 
     const [ studentFormState, studentFormDispatch ] = useReducer(reducer, initialStudentFormState)
-    const [ showError, handleToggleError ] = useToggle(false)
-    const [ clearFields, handleToggleClearFields ] = useToggle(false)
-    const { createValidation } = useValidations()
+
 
     useEffect(()=>{
 
@@ -145,18 +143,6 @@ export function useStudentForm(
         }
         studentFormDispatch({type: 'set-submitSuccess', payload: false})
     }, [studentFormState.showError])
-
-    const handleSetStudentFormErrorCallback = useCallback((temp)=>{
-        studentFormDispatch({type: 'set-studentFormErrors', payload: {...temp}})
-    }, [])
-
-    const handleClearStudentFormErrorCallback = useCallback(()=>{
-        studentFormDispatch({type: 'set-studentFormErrors', payload: {}})
-
-        // added another dispatch so that submit success can be set to false, this is diff from clear-studentForm, 
-        // because it doesn't clear the values for edit!! which is used by callback
-        studentFormDispatch({type: 'set-submitSuccess', payload: false})
-    }, [])
 
 
     const handleProgress = useCallback((callback) => {
@@ -212,25 +198,7 @@ export function useStudentForm(
         }
     }), [])
     
-    const handleInputChange = useCallback(e => {
-        const { name, value } = e.target
 
-        studentFormDispatch({type: 'set-studentFormValues', payload: {
-            ...studentFormState.studentFormValues,
-            [name] : value
-        }})
-        
-        if (validateOnChange){
-            createValidation({[name]: value}, handleSetStudentFormErrorCallback, studentFormState.studentFormErrors)
-        }
-
-    }, [
-        createValidation, 
-        handleSetStudentFormErrorCallback, 
-        studentFormState.studentFormErrors, 
-        studentFormState.studentFormValues, 
-        validateOnChange
-    ])
 
     const handleCourseChange = useCallback((e)=>{
         studentFormDispatch({type: 'set-course', payload: e.target.value})
@@ -342,8 +310,6 @@ export function useStudentForm(
         handleClearCourse,
         handleCourseChange,
         handleRotationChange,
-        handleClearStudentFormErrorCallback,
-        handleSetStudentFormErrorCallback,
         handleSubmit,
         handleCancel,
         convertToDefaultEventParam,
@@ -367,7 +333,21 @@ function useAddRotationForm(userFeedbackObj) {
     const [rotationFormValues, setRotationFormValues] = useState({programName: '', rotation: ''})
     const [rotationFormErrors, setRotationFormErrors] = useState({})
     const [isAddRotModalOpen, addRotModalHandlers] = useAddRotationModal()
+
+    const rotationRef = useRef(null)
+    const [ programName, setProgramName ] = useState('')
+    const [ showError, setShowError ] = useState(false)
+    const [ clearFields, setClearFields ] = useState(false)
+
+
+    const validations = useValidations().useAddRotValidation2()
+
     const { addRotValidation } = useValidations()
+
+    const handleProgramNameChange = useCallback((e) => {
+        setProgramName(e.target.value)
+    }, [])
+
 
     const handleAddRotInputChange = useCallback(e => {
         const { name, value } = e.target
@@ -380,21 +360,78 @@ function useAddRotationForm(userFeedbackObj) {
 
 
     const handleAddRotClear = useCallback(() => {
-        setRotationFormValues({programName: '', rotation: ''})
-        setRotationFormErrors({})
+        setClearFields(true)
+        setProgramName('')
+        setShowError(false)
+
     }, [])
 
 
-    const handleAddRotSubmit = useCallback(e => {
+
+    const handleAddRotSubmit = useCallback( (e, rotationInput) => {
         e.preventDefault()
 
-        if (addRotValidation(rotationFormValues, setRotationFormErrors, rotationFormErrors)){
+        let validationObj = {
+            programName: '',
+            rotation: ''
+        }
 
+        Object.keys(validationObj).forEach(function(key) {
+            if ( key === 'programName'){
+                validationObj[key] = validations[key](programName)
+            }
+            else if ( key === 'rotation' ) {
+                validationObj[key] = validations[key](rotationRef.current.value)
+            }
+        })
+
+        if (checkForError(validationObj)) {
+            let data = {}
+            Object.keys(validationObj).forEach(function(key) {
+                switch (key) {
+                    case 'programName' : 
+                        data[key] = programName
+                        break;
+                    case 'rotation' : 
+                        data[key] = rotationRef.current.value
+                        break;
+                    default: 
+                        return
+                }
+            });
+
+
+            console.log('Rotation added successfully, ', data)
             notificationHandlers.handleOpenNotification('Rotation added successfully')
-
             handleAddRotClear()
             addRotModalHandlers.handleCloseAddRotModal()
         }
+
+        function checkForError(validations) {
+            let validationKeys = Object.keys(validations)
+            console.log('validations: ', validations)
+            for ( var i = 0; i < validationKeys.length; i++ ) {
+                if (!isEmpty(validations[validationKeys[i]])) {
+                    console.log('we returned false')
+                    setShowError(true)
+                    return false
+                }
+            }
+            return true
+        }
+
+        function isEmpty(obj) {
+            return Object.keys(obj).length === 0;
+        }
+
+
+        // if (addRotValidation(rotationFormValues, setRotationFormErrors, rotationFormErrors)){
+
+        //     notificationHandlers.handleOpenNotification('Rotation added successfully')
+
+        //     handleAddRotClear()
+        //     addRotModalHandlers.handleCloseAddRotModal()
+        // }
 
     }, [
         addRotValidation, 
@@ -406,8 +443,8 @@ function useAddRotationForm(userFeedbackObj) {
     ])
 
 
-    const addRotStates = { rotationFormValues, rotationFormErrors, isAddRotModalOpen }
-    const addRotHandlers = { handleAddRotSubmit, handleAddRotInputChange, handleAddRotClear,
+    const addRotStates = { rotationFormValues, rotationFormErrors, isAddRotModalOpen, programName, showError, clearFields, rotationRef }
+    const addRotHandlers = { handleAddRotSubmit, handleAddRotInputChange, handleAddRotClear, handleProgramNameChange,
         addRotModalHandlers: {...addRotModalHandlers}
     }
 

@@ -5,8 +5,8 @@ import {
     Stack as MuiStack } from '@mui/material';
 
 import {
-    Input,
-    Select } from '../Inputs'
+    Input2,
+    Select2 } from '../Inputs'
 
 import {  BaseButton as Button } from '../Buttons'
 
@@ -14,6 +14,7 @@ import {  BaseButton as Button } from '../Buttons'
 
 import { createRotationFormStyles } from './styles'
 
+import { useValidations } from '../../hooks';
 const Styles = createRotationFormStyles({MuiStack, MuiBox})
 
 
@@ -22,50 +23,51 @@ function RotationForm({ getCourseOptions, addRotHandlers, addRotStates, ...other
 
     const {
 
-        rotationFormValues,
-        rotationFormErrors,
+
+        programName,
+        showError,
+        clearFields,
+        rotationRef,
 
     } = addRotStates
 
     const {
-
+        handleProgramNameChange,
         handleAddRotSubmit, 
-        handleAddRotInputChange, 
+
         handleAddRotClear,
 
     } = addRotHandlers
 
-    const rotationRef = useRef(null)
-    const [ course, setCourse ] = useState('')
-    const [ showError, setShowError ] = useState(false)
-    const [ clearFields, setClearFields ] = useState(false)
+    const validations = useValidations().useAddRotValidation2()
 
     return (
-        <Styles.AddRotForm onSubmit={(e)=>(handleAddRotSubmit(e))} {...others}>
+        <Styles.AddRotForm {...others}>
             <Styles.Stack>
                 <Select2
                     name="programName"
                     label="Program Name"
                     options={getCourseOptions()}
-                    value={rotationFormValues.programName}
+                    value={programName}
                     defaultValue={getCourseOptions()[0].value}
-                    handleChange={handleAddRotInputChange}
+                    handleChange={handleProgramNameChange}
+                    errorHandler={validations.programName}
                     showError={showError}
                     clearFields={clearFields}
                 />
-                <Input 
+                <Input2 
                     ref={rotationRef}
                     name="rotation"
                     label="Rotation Number"
-                    errorHandler={}
-                    value={rotationFormValues.rotation}
-                    onChange={handleAddRotInputChange}
-                    error={rotationFormErrors.rotation}
+                    errorHandler={validations.rotation}
+                    showError={showError}
+                    clearFields={clearFields}
                 />
                 <Styles.ButtonContainerBox>
                     <Button 
                         text="Submit"
                         type="submit"
+                        onClick={(e)=>(handleAddRotSubmit(e, rotationRef))}
                     />
                     <Button 
                         text="Cancel"

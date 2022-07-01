@@ -120,13 +120,22 @@ function useValidations() {
 
     }
 
-    
+    const useAddRotValidation2 = () => {
+        let numberRegex = useMemo(()=>/^[1-9]{1,}$/, [])
+
+        return {
+            programName : useCallback((value)=> value !== '' ? {} : { error: true, helperText: 'This field is required.'} , []),
+            rotation    : useCallback((value)=> { console.log('value: ', value); return (numberRegex.test(value)) ? {} : { error: true, helperText: 'Only numeric format is allowed.'}}, [numberRegex])
+        }
+    }
+
     return {
         createValidation,
         useCreateValidation2,
         queryValidation,
         loginValidation,
-        addRotValidation
+        addRotValidation,
+        useAddRotValidation2
     }
 }
 

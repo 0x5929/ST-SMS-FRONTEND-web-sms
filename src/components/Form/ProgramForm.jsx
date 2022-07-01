@@ -68,8 +68,7 @@ function ProgramForm({ validations, studentFormStates, studentFormHandlers, ...o
                 defaultValue={getCourseOptions()[0].value}
                 errorHandler={validations.course}
                 handleChange={handleCourseChange}
-                showError={showError}     
-                clearFields={clearFields}                   
+                showError={showError}                       
             />
             <Styles.Stack direction="row" spacing={1}>
                 <Select2
@@ -80,8 +79,7 @@ function ProgramForm({ validations, studentFormStates, studentFormHandlers, ...o
                     defaultValue={getRotationOptions()[0].rotation}
                     errorHandler={validations.rotation}
                     handleChange={handleRotationChange}
-                    showError={showError}
-                    clearFields={clearFields}                        
+                    showError={showError}                     
                 />
                 <Styles.AddRotBtn size="medium" onClick={handleOpenAddRotModal}>
                     <AddBoxIcon />

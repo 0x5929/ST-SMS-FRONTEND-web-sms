@@ -19,7 +19,6 @@ const Select2 = (props) => {
         errorHandler,
         handleChange, 
         showError, 
-        clearFields,
         required, 
         options,  ...others } = props
     
