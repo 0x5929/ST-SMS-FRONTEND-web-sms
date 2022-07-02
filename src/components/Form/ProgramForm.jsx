@@ -67,7 +67,20 @@ function ProgramForm({ validations, studentFormStates, studentFormHandlers, ...o
                 name="course"
                 label="Course"
                 options={getCourseOptions()}
-                value={useMemo(()=> ( recordForEdit ? recordForEdit.course : course), [recordForEdit, course])}
+                value={useMemo(()=> { 
+                        if (recordForEdit) {
+                            if (!course){
+                                return recordForEdit.course
+                            }
+                            else {
+                                return course
+                            }
+                        }
+                        else {
+                            return course
+                        }
+                    
+                  }, [recordForEdit, course])}
                 defaultValue={getCourseOptions()[0].value} 
                 errorHandler={validations.course}
                 handleChange={handleCourseChange}
@@ -77,8 +90,20 @@ function ProgramForm({ validations, studentFormStates, studentFormHandlers, ...o
                 <Select2
                     name="rotation"
                     label="Rotation"
-                    options={getRotationOptions(course)}
-                    value={useMemo(()=> ( recordForEdit ? recordForEdit.rotation : rotation), [recordForEdit, course, rotation])}
+                    options={getRotationOptions(( useMemo(() => {
+                        if (recordForEdit) {
+                            if (!course){
+                                return recordForEdit.course
+                            }
+                            else {
+                                return course
+                            }
+                        }
+                        else {
+                            return course
+                        }
+                    }, [recordForEdit, course] )))}
+                    value={useMemo(()=> ( recordForEdit ? recordForEdit.rotation : rotation), [recordForEdit, rotation])}
                     defaultValue={getRotationOptions()[0].rotation}
                     errorHandler={validations.rotation}
                     handleChange={handleRotationChange}
