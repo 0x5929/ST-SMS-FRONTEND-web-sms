@@ -18,7 +18,6 @@ function Create() {
 
 
     const [studentFormStates, studentFormHandlers] = useStudentForm(
-        true, 
         SMSRecordService.getInitialStudentValues(), 
         {
             notificationHandlers,

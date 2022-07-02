@@ -6,7 +6,7 @@ export function useEditModal (studentValues, setRecordForEdit, setRecords, userF
 
 
     const [isEditModalOpen, setIsEditModalOpen] = useState(false)
-    const [studentFormStates, studentFormHandlers] = useStudentForm(true, studentValues, userFeedbackObj, recordForEdit);
+    const [studentFormStates, studentFormHandlers] = useStudentForm(studentValues, userFeedbackObj, recordForEdit);
 
 
     const handleOpenEditModal = useCallback(item =>{

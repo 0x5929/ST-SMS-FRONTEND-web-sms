@@ -2,13 +2,11 @@ import { useState, useEffect, useRef, useReducer, useCallback } from 'react'
 
 import { useAddRotationModal } from './useModals';
 import useValidations from './useValidations'
-
 import * as SMSRecordService from '../services/SMSRecordService'
-import useToggle from './useToggle';
+
 
 // FORM STATE
 export function useStudentForm(
-    validateOnChange=false, 
     currentData=SMSRecordService.getInitialStudentValues(), 
     userFeedbackObj,
     recordForEdit=null) {
@@ -46,8 +44,6 @@ export function useStudentForm(
     }
 
     const initialStudentFormState = {
-        studentFormValues: currentData,
-        studentFormErrors: {},
         course: '',
         rotation: '',
         showError: false,
@@ -59,21 +55,14 @@ export function useStudentForm(
 
     function reducer(state, action) {
         switch (action.type) {
-            case 'set-studentFormValues': 
-                return {...state, studentFormValues: action.payload}
-            case 'set-studentFormErrors': 
-                return {...state, studentFormErrors: action.payload}
+            case 'set-course' : 
+                return { ...state, course : action.payload }
+            case 'set-rotation': 
+                return { ...state, rotation: action.payload }
             case 'set-submitLoading': 
                 return {...state, submitLoading: action.payload}
             case 'set-submitSuccess': 
                 return {...state, submitSuccess: action.payload}
-            case 'clear-studentForm' : 
-                return {
-                    ...state,
-                    studentFormValues: initialStudentFormState.studentFormValues,
-                    studentFormErrors: initialStudentFormState.studentFormErrors,
-                    submitSuccess: initialStudentFormState.submitSuccess
-                }
             case 'form-submissionSuccess' : 
                 return {
                     ...state,  
@@ -96,12 +85,6 @@ export function useStudentForm(
                     ...state,
                     clearFields: !state.clearFields
                 }
-            case 'set-course' : 
-                console.log('ARE WE HERE?', action.payload, state)
-                return { ...state, course : action.payload }
-            case 'set-rotation': 
-                return { ...state, rotation: action.payload }
-                
             default: 
                 throw new Error('StudentForm State Reducer Error!');
         }
@@ -109,6 +92,7 @@ export function useStudentForm(
 
 
     const [ studentFormState, studentFormDispatch ] = useReducer(reducer, initialStudentFormState)
+    const [addRotStates, addRotHandlers] = useAddRotationForm(userFeedbackObj)
     
 
     // when StudentForm component mounts and unmounts, maybe do some data op during cleanup when after fetch backend data?
@@ -117,14 +101,10 @@ export function useStudentForm(
           clearTimeout(progressTimer.current);
         };
       }, []);
-
-
       
     const resolveValue = useCallback((recordProp)=> {
         return recordForEdit ? recordForEdit[recordProp] : ''
     }, [recordForEdit])
-
-    const [addRotStates, addRotHandlers] = useAddRotationForm(userFeedbackObj)
 
 
     const handleClearError = useCallback(() => {
@@ -133,6 +113,7 @@ export function useStudentForm(
         }
         studentFormDispatch({type: 'set-submitSuccess', payload: false})
     }, [studentFormState.showError])
+
 
     const handleCancel = useCallback( () => {
 
@@ -184,6 +165,7 @@ export function useStudentForm(
         resetForm()
 
         console.log(op, ' success with: ', record)
+        
     }, [handleProgress, userFeedbackObj])
 
     const  { getCourseOptions, getRotationOptions, getHoursWorkedRadioItems } = SMSRecordService
@@ -212,22 +194,35 @@ export function useStudentForm(
     }, [])
 
 
-    const handleSubmit = useCallback((e, inputRefs) =>{
-        // DEV configuration so we dont refresh the page when testing submit button
-        e.preventDefault()
 
-        // validation logic
+    const _errorValidation = useCallback(() => {
+        
+        function _checkForError(validations) {
+
+            function _isEmpty(obj) {
+                return Object.keys(obj).length === 0;
+            }
+            
+            let validationKeys = Object.keys(validations)
+
+            for ( var i = 0; i < validationKeys.length; i++ ) {
+                if (!_isEmpty(validations[validationKeys[i]])) {
+                    studentFormDispatch({type: 'form-toggleShowErrors'})
+                    return false
+                }
+            }
+            return true
+        
+        }
+
         let validationObj = {}
 
-        // grab validation
+        // grab validations
         Object.keys(inputRefs).forEach(function(key) {
-            // both objs have the same key
             if ( key in validations) {
 
                 if (key === 'course' || key === 'rotation'){
 
-                    // try to think of a better way to achieve this. 
-                    // one can just remove course and rotation from useRefs, BUT, how can we validate course?
                     validationObj[key] = validations[key](studentFormState[key])
                 }
                 else {
@@ -237,8 +232,9 @@ export function useStudentForm(
             }
         });
 
-        if (checkForError(validationObj)) {
+        if (_checkForError(validationObj)) {
             let data = {}
+
             Object.keys(inputRefs).forEach(function(key) {
 
                 switch(key) {
@@ -268,32 +264,25 @@ export function useStudentForm(
 
             });
 
-            _createOrUpdate(data, handleCancel)
+            return data
         }
 
-        function checkForError(validations) {
-            let validationKeys = Object.keys(validations)
-            for ( var i = 0; i < validationKeys.length; i++ ) {
-                if (!isEmpty(validations[validationKeys[i]])) {
-                    studentFormDispatch({type: 'form-toggleShowErrors'})
-                    return false
-                }
-            }
-            return true
-        }
 
-        function isEmpty(obj) {
-            return Object.keys(obj).length === 0;
-        }
+    // disable lint for inputRefs; refs shouldnt go into dependency arrays
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [studentFormState, validations])
 
+    const handleSubmit = useCallback(e =>{
+        // DEV configuration so we dont refresh the page when testing submit button
+        e.preventDefault()
+
+        const successData = _errorValidation()
         
-
-        // if (createValidation(studentFormState.studentFormValues, handleSetStudentFormErrorCallback, studentFormState.studentFormErrors)){
-        //     _createOrUpdate(studentFormState.studentFormValues, handleCancel)
-        // }
-
-
-    }, [_createOrUpdate, handleCancel, studentFormState, validations])
+        if (successData){
+            _createOrUpdate(successData, handleCancel)
+        }
+        
+    }, [_createOrUpdate, _errorValidation, handleCancel])
 
 
 
@@ -425,22 +414,8 @@ function useAddRotationForm(userFeedbackObj) {
         }
 
 
-        // if (addRotValidation(rotationFormValues, setRotationFormErrors, rotationFormErrors)){
 
-        //     notificationHandlers.handleOpenNotification('Rotation added successfully')
-
-        //     handleAddRotClear()
-        //     addRotModalHandlers.handleCloseAddRotModal()
-        // }
-
-    }, [
-        addRotValidation, 
-        rotationFormValues, 
-        rotationFormErrors, 
-        notificationHandlers, 
-        handleAddRotClear, 
-        addRotModalHandlers
-    ])
+    }, [validations, programName, notificationHandlers, handleAddRotClear, addRotModalHandlers])
 
 
     const addRotStates = { rotationFormValues, rotationFormErrors, isAddRotModalOpen, programName, showError, clearFields, rotationRef }
