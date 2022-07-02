@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 
 import { 
     Box as MuiBox, 
@@ -23,17 +23,20 @@ const Styles = createProgramFormStyles({MuiStack, MuiBox, BaseIconButton, BaseMo
 function ProgramForm({ validations, studentFormStates, studentFormHandlers, ...others }) {
 
     const {
-    
+        recordForEdit,
+
         studentFormState : {
             rotation,
             course,
             showError,
             clearFields,
+            
         },
         addRotStates : { isAddRotModalOpen }
     } = studentFormStates
 
     const {
+        resolveValue,
 
         handleClearCourse,
         handleCourseChange,
@@ -64,8 +67,8 @@ function ProgramForm({ validations, studentFormStates, studentFormHandlers, ...o
                 name="course"
                 label="Course"
                 options={getCourseOptions()}
-                value={course}
-                defaultValue={getCourseOptions()[0].value}
+                value={useMemo(()=> ( recordForEdit ? recordForEdit.course : course), [recordForEdit, course])}
+                defaultValue={getCourseOptions()[0].value} 
                 errorHandler={validations.course}
                 handleChange={handleCourseChange}
                 showError={showError}                       
@@ -75,7 +78,7 @@ function ProgramForm({ validations, studentFormStates, studentFormHandlers, ...o
                     name="rotation"
                     label="Rotation"
                     options={getRotationOptions(course)}
-                    value={rotation}
+                    value={useMemo(()=> ( recordForEdit ? recordForEdit.rotation : rotation), [recordForEdit, course, rotation])}
                     defaultValue={getRotationOptions()[0].rotation}
                     errorHandler={validations.rotation}
                     handleChange={handleRotationChange}

@@ -16,9 +16,10 @@ const DatePicker2 = forwardRef((props, parentRef) => {
         errorHandler, 
         showError, 
         clearFields,
+        initialValue,
         convertToDefaultEventParam, ...others } = props
 
-    const initialValue = new Date()
+
     const [ { value, error }, { inputOnChange } ] = useInputValue({initialValue, errorHandler, clearFields})
 
     

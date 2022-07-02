@@ -76,12 +76,12 @@ export function useStudentForm(
                 }
             case 'form-submissionSuccess' : 
                 return {
-                    ...state, 
+                    ...state,  
                     submitLoading : false,
                     submitSuccess: true
                 }
             case 'form-submissionLoading' : 
-                return {
+                return { 
                     ...state, 
                     submitLoading : true,
                     submitSuccess: false
@@ -97,6 +97,7 @@ export function useStudentForm(
                     clearFields: !state.clearFields
                 }
             case 'set-course' : 
+                console.log('ARE WE HERE?', action.payload, state)
                 return { ...state, course : action.payload }
             case 'set-rotation': 
                 return { ...state, rotation: action.payload }
@@ -114,7 +115,10 @@ export function useStudentForm(
 
         if (recordForEdit !== null) {
 
-            studentFormDispatch({type: 'set-studentFormValues', payload: {...recordForEdit}})
+            console.log('called, recordForEdit: ', recordForEdit)
+            studentFormDispatch({type: 'set-course', payload: recordForEdit.course})
+            studentFormDispatch({type: 'set-rotation', payload: recordForEdit.rotation})
+            console.log('studentFormState: ', studentFormState)
 
         }
     }, [recordForEdit])
@@ -127,6 +131,11 @@ export function useStudentForm(
         };
       }, []);
 
+
+      
+    const resolveValue = useCallback((recordProp)=> {
+        return recordForEdit ? recordForEdit[recordProp] : ''
+    }, [recordForEdit])
 
     const [addRotStates, addRotHandlers] = useAddRotationForm(userFeedbackObj)
 
@@ -300,13 +309,13 @@ export function useStudentForm(
 
     const studentFormStates = { 
         studentFormState, 
-        // showError,
-        // clearFields,
+        recordForEdit,
         inputRefs,
         addRotStates: {...addRotStates}
     }
 
     var studentFormHandlers = { 
+        resolveValue,
         handleClearCourse,
         handleCourseChange,
         handleRotationChange,

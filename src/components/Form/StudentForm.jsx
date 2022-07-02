@@ -63,7 +63,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
     } = studentFormStates
 
     const {
-
+        resolveValue,
         handleSubmit,
         handleCancel,
         convertToDefaultEventParam,
@@ -85,12 +85,15 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
 
     const validations = useValidations().useCreateValidation2()
 
+
+
     return (
     <Styles.StudentForm onSubmit={handleEditSubmit || ( (e) => handleSubmit(e, inputRefs) )} {...others}>
         <Grid container>
             <Grid item laptop={6} tablet={12}>
                 <Input2
                     ref={inputRefs.studentId}
+                    initialValue={resolveValue('studentId')}
                     name="studentId"
                     label="Student ID"
                     errorHandler={validations.studentId}
@@ -99,6 +102,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                 />
                 <Input2
                     ref={inputRefs.firstName}
+                    initialValue={resolveValue('firstName')}
                     name="firstName"
                     label="First Name"
                     errorHandler={validations.firstName}
@@ -107,6 +111,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                 />
                 <Input2 
                     ref={inputRefs.lastName}
+                    initialValue={resolveValue('lastName')}
                     name="lastName"
                     label="Last Name"
                     errorHandler={validations.lastName}
@@ -115,6 +120,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                 />
                 <Input2 
                     ref={inputRefs.phoneNumber}
+                    initialValue={resolveValue('phoneNumber')}
                     name="phoneNumber"
                     label="Phone Number"
                     errorHandler={validations.phoneNumber}
@@ -123,6 +129,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                 />
                 <Input2 
                     ref={inputRefs.email}
+                    initialValue={resolveValue('phoneNumber')}
                     name="email"
                     label="Email"
                     errorHandler={validations.email}
@@ -131,6 +138,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                 />
                 <Input2 
                     ref={inputRefs.mailingAddress}
+                    initialValue={resolveValue('mailingAddress')}
                     name="mailingAddress"
                     label="Mailing Address"
                     errorHandler={validations.mailingAddress}
@@ -144,6 +152,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                 />
                 <DatePicker2
                     ref={inputRefs.startDate}
+                    initialValue={resolveValue('startDate') || new Date()}
                     name="startDate"
                     label="Program Start Date"
                     convertToDefaultEventParam={convertToDefaultEventParam}
@@ -153,6 +162,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                 />
                 <DatePicker2
                     ref={inputRefs.completionDate}
+                    initialValue={resolveValue('completionDate') || new Date()}
                     name="completionDate"
                     label="Program Completion Date"
                     convertToDefaultEventParam={convertToDefaultEventParam}
@@ -162,6 +172,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                 />
                 <DatePicker2
                     ref={inputRefs.dateEnrollmentAgreementSigned}
+                    initialValue={resolveValue('dateEnrollmentAgreementSigned') || new Date()}
                     name="dateEnrollmentAgreementSigned"
                     label="Date Enrollment Agreement Signed"
                     convertToDefaultEventParam={convertToDefaultEventParam}
@@ -172,12 +183,14 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                 />
                 <Input2 
                     ref={inputRefs.thirdPartyPayerInfo}
+                    initialValue={resolveValue('thirdPartyPayerInfo')}
                     name="thirdPartyPayerInfo"
                     label="Third Party Payer Info" 
                     clearFields={clearFields}
                 />
                 <Input2
                     ref={inputRefs.courseCost}
+                    initialValue={resolveValue('courseCost')}
                     name="courseCost"
                     label="Course Cost"
                     errorHandler={validations.courseCost}
@@ -186,6 +199,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                 />
                 <Input2 
                     ref={inputRefs.chargesCharged}
+                    initialValue={resolveValue('chargesCharged')}
                     name="chargesCharged"
                     label="Charges Charged"
                     errorHandler={validations.chargesCharged}
@@ -194,6 +208,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                 />
                 <Input2 
                     ref={inputRefs.chargesPaid}
+                    initialValue={resolveValue('chargesPaid')}
                     name="chargesPaid"
                     label="Charges Paid"
                     errorHandler={validations.chargesPaid}
@@ -204,6 +219,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
             <Grid item laptop={6} tablet={12}>
                 <Checkbox2
                     ref={inputRefs.graduated}
+                    initialValue={resolveValue('graduated') || false}
                     name="graduated"
                     label="Graduated"
                     convertToDefaultEventParam={convertToDefaultEventParam}
@@ -211,6 +227,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                 />
                 <Checkbox2 
                     ref={inputRefs.passedFirstExam}
+                    initialValue={resolveValue('passedFirstExam') || false}
                     name="passedFirstExam"
                     label="Passed First Exam"
                     convertToDefaultEventParam={convertToDefaultEventParam}
@@ -218,6 +235,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                 />
                 <Checkbox2 
                     ref={inputRefs.passedSecondOrThird}
+                    initialValue={resolveValue('passedSecondOrThird') || false}
                     name="passedSecondOrThird"
                     label="Passed Second or Third Exam"
                     convertToDefaultEventParam={convertToDefaultEventParam}
@@ -225,6 +243,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                 />
                 <Checkbox2 
                     ref={inputRefs.employed}
+                    initialValue={resolveValue('employed') || false}
                     name="employed"
                     label="Employed"
                     convertToDefaultEventParam={convertToDefaultEventParam}
@@ -244,18 +263,21 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                 />
                 <Input2 
                     ref={inputRefs.employmentAddress}
+                    initialValue={resolveValue('employmentAddress')}
                     name="employmentAddress"
                     label="Employment Address"
                     clearFields={clearFields}
                 />
                 <Input2 
                     ref={inputRefs.startingWage}
+                    initialValue={resolveValue('startingWage')}
                     name="startingWage"
                     label="Starting Wage"
                     clearFields={clearFields}
                 />
                 <RadioGroup2
                     ref={inputRefs.hoursWorked}
+                    initialValue={resolveValue('hoursWorked')}
                     name="hoursWorked"
                     label="Hours Worked"
                     items={getHoursWorkedRadioItems()}
@@ -263,6 +285,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                 />
                 <Input2 
                     ref={inputRefs.descriptionAttempts}
+                    initialValue={resolveValue('descriptionAttempts')}
                     name="descriptionAttempts"
                     label="Comments"
                     multiline
