@@ -129,7 +129,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                 />
                 <Input2 
                     ref={inputRefs.email}
-                    initialValue={resolveValue('phoneNumber')}
+                    initialValue={resolveValue('email')}
                     name="email"
                     label="Email"
                     errorHandler={validations.email}

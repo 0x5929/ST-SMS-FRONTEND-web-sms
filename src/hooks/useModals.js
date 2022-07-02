@@ -15,23 +15,64 @@ export function useEditModal (studentValues, setRecordForEdit, setRecords, userF
     }, [setRecordForEdit])
 
     const handleCloseEditModal = useCallback(() => {
-        studentFormHandlers.handleClearStudentFormErrorCallback()
+        studentFormHandlers.handleClearError()
         setIsEditModalOpen(false)
     }, [studentFormHandlers])
 
+
+
+
     const handleEditSubmit = useCallback(e => {
 
-        studentFormHandlers.handleSubmit(e)
-        setRecordForEdit(studentFormStates.studentFormState.studentFormValues)
+        console.log('studentFormStates.inputRefs: ', studentFormStates.inputRefs)
+        studentFormHandlers.handleSubmit(e, studentFormStates.inputRefs)
+
+        let recordAfterEdit = {}
+        Object.keys(studentFormStates.inputRefs).forEach(function(key){
+
+            let inputRefs = studentFormStates.inputRefs
+
+            switch(key) {
+
+                case 'course': 
+                    recordAfterEdit[key] = studentFormStates.studentFormState[key]
+                    break;
+                case 'rotation': 
+                    recordAfterEdit[key] = studentFormStates.studentFormState[key]
+                    break;
+                case 'graduated':
+                    recordAfterEdit[key] = inputRefs[key].current.checked
+                    break;
+                case 'employed':
+                    recordAfterEdit[key] = inputRefs[key].current.checked
+                    break;
+                case 'passedFirstExam':
+                    recordAfterEdit[key] = inputRefs[key].current.checked
+                    break;
+                case 'passedSecondOrThird':
+                    recordAfterEdit[key] = inputRefs[key].current.checked
+                    break;
+
+                default: 
+                    recordAfterEdit[key] = inputRefs[key].current.value
+            }
+        });
+
+        setRecordForEdit(recordAfterEdit)
         
         // lets try to figure out how to wait until handleSUbmit to finish then excute code after, wait one second then close modal, then pop notification
         //closeModal()
         setRecords(studentRecordService.getAllRecords())
-    }, [setRecordForEdit, setRecords, studentFormHandlers, studentFormStates.studentFormState.studentFormValues])
+    }, 
+    [setRecordForEdit, 
+        setRecords, 
+        studentFormHandlers, 
+        studentFormStates.inputRefs, 
+        studentFormStates.studentFormState])
 
 
     const handleEditCancel = useCallback(()=> {
-        studentFormHandlers.handleClearStudentFormErrorCallback()
+        studentFormHandlers.handleClearError()
         handleCloseEditModal()
     }, [handleCloseEditModal, studentFormHandlers])
 

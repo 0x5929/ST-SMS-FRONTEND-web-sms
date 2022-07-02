@@ -61,26 +61,44 @@ function ProgramForm({ validations, studentFormStates, studentFormHandlers, ...o
         handleClearCourse() 
     }, [handleClearCourse, clearFields])
 
+
+    const courseValue = useMemo(()=> { 
+        if (recordForEdit) {
+            if (!course){
+                return recordForEdit.course
+            }
+            else {
+                return course
+            }
+        }
+        else {
+            return course
+        }
+    
+  }, [recordForEdit, course])
+
+
+    const rotationValue = useMemo(()=>{
+        if (recordForEdit) {
+            if (!rotation) {
+                return recordForEdit.rotation
+            }
+            else {
+                return rotation
+            }
+        }
+        else {
+            return rotation
+        }
+    }, [recordForEdit, rotation])
+
     return (
         <div { ...others }>
             <Select2
                 name="course"
                 label="Course"
                 options={getCourseOptions()}
-                value={useMemo(()=> { 
-                        if (recordForEdit) {
-                            if (!course){
-                                return recordForEdit.course
-                            }
-                            else {
-                                return course
-                            }
-                        }
-                        else {
-                            return course
-                        }
-                    
-                  }, [recordForEdit, course])}
+                value={courseValue}
                 defaultValue={getCourseOptions()[0].value} 
                 errorHandler={validations.course}
                 handleChange={handleCourseChange}
@@ -90,20 +108,8 @@ function ProgramForm({ validations, studentFormStates, studentFormHandlers, ...o
                 <Select2
                     name="rotation"
                     label="Rotation"
-                    options={getRotationOptions(( useMemo(() => {
-                        if (recordForEdit) {
-                            if (!course){
-                                return recordForEdit.course
-                            }
-                            else {
-                                return course
-                            }
-                        }
-                        else {
-                            return course
-                        }
-                    }, [recordForEdit, course] )))}
-                    value={useMemo(()=> ( recordForEdit ? recordForEdit.rotation : rotation), [recordForEdit, rotation])}
+                    options={getRotationOptions(courseValue)}
+                    value={rotationValue}
                     defaultValue={getRotationOptions()[0].rotation}
                     errorHandler={validations.rotation}
                     handleChange={handleRotationChange}

@@ -109,19 +109,6 @@ export function useStudentForm(
 
 
     const [ studentFormState, studentFormDispatch ] = useReducer(reducer, initialStudentFormState)
-
-
-    useEffect(()=>{
-
-        if (recordForEdit !== null) {
-
-            console.log('called, recordForEdit: ', recordForEdit)
-            studentFormDispatch({type: 'set-course', payload: recordForEdit.course})
-            studentFormDispatch({type: 'set-rotation', payload: recordForEdit.rotation})
-            console.log('studentFormState: ', studentFormState)
-
-        }
-    }, [recordForEdit])
     
 
     // when StudentForm component mounts and unmounts, maybe do some data op during cleanup when after fetch backend data?
@@ -140,18 +127,20 @@ export function useStudentForm(
     const [addRotStates, addRotHandlers] = useAddRotationForm(userFeedbackObj)
 
 
+    const handleClearError = useCallback(() => {
+        if (studentFormState.showError) {
+            studentFormDispatch({type: 'form-toggleShowErrors'})
+        }
+        studentFormDispatch({type: 'set-submitSuccess', payload: false})
+    }, [studentFormState.showError])
 
     const handleCancel = useCallback( () => {
 
         studentFormDispatch({type: 'form-toggleClearFields'})
         // NOTE that the submission success and loading status should be in form level and not input level. 
         // this way in handleCancel, we can mark loading to be false, and success  to be false
-        if (studentFormState.showError){
-            
-            studentFormDispatch({type:'form-toggleShowErrors'})
-        }
-        studentFormDispatch({type: 'set-submitSuccess', payload: false})
-    }, [studentFormState.showError])
+        handleClearError()
+    }, [handleClearError])
 
 
     const handleProgress = useCallback((callback) => {
@@ -304,7 +293,8 @@ export function useStudentForm(
         // }
 
 
-    }, [_createOrUpdate, handleCancel, validations])
+    }, [_createOrUpdate, handleCancel, studentFormState, validations])
+
 
 
     const studentFormStates = { 
@@ -316,6 +306,7 @@ export function useStudentForm(
 
     var studentFormHandlers = { 
         resolveValue,
+        handleClearError,
         handleClearCourse,
         handleCourseChange,
         handleRotationChange,
