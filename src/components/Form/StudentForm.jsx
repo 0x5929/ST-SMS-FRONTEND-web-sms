@@ -1,16 +1,13 @@
-import React, { useCallback, useMemo } from 'react';
-
+import React from 'react';
 import { 
     Grid, 
     Box as MuiBox, 
     CircularProgress as MuiCircularProgress,
     Stack as MuiStack } from '@mui/material';
-
 import { 
     Check as CheckIcon, 
     Save as SaveIcon,
     AddBox as AddBoxIcon } from '@mui/icons-material';
-
 
 import {
     Input,
@@ -31,10 +28,10 @@ import {
 
 import { Modal as BaseModal } from '../Modal';
 import { createStudentFormStyles } from './styles'
-
 import { useValidations } from '../../hooks';
 import ProgramForm from './ProgramForm';
-
+import { useStudentForm } from '../../hooks'
+import * as SMSRecordService from '../../services/SMSRecordService'
 
 const Styles = createStudentFormStyles({
     MuiStack,
@@ -46,9 +43,17 @@ const Styles = createStudentFormStyles({
 })
 
 
-function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHandlers, ...others }) {
+function StudentForm({ notify, notificationHandlers, studentEditFormHandlers, ...others }) {
 
     console.log('StudentForm component rendered')
+
+    const [studentFormStates, studentFormHandlers] = useStudentForm(
+        SMSRecordService.getInitialStudentValues(), 
+        {
+            notificationHandlers,
+            notify
+        }
+    );
 
     const {
     
@@ -72,7 +77,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
     } = studentFormHandlers
 
 
-    // should be put inside a useEffect hook
+    // should be put inside a useEffect hook, and create another state that toggles EditSubmission
     if (studentEditFormHandlers !== undefined) {
             var handleEditSubmit = studentEditFormHandlers.handleEditSubmit
             var handleEditCancel = studentEditFormHandlers.handleEditCancel

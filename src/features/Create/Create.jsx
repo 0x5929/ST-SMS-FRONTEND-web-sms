@@ -3,8 +3,7 @@ import { Paper as MuiPaper } from '@mui/material'
 
 import createCreateFeatureStyles from './styles'
 import Components from '../../components'
-import { useStudentForm, useNotification } from '../../hooks'
-import * as SMSRecordService from '../../services/SMSRecordService'
+import { useNotification } from '../../hooks'
 
 
 const Styles = createCreateFeatureStyles({
@@ -17,29 +16,11 @@ function Create() {
     const [notify, notificationHandlers] = useNotification(Components.NotificationSlide)
 
 
-    const [studentFormStates, studentFormHandlers] = useStudentForm(
-        SMSRecordService.getInitialStudentValues(), 
-        {
-            notificationHandlers,
-            notify
-        }
-    );
-
-
     return (
         <Styles.Paper>        
-            <Styles.Typography
-            text="CREATE NEW STUDENT RECORD"
-            align='center'
-        />
-            <Components.StudentForm
-                studentFormStates={studentFormStates}
-                studentFormHandlers={studentFormHandlers}
-            />
-            <Components.Notification 
-                notify={notify}
-                notificationHandlers={notificationHandlers}
-            />
+            <Styles.Typography text="CREATE NEW STUDENT RECORD" align='center' />
+            <Components.StudentForm notify={notify} notificationHandlers={notificationHandlers} />
+            <Components.Notification notify={notify} notificationHandlers={notificationHandlers} />
         </Styles.Paper>
     )
 }
