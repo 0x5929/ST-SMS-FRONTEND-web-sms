@@ -23,8 +23,9 @@ export function useEditModal (studentValues, setRecordForEdit, setRecords, userF
 
 
     const handleEditSubmit = useCallback(e => {
+        console.log('handleEditSubmit')
 
-        console.log('studentFormStates.inputRefs: ', studentFormStates.inputRefs)
+        studentFormHandlers.toggleIsEdit(true)
         studentFormHandlers.handleSubmit(e, studentFormStates.inputRefs)
 
         let recordAfterEdit = {}
@@ -72,6 +73,8 @@ export function useEditModal (studentValues, setRecordForEdit, setRecords, userF
 
 
     const handleEditCancel = useCallback(()=> {
+        console.log('handleEditCancel')
+        studentFormHandlers.toggleIsEdit(true)
         studentFormHandlers.handleClearError()
         handleCloseEditModal()
     }, [handleCloseEditModal, studentFormHandlers])

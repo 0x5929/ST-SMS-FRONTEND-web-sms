@@ -46,6 +46,7 @@ export function useStudentForm(
     const initialStudentFormState = {
         course: '',
         rotation: '',
+        isEdit: false,
         showError: false,
         clearFields: false,
         submitLoading: false,
@@ -63,6 +64,8 @@ export function useStudentForm(
                 return {...state, submitLoading: action.payload}
             case 'set-submitSuccess': 
                 return {...state, submitSuccess: action.payload}
+            case 'set-isEdit': 
+                return {...state, isEdit: action.payload}
             case 'form-submissionSuccess' : 
                 return {
                     ...state,  
@@ -101,11 +104,16 @@ export function useStudentForm(
           clearTimeout(progressTimer.current);
         };
       }, []);
+
       
     const resolveValue = useCallback((recordProp)=> {
         return recordForEdit ? recordForEdit[recordProp] : ''
     }, [recordForEdit])
 
+
+    const toggleIsEdit = useCallback((state) => {
+        studentFormDispatch({type: 'set-isEdit', payload: state})
+    }, [])
 
     const handleClearError = useCallback(() => {
         if (studentFormState.showError) {
@@ -117,6 +125,7 @@ export function useStudentForm(
 
     const handleCancel = useCallback( () => {
 
+        console.log('handleCancel')
         studentFormDispatch({type: 'form-toggleClearFields'})
         // NOTE that the submission success and loading status should be in form level and not input level. 
         // this way in handleCancel, we can mark loading to be false, and success  to be false
@@ -273,6 +282,7 @@ export function useStudentForm(
     }, [studentFormState, validations])
 
     const handleSubmit = useCallback(e =>{
+        console.log('handleSubmit')
         // DEV configuration so we dont refresh the page when testing submit button
         e.preventDefault()
 
@@ -294,6 +304,7 @@ export function useStudentForm(
     }
 
     var studentFormHandlers = { 
+        toggleIsEdit,
         resolveValue,
         handleClearError,
         handleClearCourse,

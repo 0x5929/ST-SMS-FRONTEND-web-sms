@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { 
     Grid, 
     Box as MuiBox, 
@@ -58,6 +58,7 @@ function StudentForm({ notify, notificationHandlers, studentEditFormHandlers, ..
     const {
     
         studentFormState : {
+            isEdit,
             showError,
             clearFields,
             submitLoading,
@@ -69,31 +70,43 @@ function StudentForm({ notify, notificationHandlers, studentEditFormHandlers, ..
 
     const {
         resolveValue,
-        handleSubmit,
-        handleCancel,
         convertToDefaultEventParam,
         getHoursWorkedRadioItems,
 
     } = studentFormHandlers
 
 
-    // should be put inside a useEffect hook, and create another state that toggles EditSubmission
-    if (studentEditFormHandlers !== undefined) {
-            var handleEditSubmit = studentEditFormHandlers.handleEditSubmit
-            var handleEditCancel = studentEditFormHandlers.handleEditCancel
-    }
-    else {
-        handleEditSubmit = false
-        handleEditCancel = false
-    }
-    //---
+    var handleSubmit
+    var handleCancel
+
+    useEffect(() => {
+        if (isEdit === true && studentEditFormHandlers) {
+            handleSubmit = studentEditFormHandlers.handleEditSubmit
+            handleCancel = studentEditFormHandlers.handleEditCancel
+        }
+        else {
+            handleSubmit = studentFormHandlers.handleSubmit
+            handleCancel = studentFormHandlers.handleCancel
+        }
+    }, [isEdit])
+
+    // // should be put inside a useEffect hook, and create another state that toggles EditSubmission
+    // if (studentEditFormHandlers !== undefined) {
+    //         var handleEditSubmit = studentEditFormHandlers.handleEditSubmit
+    //         var handleEditCancel = studentEditFormHandlers.handleEditCancel
+    // }
+    // else {
+    //     handleEditSubmit = false
+    //     handleEditCancel = false
+    // }
+    // //---
 
     const validations = useValidations().useCreateValidation2()
 
 
 
     return (
-    <Styles.StudentForm onSubmit={handleEditSubmit || ( (e) => handleSubmit(e, inputRefs) )} {...others}>
+    <Styles.StudentForm onSubmit={handleSubmit} {...others}>
         <Grid container>
             <Grid item laptop={6} tablet={12}>
                 <Input2
@@ -308,7 +321,7 @@ function StudentForm({ notify, notificationHandlers, studentEditFormHandlers, ..
                             <Styles.SuccessFab
                                 aria-label="save"
                                 color="primary"
-                                onClick={(e) => handleSubmit(e, inputRefs)}
+                                onClick={handleSubmit}
                             >
                                 <CheckIcon />
                             </Styles.SuccessFab>
@@ -318,7 +331,7 @@ function StudentForm({ notify, notificationHandlers, studentEditFormHandlers, ..
                             <BaseFab
                                 aria-label="save"
                                 color="primary"
-                                onClick={(e) => handleSubmit(e, inputRefs)}
+                                onClick={handleSubmit}
                             >
                                 <SaveIcon />
                             </BaseFab>
@@ -346,7 +359,7 @@ function StudentForm({ notify, notificationHandlers, studentEditFormHandlers, ..
                         <Button
                             color="error"
                             text="Cancel"
-                            onClick={handleEditCancel || handleCancel}
+                            onClick={handleCancel}
                         />
                     </Styles.ButtonBox>
                 </Styles.ButtonContainerBox>
