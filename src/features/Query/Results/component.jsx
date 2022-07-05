@@ -128,6 +128,10 @@ function QueryResults({ handleBacktoQuery, queryResults } ) {
                     studentFormStates={studentFormStates}
                     studentFormHandlers={studentFormHandlers}
                     studentEditFormHandlers={{handleEditCancel,handleEditSubmit}}
+                    // pass editModalHandlers here, 
+                    // inside studentFormcom,ponent, check for isEdit state
+                    // if it is, then change submit/cancel methods to edit ones, and have it call using it self as one of the arugments
+                    // think of a goo dway to do it?
                 />
             </Components.Modal>
             <Components.Modal

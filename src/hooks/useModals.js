@@ -1,12 +1,11 @@
 import { useState, useCallback } from "react";
-import { useStudentForm } from "./useForms";
 import * as studentRecordService from '../services/SMSRecordService';
 
 export function useEditModal (studentValues, setRecordForEdit, setRecords, userFeedbackObj, recordForEdit) {
 
 
     const [isEditModalOpen, setIsEditModalOpen] = useState(false)
-    const [studentFormStates, studentFormHandlers] = useStudentForm(studentValues, userFeedbackObj, recordForEdit);
+    //const [studentFormStates, studentFormHandlers] = useStudentForm(studentValues, userFeedbackObj, recordForEdit);
 
 
     const handleOpenEditModal = useCallback(item =>{
@@ -14,32 +13,36 @@ export function useEditModal (studentValues, setRecordForEdit, setRecords, userF
         setIsEditModalOpen(true)
     }, [setRecordForEdit])
 
-    const handleCloseEditModal = useCallback(() => {
-        studentFormHandlers.handleClearError()
+    const handleCloseEditModal = useCallback((studentFormClearError) => {
+        // studentFormHandlers.handleClearError()
+        studentFormClearError()
         setIsEditModalOpen(false)
-    }, [studentFormHandlers])
+    }, [])
 
 
 
 
-    const handleEditSubmit = useCallback(e => {
-        console.log('handleEditSubmit')
+    const handleEditSubmit = useCallback((e, toggleEdit, formSubmit, inputRefs, course, rotation) => {
+        // console.log('handleEditSubmit')
 
-        studentFormHandlers.toggleIsEdit(true)
-        studentFormHandlers.handleSubmit(e, studentFormStates.inputRefs)
+        // studentFormHandlers.toggleIsEdit(true)
+        // studentFormHandlers.handleSubmit(e, studentFormStates.inputRefs)
+        toggleEdit(true)
+        formSubmit(e, inputRefs)
+
 
         let recordAfterEdit = {}
-        Object.keys(studentFormStates.inputRefs).forEach(function(key){
+        Object.keys(inputRefs).forEach(function(key){
 
-            let inputRefs = studentFormStates.inputRefs
-
+            // let inputRefs = studentFormStates.inputRefs
+            
             switch(key) {
 
                 case 'course': 
-                    recordAfterEdit[key] = studentFormStates.studentFormState[key]
+                    recordAfterEdit[key] = course
                     break;
                 case 'rotation': 
-                    recordAfterEdit[key] = studentFormStates.studentFormState[key]
+                    recordAfterEdit[key] = rotation
                     break;
                 case 'graduated':
                     recordAfterEdit[key] = inputRefs[key].current.checked
@@ -65,28 +68,23 @@ export function useEditModal (studentValues, setRecordForEdit, setRecords, userF
         //closeModal()
         setRecords(studentRecordService.getAllRecords())
     }, 
-    [setRecordForEdit, 
-        setRecords, 
-        studentFormHandlers, 
-        studentFormStates.inputRefs, 
-        studentFormStates.studentFormState])
+    [setRecordForEdit, setRecords])
 
 
-    const handleEditCancel = useCallback(()=> {
+    const handleEditCancel = useCallback((toggleEdit, studentFormClearError)=> {
         console.log('handleEditCancel')
-        studentFormHandlers.toggleIsEdit(true)
-        studentFormHandlers.handleClearError()
+        toggleEdit(true)
+        studentFormClearError()
         handleCloseEditModal()
-    }, [handleCloseEditModal, studentFormHandlers])
+    }, [handleCloseEditModal])
 
-    const editModalStates = { isEditModalOpen, studentFormStates }
+    const editModalStates = { isEditModalOpen }
     
     const editModalHandlers = {
         handleOpenEditModal,
         handleCloseEditModal,
         handleEditSubmit,
-        handleEditCancel,
-        studentFormHandlers
+        handleEditCancel
     }
 
 
