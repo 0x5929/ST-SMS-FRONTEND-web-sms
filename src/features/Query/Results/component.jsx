@@ -1,15 +1,11 @@
 import React from 'react'
-
-import { useQueryResultTable, useNotification, useConfirmDialog } from '../../../hooks'
-
 import { Box as MuiBox } from '@mui/material'
 
-import Components from '../../../components'
-
 import createResultsStyles from './styles'
-
-
 import { StudentForm } from '../../Forms'
+import Components from '../../../components'
+import { useQueryResultTable, useNotification, useConfirmDialog } from '../../../hooks'
+
 const Styles = createResultsStyles({
     MuiBox,
     BaseSearchBar: Components.SearchBar,
@@ -20,6 +16,7 @@ const Styles = createResultsStyles({
 function QueryResults({ handleBacktoQuery, queryResults } ) {
 
     console.log('QueryResults feature rendered')
+    
     const [notify, notificationHandlers]= useNotification(Components.NotificationSlide)
     const [confirmDialog, confirmDialogHandlers] = useConfirmDialog()
     const [useQueryResultTableStates, useQueryResultTableHandlers] = useQueryResultTable(

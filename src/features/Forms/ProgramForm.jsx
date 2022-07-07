@@ -1,21 +1,17 @@
 import React, { useEffect, useMemo } from 'react'
-
 import { 
     Box as MuiBox, 
     Stack as MuiStack } from '@mui/material';
-
 import { AddBox as AddBoxIcon } from '@mui/icons-material';
 
 
-import { Modal as BaseModal } from '../../components/Modal';
+import RotationForm from './RotationForm'
+import { createProgramFormStyles } from './styles'
 import { Select2 } from '../../components/Inputs'
-
+import { Modal as BaseModal } from '../../components/Modal'
 import {  BaseIconButton  } from '../../components/Buttons'
 
-import RotationForm from './RotationForm'
 
-
-import { createProgramFormStyles } from './styles'
 
 const Styles = createProgramFormStyles({MuiStack, MuiBox, BaseIconButton, BaseModal})
 
