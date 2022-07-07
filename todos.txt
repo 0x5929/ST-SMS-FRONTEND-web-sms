@@ -11,4 +11,7 @@
 05242022:Redo feature sizes:c:05242022
 05242022:Redo drawer to show icons:i:decided not practical
 05242022:Add rotation and add rotation:c
-06092022:Change add rotation button sizes, why is one bigger than other?:i
+06092022:Change add rotation button sizes, why is one bigger than other?:c
+07072022:Change Form into Features, add a box container where the hook is called, this way only box and form rerenders on change:i
+07072022:refactor useForms.js put methods/functions in order:i
+07072022:move onto other custom hooks, make sure they are all caled at the right place:i
