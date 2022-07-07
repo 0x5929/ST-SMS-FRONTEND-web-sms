@@ -9,6 +9,7 @@ import Components from '../../../components'
 import createResultsStyles from './styles'
 
 
+import { StudentForm } from '../../Forms'
 const Styles = createResultsStyles({
     MuiBox,
     BaseSearchBar: Components.SearchBar,
@@ -124,7 +125,7 @@ function QueryResults({ handleBacktoQuery, queryResults } ) {
                 isModalOpen={isEditModalOpen}
                 handleCloseModal={handleCloseEditModal}
             >
-                <Components.StudentForm
+                <StudentForm
                     studentFormStates={studentFormStates}
                     studentFormHandlers={studentFormHandlers}
                     studentEditFormHandlers={{handleEditCancel,handleEditSubmit}}

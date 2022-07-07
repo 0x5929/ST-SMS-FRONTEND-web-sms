@@ -22,14 +22,14 @@ import {
     Checkbox,
     Checkbox2,
     RadioGroup,
-    RadioGroup2 } from '../Inputs'
+    RadioGroup2 } from '../../components/Inputs'
 
 import {
     BaseButton as Button,
     BaseIconButton,
-    BaseFab } from '../Buttons'
+    BaseFab } from '../../components/Buttons'
 
-import { Modal as BaseModal } from '../Modal';
+import { Modal as BaseModal } from '../../components/Modal';
 import { createStudentFormStyles } from './styles'
 
 import { useValidations } from '../../hooks';

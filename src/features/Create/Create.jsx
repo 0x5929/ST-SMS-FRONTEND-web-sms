@@ -3,6 +3,8 @@ import { Paper as MuiPaper } from '@mui/material'
 
 import createCreateFeatureStyles from './styles'
 import Components from '../../components'
+
+import { StudentForm } from '../Forms'
 import { useStudentForm, useNotification } from '../../hooks'
 import * as SMSRecordService from '../../services/SMSRecordService'
 
@@ -33,7 +35,7 @@ function Create() {
             text="CREATE NEW STUDENT RECORD"
             align='center'
         />
-            <Components.StudentForm
+            <StudentForm
                 studentFormStates={studentFormStates}
                 studentFormHandlers={studentFormHandlers}
             />

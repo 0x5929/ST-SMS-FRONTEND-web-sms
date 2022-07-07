@@ -6,6 +6,7 @@ import createQueryStyles from './styles'
 import { QueryResults } from '../Results'
 import { Statistics  } from '../Statistics'
 import Components from '../../../components'
+import { QueryForm } from '../../Form'
 import { useQueryForm } from '../../../hooks'
 
 
@@ -25,7 +26,7 @@ function Query() {
                 !queryFormState.showResults &&
 
                 <>
-                    <Components.QueryForm
+                    <QueryForm
                         queryFormStates={queryFormStates}
                         queryFormHandlers={queryFormHandlers}
                     />

@@ -3,13 +3,13 @@ import { Grid } from '@mui/material';
 import { DoubleArrow as DoubleArrowIcon } from '@mui/icons-material';
 
 import { createQueryFormStyles } from './styles'
-import { SearchBar } from '../Searchbar';
-import { Select as BaseSelect } from '../Inputs'
+import { SearchBar } from '../../components/Searchbar';
+import { Select as BaseSelect } from '../../components/Inputs'
 import {
     BaseButton ,
     BaseIconButton,
 
-} from '../Buttons'
+} from '../../components/Buttons'
 
 
 const Styles = createQueryFormStyles({SearchBar, BaseSelect, BaseButton, BaseIconButton})

@@ -7,10 +7,10 @@ import {
 import { AddBox as AddBoxIcon } from '@mui/icons-material';
 
 
-import { Modal as BaseModal } from '../Modal';
-import { Select2 } from '../Inputs'
+import { Modal as BaseModal } from '../../components/Modal';
+import { Select2 } from '../../components/Inputs'
 
-import {  BaseIconButton  } from '../Buttons'
+import {  BaseIconButton  } from '../../components/Buttons'
 
 import RotationForm from './RotationForm'
 

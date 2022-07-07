@@ -6,9 +6,9 @@ import {
 
 import {
     Input2,
-    Select2 } from '../Inputs'
+    Select2 } from '../../components/Inputs'
 
-import {  BaseButton as Button } from '../Buttons'
+import {  BaseButton as Button } from '../../components/Buttons'
 
 
 

@@ -1,4 +1,3 @@
-import { StudentForm, QueryForm } from './Form';
 import { BaseCard } from './Card';
 import { SearchBar } from './Searchbar';
 import { Modal } from './Modal';
@@ -26,8 +25,6 @@ const Components = {
     BaseFab,
     BaseButton,
     BaseIconButton,
-    StudentForm,
-    QueryForm,
     BaseCard,
     Input,
     Select,
