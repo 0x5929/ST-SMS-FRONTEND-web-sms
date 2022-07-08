@@ -2,6 +2,7 @@ import { BaseCard } from './Card';
 import { SearchBar } from './Searchbar';
 import { Modal } from './Modal';
 import { BaseTypography } from './Typography';
+import { StudentForm, QueryForm } from './Forms';
 import { BaseButton, BaseIconButton, BaseFab } from './Buttons';
 import { ConfirmDialog } from './ConfirmDialog';
 import { Notification, NotificationSlide } from './Notification';
@@ -28,6 +29,8 @@ const Components = {
     BaseCard,
     Input,
     Select,
+    StudentForm,
+    QueryForm,
     DatePicker,
     Checkbox,
     RadioGroup,

@@ -2,7 +2,6 @@ import React from 'react'
 import { Box as MuiBox } from '@mui/material'
 
 import createResultsStyles from './styles'
-import { StudentForm } from '../../Forms'
 import Components from '../../../components'
 import { useQueryResultTable, useNotification, useConfirmDialog } from '../../../hooks'
 
@@ -122,7 +121,7 @@ function QueryResults({ handleBacktoQuery, queryResults } ) {
                 isModalOpen={isEditModalOpen}
                 handleCloseModal={handleCloseEditModal}
             >
-                <StudentForm
+                <Components.StudentForm
                     studentFormStates={studentFormStates}
                     studentFormHandlers={studentFormHandlers}
                     studentEditFormHandlers={{handleEditCancel,handleEditSubmit}}

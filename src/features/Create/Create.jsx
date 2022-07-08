@@ -2,7 +2,6 @@ import React from "react"
 import { Paper as MuiPaper } from '@mui/material'
 
 import createCreateFeatureStyles from './styles'
-import { StudentForm } from '../Forms'
 import Components from '../../components'
 import { useStudentForm, useNotification } from '../../hooks'
 import * as SMSRecordService from '../../services/SMSRecordService'
@@ -33,7 +32,7 @@ function Create() {
             text="CREATE NEW STUDENT RECORD"
             align='center'
         />
-            <StudentForm
+            <Components.StudentForm
                 studentFormStates={studentFormStates}
                 studentFormHandlers={studentFormHandlers}
             />
