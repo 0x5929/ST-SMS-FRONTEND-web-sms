@@ -1,1 +1,1 @@
-export { default as QueryResults } from './component'
+export { default as QueryResults } from './Results'
