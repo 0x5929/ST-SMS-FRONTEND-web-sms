@@ -29,43 +29,7 @@ export function useEditModal ({setRecordForEdit, setRecords, userFeedbackObj, re
 
         let submittedData = studentFormHandlers.handleSubmit(e, studentFormStates.inputRefs)
 
-        // let recordAfterEdit = {}
-        // Object.keys(studentFormStates.inputRefs).forEach(function(key){
-
-        //     let inputRefs = studentFormStates.inputRefs
-
-        //     switch(key) {
-
-        //         case 'course': 
-        //             recordAfterEdit[key] = studentFormStates.studentFormState[key]
-        //             break;
-        //         case 'rotation': 
-        //             recordAfterEdit[key] = studentFormStates.studentFormState[key]
-        //             break;
-        //         case 'graduated':
-        //             recordAfterEdit[key] = inputRefs[key].current.checked
-        //             break;
-        //         case 'employed':
-        //             recordAfterEdit[key] = inputRefs[key].current.checked
-        //             break;
-        //         case 'passedFirstExam':
-        //             recordAfterEdit[key] = inputRefs[key].current.checked
-        //             break;
-        //         case 'passedSecondOrThird':
-        //             recordAfterEdit[key] = inputRefs[key].current.checked
-        //             break;
-
-        //         default: 
-        //             recordAfterEdit[key] = inputRefs[key].current.value
-        //     }
-        // });
-
-        // setRecordForEdit(null)
         setRecordForEdit(submittedData)
-        
-        // lets try to figure out how to wait until handleSUbmit to finish then excute code after, wait one second then close modal, then pop notification
-        //closeModal()
-
         setRecords(studentRecordService.getAllRecords())
     }, 
     [setRecordForEdit, setRecords, studentFormHandlers, studentFormStates.inputRefs])

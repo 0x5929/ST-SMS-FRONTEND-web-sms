@@ -419,22 +419,7 @@ function useAddRotationForm(userFeedbackObj) {
         }
 
 
-        // if (addRotValidation(rotationFormValues, setRotationFormErrors, rotationFormErrors)){
-
-        //     notificationHandlers.handleOpenNotification('Rotation added successfully')
-
-        //     handleAddRotClear()
-        //     addRotModalHandlers.handleCloseAddRotModal()
-        // }
-
-    }, [
-        addRotValidation, 
-        rotationFormValues, 
-        rotationFormErrors, 
-        notificationHandlers, 
-        handleAddRotClear, 
-        addRotModalHandlers
-    ])
+    }, [validations, programName, notificationHandlers, handleAddRotClear, addRotModalHandlers])
 
 
     const addRotStates = { rotationFormValues, rotationFormErrors, isAddRotModalOpen, programName, showError, clearFields, rotationRef }

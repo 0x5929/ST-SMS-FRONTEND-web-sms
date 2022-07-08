@@ -70,7 +70,6 @@ function QueryResults({ handleBacktoQuery, queryResults } ) {
     } = useQueryResultTableHandlers
     
 
-    console.log('results.records: ', records)
     return (
         <>
             <Styles.Box>
