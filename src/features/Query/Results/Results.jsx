@@ -32,9 +32,9 @@ function QueryResults({ handleBacktoQuery, queryResults } ) {
     const {
 
         records, 
+        recordForEdit,
         paginationStates, 
         sortingStates,
-        recordForEdit,
         filterStates: { textInput },
 
         detailedViewTableStates :  {

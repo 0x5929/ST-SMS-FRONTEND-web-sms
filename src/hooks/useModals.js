@@ -14,15 +14,13 @@ export function useEditModal ({setRecordForEdit, setRecords, userFeedbackObj, re
         }
     }, [recordForEdit])
 
+
     const handleCloseEditModal = useCallback(() => {
         studentFormHandlers.handleClearError()
         setRecordForEdit(null)
         setIsEditModalOpen(false)
 
     }, [setRecordForEdit, studentFormHandlers])
-
-    
-
 
 
     const handleEditSubmit = useCallback(e => {
@@ -31,8 +29,7 @@ export function useEditModal ({setRecordForEdit, setRecords, userFeedbackObj, re
 
         setRecordForEdit(submittedData)
         setRecords(studentRecordService.getAllRecords())
-    }, 
-    [setRecordForEdit, setRecords, studentFormHandlers, studentFormStates.inputRefs])
+    }, [setRecordForEdit, setRecords, studentFormHandlers, studentFormStates.inputRefs])
 
 
     const handleEditCancel = useCallback(()=> {
@@ -69,7 +66,7 @@ export function useDetailedViewModal (setRecordForView){
     }, [setRecordForView])
 
     const detailedViewModalStates = { isDetailedViewModalOpen  }
-    const detailedViewModalHandlers = { handleDetailedViewModalOpen, handleDetailedViewModalClose}
+    const detailedViewModalHandlers = { handleDetailedViewModalOpen, handleDetailedViewModalClose }
     
     return [detailedViewModalStates, detailedViewModalHandlers] 
 }
