@@ -1,11 +1,10 @@
 import React from "react"
 import { Paper as MuiPaper } from '@mui/material'
 
+import CreateStudent from './CreateStudent'
 import createCreateFeatureStyles from './styles'
-import { StudentForm } from '../Forms'
 import Components from '../../components'
-import { useStudentForm, useNotification } from '../../hooks'
-import * as SMSRecordService from '../../services/SMSRecordService'
+import { useNotification } from '../../hooks'
 
 
 const Styles = createCreateFeatureStyles({
@@ -17,14 +16,6 @@ function Create() {
     console.log('Create feature rendered')
 
     const [notify, notificationHandlers] = useNotification(Components.NotificationSlide)
-    const [studentFormStates, studentFormHandlers] = useStudentForm(
-        true, 
-        SMSRecordService.getInitialStudentValues(), 
-        {
-            notificationHandlers,
-            notify
-        }
-    );
 
 
     return (
@@ -33,10 +24,7 @@ function Create() {
             text="CREATE NEW STUDENT RECORD"
             align='center'
         />
-            <StudentForm
-                studentFormStates={studentFormStates}
-                studentFormHandlers={studentFormHandlers}
-            />
+            <CreateStudent notify={notify} notificationHandlers={notificationHandlers} />
             <Components.Notification 
                 notify={notify}
                 notificationHandlers={notificationHandlers}

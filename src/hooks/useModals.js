@@ -1,74 +1,38 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useStudentForm } from "./useForms";
 import * as studentRecordService from '../services/SMSRecordService';
 
-export function useEditModal (studentValues, setRecordForEdit, setRecords, userFeedbackObj, recordForEdit) {
+export function useEditModal ({setRecordForEdit, setRecords, userFeedbackObj, recordForEdit}) {
 
 
     const [isEditModalOpen, setIsEditModalOpen] = useState(false)
-    const [studentFormStates, studentFormHandlers] = useStudentForm(true, studentValues, userFeedbackObj, recordForEdit);
+    const [studentFormStates, studentFormHandlers] = useStudentForm(userFeedbackObj, recordForEdit);
 
-
-    const handleOpenEditModal = useCallback(item =>{
-        setRecordForEdit(item)
-        setIsEditModalOpen(true)
-    }, [setRecordForEdit])
+    useEffect(() => {
+        if (recordForEdit) {
+            setIsEditModalOpen(true)
+        }
+    }, [recordForEdit])
 
     const handleCloseEditModal = useCallback(() => {
         studentFormHandlers.handleClearError()
+        setRecordForEdit(null)
         setIsEditModalOpen(false)
-    }, [studentFormHandlers])
 
+    }, [setRecordForEdit, studentFormHandlers])
+
+    
 
 
 
     const handleEditSubmit = useCallback(e => {
 
-        console.log('studentFormStates.inputRefs: ', studentFormStates.inputRefs)
-        studentFormHandlers.handleSubmit(e, studentFormStates.inputRefs)
+        let submittedData = studentFormHandlers.handleSubmit(e, studentFormStates.inputRefs)
 
-        let recordAfterEdit = {}
-        Object.keys(studentFormStates.inputRefs).forEach(function(key){
-
-            let inputRefs = studentFormStates.inputRefs
-
-            switch(key) {
-
-                case 'course': 
-                    recordAfterEdit[key] = studentFormStates.studentFormState[key]
-                    break;
-                case 'rotation': 
-                    recordAfterEdit[key] = studentFormStates.studentFormState[key]
-                    break;
-                case 'graduated':
-                    recordAfterEdit[key] = inputRefs[key].current.checked
-                    break;
-                case 'employed':
-                    recordAfterEdit[key] = inputRefs[key].current.checked
-                    break;
-                case 'passedFirstExam':
-                    recordAfterEdit[key] = inputRefs[key].current.checked
-                    break;
-                case 'passedSecondOrThird':
-                    recordAfterEdit[key] = inputRefs[key].current.checked
-                    break;
-
-                default: 
-                    recordAfterEdit[key] = inputRefs[key].current.value
-            }
-        });
-
-        setRecordForEdit(recordAfterEdit)
-        
-        // lets try to figure out how to wait until handleSUbmit to finish then excute code after, wait one second then close modal, then pop notification
-        //closeModal()
+        setRecordForEdit(submittedData)
         setRecords(studentRecordService.getAllRecords())
     }, 
-    [setRecordForEdit, 
-        setRecords, 
-        studentFormHandlers, 
-        studentFormStates.inputRefs, 
-        studentFormStates.studentFormState])
+    [setRecordForEdit, setRecords, studentFormHandlers, studentFormStates.inputRefs])
 
 
     const handleEditCancel = useCallback(()=> {
@@ -79,7 +43,6 @@ export function useEditModal (studentValues, setRecordForEdit, setRecords, userF
     const editModalStates = { isEditModalOpen, studentFormStates }
     
     const editModalHandlers = {
-        handleOpenEditModal,
         handleCloseEditModal,
         handleEditSubmit,
         handleEditCancel,

@@ -1,10 +1,11 @@
 import React from 'react'
 import { Box as MuiBox } from '@mui/material'
 
+import EditStudent from './EditStudent'
 import createResultsStyles from './styles'
-import { StudentForm } from '../../Forms'
 import Components from '../../../components'
 import { useQueryResultTable, useNotification, useConfirmDialog } from '../../../hooks'
+
 
 const Styles = createResultsStyles({
     MuiBox,
@@ -12,6 +13,7 @@ const Styles = createResultsStyles({
     BaseQueryTblContainer: Components.QueryTblContainer,
     BaseDetailedTblContainer: Components.DetailedTblContainer
 })
+
 
 function QueryResults({ handleBacktoQuery, queryResults } ) {
 
@@ -32,6 +34,7 @@ function QueryResults({ handleBacktoQuery, queryResults } ) {
         records, 
         paginationStates, 
         sortingStates,
+        recordForEdit,
         filterStates: { textInput },
 
         detailedViewTableStates :  {
@@ -42,12 +45,6 @@ function QueryResults({ handleBacktoQuery, queryResults } ) {
             }
         },
 
-        editModalStates : {
-
-            isEditModalOpen, 
-            studentFormStates,
-
-        }
         
     } = useQueryResultTableStates
 
@@ -56,7 +53,8 @@ function QueryResults({ handleBacktoQuery, queryResults } ) {
         getTableData,
         getFinalDisplayRecords,
         handleDeletePress,
-
+        setRecordForEdit, 
+        setRecords,
         paginationHandlers,
         sortingHandlers,
         filterHandlers: { handleClear, handleFilter },
@@ -67,19 +65,10 @@ function QueryResults({ handleBacktoQuery, queryResults } ) {
 
                 handleDetailedViewModalClose
             }
-        },
-
-        editModalHandlers: {
-
-            handleCloseEditModal, 
-            studentFormHandlers ,
-            handleEditCancel, 
-            handleEditSubmit
-        },
+        }
         
     } = useQueryResultTableHandlers
     
-
 
     return (
         <>
@@ -108,8 +97,9 @@ function QueryResults({ handleBacktoQuery, queryResults } ) {
                     handlers={{
                         getFinalDisplayRecords,
                         handleDeletePress,
-                        detailedViewTableHandlers : useQueryResultTableHandlers.detailedViewTableHandlers,
-                        editModalHandlers: useQueryResultTableHandlers.editModalHandlers}}
+                        setRecordForEdit,
+                        detailedViewTableHandlers : useQueryResultTableHandlers.detailedViewTableHandlers}}
+                        
                 />
             </Styles.QueryTblContainer>
             <Components.QueryTblPagination 
@@ -117,17 +107,12 @@ function QueryResults({ handleBacktoQuery, queryResults } ) {
                 paginationStates={paginationStates}
                 paginationHandlers={paginationHandlers}
             />
-            <Components.Modal
-                modalTitle="Edit Student Data"
-                isModalOpen={isEditModalOpen}
-                handleCloseModal={handleCloseEditModal}
-            >
-                <StudentForm
-                    studentFormStates={studentFormStates}
-                    studentFormHandlers={studentFormHandlers}
-                    studentEditFormHandlers={{handleEditCancel,handleEditSubmit}}
-                />
-            </Components.Modal>
+            <EditStudent 
+                setRecordForEdit={setRecordForEdit}
+                setRecords={setRecords}
+                userFeedbackObj={{notify, notificationHandlers}}
+                recordForEdit={recordForEdit}
+            />
             <Components.Modal
                 modalTitle="Detail View"
                 isModalOpen={isDetailedViewModalOpen}

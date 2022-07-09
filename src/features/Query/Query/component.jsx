@@ -4,7 +4,6 @@ import { Box as MuiBox, Paper as MuiPaper } from '@mui/material';
 import createQueryStyles from './styles'
 import { QueryResults } from '../Results'
 import { Statistics  } from '../Statistics'
-import { QueryForm } from '../../Forms'
 import { useQueryForm } from '../../../hooks'
 import Components from '../../../components'
 
@@ -25,7 +24,7 @@ function Query() {
                 !queryFormState.showResults &&
 
                 <>
-                    <QueryForm
+                    <Components.QueryForm
                         queryFormStates={queryFormStates}
                         queryFormHandlers={queryFormHandlers}
                     />

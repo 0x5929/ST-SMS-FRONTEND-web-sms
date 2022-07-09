@@ -2,16 +2,11 @@ import { useState, useEffect, useRef, useReducer, useCallback } from 'react'
 
 import { useAddRotationModal } from './useModals';
 import useValidations from './useValidations'
-
 import * as SMSRecordService from '../services/SMSRecordService'
-import useToggle from './useToggle';
+
 
 // FORM STATE
-export function useStudentForm(
-    validateOnChange=false, 
-    currentData=SMSRecordService.getInitialStudentValues(), 
-    userFeedbackObj,
-    recordForEdit=null) {
+export function useStudentForm(userFeedbackObj, recordForEdit=null) {
         
     const validations = useValidations().useCreateValidation2()
 
@@ -46,7 +41,7 @@ export function useStudentForm(
     }
 
     const initialStudentFormState = {
-        studentFormValues: currentData,
+        studentFormValues: SMSRecordService.getInitialStudentValues(),
         studentFormErrors: {},
         course: '',
         rotation: '',
@@ -97,7 +92,6 @@ export function useStudentForm(
                     clearFields: !state.clearFields
                 }
             case 'set-course' : 
-                console.log('ARE WE HERE?', action.payload, state)
                 return { ...state, course : action.payload }
             case 'set-rotation': 
                 return { ...state, rotation: action.payload }
@@ -184,6 +178,7 @@ export function useStudentForm(
         resetForm()
 
         console.log(op, ' success with: ', record)
+        return record
     }, [handleProgress, userFeedbackObj])
 
     const  { getCourseOptions, getRotationOptions, getHoursWorkedRadioItems } = SMSRecordService
@@ -268,7 +263,13 @@ export function useStudentForm(
 
             });
 
-            _createOrUpdate(data, handleCancel)
+            console.log('FORMS, recordForEdit: ', recordForEdit)
+            if (recordForEdit) {
+                data.pk = recordForEdit.pk
+                data.course = recordForEdit.course
+                data.rotation = recordForEdit.rotation
+            }
+            return _createOrUpdate(data, handleCancel)
         }
 
         function checkForError(validations) {
@@ -286,14 +287,9 @@ export function useStudentForm(
             return Object.keys(obj).length === 0;
         }
 
-        
-
-        // if (createValidation(studentFormState.studentFormValues, handleSetStudentFormErrorCallback, studentFormState.studentFormErrors)){
-        //     _createOrUpdate(studentFormState.studentFormValues, handleCancel)
-        // }
 
 
-    }, [_createOrUpdate, handleCancel, studentFormState, validations])
+    }, [_createOrUpdate, handleCancel, studentFormState, validations, recordForEdit])
 
 
 
@@ -425,22 +421,7 @@ function useAddRotationForm(userFeedbackObj) {
         }
 
 
-        // if (addRotValidation(rotationFormValues, setRotationFormErrors, rotationFormErrors)){
-
-        //     notificationHandlers.handleOpenNotification('Rotation added successfully')
-
-        //     handleAddRotClear()
-        //     addRotModalHandlers.handleCloseAddRotModal()
-        // }
-
-    }, [
-        addRotValidation, 
-        rotationFormValues, 
-        rotationFormErrors, 
-        notificationHandlers, 
-        handleAddRotClear, 
-        addRotModalHandlers
-    ])
+    }, [validations, programName, notificationHandlers, handleAddRotClear, addRotModalHandlers])
 
 
     const addRotStates = { rotationFormValues, rotationFormErrors, isAddRotModalOpen, programName, showError, clearFields, rotationRef }

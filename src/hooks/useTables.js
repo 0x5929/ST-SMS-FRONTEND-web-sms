@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react'
 
-import { useEditModal, useDetailedViewModal, usePagination, useSorting, useFilter } from  './index'
+import { useDetailedViewModal, usePagination, useSorting, useFilter } from  './index'
 
 import * as SMSRecordService from '../services/SMSRecordService'
 
@@ -15,14 +15,7 @@ export default function useQueryResultTable(userFeedbackObj, results) {
     const [sortingStates, sortingHandlers]= useSorting()
     const [filterStates, filterHandlers] = useFilter(setRecords)
     const [detailedViewTableStates, detailedViewTableHandlers] = useDetailedViewTable(recordForView, setRecordForView)
-    const [editModalStates, editModalHandlers] = useEditModal(
 
-        SMSRecordService.getInitialStudentValues(), 
-        setRecordForEdit, 
-        setRecords, 
-        userFeedbackObj, 
-        recordForEdit
-    )
 
     const { getTableData } = SMSRecordService
     const { notificationHandlers, confirmDialogHandlers } = userFeedbackObj
@@ -61,24 +54,23 @@ export default function useQueryResultTable(userFeedbackObj, results) {
         records, 
         recordForEdit, 
         recordForView, 
-
         paginationStates, 
         sortingStates,
         filterStates,
         detailedViewTableStates,
-        editModalStates
+
     }
 
     const useQueryResultTableHandlers = {
+        setRecords,
+        setRecordForEdit,
         getTableData,
         getFinalDisplayRecords,
         handleDeletePress,
-
         paginationHandlers,
         sortingHandlers,
         filterHandlers,
         detailedViewTableHandlers,
-        editModalHandlers,
     }
 
     return [useQueryResultTableStates, useQueryResultTableHandlers]

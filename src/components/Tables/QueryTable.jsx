@@ -77,13 +77,12 @@ const QueryTblBody = React.memo(({ handlers, ...others }) => {
      const {
         getFinalDisplayRecords,
         handleDeletePress,
-
+        setRecordForEdit,
         detailedViewTableHandlers,
-        editModalHandlers
      } = handlers
 
     const records = getFinalDisplayRecords()
-    const { handleOpenEditModal } = editModalHandlers
+    // const { handleOpenEditModal } = editModalHandlers
 
     const { detailedViewModalHandlers } = detailedViewTableHandlers
     const { handleDetailedViewModalOpen } = detailedViewModalHandlers
@@ -112,7 +111,7 @@ const QueryTblBody = React.memo(({ handlers, ...others }) => {
                                 </Styles.ActionButton>
                                 <Styles.ActionButton 
                                     variant="text"
-                                    onClick={() =>handleOpenEditModal(record)}
+                                    onClick={() =>setRecordForEdit(record)}
                                     size="small"
                                     color="secondary"
                                 >
