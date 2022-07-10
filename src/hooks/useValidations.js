@@ -128,14 +128,36 @@ function useValidations() {
             rotation    : useCallback((value)=> { console.log('value: ', value); return (numberRegex.test(value)) ? {} : { error: true, helperText: 'Only numeric format is allowed.'}}, [numberRegex])
         }
     }
+    const queryValidation2 = useCallback((arrFieldValues, handleSetQueryFormErrorCallback, errors) => {
+        let temp = {...errors}
+
+        for (var index = 0; index < arrFieldValues.length; index++ ){
+            for (let key in arrFieldValues[index]) {
+                temp[key + arrFieldValues[index]['pk'].toString()] = (arrFieldValues[index][key] !== '')?'':'All fields required.'
+            }
+        }
+
+        // returns false if any of the above if statements evaluates to false
+        handleSetQueryFormErrorCallback(temp)
+        return Object.values(temp).every(x => x === '')
+    }, [])
+
+    const useQueryValidation2 = () => {
+
+        // do the array manipulation here? or where errorhandler is called?
+        return {
+            validation: useCallback((value) => value !== '' ? {} : {error: true, helperText: 'This field is required.'})
+        }
+    }
 
     return {
         createValidation,
         useCreateValidation2,
         queryValidation,
+        useQueryValidation2,
         loginValidation,
         addRotValidation,
-        useAddRotValidation2
+        useAddRotValidation2,
     }
 }
 
