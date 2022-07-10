@@ -2,7 +2,8 @@ import React from 'react'
 import { Box as MuiBox } from '@mui/material'
 
 import EditStudent from './EditStudent'
-import createResultsStyles from './styles'
+import ViewStudent from './ViewStudent'
+import { createResultsStyles } from './styles'
 import Components from '../../../components'
 import { useQueryResultTable, useNotification, useConfirmDialog } from '../../../hooks'
 
@@ -10,8 +11,7 @@ import { useQueryResultTable, useNotification, useConfirmDialog } from '../../..
 const Styles = createResultsStyles({
     MuiBox,
     BaseSearchBar: Components.SearchBar,
-    BaseQueryTblContainer: Components.QueryTblContainer,
-    BaseDetailedTblContainer: Components.DetailedTblContainer
+    BaseQueryTblContainer: Components.QueryResultsTblContainer,
 })
 
 
@@ -19,7 +19,7 @@ function QueryResults({ handleBacktoQuery, queryResults } ) {
 
     console.log('QueryResults feature rendered')
     
-    const [notify, notificationHandlers]= useNotification(Components.NotificationSlide)
+    const [notify, notificationHandlers] = useNotification(Components.NotificationSlide)
     const [confirmDialog, confirmDialogHandlers] = useConfirmDialog()
     const [useQueryResultTableStates, useQueryResultTableHandlers] = useQueryResultTable(
         {
@@ -33,18 +33,10 @@ function QueryResults({ handleBacktoQuery, queryResults } ) {
 
         records, 
         recordForEdit,
+        recordForView,
         paginationStates, 
         sortingStates,
         filterStates: { textInput },
-
-        detailedViewTableStates :  {
-
-            detailedViewModalStates : {
-
-                isDetailedViewModalOpen
-            }
-        },
-
         
     } = useQueryResultTableStates
 
@@ -54,18 +46,11 @@ function QueryResults({ handleBacktoQuery, queryResults } ) {
         getFinalDisplayRecords,
         handleDeletePress,
         setRecordForEdit, 
+        setRecordForView,
         setRecords,
         paginationHandlers,
         sortingHandlers,
         filterHandlers: { handleClear, handleFilter },
-        detailedViewTableHandlers : {
-
-            getDetailedRecord, 
-            detailedViewModalHandlers : {
-
-                handleDetailedViewModalClose
-            }
-        }
         
     } = useQueryResultTableHandlers
     
@@ -87,22 +72,20 @@ function QueryResults({ handleBacktoQuery, queryResults } ) {
                     onClick={handleBacktoQuery}
                 />
             </Styles.Box>
-            <Styles.QueryTblContainer>
-                <Components.QueryTblHead 
+            <Styles.QueryResultsTblContainer>
+                <Components.QueryResultsTblHead 
                     tableData={getTableData()} 
                     sortingStates={sortingStates}
                     sortingHandlers={sortingHandlers}
                 />
-                <Components.QueryTblBody 
-                    handlers={{
-                        getFinalDisplayRecords,
-                        handleDeletePress,
-                        setRecordForEdit,
-                        detailedViewTableHandlers : useQueryResultTableHandlers.detailedViewTableHandlers}}
-                        
+                <Components.QueryResultsTblBody 
+                    getFinalDisplayRecords={getFinalDisplayRecords}
+                    handleDeletePress={handleDeletePress}
+                    setRecordForEdit={setRecordForEdit}
+                    setRecordForView={setRecordForView}
                 />
-            </Styles.QueryTblContainer>
-            <Components.QueryTblPagination 
+            </Styles.QueryResultsTblContainer>
+            <Components.QueryResultsTblPagination 
                 count={records.length}
                 paginationStates={paginationStates}
                 paginationHandlers={paginationHandlers}
@@ -113,21 +96,11 @@ function QueryResults({ handleBacktoQuery, queryResults } ) {
                 userFeedbackObj={{notify, notificationHandlers}}
                 recordForEdit={recordForEdit}
             />
-            <Components.Modal
-                modalTitle="Detail View"
-                isModalOpen={isDetailedViewModalOpen}
-                handleCloseModal={handleDetailedViewModalClose}
-            >
-                <Styles.DetailedTblContainer>
-                    <Components.DetailedTblHead 
-                        tableData={getTableData()} 
-                    />
-                    <Components.DetailedTblBody 
-                        record={getDetailedRecord()}
-                        tableData={getTableData()}
-                    />
-                </Styles.DetailedTblContainer>
-            </Components.Modal>
+            <ViewStudent 
+                getTableData={getTableData}
+                recordForView={recordForView}
+                setRecordForView={setRecordForView}
+            />
             <Components.Notification 
                 notify={notify}
                 notificationHandlers={notificationHandlers}

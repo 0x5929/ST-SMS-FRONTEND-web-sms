@@ -11,14 +11,7 @@ function createResultsStyles({MuiBox, BaseSearchBar, BaseQueryTblContainer, Base
         flexGrow: 0
     }));
 
-    const QueryTblContainer = styled(BaseQueryTblContainer)(( {theme} ) => ({
-        "::selection, *::selection": {
-            backgroundColor: theme.palette.mode === 'light' ? "#ffe20b" : 'undefined'
-          },
-    
-    }));
-
-    const DetailedTblContainer = styled(BaseDetailedTblContainer)(( {theme} ) => ({
+    const QueryResultsTblContainer = styled(BaseQueryTblContainer)(( {theme} ) => ({
         "::selection, *::selection": {
             backgroundColor: theme.palette.mode === 'light' ? "#ffe20b" : 'undefined'
           },
@@ -28,9 +21,20 @@ function createResultsStyles({MuiBox, BaseSearchBar, BaseQueryTblContainer, Base
     return {
         Box,
         SearchBar,
-        QueryTblContainer,
-        DetailedTblContainer
+        QueryResultsTblContainer
     }
 }
 
-export default createResultsStyles
+
+function createDetailedTableStyles({BaseDetailedTblContainer}) {
+    const DetailedTblContainer = styled(BaseDetailedTblContainer)(( {theme} ) => ({
+        "::selection, *::selection": {
+            backgroundColor: theme.palette.mode === 'light' ? "#ffe20b" : 'undefined'
+          },
+    
+    }));
+
+    return { DetailedTblContainer }
+}
+
+export { createResultsStyles, createDetailedTableStyles }

@@ -7,7 +7,6 @@ function EditStudent({setRecordForEdit, setRecords, userFeedbackObj, recordForEd
     console.log('EditStudent feature rendered')
 
     const [editModalStates, editModalHandlers] = useEditModal(
-
         {
             setRecordForEdit, 
             setRecords, 
@@ -20,7 +19,6 @@ function EditStudent({setRecordForEdit, setRecords, userFeedbackObj, recordForEd
     const { isEditModalOpen, studentFormStates } =  editModalStates 
 
     const {
-
         handleCloseEditModal, 
         studentFormHandlers ,
         handleEditCancel, 

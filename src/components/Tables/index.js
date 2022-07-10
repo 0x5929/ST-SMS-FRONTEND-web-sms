@@ -1,8 +1,8 @@
 export { 
-    QueryTblContainer, 
-    QueryTblHead, 
-    QueryTblBody, 
-    QueryTblPagination } from './QueryTable';
+    QueryResultsTblContainer, 
+    QueryResultsTblHead, 
+    QueryResultsTblBody, 
+    QueryResultsTblPagination } from './QueryResultsTable';
 
 export { 
     DetailedTblContainer, 

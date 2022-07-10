@@ -12,10 +12,10 @@ import { Input, Select, DatePicker, Checkbox, RadioGroup } from './Inputs'
 
 
 import {
-    QueryTblContainer, 
-    QueryTblHead, 
-    QueryTblBody, 
-    QueryTblPagination, 
+    QueryResultsTblContainer, 
+    QueryResultsTblHead, 
+    QueryResultsTblBody, 
+    QueryResultsTblPagination, 
     DetailedTblContainer, 
     DetailedTblHead, 
     DetailedTblBody
@@ -34,10 +34,10 @@ const Components = {
     DatePicker,
     Checkbox,
     RadioGroup,
-    QueryTblContainer,
-    QueryTblHead,
-    QueryTblBody,
-    QueryTblPagination,
+    QueryResultsTblContainer,
+    QueryResultsTblHead,
+    QueryResultsTblBody,
+    QueryResultsTblPagination,
     DetailedTblContainer,
     DetailedTblHead,
     DetailedTblBody,

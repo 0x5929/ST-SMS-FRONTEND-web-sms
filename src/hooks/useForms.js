@@ -118,6 +118,7 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
         return recordForEdit ? recordForEdit[recordProp] : ''
     }, [recordForEdit])
 
+    
     const [addRotStates, addRotHandlers] = useAddRotationForm(userFeedbackObj)
 
 
@@ -325,34 +326,18 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
 function useAddRotationForm(userFeedbackObj) {
 
     const { notificationHandlers } = userFeedbackObj
-
-    const [rotationFormValues, setRotationFormValues] = useState({programName: '', rotation: ''})
-    const [rotationFormErrors, setRotationFormErrors] = useState({})
     const [isAddRotModalOpen, addRotModalHandlers] = useAddRotationModal()
-
-    const rotationRef = useRef(null)
     const [ programName, setProgramName ] = useState('')
     const [ showError, setShowError ] = useState(false)
     const [ clearFields, setClearFields ] = useState(false)
+    const rotationRef = useRef(null)
 
 
     const validations = useValidations().useAddRotValidation2()
 
-    const { addRotValidation } = useValidations()
-
     const handleProgramNameChange = useCallback((e) => {
         setProgramName(e.target.value)
     }, [])
-
-
-    const handleAddRotInputChange = useCallback(e => {
-        const { name, value } = e.target
-
-        setRotationFormValues({
-            ...rotationFormValues,
-            [name] : value
-        })
-    }, [rotationFormValues])
 
 
     const handleAddRotClear = useCallback(() => {
@@ -361,7 +346,6 @@ function useAddRotationForm(userFeedbackObj) {
         setShowError(false)
 
     }, [])
-
 
 
     const handleAddRotSubmit = useCallback( (e, rotationInput) => {
@@ -424,8 +408,8 @@ function useAddRotationForm(userFeedbackObj) {
     }, [validations, programName, notificationHandlers, handleAddRotClear, addRotModalHandlers])
 
 
-    const addRotStates = { rotationFormValues, rotationFormErrors, isAddRotModalOpen, programName, showError, clearFields, rotationRef }
-    const addRotHandlers = { handleAddRotSubmit, handleAddRotInputChange, handleAddRotClear, handleProgramNameChange,
+    const addRotStates = { isAddRotModalOpen, programName, showError, clearFields, rotationRef }
+    const addRotHandlers = { handleAddRotSubmit, handleAddRotClear, handleProgramNameChange,
         addRotModalHandlers: {...addRotModalHandlers}
     }
 

@@ -1,19 +1,13 @@
-import { useState, useCallback, useEffect } from "react";
-import { useStudentForm } from "./useForms";
-import * as studentRecordService from '../services/SMSRecordService';
+import { useState, useCallback, useEffect } from 'react'
+
+import { useStudentForm } from './useForms'
+import * as studentRecordService from '../services/SMSRecordService'
 
 export function useEditModal ({setRecordForEdit, setRecords, userFeedbackObj, recordForEdit}) {
 
 
     const [isEditModalOpen, setIsEditModalOpen] = useState(false)
     const [studentFormStates, studentFormHandlers] = useStudentForm(userFeedbackObj, recordForEdit);
-
-    useEffect(() => {
-        if (recordForEdit) {
-            setIsEditModalOpen(true)
-        }
-    }, [recordForEdit])
-
 
     const handleCloseEditModal = useCallback(() => {
         studentFormHandlers.handleClearError()
@@ -37,6 +31,13 @@ export function useEditModal ({setRecordForEdit, setRecords, userFeedbackObj, re
         handleCloseEditModal()
     }, [handleCloseEditModal, studentFormHandlers])
 
+
+    useEffect(() => {
+        if (recordForEdit) {
+            setIsEditModalOpen(true)
+        }
+    }, [recordForEdit])
+
     const editModalStates = { isEditModalOpen, studentFormStates }
     
     const editModalHandlers = {
@@ -51,14 +52,17 @@ export function useEditModal ({setRecordForEdit, setRecords, userFeedbackObj, re
 }
 
 
-export function useDetailedViewModal (setRecordForView){
-
-
+export function useDetailedViewModal ({ setRecordForView, recordForView }){
     const [isDetailedViewModalOpen, setIsDetailedViewModalOpen] = useState(false)
 
+    const getDetailedRecord = useCallback(() => {
+        return recordForView
+    }, [recordForView])
+
     const handleDetailedViewModalClose = useCallback(()=> {
+        setRecordForView(null)
         setIsDetailedViewModalOpen(false)
-    }, [])
+    }, [setRecordForView])
 
     const handleDetailedViewModalOpen = useCallback(item => {
         setRecordForView(item)
@@ -66,7 +70,12 @@ export function useDetailedViewModal (setRecordForView){
     }, [setRecordForView])
 
     const detailedViewModalStates = { isDetailedViewModalOpen  }
-    const detailedViewModalHandlers = { handleDetailedViewModalOpen, handleDetailedViewModalClose }
+    const detailedViewModalHandlers = { handleDetailedViewModalOpen, handleDetailedViewModalClose, getDetailedRecord }
+
+    useEffect(() => {
+        if (recordForView)
+            handleDetailedViewModalOpen(recordForView)
+    }, [recordForView, handleDetailedViewModalOpen])
     
     return [detailedViewModalStates, detailedViewModalHandlers] 
 }

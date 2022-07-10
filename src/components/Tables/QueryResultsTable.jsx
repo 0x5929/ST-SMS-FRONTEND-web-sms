@@ -23,7 +23,7 @@ import { createQueryTableStyles } from './styles'
 
 const Styles = createQueryTableStyles({MuiPaper, MuiTable, BaseIconButton})
 
-const QueryTblContainer= React.memo((props) => {
+const QueryResultsTblContainer= React.memo((props) => {
     console.log('QueryTblContainer component rendered')
     const { children, ...others } = props
 
@@ -38,7 +38,7 @@ const QueryTblContainer= React.memo((props) => {
     )
 })
 
-const QueryTblHead = React.memo((props) => {
+const QueryResultsTblHead = React.memo((props) => {
     console.log('QueryTblHead component rendered')
     const { tableData, sortingStates, sortingHandlers, ...others } = props
 
@@ -72,73 +72,69 @@ const QueryTblHead = React.memo((props) => {
     )
 })
 
-const QueryTblBody = React.memo(({ handlers, ...others }) => {
+const QueryResultsTblBody = React.memo((props) => {
     console.log('QueryTblBody component rendered')
      const {
         getFinalDisplayRecords,
         handleDeletePress,
         setRecordForEdit,
-        detailedViewTableHandlers,
-     } = handlers
+        setRecordForView,
 
-    const records = getFinalDisplayRecords()
-    // const { handleOpenEditModal } = editModalHandlers
-
-    const { detailedViewModalHandlers } = detailedViewTableHandlers
-    const { handleDetailedViewModalOpen } = detailedViewModalHandlers
+        ...others
+     } = props
 
     return (
-            <TableBody { ...others }>
-                {records.map(record => (
-                        <TableRow key={ record.pk }>
-                            <TableCell>{ record.studentId }</TableCell>
-                            <TableCell>{ record.firstName }</TableCell>
-                            <TableCell>{ record.lastName }</TableCell>
-                            <TableCell>{ record.phoneNumber }</TableCell>
-                            <TableCell>{ record.email }</TableCell>
-                            <TableCell>{ record.course }</TableCell>
-                            <TableCell>
-                                <Styles.ActionButton 
-                                    variant="text"
-                                    onClick={()=> handleDetailedViewModalOpen(record)}
-                                    size="small"
+        <TableBody { ...others }>
+            {getFinalDisplayRecords().map(record => (
+                    <TableRow key={ record.pk }>
+                        <TableCell>{ record.studentId }</TableCell>
+                        <TableCell>{ record.firstName }</TableCell>
+                        <TableCell>{ record.lastName }</TableCell>
+                        <TableCell>{ record.phoneNumber }</TableCell>
+                        <TableCell>{ record.email }</TableCell>
+                        <TableCell>{ record.course }</TableCell>
+                        <TableCell>
+                            <Styles.ActionButton 
+                                variant="text"
+                                onClick={() => setRecordForView(record)}
+                                size="small"
+                                color="primary"
+                            >
+                                <VisibilityRoundedIcon 
+                                    fontSize="small"
                                     color="primary"
-                                >
-                                    <VisibilityRoundedIcon 
-                                        fontSize="small"
-                                        color="primary"
-                                    />
-                                </Styles.ActionButton>
-                                <Styles.ActionButton 
-                                    variant="text"
-                                    onClick={() =>setRecordForEdit(record)}
-                                    size="small"
+                                />
+                            </Styles.ActionButton>
+                            <Styles.ActionButton 
+                                variant="text"
+                                onClick={() => setRecordForEdit(record)}
+                                size="small"
+                                color="secondary"
+                            >
+                                <EditOutlinedIcon 
+                                    fontSize="small"
                                     color="secondary"
-                                >
-                                    <EditOutlinedIcon 
-                                        fontSize="small"
-                                        color="secondary"
-                                    />
-                                </Styles.ActionButton>
-                                <Styles.ActionButton 
-                                    variant="text"
-                                    onClick={()=> handleDeletePress(record)}
-                                    size="small"
+                                />
+                            </Styles.ActionButton>
+                            <Styles.ActionButton 
+                                variant="text"
+                                onClick={() => handleDeletePress(record)}
+                                size="small"
+                                color="error"
+                            >
+                                <CloseOutlinedIcon 
+                                    fontSize="small"
                                     color="error"
-                                >
-                                    <CloseOutlinedIcon 
-                                        fontSize="small"
-                                        color="error"
-                                    />
-                                </Styles.ActionButton>
-                            </TableCell>
-                        </TableRow>
-                ))}
-            </TableBody>
+                                />
+                            </Styles.ActionButton>
+                        </TableCell>
+                    </TableRow>
+            ))}
+        </TableBody>
     )
 })
 
-const QueryTblPagination = React.memo((props) => {
+const QueryResultsTblPagination = React.memo((props) => {
     console.log('QueryTblPagination component rendered')
     const { count, paginationStates, paginationHandlers, ...others } = props
 
@@ -161,8 +157,8 @@ const QueryTblPagination = React.memo((props) => {
 })
 
 export {
-    QueryTblContainer,
-    QueryTblHead,
-    QueryTblBody,
-    QueryTblPagination
+    QueryResultsTblContainer,
+    QueryResultsTblHead,
+    QueryResultsTblBody,
+    QueryResultsTblPagination
 }
