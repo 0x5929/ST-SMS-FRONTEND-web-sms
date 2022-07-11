@@ -419,10 +419,55 @@ function useAddRotationForm(userFeedbackObj) {
 
 
 
+/**
+ *  TO MIGRATE TO THE NEWEST INPUT PATTERN
+ *          1. remove values from queryoptions
+ *          2. only have queryoptions for query
+ *          3. once set new (add new), grab query option pk, and add a specific useRef to the input (searchbar)
+ *          4. upon submit, create new data object to submit everything. So all the query optinos, and paired with its query value
+ * 
+ * 
+ *          OR, HEAR ME OUT:
+ *              MAKE SEARCHBAR COMPONENT TO HAVE INPUT STRAIGHT FROM MUI, SO NO USEINPUT VALUE IS USED, AND OTHERS CANJUST STAY THE SAME
+ *              BUT ALSO, MAYBE CALLING THE HOOK INSIDE QUERYFORM? OR ANOTHER LAYER OF COMPONENT. SEPARATING STATES OF QUERY AND CALLING 
+ *              THEM AT DIFFERENT LEVELS MAY HELP WITH PERFORMANCE, SINCE NOT ALL COMPONENTS RENDER ON CHANGE ELSEWHERE
+ */
+
 
 export function useQueryForm(){
 
     var textInput = useRef(null);
+
+    // function useInputRefs (queryObj, firstQuery) {
+    //     let query = null
+
+    //     if (firstQuery) { // default query by
+    //         query = 'clast_name'
+    //     }
+
+    //     queryObj['query'] = useRef(query)
+    //     queryObj['value'] = useRef(null)
+
+    //     return queryObj
+    // }
+
+    // function useQueryObjs (existQueries=null) {
+    //     let queries = []
+    //     let pk = 0
+    //     let firstQuery = true
+
+    //     if (existQueries) {
+    //             queries = [ ...existQueries ]
+    //             pk = addPk(existQueries)
+    //             firstQuery = false
+    //     }
+
+    //     return queries.push(useInputRefs({pk: pk}, firstQuery))
+    // }
+
+    // function addPk (queries){
+    //     return Math.max(...queries.map(o => o.pk)) + 1 
+    // }
 
     const initialQueryFormState = {
         queryResults: [],

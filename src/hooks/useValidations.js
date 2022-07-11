@@ -146,7 +146,7 @@ function useValidations() {
 
         // do the array manipulation here? or where errorhandler is called?
         return {
-            validation: useCallback((value) => value !== '' ? {} : {error: true, helperText: 'This field is required.'})
+            validation: useCallback((value) => value !== '' ? {} : {error: true, helperText: 'This field is required.'}, [])
         }
     }
 
