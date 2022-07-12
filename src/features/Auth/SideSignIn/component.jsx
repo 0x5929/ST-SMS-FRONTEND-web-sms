@@ -72,7 +72,7 @@ function Signin (){
                         >
 
                         {/* Try using MuiTextField to see if it helps performance, so the TextField render is only on itself? */}
-                        <Components.Input
+                        <Components.Input2
                             margin="normal"
                             required
                             fullWidth
@@ -93,7 +93,7 @@ function Signin (){
                                 )
                             }}
                         />
-                        <Components.Input
+                        <Components.Input2
                             margin="normal"
                             required
                             fullWidth

@@ -9,10 +9,14 @@ const Styles = createSearchBarStyles({MuiClearIcon})
 function SearchBar(props) {
     console.log('SearchBar component rendered')
     const { 
+        index=0,
+        name,
+        label, 
+        value,
+        error=null,
+        onChange,
         textInput, 
         handleClear, 
-        label, 
-        index=0,
 
         ...others 
     } = props;
@@ -20,7 +24,12 @@ function SearchBar(props) {
     return (  
         <Toolbar>
             <TextField 
+                variant="outlined"
+                color="primary"
                 label={label}
+                name={name}
+                value={value}
+                onChange={onChange}
                 InputProps={{
                     startAdornment: (
                         <InputAdornment position="start">
@@ -36,6 +45,7 @@ function SearchBar(props) {
                     )
                 }}
                 inputRef={textInput}
+                {...(error && { error:true, helperText: error })}
 
                 { ...others }
             />

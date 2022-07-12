@@ -326,7 +326,7 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
 function useAddRotationForm(userFeedbackObj) {
 
     const { notificationHandlers } = userFeedbackObj
-    const [isAddRotModalOpen, addRotModalHandlers] = useAddRotationModal()
+    const [ isAddRotModalOpen, addRotModalHandlers ] = useAddRotationModal()
     const [ programName, setProgramName ] = useState('')
     const [ showError, setShowError ] = useState(false)
     const [ clearFields, setClearFields ] = useState(false)
@@ -341,14 +341,14 @@ function useAddRotationForm(userFeedbackObj) {
 
 
     const handleAddRotClear = useCallback(() => {
-        setClearFields(true)
+        setClearFields(!clearFields)
         setProgramName('')
         setShowError(false)
 
-    }, [])
+    }, [clearFields])
 
 
-    const handleAddRotSubmit = useCallback( (e, rotationInput) => {
+    const handleAddRotSubmit = useCallback( e => {
         e.preventDefault()
 
         let validationObj = {
@@ -418,56 +418,12 @@ function useAddRotationForm(userFeedbackObj) {
 
 
 
-
-/**
- *  TO MIGRATE TO THE NEWEST INPUT PATTERN
- *          1. remove values from queryoptions
- *          2. only have queryoptions for query
- *          3. once set new (add new), grab query option pk, and add a specific useRef to the input (searchbar)
- *          4. upon submit, create new data object to submit everything. So all the query optinos, and paired with its query value
- * 
- * 
- *          OR, HEAR ME OUT:
- *              MAKE SEARCHBAR COMPONENT TO HAVE INPUT STRAIGHT FROM MUI, SO NO USEINPUT VALUE IS USED, AND OTHERS CANJUST STAY THE SAME
- *              BUT ALSO, MAYBE CALLING THE HOOK INSIDE QUERYFORM? OR ANOTHER LAYER OF COMPONENT. SEPARATING STATES OF QUERY AND CALLING 
- *              THEM AT DIFFERENT LEVELS MAY HELP WITH PERFORMANCE, SINCE NOT ALL COMPONENTS RENDER ON CHANGE ELSEWHERE
- */
-
-
 export function useQueryForm(){
 
-    var textInput = useRef(null);
+    var textInput = useRef(null)
+    const [ queryOptions, setQueryOptions ] = useState({query: 'clast_name', value: '', pk: 0})
+    const [ queryFormErrors, setQueryFormErrors ] = useState({})
 
-    // function useInputRefs (queryObj, firstQuery) {
-    //     let query = null
-
-    //     if (firstQuery) { // default query by
-    //         query = 'clast_name'
-    //     }
-
-    //     queryObj['query'] = useRef(query)
-    //     queryObj['value'] = useRef(null)
-
-    //     return queryObj
-    // }
-
-    // function useQueryObjs (existQueries=null) {
-    //     let queries = []
-    //     let pk = 0
-    //     let firstQuery = true
-
-    //     if (existQueries) {
-    //             queries = [ ...existQueries ]
-    //             pk = addPk(existQueries)
-    //             firstQuery = false
-    //     }
-
-    //     return queries.push(useInputRefs({pk: pk}, firstQuery))
-    // }
-
-    // function addPk (queries){
-    //     return Math.max(...queries.map(o => o.pk)) + 1 
-    // }
 
     const initialQueryFormState = {
         queryResults: [],
@@ -476,6 +432,9 @@ export function useQueryForm(){
         isBackdropOpen: false,
         queryOptions: [{query: 'clast_name', value: '', pk: 0 }]
     }
+
+
+
 
     function reducer(state, action) {
         switch (action.type){
@@ -503,8 +462,10 @@ export function useQueryForm(){
 
     const [ queryFormState, queryFormDispatch ] = useReducer(reducer, initialQueryFormState)
     const { queryValidation } = useValidations()
+    const getQueryOptions = SMSRecordService.getQueryOptions
 
     const handleSetQueryFormErrorCallback = useCallback((temp)=>{
+        //setQueryFormErrors({...temp})
         queryFormDispatch({type: 'set-queryFormErrors', payload: {...temp}})
     }, [])
 
@@ -516,11 +477,13 @@ export function useQueryForm(){
             delete errObj['value' + pk.toString()]
         }
         
+        // setQueryFormErrors(errObj)
         queryFormDispatch({type: 'set-queryFormErrors', payload: errObj})
     }, [queryFormState.queryFormErrors])
 
     const handleAddNewQuery = useCallback((index) =>{
         function newPk() {
+            // let lastElPk = queryOptions[ queryOptions.length - 1 ]['pk']
             let lastElPk = queryFormState.queryOptions[ queryFormState.queryOptions.length - 1 ]['pk']
             return lastElPk + 1;
         }
@@ -529,21 +492,28 @@ export function useQueryForm(){
             return 
         }
 
+        //setQueryOptions([...queryOptions, {query: '', value: '', pk: newPk()}])
         queryFormDispatch({type: 'set-queryOptions', payload: [...queryFormState.queryOptions, {query: '', value: '', pk: newPk()}]})
 
-    },[queryFormState.queryOptions])
+    },
+    [queryFormState.queryOptions])
+    //[queryOptions])
 
 
     const handleDelQuery = useCallback((index, pk) =>{
         // clear Errors
         clearError(pk)
 
-        let queries = [...queryFormState.queryOptions]
+        let queries = [ ...queryFormState.queryOptions ]
+        //let queries = [ ...queryOptions ]
 
         // setting queries to anything but the ones we are trying to delete
         queryFormDispatch({type: 'set-queryOptions', payload: queries.filter( item => item.pk !== pk )})
+        //setQueryOptions(queries.filter( item => item.pk !== pk ))
 
-    }, [clearError, queryFormState.queryOptions])
+    }, 
+    [clearError, queryFormState.queryOptions])
+    // [clearError, queryOptions])
 
 
     const handleQueryOnChange = useCallback((e, index) => {
@@ -551,14 +521,18 @@ export function useQueryForm(){
             value 
         } = e.target
         const queries = [...queryFormState.queryOptions]
+        //const queries = [...queryOptions]
 
         if (typeof index != 'undefined')
             queries[index].value = value;
 
         queryFormDispatch({type: 'set-queryOptions', payload: queries})
 
-    }, [queryFormState.queryOptions])
+        //setQueryOptions(queries)
 
+    }, 
+    [queryFormState.queryOptions])
+    // [queryOptions])
 
     const handleQueryOptionOnChange = useCallback((e, index) =>{
         const { 
@@ -568,10 +542,11 @@ export function useQueryForm(){
         const queries = [...queryFormState.queryOptions]
         queries[index].query = value;
 
+        // setQueryOptions(queries)
         queryFormDispatch({type: 'set-queryOptions', payload: queries})
-    }, [queryFormState.queryOptions])
-
-    const getQueryOptions = SMSRecordService.getQueryOptions
+    }, 
+    [queryFormState.queryOptions])
+    // [queryOptions])
 
 
 
@@ -580,32 +555,33 @@ export function useQueryForm(){
         if (pk !== null) {
             clearError(pk)
             handleQueryOnChange({target: {name: '', value: ''}}, index)
-
         }
+        
     }, [clearError, handleQueryOnChange])
 
+    // place this in a component above
     const handleBackdrop = useCallback(() =>{
         queryFormDispatch({type: 'set-isBackdropOpen', payload: true})
+        // if isBackdropOpen === false
+            //handleToggle()
 
         setTimeout(()=> {
-            queryFormDispatch({type: 'set-isBackdropOpen', payload: true})
-            fetchResults()
+            queryFormDispatch({type: 'set-isBackdropOpen', payload: false})
+            // if isBackdropOpen === true
+                //handleToggle()
+            queryFormDispatch({type: 'set-showResults', payload: true})
+            // if showResults === false
+                //handleToggle()
         }, 1000)
 
-        // this could be the async function to run, while we have badckdrop on
-        function fetchResults() {
-    
-            handleClear(textInput)
-            queryFormDispatch({type: 'set-showResults', payload: true})
-            
-        }
-    }, [handleClear])
+    }, [])
 
 
 
     const handleSubmit = useCallback((e, queryOptions) => {
         e.preventDefault()
 
+        //if (queryValidation(queryOptions, handleSetQueryFormErrorCallback, queryFormErrors)){
         if (queryValidation(queryOptions, handleSetQueryFormErrorCallback, queryFormState.queryFormErrors)){
             // load sample data for result table for dev and testing
             SMSRecordService.insertSampleRecords()
@@ -614,16 +590,25 @@ export function useQueryForm(){
             // send the queryOptions to backend API
 
             //setResults(SMSRecordService.getAllRecords())
+            // pass the setQueryResults from parent component down, queryResults will be a state in the parent.
             queryFormDispatch({type: 'set-queryResults', payload: SMSRecordService.getAllRecords()})
     
             handleBackdrop()            
         }
-    }, [
+    }, 
+    [
         handleBackdrop, 
         handleSetQueryFormErrorCallback, 
         queryFormState.queryFormErrors, 
         queryValidation
     ])
+    // [
+    //     handleBackdrop, 
+    //     handleSetQueryFormErrorCallback, 
+    //     queryFormErrors, 
+    //     queryValidation
+    // ])
+
 
     
     const handleBacktoQuery = useCallback(() => {

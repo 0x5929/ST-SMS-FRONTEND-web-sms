@@ -49,7 +49,6 @@ function RotationForm({ getCourseOptions, addRotHandlers, addRotStates, ...other
                     handleChange={handleProgramNameChange}
                     errorHandler={validations.programName}
                     showError={showError}
-                    clearFields={clearFields}
                 />
                 <Input 
                     ref={rotationRef}
@@ -63,7 +62,7 @@ function RotationForm({ getCourseOptions, addRotHandlers, addRotStates, ...other
                     <Button 
                         text="Submit"
                         type="submit"
-                        onClick={(e)=>(handleAddRotSubmit(e, rotationRef))}
+                        onClick={(e)=>(handleAddRotSubmit(e))}
                     />
                     <Button 
                         text="Cancel"

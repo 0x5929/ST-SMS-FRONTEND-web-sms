@@ -66,7 +66,7 @@ function QueryForm({queryFormStates, queryFormHandlers, ...others}) {
                                         name="options"
                                         value={queryOptions[index]['query']}
                                         onChange={(e)=>(handleQueryOptionOnChange(e, index))}
-                                        error={queryFormErrors['query' + query.pk.toString()]}
+                                        error={(queryFormErrors['query' + query.pk.toString()] ? true : false)}
                                         options={getQueryOptions()}
                                         variant={'standard'}
                                         autoWidth
