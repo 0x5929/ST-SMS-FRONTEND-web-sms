@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 import { 
     FormControl,
@@ -7,9 +7,22 @@ import {
     Radio,
     RadioGroup as MuiRadioGroup } from '@mui/material';
 
-function RadioGroup (props) {
+
+import { useInputValue } from '../../hooks'
+
+const RadioGroup = forwardRef((props, parentRef) => {
+
     console.log('RadioGroup component rendered')
-    const { name, label, value, onChange, items, ...others } = props;
+
+    const { 
+        name, 
+        label,  
+        initialValue='', 
+        clearFields,
+        items, ...others } = props;
+
+    const [ { value }, { inputOnChange } ] = useInputValue({initialValue, clearFields})
+
 
     return (  
 
@@ -21,7 +34,7 @@ function RadioGroup (props) {
                 row
                 name={name}
                 value={value}
-                onChange={onChange}
+                onChange={inputOnChange}
             >
                 {
                     items.map(
@@ -30,7 +43,7 @@ function RadioGroup (props) {
                                 key={item.value} 
                                 value={item.value}
                                 label={item.title} 
-                                control={<Radio />} 
+                                control={<Radio inputRef={parentRef}/>} 
                             />
                         )
                     )
@@ -38,6 +51,6 @@ function RadioGroup (props) {
             </MuiRadioGroup>
         </FormControl>
     );
-}
+});
 
 export default React.memo(RadioGroup)

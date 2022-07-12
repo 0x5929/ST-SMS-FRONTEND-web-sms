@@ -7,7 +7,7 @@ import { AddBox as AddBoxIcon } from '@mui/icons-material';
 
 import RotationForm from './RotationForm'
 import { createProgramFormStyles } from './styles'
-import { Select2 } from '../../components/Inputs'
+import { Select } from '../../components/Inputs'
 import { Modal as BaseModal } from '../../components/Modal'
 import {  BaseIconButton  } from '../../components/Buttons'
 
@@ -32,8 +32,6 @@ function ProgramForm({ validations, studentFormStates, studentFormHandlers, ...o
     } = studentFormStates
 
     const {
-        resolveValue,
-
         handleClearCourse,
         handleCourseChange,
         handleRotationChange,
@@ -90,7 +88,7 @@ function ProgramForm({ validations, studentFormStates, studentFormHandlers, ...o
 
     return (
         <div { ...others }>
-            <Select2
+            <Select
                 name="course"
                 label="Course"
                 options={getCourseOptions()}
@@ -101,7 +99,7 @@ function ProgramForm({ validations, studentFormStates, studentFormHandlers, ...o
                 showError={showError}                       
             />
             <Styles.Stack direction="row" spacing={1}>
-                <Select2
+                <Select
                     name="rotation"
                     label="Rotation"
                     options={getRotationOptions(courseValue)}

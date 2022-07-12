@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { 
 
     FormControl,
@@ -7,19 +6,23 @@ import {
     MenuItem, 
     Select as MuiSelect } from '@mui/material';
 
-function Select(props) {
-    console.log('Select component rendered')
-    const {
+
+
+const Select = (props) => {
+
+    console.log('Select2 component rendered')
+
+    const { 
         name, 
         label, 
-        error=null, 
         value, 
+        errorHandler,
+        handleChange, 
+        showError, 
         required, 
-        options, 
-        
-        ...others
-    } = props;
+        options,  ...others } = props
     
+
     return (
         <FormControl
             variant="outlined"
@@ -29,9 +32,9 @@ function Select(props) {
             <MuiSelect
                 label={label}
                 name={name}
-                value={value}
-
-                {...(error && { error:true})}
+                value={(value ? value: '')}
+                onChange={handleChange}
+                { ...(showError && errorHandler(value)) }
 
                 {...others}
             >
@@ -51,6 +54,6 @@ function Select(props) {
         </FormControl>
 
       );
-}
+};
 
 export default React.memo(Select)

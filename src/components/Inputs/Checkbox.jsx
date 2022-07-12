@@ -1,35 +1,44 @@
-import React from 'react'
+import React, { forwardRef } from 'react';
+
 import { 
 
     FormControl,
     FormControlLabel,
     Checkbox as MuiCheckbox } from '@mui/material'
 
-function Checkbox(props) {
+import { useToggle } from '../../hooks'
+
+const Checkbox = forwardRef((props, parentRef) => {
+
     console.log('Checkbox component rendered')
+    
     const { 
         name, 
         label, 
-        value, 
-        onChange, 
+        initialValue=false, 
         convertToDefaultEventParam,
+        clearFields,
 
         ...others
     } = props
+
+
+    const [ isChecked, handleToggle ] = useToggle(initialValue)
 
     return (  
         <FormControl {...others}>
             <FormControlLabel
                 label={label}
                 control={<MuiCheckbox
+                    inputRef={parentRef}
                     color="primary" 
                     name={name}
-                    checked={value}
-                    onChange={e => onChange(convertToDefaultEventParam(name, e.target.checked))}
+                    checked={isChecked}
+                    onChange={e => handleToggle(convertToDefaultEventParam(name, e.target.checked))}
                 />}
             />
         </FormControl>
     );
-}
+});
 
 export default React.memo(Checkbox)

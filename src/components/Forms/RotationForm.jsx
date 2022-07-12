@@ -5,8 +5,8 @@ import {
 
 import { createRotationFormStyles } from './styles'
 import {
-    Input2,
-    Select2 } from '../../components/Inputs'
+    Input,
+    Select } from '../../components/Inputs'
 import {  BaseButton as Button } from '../../components/Buttons'
 import { useValidations } from '../../hooks'
 
@@ -40,7 +40,7 @@ function RotationForm({ getCourseOptions, addRotHandlers, addRotStates, ...other
     return (
         <Styles.AddRotForm {...others}>
             <Styles.Stack>
-                <Select2
+                <Select
                     name="programName"
                     label="Program Name"
                     options={getCourseOptions()}
@@ -51,7 +51,7 @@ function RotationForm({ getCourseOptions, addRotHandlers, addRotStates, ...other
                     showError={showError}
                     clearFields={clearFields}
                 />
-                <Input2 
+                <Input 
                     ref={rotationRef}
                     name="rotation"
                     label="Rotation Number"

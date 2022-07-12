@@ -7,7 +7,7 @@ import { BaseButton, BaseIconButton, BaseFab } from './Buttons';
 import { ConfirmDialog } from './ConfirmDialog';
 import { Notification, NotificationSlide } from './Notification';
 import { SimpleBackDrop } from './Backdrop';
-import { Input, Select, DatePicker, Checkbox, RadioGroup } from './Inputs'
+import {  Select, DatePicker, Checkbox, RadioGroup } from './Inputs'
 
 
 
@@ -27,7 +27,6 @@ const Components = {
     BaseButton,
     BaseIconButton,
     BaseCard,
-    Input,
     Select,
     StudentForm,
     QueryForm,
