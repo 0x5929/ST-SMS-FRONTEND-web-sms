@@ -1,9 +1,6 @@
 import React from 'react';
-
-import { InputAdornment, Toolbar } from '@mui/material'
-
+import { InputAdornment, Toolbar, TextField } from '@mui/material'
 import { Clear as MuiClearIcon, Search as SearchIcon } from '@mui/icons-material'
-import { Input } from '../Inputs'
 
 import createSearchBarStyles from './styles'
 
@@ -12,18 +9,27 @@ const Styles = createSearchBarStyles({MuiClearIcon})
 function SearchBar(props) {
     console.log('SearchBar component rendered')
     const { 
+        index=0,
+        name,
+        label, 
+        value,
+        error=null,
+        onChange,
         textInput, 
         handleClear, 
-        label, 
-        index=0,
 
         ...others 
     } = props;
     
     return (  
         <Toolbar>
-            <Input 
+            <TextField 
+                variant="outlined"
+                color="primary"
                 label={label}
+                name={name}
+                value={value}
+                onChange={onChange}
                 InputProps={{
                     startAdornment: (
                         <InputAdornment position="start">
@@ -39,6 +45,7 @@ function SearchBar(props) {
                     )
                 }}
                 inputRef={textInput}
+                {...(error && { error:true, helperText: error })}
 
                 { ...others }
             />

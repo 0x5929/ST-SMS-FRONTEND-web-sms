@@ -1,20 +1,16 @@
-import React, { useRef, useState } from 'react'
-
+import React from 'react'
 import { 
     Box as MuiBox, 
-    Stack as MuiStack } from '@mui/material';
-
-import {
-    Input2,
-    Select2 } from '../Inputs'
-
-import {  BaseButton as Button } from '../Buttons'
-
-
+    Stack as MuiStack } from '@mui/material'
 
 import { createRotationFormStyles } from './styles'
+import {
+    Input,
+    Select } from '../../components/Inputs'
+import {  BaseButton as Button } from '../../components/Buttons'
+import { useValidations } from '../../hooks'
 
-import { useValidations } from '../../hooks';
+
 const Styles = createRotationFormStyles({MuiStack, MuiBox})
 
 
@@ -44,7 +40,7 @@ function RotationForm({ getCourseOptions, addRotHandlers, addRotStates, ...other
     return (
         <Styles.AddRotForm {...others}>
             <Styles.Stack>
-                <Select2
+                <Select
                     name="programName"
                     label="Program Name"
                     options={getCourseOptions()}
@@ -53,9 +49,8 @@ function RotationForm({ getCourseOptions, addRotHandlers, addRotStates, ...other
                     handleChange={handleProgramNameChange}
                     errorHandler={validations.programName}
                     showError={showError}
-                    clearFields={clearFields}
                 />
-                <Input2 
+                <Input 
                     ref={rotationRef}
                     name="rotation"
                     label="Rotation Number"
@@ -67,7 +62,7 @@ function RotationForm({ getCourseOptions, addRotHandlers, addRotStates, ...other
                     <Button 
                         text="Submit"
                         type="submit"
-                        onClick={(e)=>(handleAddRotSubmit(e, rotationRef))}
+                        onClick={(e)=>(handleAddRotSubmit(e))}
                     />
                     <Button 
                         text="Cancel"

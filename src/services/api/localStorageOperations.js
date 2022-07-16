@@ -36,6 +36,13 @@ export function getRecordIndex(key, record){
     let records = getAllRecords(key);
     let recordIndex = records.findIndex(x => x.pk === record.pk)
 
+
+    console.log('key: ', key)
+    console.log('record: ', record)
+    
+    console.log('records: ', records)
+    console.log('recordIndex: ', records.findIndex(x => x.pk === record.pk))
+
     if ( recordIndex === -1 ) {
         return false
     }

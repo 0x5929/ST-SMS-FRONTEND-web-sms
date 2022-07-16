@@ -1,21 +1,17 @@
 import React, { useEffect, useMemo } from 'react'
-
 import { 
     Box as MuiBox, 
     Stack as MuiStack } from '@mui/material';
-
 import { AddBox as AddBoxIcon } from '@mui/icons-material';
 
 
-import { Modal as BaseModal } from '../Modal';
-import { Select2 } from '../Inputs'
-
-import {  BaseIconButton  } from '../Buttons'
-
 import RotationForm from './RotationForm'
-
-
 import { createProgramFormStyles } from './styles'
+import { Select } from '../../components/Inputs'
+import { Modal as BaseModal } from '../../components/Modal'
+import {  BaseIconButton  } from '../../components/Buttons'
+
+
 
 const Styles = createProgramFormStyles({MuiStack, MuiBox, BaseIconButton, BaseModal})
 
@@ -36,8 +32,6 @@ function ProgramForm({ validations, studentFormStates, studentFormHandlers, ...o
     } = studentFormStates
 
     const {
-        resolveValue,
-
         handleClearCourse,
         handleCourseChange,
         handleRotationChange,
@@ -94,7 +88,7 @@ function ProgramForm({ validations, studentFormStates, studentFormHandlers, ...o
 
     return (
         <div { ...others }>
-            <Select2
+            <Select
                 name="course"
                 label="Course"
                 options={getCourseOptions()}
@@ -105,7 +99,7 @@ function ProgramForm({ validations, studentFormStates, studentFormHandlers, ...o
                 showError={showError}                       
             />
             <Styles.Stack direction="row" spacing={1}>
-                <Select2
+                <Select
                     name="rotation"
                     label="Rotation"
                     options={getRotationOptions(courseValue)}

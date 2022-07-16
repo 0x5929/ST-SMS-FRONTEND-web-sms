@@ -1,37 +1,28 @@
-import React, { useEffect } from 'react';
+import React from 'react'
 import { 
     Grid, 
     Box as MuiBox, 
     CircularProgress as MuiCircularProgress,
-    Stack as MuiStack } from '@mui/material';
+    Stack as MuiStack } from '@mui/material'
 import { 
     Check as CheckIcon, 
-    Save as SaveIcon,
-    AddBox as AddBoxIcon } from '@mui/icons-material';
+    Save as SaveIcon } from '@mui/icons-material'
 
+
+import { createStudentFormStyles } from './styles'
+import ProgramForm from './ProgramForm'
 import {
     Input,
-    Input2,
-    Select,
-    Select2,
     DatePicker,
-    DatePicker2,
     Checkbox,
-    Checkbox2,
-    RadioGroup,
-    RadioGroup2 } from '../Inputs'
-
+    RadioGroup } from '../../components/Inputs'
 import {
     BaseButton as Button,
     BaseIconButton,
-    BaseFab } from '../Buttons'
+    BaseFab } from '../../components/Buttons'
+import { useValidations } from '../../hooks'
+import { Modal as BaseModal } from '../../components/Modal'
 
-import { Modal as BaseModal } from '../Modal';
-import { createStudentFormStyles } from './styles'
-import { useValidations } from '../../hooks';
-import ProgramForm from './ProgramForm';
-import { useStudentForm } from '../../hooks'
-import * as SMSRecordService from '../../services/SMSRecordService'
 
 const Styles = createStudentFormStyles({
     MuiStack,
@@ -43,22 +34,13 @@ const Styles = createStudentFormStyles({
 })
 
 
-function StudentForm({ notify, notificationHandlers, studentEditFormHandlers, ...others }) {
+function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHandlers, ...others }) {
 
     console.log('StudentForm component rendered')
-
-    const [studentFormStates, studentFormHandlers] = useStudentForm(
-        SMSRecordService.getInitialStudentValues(), 
-        {
-            notificationHandlers,
-            notify
-        }
-    );
 
     const {
     
         studentFormState : {
-            isEdit,
             showError,
             clearFields,
             submitLoading,
@@ -70,46 +52,34 @@ function StudentForm({ notify, notificationHandlers, studentEditFormHandlers, ..
 
     const {
         resolveValue,
+        handleSubmit,
+        handleCancel,
         convertToDefaultEventParam,
         getHoursWorkedRadioItems,
 
     } = studentFormHandlers
 
 
-    var handleSubmit
-    var handleCancel
-
-    useEffect(() => {
-        if (isEdit === true && studentEditFormHandlers) {
-            handleSubmit = studentEditFormHandlers.handleEditSubmit
-            handleCancel = studentEditFormHandlers.handleEditCancel
-        }
-        else {
-            handleSubmit = studentFormHandlers.handleSubmit
-            handleCancel = studentFormHandlers.handleCancel
-        }
-    }, [isEdit])
-
-    // // should be put inside a useEffect hook, and create another state that toggles EditSubmission
-    // if (studentEditFormHandlers !== undefined) {
-    //         var handleEditSubmit = studentEditFormHandlers.handleEditSubmit
-    //         var handleEditCancel = studentEditFormHandlers.handleEditCancel
-    // }
-    // else {
-    //     handleEditSubmit = false
-    //     handleEditCancel = false
-    // }
-    // //---
+    // should be put inside a useEffect hook
+    if (studentEditFormHandlers !== undefined) {
+            var handleEditSubmit = studentEditFormHandlers.handleEditSubmit
+            var handleEditCancel = studentEditFormHandlers.handleEditCancel
+    }
+    else {
+        handleEditSubmit = false
+        handleEditCancel = false
+    }
+    //---
 
     const validations = useValidations().useCreateValidation2()
 
 
 
     return (
-    <Styles.StudentForm onSubmit={handleSubmit} {...others}>
+    <Styles.StudentForm onSubmit={handleEditSubmit || ( (e) => handleSubmit(e, inputRefs) )} {...others}>
         <Grid container>
             <Grid item laptop={6} tablet={12}>
-                <Input2
+                <Input
                     ref={inputRefs.studentId}
                     initialValue={resolveValue('studentId')}
                     name="studentId"
@@ -118,7 +88,7 @@ function StudentForm({ notify, notificationHandlers, studentEditFormHandlers, ..
                     showError={showError}
                     clearFields={clearFields}
                 />
-                <Input2
+                <Input
                     ref={inputRefs.firstName}
                     initialValue={resolveValue('firstName')}
                     name="firstName"
@@ -127,7 +97,7 @@ function StudentForm({ notify, notificationHandlers, studentEditFormHandlers, ..
                     showError={showError} 
                     clearFields={clearFields}
                 />
-                <Input2 
+                <Input 
                     ref={inputRefs.lastName}
                     initialValue={resolveValue('lastName')}
                     name="lastName"
@@ -136,7 +106,7 @@ function StudentForm({ notify, notificationHandlers, studentEditFormHandlers, ..
                     showError={showError} 
                     clearFields={clearFields}
                 />
-                <Input2 
+                <Input 
                     ref={inputRefs.phoneNumber}
                     initialValue={resolveValue('phoneNumber')}
                     name="phoneNumber"
@@ -145,7 +115,7 @@ function StudentForm({ notify, notificationHandlers, studentEditFormHandlers, ..
                     showError={showError} 
                     clearFields={clearFields}
                 />
-                <Input2 
+                <Input 
                     ref={inputRefs.email}
                     initialValue={resolveValue('email')}
                     name="email"
@@ -154,7 +124,7 @@ function StudentForm({ notify, notificationHandlers, studentEditFormHandlers, ..
                     showError={showError}   
                     clearFields={clearFields}
                 />
-                <Input2 
+                <Input 
                     ref={inputRefs.mailingAddress}
                     initialValue={resolveValue('mailingAddress')}
                     name="mailingAddress"
@@ -168,7 +138,7 @@ function StudentForm({ notify, notificationHandlers, studentEditFormHandlers, ..
                     studentFormStates={studentFormStates}
                     studentFormHandlers={studentFormHandlers}
                 />
-                <DatePicker2
+                <DatePicker
                     ref={inputRefs.startDate}
                     initialValue={resolveValue('startDate') || new Date()}
                     name="startDate"
@@ -178,7 +148,7 @@ function StudentForm({ notify, notificationHandlers, studentEditFormHandlers, ..
                     showError={showError}   
                     clearFields={clearFields}                     
                 />
-                <DatePicker2
+                <DatePicker
                     ref={inputRefs.completionDate}
                     initialValue={resolveValue('completionDate') || new Date()}
                     name="completionDate"
@@ -188,7 +158,7 @@ function StudentForm({ notify, notificationHandlers, studentEditFormHandlers, ..
                     showError={showError}     
                     clearFields={clearFields}                   
                 />
-                <DatePicker2
+                <DatePicker
                     ref={inputRefs.dateEnrollmentAgreementSigned}
                     initialValue={resolveValue('dateEnrollmentAgreementSigned') || new Date()}
                     name="dateEnrollmentAgreementSigned"
@@ -199,14 +169,14 @@ function StudentForm({ notify, notificationHandlers, studentEditFormHandlers, ..
                     clearFields={clearFields}                
                     disableFuture
                 />
-                <Input2 
+                <Input 
                     ref={inputRefs.thirdPartyPayerInfo}
                     initialValue={resolveValue('thirdPartyPayerInfo')}
                     name="thirdPartyPayerInfo"
                     label="Third Party Payer Info" 
                     clearFields={clearFields}
                 />
-                <Input2
+                <Input
                     ref={inputRefs.courseCost}
                     initialValue={resolveValue('courseCost')}
                     name="courseCost"
@@ -215,7 +185,7 @@ function StudentForm({ notify, notificationHandlers, studentEditFormHandlers, ..
                     showError={showError} 
                     clearFields={clearFields}
                 />
-                <Input2 
+                <Input 
                     ref={inputRefs.chargesCharged}
                     initialValue={resolveValue('chargesCharged')}
                     name="chargesCharged"
@@ -224,7 +194,7 @@ function StudentForm({ notify, notificationHandlers, studentEditFormHandlers, ..
                     showError={showError} 
                     clearFields={clearFields}
                 />
-                <Input2 
+                <Input 
                     ref={inputRefs.chargesPaid}
                     initialValue={resolveValue('chargesPaid')}
                     name="chargesPaid"
@@ -235,7 +205,7 @@ function StudentForm({ notify, notificationHandlers, studentEditFormHandlers, ..
                 />
             </Grid>
             <Grid item laptop={6} tablet={12}>
-                <Checkbox2
+                <Checkbox
                     ref={inputRefs.graduated}
                     initialValue={resolveValue('graduated') || false}
                     name="graduated"
@@ -243,7 +213,7 @@ function StudentForm({ notify, notificationHandlers, studentEditFormHandlers, ..
                     convertToDefaultEventParam={convertToDefaultEventParam}
                     clearFields={clearFields}
                 />
-                <Checkbox2 
+                <Checkbox 
                     ref={inputRefs.passedFirstExam}
                     initialValue={resolveValue('passedFirstExam') || false}
                     name="passedFirstExam"
@@ -251,7 +221,7 @@ function StudentForm({ notify, notificationHandlers, studentEditFormHandlers, ..
                     convertToDefaultEventParam={convertToDefaultEventParam}
                     clearFields={clearFields}
                 />
-                <Checkbox2 
+                <Checkbox 
                     ref={inputRefs.passedSecondOrThird}
                     initialValue={resolveValue('passedSecondOrThird') || false}
                     name="passedSecondOrThird"
@@ -259,7 +229,7 @@ function StudentForm({ notify, notificationHandlers, studentEditFormHandlers, ..
                     convertToDefaultEventParam={convertToDefaultEventParam}
                     clearFields={clearFields}
                 />
-                <Checkbox2 
+                <Checkbox 
                     ref={inputRefs.employed}
                     initialValue={resolveValue('employed') || false}
                     name="employed"
@@ -267,33 +237,33 @@ function StudentForm({ notify, notificationHandlers, studentEditFormHandlers, ..
                     convertToDefaultEventParam={convertToDefaultEventParam}
                     clearFields={clearFields}
                 />
-                <Input2 
+                <Input 
                     ref={inputRefs.position}
                     name="position"
                     label="Employment Position"
                     clearFields={clearFields}
                 />
-                <Input2 
+                <Input 
                     ref={inputRefs.placeOfEmployment}
                     name="placeOfEmployment"
                     label="Place of Employment"
                     clearFields={clearFields}
                 />
-                <Input2 
+                <Input 
                     ref={inputRefs.employmentAddress}
                     initialValue={resolveValue('employmentAddress')}
                     name="employmentAddress"
                     label="Employment Address"
                     clearFields={clearFields}
                 />
-                <Input2 
+                <Input 
                     ref={inputRefs.startingWage}
                     initialValue={resolveValue('startingWage')}
                     name="startingWage"
                     label="Starting Wage"
                     clearFields={clearFields}
                 />
-                <RadioGroup2
+                <RadioGroup
                     ref={inputRefs.hoursWorked}
                     initialValue={resolveValue('hoursWorked')}
                     name="hoursWorked"
@@ -301,7 +271,7 @@ function StudentForm({ notify, notificationHandlers, studentEditFormHandlers, ..
                     items={getHoursWorkedRadioItems()}
                     clearFields={clearFields}
                 />
-                <Input2 
+                <Input 
                     ref={inputRefs.descriptionAttempts}
                     initialValue={resolveValue('descriptionAttempts')}
                     name="descriptionAttempts"
@@ -321,7 +291,7 @@ function StudentForm({ notify, notificationHandlers, studentEditFormHandlers, ..
                             <Styles.SuccessFab
                                 aria-label="save"
                                 color="primary"
-                                onClick={handleSubmit}
+                                onClick={(e) => handleSubmit(e, inputRefs)}
                             >
                                 <CheckIcon />
                             </Styles.SuccessFab>
@@ -331,7 +301,7 @@ function StudentForm({ notify, notificationHandlers, studentEditFormHandlers, ..
                             <BaseFab
                                 aria-label="save"
                                 color="primary"
-                                onClick={handleSubmit}
+                                onClick={(e) => handleSubmit(e, inputRefs)}
                             >
                                 <SaveIcon />
                             </BaseFab>
@@ -359,7 +329,7 @@ function StudentForm({ notify, notificationHandlers, studentEditFormHandlers, ..
                         <Button
                             color="error"
                             text="Cancel"
-                            onClick={handleCancel}
+                            onClick={handleEditCancel || handleCancel}
                         />
                     </Styles.ButtonBox>
                 </Styles.ButtonContainerBox>

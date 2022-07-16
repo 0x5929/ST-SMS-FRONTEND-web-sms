@@ -1,25 +1,32 @@
-import React from 'react';
-
+import React, { forwardRef } from 'react';
 import { TextField } from '@mui/material';
+import { useInputValue } from '../../hooks'
 
-function Input(props) {
-    console.log('Input component rendered')
-    const { name, label, value, error=null, onChange, ...others } = props
+const Input = forwardRef((props, parentRef) => {
+
+    console.log('Input2 component rendered')
+
+    const { name, label, initialValue='', errorHandler, clearFields, showError, ...others } = props
+
+    const [ { value, error }, { inputOnChange } ] = useInputValue({initialValue, errorHandler, clearFields})
+
 
     return (  
         <TextField 
+            inputRef={parentRef}
             variant="outlined"
             color="primary"
             label={label}
             name={name}
             value={value}
-            onChange={onChange}
-            {...(error && { error:true, helperText: error })}
+            onChange={inputOnChange}
+            { ...((showError && errorHandler(value)) || error)  }
+
             
-            {...others}
+            { ...others }
         />
     );
-}
+});
 
 
 export default React.memo(Input)

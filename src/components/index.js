@@ -1,21 +1,21 @@
-import { StudentForm, QueryForm } from './Form';
 import { BaseCard } from './Card';
 import { SearchBar } from './Searchbar';
 import { Modal } from './Modal';
 import { BaseTypography } from './Typography';
+import { StudentForm, QueryForm } from './Forms';
 import { BaseButton, BaseIconButton, BaseFab } from './Buttons';
 import { ConfirmDialog } from './ConfirmDialog';
 import { Notification, NotificationSlide } from './Notification';
 import { SimpleBackDrop } from './Backdrop';
-import { Input, Select, DatePicker, Checkbox, RadioGroup } from './Inputs'
+import {  Input2, Select, DatePicker, Checkbox, RadioGroup } from './Inputs'
 
 
 
 import {
-    QueryTblContainer, 
-    QueryTblHead, 
-    QueryTblBody, 
-    QueryTblPagination, 
+    QueryResultsTblContainer, 
+    QueryResultsTblHead, 
+    QueryResultsTblBody, 
+    QueryResultsTblPagination, 
     DetailedTblContainer, 
     DetailedTblHead, 
     DetailedTblBody
@@ -23,21 +23,21 @@ import {
 
 
 const Components = {
+    Input2,
     BaseFab,
     BaseButton,
     BaseIconButton,
+    BaseCard,
+    Select,
     StudentForm,
     QueryForm,
-    BaseCard,
-    Input,
-    Select,
     DatePicker,
     Checkbox,
     RadioGroup,
-    QueryTblContainer,
-    QueryTblHead,
-    QueryTblBody,
-    QueryTblPagination,
+    QueryResultsTblContainer,
+    QueryResultsTblHead,
+    QueryResultsTblBody,
+    QueryResultsTblPagination,
     DetailedTblContainer,
     DetailedTblHead,
     DetailedTblBody,

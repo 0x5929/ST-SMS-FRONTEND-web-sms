@@ -61,7 +61,7 @@ const DetailedTblBody = React.memo((props) => {
                 tableData.detailedViewColumnCells.map( col => (
                     <TableRow key={ col.id }>
                         <TableCell>{ col.label }</TableCell>
-                        <TableCell>{ record[col.id] }</TableCell>
+                        { record && <TableCell>{ record[col.id] }</TableCell> }
                     </TableRow>
                 ))
             }

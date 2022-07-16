@@ -2,11 +2,10 @@ import React from "react"
 import { Box as MuiBox, Paper as MuiPaper } from '@mui/material'; 
 
 import createQueryStyles from './styles'
-
 import { QueryResults } from '../Results'
 import { Statistics  } from '../Statistics'
-import Components from '../../../components'
 import { useQueryForm } from '../../../hooks'
+import Components from '../../../components'
 
 
 const Styles = createQueryStyles({ MuiPaper, MuiBox })
