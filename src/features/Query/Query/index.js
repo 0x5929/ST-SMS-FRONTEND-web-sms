@@ -1,1 +1,1 @@
-export { default as Query } from './component'
+export { default as Query } from './Query'

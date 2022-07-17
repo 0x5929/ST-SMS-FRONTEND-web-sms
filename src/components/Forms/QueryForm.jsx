@@ -17,14 +17,11 @@ const Styles = createQueryFormStyles({SearchBar, BaseSelect, BaseButton, BaseIco
 function QueryForm({queryFormStates, queryFormHandlers, ...others}) {
     console.log('QueryForm component rendered')
     const {
-
-        queryFormState : {
-
-            queryOptions,
-            queryFormErrors,
-        },
-
+        
+        queryOptions,
+        queryFormErrors,
         textInput
+
     } = queryFormStates;
 
     const {
