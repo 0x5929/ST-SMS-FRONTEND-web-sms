@@ -9,8 +9,6 @@ import * as SMSRecordService from '../services/SMSRecordService'
 export function useStudentForm(userFeedbackObj, recordForEdit=null) {
         
     const validations = useValidations().useCreateValidation2()
-
-    // form states 
     const progressTimer = useRef();
 
     const inputRefs = {
@@ -101,41 +99,10 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
         }
     }
 
-
     const [ studentFormState, studentFormDispatch ] = useReducer(reducer, initialStudentFormState)
+    const [ addRotStates, addRotHandlers ] = useAddRotationForm(userFeedbackObj)
+    const { getCourseOptions, getRotationOptions, getHoursWorkedRadioItems } = SMSRecordService
     
-
-    // when StudentForm component mounts and unmounts, maybe do some data op during cleanup when after fetch backend data?
-    useEffect(() => {
-        return () => {
-          clearTimeout(progressTimer.current);
-        };
-      }, []);
-
-
-      
-    const resolveValue = useCallback((recordProp)=> {
-        return recordForEdit ? recordForEdit[recordProp] : ''
-    }, [recordForEdit])
-
-    
-    const [addRotStates, addRotHandlers] = useAddRotationForm(userFeedbackObj)
-
-
-    const handleClearError = useCallback(() => {
-        if (studentFormState.showError) {
-            studentFormDispatch({type: 'form-toggleShowErrors'})
-        }
-        studentFormDispatch({type: 'set-submitSuccess', payload: false})
-    }, [studentFormState.showError])
-
-    const handleCancel = useCallback( () => {
-
-        studentFormDispatch({type: 'form-toggleClearFields'})
-        // NOTE that the submission success and loading status should be in form level and not input level. 
-        // this way in handleCancel, we can mark loading to be false, and success  to be false
-        handleClearError()
-    }, [handleClearError])
 
 
     const handleProgress = useCallback((callback) => {
@@ -182,9 +149,6 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
         return record
     }, [handleProgress, userFeedbackObj])
 
-    const  { getCourseOptions, getRotationOptions, getHoursWorkedRadioItems } = SMSRecordService
-    
-
     const convertToDefaultEventParam = useCallback((name, value) => ({
         target: {
             name,
@@ -192,6 +156,27 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
         }
     }), [])
     
+    const resolveValue = useCallback((recordProp)=> {
+        return recordForEdit ? recordForEdit[recordProp] : ''
+    }, [recordForEdit])
+
+    
+
+    const handleClearError = useCallback(() => {
+        if (studentFormState.showError) {
+            studentFormDispatch({type: 'form-toggleShowErrors'})
+        }
+        studentFormDispatch({type: 'set-submitSuccess', payload: false})
+    }, [studentFormState.showError])
+
+    const handleCancel = useCallback( () => {
+
+        studentFormDispatch({type: 'form-toggleClearFields'})
+        // NOTE that the submission success and loading status should be in form level and not input level. 
+        // this way in handleCancel, we can mark loading to be false, and success  to be false
+        handleClearError()
+    }, [handleClearError])
+
 
 
     const handleCourseChange = useCallback((e)=>{
@@ -291,6 +276,13 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
 
     }, [_createOrUpdate, handleCancel, studentFormState, validations, recordForEdit])
 
+    // when StudentForm component mounts and unmounts, maybe do some data op during cleanup when after fetch backend data?
+    useEffect(() => {
+        return () => {
+          clearTimeout(progressTimer.current);
+        };
+      }, []);
+
 
 
     const studentFormStates = { 
@@ -321,6 +313,17 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
     return [studentFormStates, studentFormHandlers]
 }
 
+
+export function useSignInForm() {
+    const inputRefs = {
+        email: useRef(null),
+        password: useRef(null),
+        rememberMe: useRef(null)
+
+    }
+
+    return [inputRefs]
+}
 
 function useAddRotationForm(userFeedbackObj) {
 

@@ -129,7 +129,13 @@ function useValidations() {
         }
     }
 
-
+    // returns true or false, and sets error object for validation 
+    const useLoginValidation = () => {
+        return {
+            email   : useCallback((value) => value !== '' ? {} : {error: true, helperText: 'This field is required.'}, []),
+            password: useCallback((value) => value !== '' ? {} : {error: true, helperText: 'This field is required.'}, [])
+        }
+    }
 
     return {
         createValidation,
@@ -138,6 +144,7 @@ function useValidations() {
         loginValidation,
         addRotValidation,
         useAddRotValidation2,
+        useLoginValidation,
     }
 }
 
