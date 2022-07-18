@@ -264,7 +264,6 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
 
             });
 
-            console.log('FORMS, recordForEdit: ', recordForEdit)
             if (recordForEdit) {
                 data.pk = recordForEdit.pk
                 data.course = recordForEdit.course
