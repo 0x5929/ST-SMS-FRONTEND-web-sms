@@ -18,20 +18,15 @@ function Query() {
     const [ isBackdropOpen, setIsBackdropOpen ] = useState(false)
 
     const handleBackdrop = useCallback(() =>{
-        //queryFormDispatch({type: 'set-isBackdropOpen', payload: true})
-        setIsBackdropOpen(true)
-        // if isBackdropOpen === false
-            //handleToggle()
 
+        setIsBackdropOpen(true)
+
+        // in 1 second of time, close backdrop, show results
+        // but when connecting to back end, we will wait until results are fetched
         setTimeout(()=> {
-            //queryFormDispatch({type: 'set-isBackdropOpen', payload: false})
             setIsBackdropOpen(false)
-            // if isBackdropOpen === true
-                //handleToggle()
-            //queryFormDispatch({type: 'set-showResults', payload: true})
             setShowResults(true)
-            // if showResults === false
-                //handleToggle()
+
         }, 1000)
 
     }, [])

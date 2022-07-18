@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import Components from '../../../components'
 import { useQueryForm } from '../../../hooks'
@@ -9,9 +9,9 @@ function SearchStudents({ setQueryResults, handleBackdrop }) {
 
     return (
         <Components.QueryForm
-        queryFormStates={queryFormStates}
-        queryFormHandlers={queryFormHandlers}
-    />
+            queryFormStates={queryFormStates}
+            queryFormHandlers={queryFormHandlers}
+        />
     )
 }
 

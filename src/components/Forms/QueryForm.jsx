@@ -22,7 +22,7 @@ function QueryForm({queryFormStates, queryFormHandlers, ...others}) {
         queryFormErrors,
         textInput
 
-    } = queryFormStates;
+    } = queryFormStates
 
     const {
 
