@@ -20,7 +20,6 @@ import {
     BaseButton as Button,
     BaseIconButton,
     BaseFab } from '../../components/Buttons'
-import { useValidations } from '../../hooks'
 import { Modal as BaseModal } from '../../components/Modal'
 
 
@@ -47,6 +46,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
             submitSuccess,
         },
         inputRefs,
+        studentFormValidations,
 
     } = studentFormStates
 
@@ -69,10 +69,6 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
         handleEditSubmit = false
         handleEditCancel = false
     }
-    //---
-
-    const validations = useValidations().useCreateValidation2()
-
 
 
     return (
@@ -84,7 +80,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                     initialValue={resolveValue('studentId')}
                     name="studentId"
                     label="Student ID"
-                    errorHandler={validations.studentId}
+                    errorHandler={studentFormValidations.studentId}
                     showError={showError}
                     clearFields={clearFields}
                 />
@@ -93,7 +89,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                     initialValue={resolveValue('firstName')}
                     name="firstName"
                     label="First Name"
-                    errorHandler={validations.firstName}
+                    errorHandler={studentFormValidations.firstName}
                     showError={showError} 
                     clearFields={clearFields}
                 />
@@ -102,7 +98,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                     initialValue={resolveValue('lastName')}
                     name="lastName"
                     label="Last Name"
-                    errorHandler={validations.lastName}
+                    errorHandler={studentFormValidations.lastName}
                     showError={showError} 
                     clearFields={clearFields}
                 />
@@ -111,7 +107,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                     initialValue={resolveValue('phoneNumber')}
                     name="phoneNumber"
                     label="Phone Number"
-                    errorHandler={validations.phoneNumber}
+                    errorHandler={studentFormValidations.phoneNumber}
                     showError={showError} 
                     clearFields={clearFields}
                 />
@@ -120,7 +116,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                     initialValue={resolveValue('email')}
                     name="email"
                     label="Email"
-                    errorHandler={validations.email}
+                    errorHandler={studentFormValidations.email}
                     showError={showError}   
                     clearFields={clearFields}
                 />
@@ -129,12 +125,12 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                     initialValue={resolveValue('mailingAddress')}
                     name="mailingAddress"
                     label="Mailing Address"
-                    errorHandler={validations.mailingAddress}
+                    errorHandler={studentFormValidations.mailingAddress}
                     showError={showError}    
                     clearFields={clearFields}                    
                 />
                 <ProgramForm 
-                    validations={validations}
+                    validations={studentFormValidations}
                     studentFormStates={studentFormStates}
                     studentFormHandlers={studentFormHandlers}
                 />
@@ -144,7 +140,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                     name="startDate"
                     label="Program Start Date"
                     convertToDefaultEventParam={convertToDefaultEventParam}
-                    errorHandler={validations.startDate}
+                    errorHandler={studentFormValidations.startDate}
                     showError={showError}   
                     clearFields={clearFields}                     
                 />
@@ -154,7 +150,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                     name="completionDate"
                     label="Program Completion Date"
                     convertToDefaultEventParam={convertToDefaultEventParam}
-                    errorHandler={validations.completionDate}
+                    errorHandler={studentFormValidations.completionDate}
                     showError={showError}     
                     clearFields={clearFields}                   
                 />
@@ -164,7 +160,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                     name="dateEnrollmentAgreementSigned"
                     label="Date Enrollment Agreement Signed"
                     convertToDefaultEventParam={convertToDefaultEventParam}
-                    errorHandler={validations.dateEnrollmentAgreementSigned}
+                    errorHandler={studentFormValidations.dateEnrollmentAgreementSigned}
                     showError={showError}        
                     clearFields={clearFields}                
                     disableFuture
@@ -181,7 +177,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                     initialValue={resolveValue('courseCost')}
                     name="courseCost"
                     label="Course Cost"
-                    errorHandler={validations.courseCost}
+                    errorHandler={studentFormValidations.courseCost}
                     showError={showError} 
                     clearFields={clearFields}
                 />
@@ -190,7 +186,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                     initialValue={resolveValue('chargesCharged')}
                     name="chargesCharged"
                     label="Charges Charged"
-                    errorHandler={validations.chargesCharged}
+                    errorHandler={studentFormValidations.chargesCharged}
                     showError={showError} 
                     clearFields={clearFields}
                 />
@@ -199,7 +195,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                     initialValue={resolveValue('chargesPaid')}
                     name="chargesPaid"
                     label="Charges Paid"
-                    errorHandler={validations.chargesPaid}
+                    errorHandler={studentFormValidations.chargesPaid}
                     showError={showError} 
                     clearFields={clearFields}
                 />

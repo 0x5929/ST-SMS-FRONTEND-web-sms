@@ -6,10 +6,111 @@ import useValidations from './useValidations'
 import * as SMSRecordService from '../services/SMSRecordService'
 
 
-// FORM STATE
+function _checkForError(validations, callback) {
+    let validationKeys = Object.keys(validations)
+    for ( var i = 0; i < validationKeys.length; i++ ) {
+        if (!_isEmpty(validations[validationKeys[i]])) {
+            callback()
+            return false
+        }
+    }
+    return true
+
+}
+
+function _isEmpty(obj) {
+    return Object.keys(obj).length === 0;
+}
+
+
+
+export function useSignInForm({ authed, user, login }) {
+    const navigate = useNavigate()
+    const signInFormValidations = useValidations().useLoginValidation()
+    const [ showEmailError, setShowEmailError ] = useState(false)
+    const [ clearEmailField, setClearEmailField ] = useState(false)
+    const [ showPwError, setShowPwError ] = useState(false)
+    const [ clearPwField, setClearPwField ] = useState(false)
+
+    const inputRefs = {
+        email: useRef(''),
+        password: useRef(''),
+        rememberMe: useRef('')
+
+    }
+
+    const handleSubmit = useCallback(e => {
+        e.preventDefault()
+
+        let validationObj = {}
+
+        Object.keys(inputRefs).forEach(function(key) {
+            if ( key in signInFormValidations ) {
+                validationObj[key] = signInFormValidations[key](inputRefs[key].current.value)
+            }
+        });
+
+        if (_checkForError(validationObj, () => { 
+                setShowEmailError(true);
+                setShowPwError(true)})
+            ) {
+            let data = {}
+
+            Object.keys(inputRefs).forEach(function(key) {
+                data[key] = inputRefs[key].current.value
+            });
+
+            login({ email: data.email, password: data.password })
+        }
+
+        //disabled lint because it wants inputRef to be part of the dependency
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [login, signInFormValidations])
+
+    const handleClearText = useCallback((name) => {
+
+        switch(name){
+            case 'email':
+                setShowEmailError(false)
+                setClearEmailField(true)
+                break
+            case 'password':
+                setShowPwError(false)
+                setClearPwField(true)
+                break
+            default: 
+                return
+        }
+
+    }, [])
+
+
+    useEffect(()=>{
+
+        if (authed) {
+            navigate('/query')
+        }
+        else {
+            navigate('/')
+        }
+    }, [authed, user, navigate])
+
+    const loginStates = { 
+        user, 
+        inputRefs, 
+        signInFormValidations, 
+        showEmailError, 
+        showPwError, 
+        clearEmailField, 
+        clearPwField }
+
+    const loginHandlers = { handleSubmit, handleClearText }
+    return [ loginStates, loginHandlers ]
+}
+
 export function useStudentForm(userFeedbackObj, recordForEdit=null) {
         
-    const validations = useValidations().useCreateValidation2()
+    const studentFormValidations = useValidations().useCreateValidation2()
     const progressTimer = useRef();
 
     const inputRefs = {
@@ -204,22 +305,22 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
         // grab validation
         Object.keys(inputRefs).forEach(function(key) {
             // both objs have the same key
-            if ( key in validations) {
+            if ( key in studentFormValidations) {
 
                 if (key === 'course' || key === 'rotation'){
 
                     // try to think of a better way to achieve this. 
                     // one can just remove course and rotation from useRefs, BUT, how can we validate course?
-                    validationObj[key] = validations[key](studentFormState[key])
+                    validationObj[key] = studentFormValidations[key](studentFormState[key])
                 }
                 else {
 
-                    validationObj[key] = validations[key](inputRefs[key].current.value)
+                    validationObj[key] = studentFormValidations[key](inputRefs[key].current.value)
                 }
             }
         });
 
-        if (checkForError(validationObj)) {
+        if (_checkForError(validationObj, ()=>studentFormDispatch({type: 'form-toggleShowErrors'}))) {
             let data = {}
             Object.keys(inputRefs).forEach(function(key) {
 
@@ -256,26 +357,11 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
                 data.rotation = recordForEdit.rotation
             }
             return _createOrUpdate(data, handleCancel)
+        } else {
+            return recordForEdit
         }
 
-        function checkForError(validations) {
-            let validationKeys = Object.keys(validations)
-            for ( var i = 0; i < validationKeys.length; i++ ) {
-                if (!isEmpty(validations[validationKeys[i]])) {
-                    studentFormDispatch({type: 'form-toggleShowErrors'})
-                    return false
-                }
-            }
-            return true
-        }
-
-        function isEmpty(obj) {
-            return Object.keys(obj).length === 0;
-        }
-
-
-
-    }, [_createOrUpdate, handleCancel, studentFormState, validations, recordForEdit])
+    }, [_createOrUpdate, handleCancel, studentFormState, studentFormValidations, recordForEdit])
 
     // when StudentForm component mounts and unmounts, maybe do some data op during cleanup when after fetch backend data?
     useEffect(() => {
@@ -287,6 +373,7 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
 
 
     const studentFormStates = { 
+        studentFormValidations,
         studentFormState, 
         recordForEdit,
         inputRefs,
@@ -315,103 +402,6 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
 }
 
 
-export function useSignInForm({ authed, user, login }) {
-    const navigate = useNavigate()
-    const validations = useValidations().useLoginValidation()
-    const [ showEmailError, setShowEmailError ] = useState(false)
-    const [ clearEmailField, setClearEmailField ] = useState(false)
-    const [ showPwError, setShowPwError ] = useState(false)
-    const [ clearPwField, setClearPwField ] = useState(false)
-
-    const inputRefs = {
-        email: useRef(''),
-        password: useRef(''),
-        rememberMe: useRef('')
-
-    }
-
-    const handleSubmit = useCallback(e => {
-        e.preventDefault()
-
-        let validationObj = {}
-
-        Object.keys(inputRefs).forEach(function(key) {
-            if ( key in validations ) {
-                validationObj[key] = validations[key](inputRefs[key].current.value)
-            }
-        });
-
-        if (checkForError(validationObj)) {
-            let data = {}
-
-            Object.keys(inputRefs).forEach(function(key) {
-                data[key] = inputRefs[key].current.value
-            });
-
-            login({ email: data.email, password: data.password })
-        }
-
-        function checkForError(validations) {
-            let validationKeys = Object.keys(validations)
-            for ( var i = 0; i < validationKeys.length; i++ ) {
-                if (!isEmpty(validations[validationKeys[i]])) {
-                    setShowEmailError(true)
-                    setShowPwError(true)
-                    return false
-                }
-            }
-            return true
-        }
-
-        function isEmpty(obj) {
-            return Object.keys(obj).length === 0;
-        }
-
-        //disabled lint because it wants inputRef to be part of the dependency
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [login, validations])
-
-    const handleClearText = useCallback((name) => {
-
-        switch(name){
-            case 'email':
-                setShowEmailError(false)
-                setClearEmailField(true)
-                break
-            case 'password':
-                setShowPwError(false)
-                setClearPwField(true)
-                break
-            default: 
-                return
-        }
-
-    }, [])
-
-
-    useEffect(()=>{
-
-        if (authed) {
-            navigate('/query')
-        }
-        else {
-            navigate('/')
-        }
-    }, [authed, user, navigate])
-
-    const loginStates = { 
-        user, 
-        inputRefs, 
-        validations, 
-        showEmailError, 
-        showPwError, 
-        clearEmailField, 
-        clearPwField }
-
-    const loginHandlers = { handleSubmit, handleClearText }
-    return [ loginStates, loginHandlers ]
-}
-
 function useAddRotationForm(userFeedbackObj) {
 
     const { notificationHandlers } = userFeedbackObj
@@ -420,9 +410,7 @@ function useAddRotationForm(userFeedbackObj) {
     const [ showError, setShowError ] = useState(false)
     const [ clearFields, setClearFields ] = useState(false)
     const rotationRef = useRef(null)
-
-
-    const validations = useValidations().useAddRotValidation2()
+    const rotFormValidations = useValidations().useAddRotValidation2()
 
     const handleProgramNameChange = useCallback((e) => {
         setProgramName(e.target.value)
@@ -447,14 +435,14 @@ function useAddRotationForm(userFeedbackObj) {
 
         Object.keys(validationObj).forEach(function(key) {
             if ( key === 'programName'){
-                validationObj[key] = validations[key](programName)
+                validationObj[key] = rotFormValidations[key](programName)
             }
             else if ( key === 'rotation' ) {
-                validationObj[key] = validations[key](rotationRef.current.value)
+                validationObj[key] = rotFormValidations[key](rotationRef.current.value)
             }
         })
 
-        if (checkForError(validationObj)) {
+        if (_checkForError(validationObj, ()=> setShowError(true))) {
             let data = {}
             Object.keys(validationObj).forEach(function(key) {
                 switch (key) {
@@ -476,28 +464,12 @@ function useAddRotationForm(userFeedbackObj) {
             addRotModalHandlers.handleCloseAddRotModal()
         }
 
-        function checkForError(validations) {
-            let validationKeys = Object.keys(validations)
-            console.log('validations: ', validations)
-            for ( var i = 0; i < validationKeys.length; i++ ) {
-                if (!isEmpty(validations[validationKeys[i]])) {
-                    console.log('we returned false')
-                    setShowError(true)
-                    return false
-                }
-            }
-            return true
-        }
-
-        function isEmpty(obj) {
-            return Object.keys(obj).length === 0;
-        }
 
 
-    }, [validations, programName, notificationHandlers, handleAddRotClear, addRotModalHandlers])
+    }, [rotFormValidations, programName, notificationHandlers, handleAddRotClear, addRotModalHandlers])
 
 
-    const addRotStates = { isAddRotModalOpen, programName, showError, clearFields, rotationRef }
+    const addRotStates = { rotFormValidations, isAddRotModalOpen, programName, showError, clearFields, rotationRef }
     const addRotHandlers = { handleAddRotSubmit, handleAddRotClear, handleProgramNameChange,
         addRotModalHandlers: {...addRotModalHandlers}
     }

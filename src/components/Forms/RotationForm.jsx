@@ -8,7 +8,6 @@ import {
     Input,
     Select } from '../../components/Inputs'
 import {  BaseButton as Button } from '../../components/Buttons'
-import { useValidations } from '../../hooks'
 
 
 const Styles = createRotationFormStyles({MuiStack, MuiBox})
@@ -19,7 +18,7 @@ function RotationForm({ getCourseOptions, addRotHandlers, addRotStates, ...other
 
     const {
 
-
+        rotFormValidations,
         programName,
         showError,
         clearFields,
@@ -35,8 +34,6 @@ function RotationForm({ getCourseOptions, addRotHandlers, addRotStates, ...other
 
     } = addRotHandlers
 
-    const validations = useValidations().useAddRotValidation2()
-
     return (
         <Styles.AddRotForm {...others}>
             <Styles.Stack>
@@ -47,14 +44,14 @@ function RotationForm({ getCourseOptions, addRotHandlers, addRotStates, ...other
                     value={programName}
                     defaultValue={getCourseOptions()[0].value}
                     handleChange={handleProgramNameChange}
-                    errorHandler={validations.programName}
+                    errorHandler={rotFormValidations.programName}
                     showError={showError}
                 />
                 <Input 
                     ref={rotationRef}
                     name="rotation"
                     label="Rotation Number"
-                    errorHandler={validations.rotation}
+                    errorHandler={rotFormValidations.rotation}
                     showError={showError}
                     clearFields={clearFields}
                 />

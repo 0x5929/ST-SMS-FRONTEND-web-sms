@@ -39,7 +39,7 @@ function Signin (){
      const {  
         inputRefs, 
         showEmailError,
-        validations, 
+        signInFormValidations, 
         showPwError, 
         clearEmailField, 
         clearPwField, 
@@ -92,7 +92,7 @@ function Signin (){
                                 initialValue={() => user ? user.email :  ''}
                                 showError={showEmailError}
                                 clearFields={clearEmailField}
-                                errorHandler={validations.email}
+                                errorHandler={signInFormValidations.email}
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position="end">
@@ -116,7 +116,7 @@ function Signin (){
                                 initialValue={() => user? user.password: ''}
                                 showError={showPwError}
                                 clearFields={clearPwField}
-                                errorHandler={validations.password}
+                                errorHandler={signInFormValidations.password}
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position="end">
