@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useReducer, useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { useAddRotationModal } from './useModals';
 import useValidations from './useValidations'
@@ -314,15 +315,99 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
 }
 
 
-export function useSignInForm() {
+export function useSignInForm({ authed, user, login }) {
+    const navigate = useNavigate()
+    const validations = useValidations().useLoginValidation()
+    const [ showEmailError, setShowEmailError ] = useState(false)
+    const [ clearEmailField, setClearEmailField ] = useState(false)
+    const [ showPwError, setShowPwError ] = useState(false)
+    const [ clearPwField, setClearPwField ] = useState(false)
+
     const inputRefs = {
-        email: useRef(null),
-        password: useRef(null),
-        rememberMe: useRef(null)
+        email: useRef(''),
+        password: useRef(''),
+        rememberMe: useRef('')
 
     }
 
-    return [inputRefs]
+    const handleSubmit = useCallback(e => {
+        e.preventDefault()
+
+        let validationObj = {}
+
+        Object.keys(inputRefs).forEach(function(key) {
+            if ( key in validations ) {
+                validationObj[key] = validations[key](inputRefs[key].current.value)
+            }
+        });
+
+        console.log('are we here?')
+        if (checkForError(validationObj)) {
+            let data = {}
+
+            Object.keys(inputRefs).forEach(function(key) {
+                data[key] = inputRefs[key].current.value
+            });
+
+            login({ email: data.email, password: data.password })
+        }
+
+        function checkForError(validations) {
+            let validationKeys = Object.keys(validations)
+            for ( var i = 0; i < validationKeys.length; i++ ) {
+                if (!isEmpty(validations[validationKeys[i]])) {
+                    setShowEmailError(true)
+                    setShowPwError(true)
+                    return false
+                }
+            }
+            return true
+        }
+
+        function isEmpty(obj) {
+            return Object.keys(obj).length === 0;
+        }
+
+        //disabled lint because it wants inputRef to be part of the dependency
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [login, validations])
+
+    const handleClearText = useCallback((name) => {
+
+        switch(name){
+            case 'email':
+                setShowEmailError(false)
+                setClearEmailField(true)
+                break
+            case 'password':
+                setShowPwError(false)
+                setClearPwField(true)
+                break
+            default: 
+                return
+        }
+
+    }, [])
+
+
+    useEffect(()=>{
+
+        // setCreds({
+        //     email: !user ? '' : user.email, 
+        //     password: !user ? '' : user.password
+        // })
+
+        if (authed) {
+            navigate('/query')
+        }
+        else {
+            navigate('/')
+        }
+    }, [authed, user, navigate])
+
+    const loginStates = { user, inputRefs, validations, showEmailError, showPwError, clearEmailField, clearPwField }
+    const loginHandlers = { handleSubmit, handleClearText }
+    return [ loginStates, loginHandlers ]
 }
 
 function useAddRotationForm(userFeedbackObj) {
