@@ -109,9 +109,24 @@ export function useSignInForm({ authed, user, login }) {
 }
 
 export function useStudentForm(userFeedbackObj, recordForEdit=null) {
-        
+    const initialStudentFormState = {
+        studentFormValues: SMSRecordService.getInitialStudentValues(),
+        studentFormErrors: {},
+        course: '',
+        rotation: '',
+        showError: false,
+        clearFields: false,
+        submitLoading: false,
+        submitSuccess: false
+    }
+
     const studentFormValidations = useValidations().useCreateValidation()
-    const progressTimer = useRef();
+    const progressTimer = useRef()
+    const [ studentFormState, studentFormDispatch ] = useReducer(reducer, initialStudentFormState)
+    const [ addRotStates, addRotHandlers ] = useAddRotationForm(userFeedbackObj)
+    const { getCourseOptions, getRotationOptions, getHoursWorkedRadioItems } = SMSRecordService
+    
+
 
     const inputRefs = {
         studentId: useRef(null),
@@ -138,17 +153,6 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
         hoursWorked: useRef(null),
         descriptionAttempts: useRef(null)
 
-    }
-
-    const initialStudentFormState = {
-        studentFormValues: SMSRecordService.getInitialStudentValues(),
-        studentFormErrors: {},
-        course: '',
-        rotation: '',
-        showError: false,
-        clearFields: false,
-        submitLoading: false,
-        submitSuccess: false
     }
 
 
@@ -200,11 +204,6 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
                 throw new Error('StudentForm State Reducer Error!');
         }
     }
-
-    const [ studentFormState, studentFormDispatch ] = useReducer(reducer, initialStudentFormState)
-    const [ addRotStates, addRotHandlers ] = useAddRotationForm(userFeedbackObj)
-    const { getCourseOptions, getRotationOptions, getHoursWorkedRadioItems } = SMSRecordService
-    
 
 
     const handleProgress = useCallback((callback) => {
