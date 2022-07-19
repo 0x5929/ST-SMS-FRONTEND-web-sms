@@ -19,9 +19,9 @@ function QueryResults({ handleBacktoQuery, queryResults } ) {
 
     console.log('QueryResults feature rendered')
     
-    const [notify, notificationHandlers] = useNotification(Components.NotificationSlide)
-    const [confirmDialog, confirmDialogHandlers] = useConfirmDialog()
-    const [useQueryResultTableStates, useQueryResultTableHandlers] = useQueryResultTable(
+    const [ notify, notificationHandlers ] = useNotification(Components.NotificationSlide)
+    const [ confirmDialog, confirmDialogHandlers ] = useConfirmDialog()
+    const [ useQueryResultTableStates, useQueryResultTableHandlers ] = useQueryResultTable(
         {
             notificationHandlers,
             confirmDialogHandlers

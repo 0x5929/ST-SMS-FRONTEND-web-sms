@@ -110,7 +110,7 @@ export function useSignInForm({ authed, user, login }) {
 
 export function useStudentForm(userFeedbackObj, recordForEdit=null) {
         
-    const studentFormValidations = useValidations().useCreateValidation2()
+    const studentFormValidations = useValidations().useCreateValidation()
     const progressTimer = useRef();
 
     const inputRefs = {
@@ -410,7 +410,7 @@ function useAddRotationForm(userFeedbackObj) {
     const [ showError, setShowError ] = useState(false)
     const [ clearFields, setClearFields ] = useState(false)
     const rotationRef = useRef(null)
-    const rotFormValidations = useValidations().useAddRotValidation2()
+    const rotFormValidations = useValidations().useAddRotValidation()
 
     const handleProgramNameChange = useCallback((e) => {
         setProgramName(e.target.value)
