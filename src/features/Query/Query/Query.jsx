@@ -1,10 +1,10 @@
 import React, { useState, useCallback } from "react"
 import { Box as MuiBox, Paper as MuiPaper } from '@mui/material'; 
 
-import createQueryStyles from './styles'
+import { createQueryStyles } from './styles'
 import SearchStudents from "./SearchStudents";
 import { QueryResults } from '../Results'
-import { Statistics  } from '../Statistics'
+import Statistics  from './Statistics'
 import Components from '../../../components'
 
 

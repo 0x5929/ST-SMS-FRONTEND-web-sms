@@ -9,7 +9,7 @@ import {
 	Bar,
 	ResponsiveContainer } from "recharts";
 
-import createStatisticsStyles from "./styles"
+import {createStatisticsStyles} from "./styles"
 
 import Components from '../../../components'
 import { useCharts } from "../../../hooks"
@@ -50,10 +50,10 @@ function Statistics() {
 									width={chartWidth}
 									height={chartHeight}
 								>
-										<BarChart
-											data={data[key]}
-											margin={chartMargins}
-										>
+                                    <BarChart
+                                        data={data[key]}
+                                        margin={chartMargins}
+                                    >
 										<XAxis 
 											dataKey="year"
 											stroke={axisStroke}
