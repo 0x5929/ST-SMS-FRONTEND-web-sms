@@ -341,7 +341,6 @@ export function useSignInForm({ authed, user, login }) {
             }
         });
 
-        console.log('are we here?')
         if (checkForError(validationObj)) {
             let data = {}
 
@@ -392,11 +391,6 @@ export function useSignInForm({ authed, user, login }) {
 
     useEffect(()=>{
 
-        // setCreds({
-        //     email: !user ? '' : user.email, 
-        //     password: !user ? '' : user.password
-        // })
-
         if (authed) {
             navigate('/query')
         }
@@ -405,7 +399,15 @@ export function useSignInForm({ authed, user, login }) {
         }
     }, [authed, user, navigate])
 
-    const loginStates = { user, inputRefs, validations, showEmailError, showPwError, clearEmailField, clearPwField }
+    const loginStates = { 
+        user, 
+        inputRefs, 
+        validations, 
+        showEmailError, 
+        showPwError, 
+        clearEmailField, 
+        clearPwField }
+
     const loginHandlers = { handleSubmit, handleClearText }
     return [ loginStates, loginHandlers ]
 }
