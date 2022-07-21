@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react'
 
 import { useStudentForm } from './useForms'
-import { useToggle } from './useToggle'
+import useToggle from './useToggle'
 import * as studentRecordService from '../services/SMSRecordService'
 
 export function useEditModal ({setRecordForEdit, setRecords, userFeedbackObj, recordForEdit}) {

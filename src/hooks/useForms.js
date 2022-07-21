@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { useAddRotationModal } from './useModals';
 import useValidations from './useValidations'
-import { useToggle } from './useToggle'
+import useToggle from './useToggle'
 import * as SMSRecordService from '../services/SMSRecordService'
 
 
