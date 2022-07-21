@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { useAddRotationModal } from './useModals';
 import useValidations from './useValidations'
+import { useToggle } from './useToggle'
 import * as SMSRecordService from '../services/SMSRecordService'
 
 
@@ -27,10 +28,10 @@ function _isEmpty(obj) {
 export function useSignInForm({ authed, user, login }) {
     const navigate = useNavigate()
     const signInFormValidations = useValidations().useLoginValidation()
-    const [ showEmailError, setShowEmailError ] = useState(false)
-    const [ clearEmailField, setClearEmailField ] = useState(false)
-    const [ showPwError, setShowPwError ] = useState(false)
-    const [ clearPwField, setClearPwField ] = useState(false)
+    const [ showEmailError, setShowEmailError ] = useToggle(false)
+    const [ clearEmailField, setClearEmailField ] = useToggle(false)
+    const [ showPwError, setShowPwError ] = useToggle(false)
+    const [ clearPwField, setClearPwField ] = useToggle(false)
 
     const inputRefs = {
         email: useRef(''),
@@ -82,7 +83,8 @@ export function useSignInForm({ authed, user, login }) {
                 return
         }
 
-    }, [])
+
+    }, [setClearEmailField, setClearPwField, setShowEmailError, setShowPwError])
 
 
     useEffect(()=>{
@@ -406,8 +408,8 @@ function useAddRotationForm(userFeedbackObj) {
     const { notificationHandlers } = userFeedbackObj
     const [ isAddRotModalOpen, addRotModalHandlers ] = useAddRotationModal()
     const [ programName, setProgramName ] = useState('')
-    const [ showError, setShowError ] = useState(false)
-    const [ clearFields, setClearFields ] = useState(false)
+    const [ showError, setShowError ] = useToggle(false)
+    const [ clearFields, setClearFields ] = useToggle(false)
     const rotationRef = useRef(null)
     const rotFormValidations = useValidations().useAddRotValidation()
 
@@ -421,7 +423,7 @@ function useAddRotationForm(userFeedbackObj) {
         setProgramName('')
         setShowError(false)
 
-    }, [clearFields])
+    }, [clearFields, setClearFields, setShowError])
 
 
     const handleAddRotSubmit = useCallback( e => {
@@ -465,7 +467,7 @@ function useAddRotationForm(userFeedbackObj) {
 
 
 
-    }, [rotFormValidations, programName, notificationHandlers, handleAddRotClear, addRotModalHandlers])
+    }, [rotFormValidations, programName, setShowError, notificationHandlers, handleAddRotClear, addRotModalHandlers])
 
 
     const addRotStates = { rotFormValidations, isAddRotModalOpen, programName, showError, clearFields, rotationRef }

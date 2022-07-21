@@ -1,8 +1,9 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
+import useToggle from './useToggle';
 
 export default function useScrollToTop() {
 
-    const [ showScroll, setShowScroll ] = useState(false)
+    const [ showScroll, setShowScroll ] = useToggle(false)
 
     const handleClick = useCallback((event) => {
         window.scrollTo({
@@ -26,9 +27,8 @@ export default function useScrollToTop() {
         window.addEventListener('scroll', checkForScroll);
 
         return () => window.removeEventListener('scroll', checkForScroll);
-    }
-
-    ,[])
+    },
+    [setShowScroll])
 
     return [ handleClick, showScroll ]
 }

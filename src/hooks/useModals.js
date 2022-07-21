@@ -1,12 +1,13 @@
 import { useState, useCallback, useEffect } from 'react'
 
 import { useStudentForm } from './useForms'
+import { useToggle } from './useToggle'
 import * as studentRecordService from '../services/SMSRecordService'
 
 export function useEditModal ({setRecordForEdit, setRecords, userFeedbackObj, recordForEdit}) {
 
 
-    const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+    const [isEditModalOpen, setIsEditModalOpen] = useToggle(false)
     const [studentFormStates, studentFormHandlers] = useStudentForm(userFeedbackObj, recordForEdit);
 
     const handleCloseEditModal = useCallback(() => {
@@ -14,7 +15,7 @@ export function useEditModal ({setRecordForEdit, setRecords, userFeedbackObj, re
         setRecordForEdit(null)
         setIsEditModalOpen(false)
 
-    }, [setRecordForEdit, studentFormHandlers])
+    }, [setIsEditModalOpen, setRecordForEdit, studentFormHandlers])
 
 
     const handleEditSubmit = useCallback(e => {
@@ -36,7 +37,7 @@ export function useEditModal ({setRecordForEdit, setRecords, userFeedbackObj, re
         if (recordForEdit) {
             setIsEditModalOpen(true)
         }
-    }, [recordForEdit])
+    }, [recordForEdit, setIsEditModalOpen])
 
     const editModalStates = { isEditModalOpen, studentFormStates }
     
@@ -53,7 +54,7 @@ export function useEditModal ({setRecordForEdit, setRecords, userFeedbackObj, re
 
 
 export function useDetailedViewModal ({ setRecordForView, recordForView }){
-    const [isDetailedViewModalOpen, setIsDetailedViewModalOpen] = useState(false)
+    const [isDetailedViewModalOpen, setIsDetailedViewModalOpen] = useToggle(false)
 
     const getDetailedRecord = useCallback(() => {
         return recordForView
@@ -62,12 +63,12 @@ export function useDetailedViewModal ({ setRecordForView, recordForView }){
     const handleDetailedViewModalClose = useCallback(()=> {
         setRecordForView(null)
         setIsDetailedViewModalOpen(false)
-    }, [setRecordForView])
+    }, [setIsDetailedViewModalOpen, setRecordForView])
 
     const handleDetailedViewModalOpen = useCallback(item => {
         setRecordForView(item)
         setIsDetailedViewModalOpen(true)
-    }, [setRecordForView])
+    }, [setIsDetailedViewModalOpen, setRecordForView])
 
     const detailedViewModalStates = { isDetailedViewModalOpen  }
     const detailedViewModalHandlers = { handleDetailedViewModalOpen, handleDetailedViewModalClose, getDetailedRecord }
@@ -82,15 +83,15 @@ export function useDetailedViewModal ({ setRecordForView, recordForView }){
 
 
 export function useAddRotationModal (){
-    const [isAddRotModalOpen, setIsAddRotModalOpen] = useState(false)
+    const [isAddRotModalOpen, setIsAddRotModalOpen] = useToggle(false)
 
     const handleOpenAddRotModal = useCallback(() => {
         setIsAddRotModalOpen(true)
-    }, [])
+    }, [setIsAddRotModalOpen])
 
     const handleCloseAddRotModal = useCallback(() => {
         setIsAddRotModalOpen(false)
-    }, [])
+    }, [setIsAddRotModalOpen])
 
     const addRotModalHandlers = { handleOpenAddRotModal,handleCloseAddRotModal }
 

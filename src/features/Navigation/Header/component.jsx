@@ -42,7 +42,6 @@ function Header({ Link }) {
     } = useAuthContext()
 
     const headerTitle = useHeader()
-
     const [ isDrawerOpen,handleToggleDrawer ] = useDrawer()
 
 
@@ -57,7 +56,7 @@ function Header({ Link }) {
                             size="large"
                             edge="start"
                             aria-label="menu"
-                            onClick={()=>(handleToggleDrawer(isDrawerOpen))}
+                            onClick={()=>(handleToggleDrawer())}
                         >
                             <MenuIcon />
                         </Styles.BaseIconButton>

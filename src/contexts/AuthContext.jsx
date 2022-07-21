@@ -1,11 +1,12 @@
-import { useState, createContext, useContext } from "react";
+import { useState, createContext, useContext } from "react"
+import { useToggle } from '../hooks'
 
 
 const AuthContext = createContext(null)
 
 const AuthContextProvider = ({ children }) => {
 
-    const [ authed, setAuthed ] = useState(false)
+    const [ authed, setAuthed ] = useToggle(false)
     const [ user, setUser ] = useState(null)
 
     // login/out functionalities

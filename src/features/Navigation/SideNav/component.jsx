@@ -35,10 +35,10 @@ function Drawer (props) {
         <MuiDrawer
             anchor="left"
             open={isDrawerOpen}
-            onClose={()=>(handleToggleDrawer(isDrawerOpen))}
+            onClose={()=>(handleToggleDrawer())}
         >
             <Styles.List>
-                <Link to="/query" onClick={()=>{handleToggleDrawer(isDrawerOpen)}}>
+                <Link to="/query" onClick={()=>{handleToggleDrawer()}}>
                     <Styles.FirstListItem button disableRipple>
                         <ListItemIcon>
                             <ManageSearchIcon />
@@ -46,7 +46,7 @@ function Drawer (props) {
                         <Styles.ListItemText primary={'QUERY'} />
                     </Styles.FirstListItem>
                 </Link>
-                <Link to="/create" onClick={()=>{handleToggleDrawer(isDrawerOpen)}}>
+                <Link to="/create" onClick={()=>{handleToggleDrawer()}}>
                     <MuiListItem button disableRipple>
                         <ListItemIcon>
                             <CreateNewFolderIcon />

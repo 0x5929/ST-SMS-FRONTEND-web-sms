@@ -2,10 +2,11 @@ import React, { useState, useCallback } from "react"
 import { Box as MuiBox, Paper as MuiPaper } from '@mui/material'; 
 
 import { createQueryStyles } from './styles'
-import SearchStudents from "./SearchStudents";
-import { QueryResults } from '../Results'
 import Statistics  from './Statistics'
+import SearchStudents from './SearchStudents'
+import { QueryResults } from '../Results'
 import Components from '../../../components'
+import { useToggle } from '../../../hooks' 
 
 
 const Styles = createQueryStyles({ MuiPaper, MuiBox })
@@ -14,8 +15,8 @@ function Query() {
 
     console.log('Query feature rendered')
     const [ queryResults, setQueryResults ] = useState([])
-    const [ showResults, setShowResults ] = useState(false)
-    const [ isBackdropOpen, setIsBackdropOpen ] = useState(false)
+    const [ showResults, setShowResults ] = useToggle(false)
+    const [ isBackdropOpen, setIsBackdropOpen ] = useToggle(false)
 
     const handleBackdrop = useCallback(() =>{
 

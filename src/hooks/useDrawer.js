@@ -1,13 +1,8 @@
-import { useState, useCallback } from 'react';
+import { useToggle } from '../hooks'
 
 export default function useDrawer(){
     
-    const [ isDrawerOpen, setIsDrawerOpen ] = useState(false)
-
-    const handleToggleDrawer = useCallback((state) => {
-        setIsDrawerOpen(!state)
-    }, [])
-
+    const [ isDrawerOpen, handleToggleDrawer ] = useToggle(false)
 
     return [
         isDrawerOpen,

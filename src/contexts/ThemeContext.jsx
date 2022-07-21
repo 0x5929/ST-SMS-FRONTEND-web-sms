@@ -1,7 +1,8 @@
-import { createContext, useState, useMemo, useContext } from "react";
+import { createContext, useMemo, useContext } from "react"
+import { ThemeProvider, createTheme } from "@mui/material/styles"
+import { CssBaseline } from '@mui/material'
 
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { CssBaseline } from '@mui/material';
+import { useToggle } from '../hooks'
 
 const AppThemeContext = createContext({
   toggleColorMode: () => {},
@@ -10,7 +11,7 @@ const AppThemeContext = createContext({
 
 
 const AppThemeContextProvider = ({ children }) => {
-    const [darkMode, setDarkMode] = useState(false);
+    const [darkMode, setDarkMode] = useToggle(false);
   
     const toggleColorMode = () => {
         setDarkMode(!darkMode);
