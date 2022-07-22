@@ -13,9 +13,7 @@ const Styles = createDetailedTableStyles({
 function ViewStudent({ getTableData, recordForView, setRecordForView }) {
     console.log('ViewStudent feature rendered')
 
-    const [detailedViewModalStates, detailedViewModalHandlers]  = useDetailedViewModal({recordForView, setRecordForView})
-    
-    const  { isDetailedViewModalOpen } = detailedViewModalStates 
+    const [ { isDetailedViewModalOpen }, detailedViewModalHandlers ]  = useDetailedViewModal({recordForView, setRecordForView})
     const { handleDetailedViewModalClose, getDetailedRecord } = detailedViewModalHandlers
 
 

@@ -3,14 +3,12 @@ import {
     Dialog as MuiDialog, 
     DialogActions as MuiDialogAction, 
     DialogContent as MuiDialogContent, 
-    DialogTitle as MuiDialogTitle } from '@mui/material';
-    
-import { NotListedLocation  } from '@mui/icons-material';
-
-import { BaseTypography as Typography } from '../Typography';
-import { BaseButton as Button, BaseIconButton } from '../Buttons';
+    DialogTitle as MuiDialogTitle } from '@mui/material'
+import { NotListedLocation  } from '@mui/icons-material'
 
 import createConfirmDialogStyles from './styles'
+import { BaseTypography as Typography } from '../Typography'
+import { BaseButton as Button, BaseIconButton } from '../Buttons'
 
 
 const Styles = createConfirmDialogStyles({

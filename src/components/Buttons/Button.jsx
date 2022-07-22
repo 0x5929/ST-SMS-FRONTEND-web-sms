@@ -3,18 +3,22 @@ import { Button as MuiButton } from '@mui/material';
 
 import { createButtonStyles } from './styles';
 
-
 const Styles = createButtonStyles({MuiButton})
-
 
 function BaseButton(props) {
 
     console.log('BaseButton component rendered')
-    const { text, size, color, variant, onClick, ...others } = props;
 
-    var variantDefault = "contained"
-    var sizeDefault = "large"
-    var colorDefault = "primary"
+    const { 
+        text, 
+        size, 
+        color, 
+        variant, 
+        onClick, ...others } = props;
+
+    let variantDefault = "contained"
+    let sizeDefault = "large"
+    let colorDefault = "primary"
 
     return (  
         <Styles.Button

@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { 
     Divider, 
     List as MuiList, 
@@ -7,7 +6,6 @@ import {
     ListItemIcon, 
     ListItemText as MuiListItemText, 
     Drawer as MuiDrawer } from '@mui/material'
-
 import { 
     ManageSearch as ManageSearchIcon,
     CreateNewFolder as CreateNewFolderIcon } from '@mui/icons-material'
@@ -20,16 +18,9 @@ const Styles = createSideNavStyles({
     MuiListItemText
 })
 
-function Drawer (props) {
+function Drawer ({ Link, isDrawerOpen, handleToggleDrawer }) {
     
     console.log('Drawer feature rendered')
-    const {
-        Link,
-        isDrawerOpen,
-        handleToggleDrawer
-
-    } = props
-
 
     return (
         <MuiDrawer

@@ -1,14 +1,13 @@
 import React from 'react';
 import { Fab } from '@mui/material';
 
-function BaseFab(props) {
+function BaseFab({ children, ...others }) {
     console.log('BaseFab component rendered')
-    const { children, ...others } = props
 
     return (
 
         <Fab
-            {...others}
+            { ...others }
         >
             { children }
         </Fab>

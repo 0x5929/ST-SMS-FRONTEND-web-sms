@@ -8,9 +8,10 @@ import {
 
 
 
+// NOTE that select does not use the useInputValue custom hook, because we cannot get the value from its useRef reference
 const Select = (props) => {
 
-    console.log('Select2 component rendered')
+    console.log('Select component rendered')
 
     const { 
         name, 

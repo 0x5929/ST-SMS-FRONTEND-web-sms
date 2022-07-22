@@ -1,5 +1,4 @@
 import React from "react"
-
 import { Grid as MuiGrid } from '@mui/material'
 import {
 	BarChart,
@@ -10,7 +9,6 @@ import {
 	ResponsiveContainer } from "recharts";
 
 import {createStatisticsStyles} from "./styles"
-
 import Components from '../../../components'
 import { useCharts } from "../../../hooks"
 
@@ -23,7 +21,7 @@ const Styles = createStatisticsStyles({
 function Statistics() {
     console.log('Statistics feature rendered')
 
-	const [data, theme] = useCharts()
+	const [ data, theme ] = useCharts()
 
 	const {
 		chartWidth,

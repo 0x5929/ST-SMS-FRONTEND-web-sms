@@ -3,16 +3,20 @@ import { IconButton as MuiIconButton} from '@mui/material';
 
 import { createIconBtnStyles } from './styles';
 
-
 const Styles = createIconBtnStyles({MuiIconButton})
 
 function BaseIconButton(props) {
     console.log('BaseIconButton component rendered')
-    const { children, size, color, variant, ...others } = props;
 
-    var variantDefault = "text"
-    var sizeDefault = "small"
-    var colorDefault = "secondary"
+    const { 
+        children, 
+        size, 
+        color, 
+        variant, ...others } = props;
+
+    let variantDefault = "text"
+    let sizeDefault = "small"
+    let colorDefault = "secondary"
 
     return (
         <Styles.IconButton

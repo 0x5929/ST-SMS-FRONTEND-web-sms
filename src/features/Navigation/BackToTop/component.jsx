@@ -1,7 +1,5 @@
 import React from 'react'
-
 import {  Box as MuiBox, Zoom } from '@mui/material'
-
 import { KeyboardArrowUp as KeyboardArrowUpIcon } from '@mui/icons-material'
 
 import createBackToTopStyles from './styles'

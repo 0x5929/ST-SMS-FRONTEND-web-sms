@@ -6,7 +6,7 @@ import Components from '../../../components'
 function EditStudent({setRecordForEdit, setRecords, userFeedbackObj, recordForEdit}) {
     console.log('EditStudent feature rendered')
 
-    const [editModalStates, editModalHandlers] = useEditModal(
+    const [ { isEditModalOpen, studentFormStates }, editModalHandlers ] = useEditModal(
         {
             setRecordForEdit, 
             setRecords, 
@@ -14,9 +14,6 @@ function EditStudent({setRecordForEdit, setRecords, userFeedbackObj, recordForEd
             recordForEdit
         }
     )
-
-
-    const { isEditModalOpen, studentFormStates } =  editModalStates 
 
     const {
         handleCloseEditModal, 

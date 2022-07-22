@@ -4,7 +4,7 @@ import { useInputValue } from '../../hooks'
 
 const Input = forwardRef((props, parentRef) => {
 
-    console.log('Input2 component rendered')
+    console.log('Input component rendered')
 
     const { name, label, initialValue='', errorHandler, clearFields, showError, ...others } = props
 

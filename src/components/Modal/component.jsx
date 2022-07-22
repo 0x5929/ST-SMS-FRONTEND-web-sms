@@ -1,15 +1,12 @@
 import React from 'react'
-
 import { 
     
     DialogContent,
     Dialog as MuiDialog, 
     DialogTitle as MuiDialogTitle } from '@mui/material';
-
 import { CloseOutlined as CloseOutlinedIcon } from '@mui/icons-material';
 
 import createModalStyles from './styles';
-
 import { BaseTypography as Typography } from '../Typography';
 import { BaseIconButton } from '../Buttons';
 

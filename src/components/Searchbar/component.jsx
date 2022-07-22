@@ -6,6 +6,9 @@ import createSearchBarStyles from './styles'
 
 const Styles = createSearchBarStyles({MuiClearIcon})
 
+// NOTe that searchbar uses TextField from Mui instead of our custom Input
+// This is so that we don;t have to be forced to use useValueInput hook, and can lift the value states up to its parent
+// which is needed in this case due to the complexity of QueryForm. (also used for filter bar in results)
 function SearchBar(props) {
     console.log('SearchBar component rendered')
     const { 

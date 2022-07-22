@@ -45,7 +45,7 @@ function createBackToTopStyles({MuiBox, BaseFab}){
     const FabBox = styled(MuiBox)(( {theme} ) => ({
         position: 'fixed', 
         bottom: theme.spacing(), 
-        right: theme.spacing()
+        right: theme.spacing(0.5)
     }));
 
     // with animation

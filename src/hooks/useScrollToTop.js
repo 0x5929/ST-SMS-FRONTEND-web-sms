@@ -20,7 +20,8 @@ export default function useScrollToTop() {
             if (window.pageYOffset > 50){
                 setShowScroll(true)    
              }
-             else{
+             else if (showScroll && window.pageYOffset < 50) {
+        
                 setShowScroll(false)    
              }  
         }
@@ -28,7 +29,7 @@ export default function useScrollToTop() {
 
         return () => window.removeEventListener('scroll', checkForScroll);
     },
-    [setShowScroll])
+    [showScroll, setShowScroll])
 
     return [ handleClick, showScroll ]
 }

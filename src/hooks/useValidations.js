@@ -2,6 +2,8 @@ import { useCallback, useMemo } from 'react'
 
 function useValidations() {
         // returns true or false, and sets error object for validation 
+    
+    // custom pattern built just for the Query Form.
     const queryValidation = useCallback((arrFieldValues, handleSetQueryFormErrorCallback, errors) => {
         let temp = {...errors}
 

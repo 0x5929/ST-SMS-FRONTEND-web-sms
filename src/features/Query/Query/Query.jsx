@@ -30,12 +30,16 @@ function Query() {
 
         }, 1000)
 
-    }, [])
+    }, [setIsBackdropOpen, setShowResults])
 
     const handleBacktoQuery = useCallback(() => {
         setShowResults(false)
-        setIsBackdropOpen(false)
-    }, [])
+
+        if (isBackdropOpen) {
+
+            setIsBackdropOpen(false)
+        }
+    }, [isBackdropOpen, setIsBackdropOpen, setShowResults])
 
     return (
         <Styles.Paper>

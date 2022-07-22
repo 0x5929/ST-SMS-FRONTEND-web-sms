@@ -2,7 +2,6 @@ import React from 'react'
 import { Box as MuiBox } from '@mui/material'
 
 import createAppStyles from './styles'
-
 import { BackToTopButton } from '../features/Navigation/BackToTop'
 import { Header } from '../features/Navigation/Header'
 

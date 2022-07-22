@@ -12,9 +12,7 @@ import { Modal as BaseModal } from '../../components/Modal'
 import {  BaseIconButton  } from '../../components/Buttons'
 
 
-
 const Styles = createProgramFormStyles({MuiStack, MuiBox, BaseIconButton, BaseModal})
-
 
 function ProgramForm({ validations, studentFormStates, studentFormHandlers, ...others }) {
 
@@ -87,7 +85,7 @@ function ProgramForm({ validations, studentFormStates, studentFormHandlers, ...o
     }, [recordForEdit, rotation])
 
     return (
-        <div { ...others }>
+        <MuiBox { ...others }>
             <Select
                 name="course"
                 label="Course"
@@ -124,7 +122,7 @@ function ProgramForm({ validations, studentFormStates, studentFormHandlers, ...o
                     addRotStates={studentFormStates.addRotStates}
                 />
             </Styles.Modal>
-        </div>
+        </MuiBox>
   )
 }
 

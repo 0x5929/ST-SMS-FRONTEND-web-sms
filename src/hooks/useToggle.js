@@ -6,8 +6,8 @@ const useToggle = ( initialState ) => {
     const handleToggle = useCallback((state) => {
         if (state) {
             return setIsTrue(state)
-        }
-        return setIsTrue(prevState => !prevState)
+        }else{
+        return setIsTrue(prevState => !prevState)}
     }, [])
 
     return [isTrue, handleToggle]
