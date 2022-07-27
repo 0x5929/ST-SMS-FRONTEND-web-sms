@@ -24,7 +24,7 @@ function ConfirmDialog({ confirmDialog, confirmDialogHandlers, ...others }) {
     const { handleUnconfirmed } = confirmDialogHandlers;
 
     return (
-        <Styles.Dialog open={confirmDialog.isOpen} {...others}>
+        <Styles.Dialog data-testid="confirmDialog" open={confirmDialog.isOpen} {...others}>
             <Styles.DialogTitle>
                 <Styles.IconButton disableRipple>
                     <NotListedLocation />

@@ -19,7 +19,7 @@ function BaseButton(props) {
     let variantDefault = "contained"
     let sizeDefault = "large"
     let colorDefault = "primary"
-
+    
     return (  
         <Styles.Button
             variant={variant || variantDefault}

@@ -20,6 +20,7 @@ function BaseIconButton(props) {
 
     return (
         <Styles.IconButton
+            data-testid="iconbtn"
             variant={variant || variantDefault}
             size={size || sizeDefault}
             color={color || colorDefault}

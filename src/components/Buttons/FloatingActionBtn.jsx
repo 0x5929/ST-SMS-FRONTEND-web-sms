@@ -7,6 +7,8 @@ function BaseFab({ children, ...others }) {
     return (
 
         <Fab
+            data-testid="fab"
+
             { ...others }
         >
             { children }

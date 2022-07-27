@@ -12,6 +12,7 @@ function BaseCard({ title, children, ...others }) {
     return (
         <Styles.Card
             raised
+            data-testid="card"
             { ...others }
         >
             <CardContent>

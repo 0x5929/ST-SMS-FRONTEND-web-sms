@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import {Link, Outlet, Route, Routes, useLocation} from 'react-router-dom'
+import { Link, Outlet, BrowserRouter } from 'react-router-dom'
+
 
 import App from './component'
 import { AuthContextProvider, AppThemeContextProvider } from '../contexts'
@@ -17,15 +17,21 @@ const customRender = (ui, {themeProviderProps, authProviderProps, ...renderOptio
     )
   }
 
+
+
 describe('App level testing', () => {
-    test('full app rendering/navigating', async () => {
+    it('should render header and back to top button', () => {
 
-        let authProviderProps  = { authed: true, user: {email: 'test@email.com', password: 'test'}}
-        let themeProviderProps = { }
+        const authProviderProps  = { authed: true, user: {email: 'test@email.com', password: 'test'}}
+        const themeProviderProps = { }
 
-        customRender(<App Link={Link} Outlet={Outlet} />, {themeProviderProps, authProviderProps})
+        customRender(<App Link={Link} Outlet={Outlet} />, {themeProviderProps, authProviderProps, wrapper: BrowserRouter})
 
-        //const user = userEvent.setup()
+        // test header is there
         expect(screen.getByText(/Student Management System/i))
+
+        // test back to top button
+        expect(screen.getByLabelText('scroll back to top'))
     })
+
 })

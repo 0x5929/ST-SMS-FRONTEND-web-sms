@@ -11,7 +11,7 @@ function SimpleBackDrop({ openBackdrop, ...others }) {
     console.log('SimpleBackDrop component rendered')
     return (
         <Styles.Backdrop open={openBackdrop} {...others}>
-            <CircularProgress color="inherit" />
+            <CircularProgress data-testid="circularProgress" color="inherit" />
         </Styles.Backdrop>
     )
 }
