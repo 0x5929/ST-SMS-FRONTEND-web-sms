@@ -47,7 +47,9 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@testing-library/react-hooks": "^8.0.1"
+  },
   "jest": {
     "testMatch": [
       "**/?(*.)*(test)(s)?.js"
