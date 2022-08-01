@@ -1,10 +1,12 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, cleanup } from '@testing-library/react'
 import { renderHook, act } from '@testing-library/react-hooks/dom' 
 import userEvent from '@testing-library/user-event'
 import { useNotification, useStudentForm } from '../../hooks'
 import Components from '../../components'
 
 import StudentForm from './StudentForm'
+
+afterEach(cleanup)
 
 describe('testing form components', () => {
     describe('testing StudentForm component', () => {

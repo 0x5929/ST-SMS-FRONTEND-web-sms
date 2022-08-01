@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, cleanup } from '@testing-library/react'
 import { Link, Outlet, BrowserRouter } from 'react-router-dom'
 
 
@@ -18,6 +18,7 @@ const customRender = (ui, {themeProviderProps, authProviderProps, ...renderOptio
   }
 
 
+afterEach(cleanup)
 
 describe('App level testing', () => {
     it('should render header and back to top button', () => {
