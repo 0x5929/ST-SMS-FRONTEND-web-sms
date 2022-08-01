@@ -17,16 +17,30 @@ describe('testing form components', () => {
                 return result.current
             }
             const notificationResults = getNotificationResults()
-            const { result } = renderHook( () => useStudentForm({notificationHandlers: notificationResults.notificationHandlers, notify: notificationResults.notify}))
+            const { result } = renderHook( () => useStudentForm({notificationHandlers: notificationResults[0], notify: notificationResults[1]}))
 
             
             render(
                 <StudentForm 
-                    studentFormStates={result.current.studentFormStates}
-                    studentFormHandlers={result.current.studentFormHandlers}
+                    studentFormStates={result.current[0]}
+                    studentFormHandlers={result.current[1]}
                 />)
 
             expect(screen.getByLabelText('Student ID'))
+            expect(screen.getByLabelText('First Name'))
+            expect(screen.getByLabelText('Last Name'))
+            expect(screen.getByLabelText('Phone Number'))
+            expect(screen.getByLabelText('Email'))
+            expect(screen.getByLabelText('Mailing Address'))
+            expect(screen.getByLabelText('Third Party Payer Info'))
+            expect(screen.getByLabelText('Course Cost'))
+            expect(screen.getByLabelText('Charges Charged'))
+            expect(screen.getByLabelText('Charges Paid'))
+            expect(screen.getByLabelText('Employment Position'))
+            expect(screen.getByLabelText('Place of Employment'))
+            expect(screen.getByLabelText('Employment Address'))
+            expect(screen.getByLabelText('Starting Wage'))
+            expect(screen.getByLabelText('Comments'))
         })
 
         it('should render form with select input components', () => {
