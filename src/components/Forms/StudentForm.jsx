@@ -59,21 +59,25 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
 
     } = studentFormHandlers
 
+    let isEdit
 
     // should be put inside a useEffect hook
     if (studentEditFormHandlers !== undefined) {
-            console.log('HELLO EFFING WORLD')
+            console.log('hello world wtf')
+            isEdit = true
             var handleEditSubmit = studentEditFormHandlers.handleEditSubmit
             var handleEditCancel = studentEditFormHandlers.handleEditCancel
     }
     else {
+        isEdit = false
         handleEditSubmit = false
         handleEditCancel = false
     }
 
 
     return (
-    <Styles.StudentForm onSubmit={handleEditSubmit || ( (e) => handleSubmit(e, inputRefs) )} {...others}>
+    //<Styles.StudentForm onSubmit={handleEditSubmit || ( (e) => handleSubmit(e, inputRefs) )} {...others}>
+    <Styles.StudentForm onSubmit={ isEdit ? ( (e) => studentEditFormHandlers.handleEditSubmit(e)) : ( (e) => handleSubmit(e, inputRefs) ) } {...others}>
         <Grid container>
             <Grid item laptop={6} tablet={12}>
                 <Input
@@ -290,7 +294,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                             <Styles.SuccessFab
                                 aria-label="save"
                                 color="primary"
-                                onClick={(e) => handleSubmit(e, inputRefs)}
+                                onClick={ isEdit ? ( (e) => studentEditFormHandlers.handleEditSubmit(e)) : ( (e) => handleSubmit(e, inputRefs) ) }
                             >
                                 <CheckIcon />
                             </Styles.SuccessFab>
@@ -300,7 +304,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                             <BaseFab
                                 aria-label="save"
                                 color="primary"
-                                onClick={(e) => handleSubmit(e, inputRefs)}
+                                onClick={ isEdit ? ( (e) => studentEditFormHandlers.handleEditSubmit(e)) : ( (e) => handleSubmit(e, inputRefs) ) }
                             >
                                 <SaveIcon data-testid="save-icon" />
                             </BaseFab>
@@ -317,6 +321,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                             type="submit"
                             text="Submit"
                             disabled={submitLoading}
+                            onClick={ isEdit ? ( (e) => studentEditFormHandlers.handleEditSubmit(e)) : ( (e) => handleSubmit(e, inputRefs) ) }
                         />
                         {
                             submitLoading && (

@@ -29,22 +29,30 @@ describe('testing form components', () => {
                 const { result } = renderHook( () => useStudentForm({notificationHandlers: notificationResults[0], notify: notificationResults[1]}))
                 const studentFormStates = result.current[0]
                 const studentFormHandlers = result.current[1]
-                const studentEditFormHandlers = {
-                    handleEditSubmit: () => {},
+                let studentEditFormHandlers = {
+                    handleEditSubmit: () => {
+                        console.log('WTAERJ;LAKSJDFL;KJ')},
                     handleEditCancel: () => {}
                 }
 
                 const submitMk = jest.spyOn(studentFormHandlers, 'handleSubmit')
                 const cancelMk = jest.spyOn(studentFormHandlers, 'handleCancel')
-                const handleEditSubmitMk = jest.spyOn(studentEditFormHandlers, 'handleEditSubmit')
-                const handleEditCancelMk = jest.spyOn(studentEditFormHandlers, 'handleEditCancel')
-                
+                let handleEditSubmitMk 
+                let handleEditCancelMk 
+
+                if (isEdit) {
+                    handleEditSubmitMk = jest.spyOn(studentEditFormHandlers, 'handleEditSubmit')
+                    handleEditCancelMk = jest.spyOn(studentEditFormHandlers, 'handleEditCancel')
+                }
+                else {
+                    studentEditFormHandlers = undefined
+                }
 
                 render(
                     <StudentForm 
                         studentFormStates={studentFormStates}
                         studentFormHandlers={studentFormHandlers}
-                        studentEditFormHandlers={isEdit ? studentEditFormHandlers : undefined}
+                        studentEditFormHandlers={studentEditFormHandlers}
                     />)
 
                 return {
