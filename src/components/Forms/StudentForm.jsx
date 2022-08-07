@@ -63,21 +63,17 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
 
     // should be put inside a useEffect hook
     if (studentEditFormHandlers !== undefined) {
-            console.log('hello world wtf')
-            isEdit = true
-            var handleEditSubmit = studentEditFormHandlers.handleEditSubmit
-            var handleEditCancel = studentEditFormHandlers.handleEditCancel
+        console.log('hello, we are here')
+        isEdit = true
     }
     else {
         isEdit = false
-        handleEditSubmit = false
-        handleEditCancel = false
     }
 
 
     return (
     //<Styles.StudentForm onSubmit={handleEditSubmit || ( (e) => handleSubmit(e, inputRefs) )} {...others}>
-    <Styles.StudentForm onSubmit={ isEdit ? ( (e) => studentEditFormHandlers.handleEditSubmit(e)) : ( (e) => handleSubmit(e, inputRefs) ) } {...others}>
+    <Styles.StudentForm {...others}>
         <Grid container>
             <Grid item laptop={6} tablet={12}>
                 <Input
@@ -318,7 +314,6 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                     </Styles.ButtonBox>
                     <Styles.ButtonBox>
                         <Button
-                            type="submit"
                             text="Submit"
                             disabled={submitLoading}
                             onClick={ isEdit ? ( (e) => studentEditFormHandlers.handleEditSubmit(e)) : ( (e) => handleSubmit(e, inputRefs) ) }
@@ -333,7 +328,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                         <Button
                             color="error"
                             text="Cancel"
-                            onClick={handleEditCancel || handleCancel}
+                            onClick={ isEdit ? studentEditFormHandlers.handleEditCancel : handleCancel }
                         />
                     </Styles.ButtonBox>
                 </Styles.ButtonContainerBox>

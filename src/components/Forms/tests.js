@@ -29,22 +29,17 @@ describe('testing form components', () => {
                 const { result } = renderHook( () => useStudentForm({notificationHandlers: notificationResults[0], notify: notificationResults[1]}))
                 const studentFormStates = result.current[0]
                 const studentFormHandlers = result.current[1]
-                let studentEditFormHandlers = {
-                    handleEditSubmit: () => {
-                        console.log('WTAERJ;LAKSJDFL;KJ')},
+                var studentEditFormHandlers = {
+                    handleEditSubmit: () => {},
                     handleEditCancel: () => {}
                 }
 
                 const submitMk = jest.spyOn(studentFormHandlers, 'handleSubmit')
                 const cancelMk = jest.spyOn(studentFormHandlers, 'handleCancel')
-                let handleEditSubmitMk 
-                let handleEditCancelMk 
+                const handleEditSubmitMk = jest.spyOn(studentEditFormHandlers, 'handleEditSubmit')
+                const handleEditCancelMk = jest.spyOn(studentEditFormHandlers, 'handleEditCancel')
 
-                if (isEdit) {
-                    handleEditSubmitMk = jest.spyOn(studentEditFormHandlers, 'handleEditSubmit')
-                    handleEditCancelMk = jest.spyOn(studentEditFormHandlers, 'handleEditCancel')
-                }
-                else {
+                if (!isEdit) {
                     studentEditFormHandlers = undefined
                 }
 
@@ -148,15 +143,13 @@ describe('testing form components', () => {
             expect(submitMk.mock.calls).toHaveLength(1)
         })
 
-        it('should invoke EditSubmit when Submit is pressed in Edit', () => {
+        it('should invoke handleEditSubmit when Submit is pressed in Edit', () => {
             const { getByText, handleEditSubmitMk } = setup({isEdit: true})
 
             const submitBtn = getByText(/Submit/i)
             submitBtn.click()
 
-            console.log('submitBtn: ', submitBtn)
-            console.log('handleEditSubmitMk: ', handleEditSubmitMk)
-            expect(handleEditSubmitMk.mock.call).toHaveLength(1)
+            expect(handleEditSubmitMk.mock.calls).toHaveLength(1)
         })
 
         it('should invoke handleCancel when Cancel is pressed', () => {
@@ -165,6 +158,15 @@ describe('testing form components', () => {
 
             cancelBtn.click()
             expect(cancelMk.mock.calls).toHaveLength(1)
+        })
+
+        it('should invoke handleEditCancel when Cancel is pressed in Edit', () => {
+            const { getByText, handleEditCancelMk } = setup({isEdit: true})
+
+            const cancelBtn = getByText(/Cancel/i)
+            cancelBtn.click()
+
+            expect(handleEditCancelMk.mock.calls).toHaveLength(1)
         })
     })
 })
