@@ -62,6 +62,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
 
     // should be put inside a useEffect hook
     if (studentEditFormHandlers !== undefined) {
+            console.log('HELLO EFFING WORLD')
             var handleEditSubmit = studentEditFormHandlers.handleEditSubmit
             var handleEditCancel = studentEditFormHandlers.handleEditCancel
     }
@@ -266,6 +267,8 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                     label="Hours Worked"
                     items={getHoursWorkedRadioItems()}
                     clearFields={clearFields}
+                    
+                    data-testid="hours-worked-radio-group"
                 />
                 <Input 
                     ref={inputRefs.descriptionAttempts}
@@ -299,7 +302,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                                 color="primary"
                                 onClick={(e) => handleSubmit(e, inputRefs)}
                             >
-                                <SaveIcon />
+                                <SaveIcon data-testid="save-icon" />
                             </BaseFab>
 
                         }

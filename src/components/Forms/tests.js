@@ -1,3 +1,4 @@
+import '@testing-library/jest-dom'
 import { render, screen, cleanup } from '@testing-library/react'
 import { renderHook, act } from '@testing-library/react-hooks/dom' 
 import userEvent from '@testing-library/user-event'
@@ -20,21 +21,30 @@ describe('testing form components', () => {
 
         let setup;
 
+        // here beforeEach will outline this test coverage.
         beforeEach(() => {
-            setup = () => {
-                const props = {
-                    inputOnChange: jest.fn() 
-                }
-
+            setup = ({isEdit=false} = {}) => {
 
                 const notificationResults = getNotificationResults()
                 const { result } = renderHook( () => useStudentForm({notificationHandlers: notificationResults[0], notify: notificationResults[1]}))
-    
+                const studentFormStates = result.current[0]
+                const studentFormHandlers = result.current[1]
+                const studentEditFormHandlers = {
+                    handleEditSubmit: () => {},
+                    handleEditCancel: () => {}
+                }
+
+                const submitMk = jest.spyOn(studentFormHandlers, 'handleSubmit')
+                const cancelMk = jest.spyOn(studentFormHandlers, 'handleCancel')
+                const handleEditSubmitMk = jest.spyOn(studentEditFormHandlers, 'handleEditSubmit')
+                const handleEditCancelMk = jest.spyOn(studentEditFormHandlers, 'handleEditCancel')
                 
+
                 render(
                     <StudentForm 
-                        studentFormStates={result.current[0]}
-                        studentFormHandlers={result.current[1]}
+                        studentFormStates={studentFormStates}
+                        studentFormHandlers={studentFormHandlers}
+                        studentEditFormHandlers={isEdit ? studentEditFormHandlers : undefined}
                     />)
 
                 return {
@@ -42,7 +52,18 @@ describe('testing form components', () => {
                     getInput(labelText) {
                         return screen.getByLabelText(labelText)
                     },
-                    inputOnChange: props.inputOnChange
+                    getByTestId(testId) {
+                        return screen.getByTestId(testId)
+                    },
+                    getByText(text){
+                        return screen.getByText(text)
+                    },
+                    studentFormStates,
+                    studentFormHandlers,
+                    submitMk,
+                    cancelMk,
+                    handleEditSubmitMk,
+                    handleEditCancelMk
                 }
             }
         })
@@ -57,78 +78,85 @@ describe('testing form components', () => {
             const { getInput } = setup()
             const inputLabels = [
                 'Student ID',
-                'First Name'
+                'First Name',
+                'Last Name',
+                'Phone Number',
+                'Email',
+                'Mailing Address',
+                'Third Party Payer Info',
+                'Course Cost',
+                'Charges Charged',
+                'Charges Paid',
+                'Employment Position',
+                'Place of Employment',
+                'Employment Address',
+                'Starting Wage',
+                'Comments',
             ]
 
-            let textInput
-            for( var label in inputLabels ) {
-                textInput = getInput(label)
-                expect(textInput).toBeInTheDocument()
-            }
+            inputLabels.forEach(label => {
+                expect(getInput(label)).toBeInTheDocument()
+            })
 
         })
 
-        it('should render form with text input components', () => {
-            // call useForm, and pass in necessary values to studentForm.
-            // use react-hooks-testing-library
 
-            function getNotificationResults() {
-                const { result } = renderHook(() => useNotification(Components.NotificationSlide))
-                return result.current
-            }
-            const notificationResults = getNotificationResults()
-            const { result } = renderHook( () => useStudentForm({notificationHandlers: notificationResults[0], notify: notificationResults[1]}))
-
-            
-            render(
-                <StudentForm 
-                    studentFormStates={result.current[0]}
-                    studentFormHandlers={result.current[1]}
-                />)
-
-            expect(screen.getByLabelText('Student ID'))
-            expect(screen.getByLabelText('First Name'))
-            expect(screen.getByLabelText('Last Name'))
-            expect(screen.getByLabelText('Phone Number'))
-            expect(screen.getByLabelText('Email'))
-            expect(screen.getByLabelText('Mailing Address'))
-            expect(screen.getByLabelText('Third Party Payer Info'))
-            expect(screen.getByLabelText('Course Cost'))
-            expect(screen.getByLabelText('Charges Charged'))
-            expect(screen.getByLabelText('Charges Paid'))
-            expect(screen.getByLabelText('Employment Position'))
-            expect(screen.getByLabelText('Place of Employment'))
-            expect(screen.getByLabelText('Employment Address'))
-            expect(screen.getByLabelText('Starting Wage'))
-            expect(screen.getByLabelText('Comments'))
+        it('should render program form component', () => {
+            const { getByTestId } = setup()
+            expect(getByTestId('program-form')).toBeInTheDocument()
         })
 
-        it('should render form with select input components', () => {
+        it('should render form with radio input with options', () => {
+            const { getByText } = setup()
 
-        })
-
-        it('should render form with radio input components', () => {
-
+            expect(getByText(/Full-time/i)).toBeInTheDocument()
+            expect(getByText(/Part-time/i)).toBeInTheDocument()
         })
 
         it('should render form with checkbox input components', () => {
+            const { getByText } = setup()
+
+            expect(getByText(/Employed/i)).toBeInTheDocument()
+            expect(getByText(/Graduated/i)).toBeInTheDocument()
+            expect(getByText(/Passed First Exam/i)).toBeInTheDocument()
+            expect(getByText(/Passed Second or Third Exam/i)).toBeInTheDocument()
 
         })
 
         it('should render form with its button components', () => {
+            const { getByText, getByTestId } = setup()
+
+            expect(getByText(/Submit/i)).toBeInTheDocument()
+            expect(getByText(/Cancel/i)).toBeInTheDocument()
+            expect(getByTestId('save-icon')).toBeInTheDocument()
 
         })
 
         it('should invoke submit when Submit is pressed', () => {
+            const { getByText, submitMk } = setup()
+            const submitBtn = getByText(/Submit/i)
 
+            submitBtn.click()
+            expect(submitMk.mock.calls).toHaveLength(1)
         })
 
         it('should invoke EditSubmit when Submit is pressed in Edit', () => {
+            const { getByText, handleEditSubmitMk } = setup({isEdit: true})
 
+            const submitBtn = getByText(/Submit/i)
+            submitBtn.click()
+
+            console.log('submitBtn: ', submitBtn)
+            console.log('handleEditSubmitMk: ', handleEditSubmitMk)
+            expect(handleEditSubmitMk.mock.call).toHaveLength(1)
         })
 
-        it('should clear all fields and errors when Cancel is pressed', () => {
-            
+        it('should invoke handleCancel when Cancel is pressed', () => {
+            const { getByText, cancelMk } = setup()
+            const cancelBtn = getByText(/Cancel/i)
+
+            cancelBtn.click()
+            expect(cancelMk.mock.calls).toHaveLength(1)
         })
     })
 })

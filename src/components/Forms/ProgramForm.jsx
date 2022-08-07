@@ -85,7 +85,7 @@ function ProgramForm({ validations, studentFormStates, studentFormHandlers, ...o
     }, [recordForEdit, rotation])
 
     return (
-        <MuiBox { ...others }>
+        <MuiBox data-testid="program-form" { ...others }>
             <Select
                 name="course"
                 label="Course"
