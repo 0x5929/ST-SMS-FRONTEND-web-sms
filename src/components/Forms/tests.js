@@ -169,4 +169,17 @@ describe('testing form components', () => {
             expect(handleEditCancelMk.mock.calls).toHaveLength(1)
         })
     })
+
+
+    describe('testing ProgramForm component', () => {
+
+    })
+
+    describe('testing RotationForm component', () => {
+
+    })
+
+    describe('testing QueryForm component', () => {
+        
+    })
 })
