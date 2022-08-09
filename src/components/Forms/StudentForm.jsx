@@ -63,7 +63,6 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
 
     // should be put inside a useEffect hook
     if (studentEditFormHandlers !== undefined) {
-        console.log('hello, we are here')
         isEdit = true
     }
     else {

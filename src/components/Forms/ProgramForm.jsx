@@ -94,7 +94,9 @@ function ProgramForm({ validations, studentFormStates, studentFormHandlers, ...o
                 defaultValue={getCourseOptions()[0].value} 
                 errorHandler={validations.course}
                 handleChange={handleCourseChange}
-                showError={showError}                       
+                showError={showError}            
+                
+                data-testid="course-select"
             />
             <Styles.Stack direction="row" spacing={1}>
                 <Select
@@ -105,9 +107,16 @@ function ProgramForm({ validations, studentFormStates, studentFormHandlers, ...o
                     defaultValue={getRotationOptions()[0].rotation}
                     errorHandler={validations.rotation}
                     handleChange={handleRotationChange}
-                    showError={showError}                     
+                    showError={showError}    
+
+                    data-testid="rotation-select"                
                 />
-                <Styles.AddRotBtn size="medium" onClick={handleOpenAddRotModal}>
+                <Styles.AddRotBtn 
+                    size="medium" 
+                    onClick={handleOpenAddRotModal}
+                
+                    data-testid="addrot-btn"
+                >
                     <AddBoxIcon />
                 </Styles.AddRotBtn>
             </Styles.Stack>
@@ -120,6 +129,8 @@ function ProgramForm({ validations, studentFormStates, studentFormHandlers, ...o
                     getCourseOptions={getCourseOptions}
                     addRotHandlers={studentFormHandlers.addRotHandlers}
                     addRotStates={studentFormStates.addRotStates}
+                
+                    data-testid="rotation-form"
                 />
             </Styles.Modal>
         </MuiBox>

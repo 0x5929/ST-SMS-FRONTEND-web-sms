@@ -86,6 +86,7 @@ export function useAddRotationModal (){
     const [isAddRotModalOpen, setIsAddRotModalOpen] = useToggle(false)
 
     const handleOpenAddRotModal = useCallback(() => {
+        console.log('HELLLLLO WORLD')
         setIsAddRotModalOpen(true)
     }, [setIsAddRotModalOpen])
 

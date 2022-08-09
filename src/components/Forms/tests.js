@@ -1,34 +1,71 @@
 import '@testing-library/jest-dom'
 import { render, screen, cleanup } from '@testing-library/react'
-import { renderHook, act } from '@testing-library/react-hooks/dom' 
-import userEvent from '@testing-library/user-event'
+import { renderHook } from '@testing-library/react-hooks/dom' 
+
 import { useNotification, useStudentForm } from '../../hooks'
 import Components from '../../components'
 
 import StudentForm from './StudentForm'
+import ProgramForm from './ProgramForm'
 
 
 describe('testing form components', () => {
 
+    let notificationResults
+    let studentFormStates
+    let studentFormHandlers
+    let testByMethods
+
+    function getNotificationResults() {
+        const { result } = renderHook(() => useNotification(Components.NotificationSlide))
+        return result.current
+    }
+
+
+    beforeAll(() => {
+        notificationResults = getNotificationResults()
+
+        const { result } = renderHook( () => useStudentForm({notificationHandlers: notificationResults[0], notify: notificationResults[1]}))
+        studentFormStates = result.current[0]
+        studentFormHandlers = result.current[1]
+
+
+        testByMethods = (screen) => {
+            return {
+
+                getInput(labelText) {
+                    return screen.getByLabelText(labelText)
+                },
+                getByTestId(testId) {
+                    return screen.getByTestId(testId)
+                },
+                getByText(text){
+                    return screen.getByText(text)
+                },
+                queryByTestId(testId) {
+                    return screen.queryByTestId(testId)
+                }
+            }
+        }
+    })
+
+
+    afterAll(() => {
+        notificationResults = undefined
+        studentFormStates = undefined
+        studentFormHandlers = undefined
+        testByMethods= undefined
+    })
 
     describe('testing StudentForm component', () => {
 
 
-        function getNotificationResults() {
-            const { result } = renderHook(() => useNotification(Components.NotificationSlide))
-            return result.current
-        }
-
-        let setup;
+        let setup
 
         // here beforeEach will outline this test coverage.
         beforeEach(() => {
             setup = ({isEdit=false} = {}) => {
 
-                const notificationResults = getNotificationResults()
-                const { result } = renderHook( () => useStudentForm({notificationHandlers: notificationResults[0], notify: notificationResults[1]}))
-                const studentFormStates = result.current[0]
-                const studentFormHandlers = result.current[1]
                 var studentEditFormHandlers = {
                     handleEditSubmit: () => {},
                     handleEditCancel: () => {}
@@ -52,15 +89,7 @@ describe('testing form components', () => {
 
                 return {
 
-                    getInput(labelText) {
-                        return screen.getByLabelText(labelText)
-                    },
-                    getByTestId(testId) {
-                        return screen.getByTestId(testId)
-                    },
-                    getByText(text){
-                        return screen.getByText(text)
-                    },
+                    ...(testByMethods(screen)),
                     studentFormStates,
                     studentFormHandlers,
                     submitMk,
@@ -173,6 +202,74 @@ describe('testing form components', () => {
 
     describe('testing ProgramForm component', () => {
 
+        let setup
+
+        beforeEach(() => {
+            setup = () => {
+                const validations = studentFormStates.studentFormValidations
+
+          
+
+                const openAddRotModalMk = jest.spyOn(
+                        studentFormHandlers.addRotHandlers.addRotModalHandlers, 
+                        'handleOpenAddRotModal')
+
+                render(
+                    <ProgramForm 
+                        validations={validations}
+                        studentFormStates={studentFormStates}
+                        studentFormHandlers={studentFormHandlers}
+                    />)
+
+                return {
+                    ...(testByMethods(screen)),
+                    openAddRotModalMk
+                }
+            }
+        })
+
+        afterEach(() => {
+            setup = undefined
+            jest.clearAllMocks()
+            cleanup()
+        })
+
+        it('should render select components', () => {
+            const { getByTestId } = setup()
+
+            expect(getByTestId('course-select')).toBeInTheDocument()
+            expect(getByTestId('rotation-select')).toBeInTheDocument()
+        })
+
+        it('should render add rot button', () => {
+            const { getByTestId } = setup()
+
+            expect(getByTestId('addrot-btn')).toBeInTheDocument()
+        })
+
+        it('should invoke hanldeOpenAddRotModal when add rot button is clicked', () => {
+            const { getByTestId, openAddRotModalMk } = setup()
+            const addRotBtn = getByTestId('addrot-btn')
+
+            addRotBtn.click()
+            expect(openAddRotModalMk.mock.calls).toHaveLength(1)
+        })
+
+        it('should render rotation form if modal is open', () => {
+            const { queryByTestId, getByTestId, openAddRotModalMk } = setup({addRot: true})
+            const addRotBtn = getByTestId('addrot-btn')
+
+            expect(queryByTestId('rotation-form')).not.toBeInTheDocument()
+
+            openAddRotModalMk.mockRestore()
+            addRotBtn.click()
+            expect(openAddRotModalMk.mock.calls).toHaveLength(1)
+
+            expect(getByTestId('rotation-form')).toBeInTheDocument()
+
+
+        })
+        
     })
 
     describe('testing RotationForm component', () => {
