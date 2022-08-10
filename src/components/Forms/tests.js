@@ -7,6 +7,7 @@ import Components from '../../components'
 
 import StudentForm from './StudentForm'
 import ProgramForm from './ProgramForm'
+import RotationForm from './RotationForm'
 
 
 describe('testing form components', () => {
@@ -100,8 +101,9 @@ describe('testing form components', () => {
             }
         })
         afterEach(() => {
-            setup = undefined;
-            cleanup();
+            setup = undefined
+            jest.clearAllMocks()
+            cleanup()
         
         })
 
@@ -277,6 +279,38 @@ describe('testing form components', () => {
 
     describe('testing RotationForm component', () => {
 
+        let setup
+        
+        beforeEach(() => {
+            render(
+                <RotationForm 
+                    getCourseOptions={studentFormHandlers.getCourseOptions}
+                    addRotHandlers={studentFormHandlers.addRotHandlers}
+                    addRotStates={studentFormStates.addRotStates}
+                />
+            )
+
+            return {
+                ...(testByMethods(screen))
+
+            }
+        })
+
+        afterEach(() => {
+            setup = undefined
+            jest.clearAllMocks()
+            cleanup()
+        })
+
+        it('should render select components', () => {})
+
+        it('should render text field input component', () => {})
+
+        it('should render button components', () => {})
+    
+        it('should invoke handleAddRotSubmit when submit button is clicked', () => {})
+
+        it('should invoke handleAddRotClear when cancel button is clicked', () => {})
     })
 
     describe('testing QueryForm component', () => {
