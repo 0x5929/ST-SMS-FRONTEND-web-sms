@@ -205,7 +205,7 @@ describe('testing form components', () => {
         let setup
 
         beforeEach(() => {
-            setup = () => {
+            setup = ({ addRot = false } = {}) => {
                 const validations = studentFormStates.studentFormValidations
 
           
@@ -214,6 +214,9 @@ describe('testing form components', () => {
                         studentFormHandlers.addRotHandlers.addRotModalHandlers, 
                         'handleOpenAddRotModal')
 
+                if (addRot){
+                    studentFormStates.addRotStates.isAddRotModalOpen = true
+                }
                 render(
                     <ProgramForm 
                         validations={validations}
@@ -255,19 +258,19 @@ describe('testing form components', () => {
             expect(openAddRotModalMk.mock.calls).toHaveLength(1)
         })
 
-        it('should render rotation form if modal is open', () => {
-            const { queryByTestId, getByTestId, openAddRotModalMk } = setup({addRot: true})
-            const addRotBtn = getByTestId('addrot-btn')
 
+        // NOTE: instead of testing after clicking the button will trigger modal will trigger rotation form
+        // we will test if the state is set as open/true, then rotation-form will render, it not, rotation form will not render
+        // THEN we will test that button will trigger function and we will test that function will change the state to true.
+        // this should be able to cover our test cases.
+        it('should not render rotation form if modal is not set as open', () => {
+            const { queryByTestId } = setup({addRot: false})
             expect(queryByTestId('rotation-form')).not.toBeInTheDocument()
+        })
 
-            openAddRotModalMk.mockRestore()
-            addRotBtn.click()
-            expect(openAddRotModalMk.mock.calls).toHaveLength(1)
-
+        it('should render rotation form if modal is set as open', () => {
+            const { getByTestId } = setup({addRot: true})
             expect(getByTestId('rotation-form')).toBeInTheDocument()
-
-
         })
         
     })
