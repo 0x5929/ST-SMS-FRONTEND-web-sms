@@ -46,6 +46,8 @@ function RotationForm({ getCourseOptions, addRotHandlers, addRotStates, ...other
                     handleChange={handleProgramNameChange}
                     errorHandler={rotFormValidations.programName}
                     showError={showError}
+
+                    data-testid="program-select"
                 />
                 <Input 
                     ref={rotationRef}
@@ -54,6 +56,8 @@ function RotationForm({ getCourseOptions, addRotHandlers, addRotStates, ...other
                     errorHandler={rotFormValidations.rotation}
                     showError={showError}
                     clearFields={clearFields}
+
+                    data-testid="rotation-number"
                 />
                 <Styles.ButtonContainerBox>
                     <Button 

@@ -10,30 +10,33 @@ import ProgramForm from './ProgramForm'
 import RotationForm from './RotationForm'
 
 
+
+
 describe('testing form components', () => {
 
     let notificationResults
     let studentFormStates
     let studentFormHandlers
     let testByMethods
-
+    
     function getNotificationResults() {
         const { result } = renderHook(() => useNotification(Components.NotificationSlide))
         return result.current
     }
-
-
+    
+    
     beforeAll(() => {
         notificationResults = getNotificationResults()
-
+    
         const { result } = renderHook( () => useStudentForm({notificationHandlers: notificationResults[0], notify: notificationResults[1]}))
         studentFormStates = result.current[0]
         studentFormHandlers = result.current[1]
-
-
+        console.log('studentFormHandlers', studentFormHandlers)
+    
+    
         testByMethods = (screen) => {
             return {
-
+    
                 getInput(labelText) {
                     return screen.getByLabelText(labelText)
                 },
@@ -49,8 +52,8 @@ describe('testing form components', () => {
             }
         }
     })
-
-
+    
+    
     afterAll(() => {
         notificationResults = undefined
         studentFormStates = undefined
@@ -58,8 +61,8 @@ describe('testing form components', () => {
         testByMethods= undefined
     })
 
-    describe('testing StudentForm component', () => {
 
+    describe('testing StudentForm component', () => {
 
         let setup
 
@@ -280,19 +283,27 @@ describe('testing form components', () => {
     describe('testing RotationForm component', () => {
 
         let setup
-        
+
         beforeEach(() => {
-            render(
-                <RotationForm 
-                    getCourseOptions={studentFormHandlers.getCourseOptions}
-                    addRotHandlers={studentFormHandlers.addRotHandlers}
-                    addRotStates={studentFormStates.addRotStates}
-                />
-            )
+            setup = () => {
+                
+                const handleAddRotSubmitMk = jest.spyOn(studentFormHandlers.addRotHandlers, 'handleAddRotSubmit')
+                const handleAddRotClearMk = jest.spyOn(studentFormHandlers.addRotHandlers, 'handleAddRotClear')
+        
+                render(
+                    <RotationForm 
+                        getCourseOptions={studentFormHandlers.getCourseOptions}
+                        addRotHandlers={studentFormHandlers.addRotHandlers}
+                        addRotStates={studentFormStates.addRotStates}
+                    />
+                )
 
-            return {
-                ...(testByMethods(screen))
+                return {
+                    ...(testByMethods(screen)),
+                    handleAddRotSubmitMk,
+                    handleAddRotClearMk
 
+                }
             }
         })
 
@@ -302,15 +313,45 @@ describe('testing form components', () => {
             cleanup()
         })
 
-        it('should render select components', () => {})
+        it('should render select components', () => {
+            const { getByTestId } = setup()
 
-        it('should render text field input component', () => {})
+            expect(getByTestId('program-select')).toBeInTheDocument()
 
-        it('should render button components', () => {})
+        })
+
+        it('should render text field input component', () => {
+            const { getByTestId } = setup()
+            
+            expect(getByTestId('rotation-number')).toBeInTheDocument()
+        })
+
+        it('should render button components', () => {
+            const { getByText } = setup()
+
+            expect(getByText(/submit/i)).toBeInTheDocument()
+            expect(getByText(/cancel/i)).toBeInTheDocument()
+        })
     
-        it('should invoke handleAddRotSubmit when submit button is clicked', () => {})
+        it('should invoke handleAddRotSubmit when submit button is clicked', () => {
+            const { getByText, handleAddRotSubmitMk } = setup()
+            const submitBtn = getByText(/submit/i)
 
-        it('should invoke handleAddRotClear when cancel button is clicked', () => {})
+            submitBtn.click()
+
+            expect(handleAddRotSubmitMk.mock.calls).toHaveLength(1)
+
+        })
+
+        it('should invoke handleAddRotClear when cancel button is clicked', () => {
+            const { getByText, handleAddRotClearMk } = setup()
+            const cancelBtn = getByText(/cancel/i)
+
+            cancelBtn.click()
+
+            expect(handleAddRotClearMk.mock.calls).toHaveLength(1)
+
+        })
     })
 
     describe('testing QueryForm component', () => {
