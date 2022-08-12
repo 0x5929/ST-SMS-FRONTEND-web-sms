@@ -66,6 +66,8 @@ function QueryForm({queryFormStates, queryFormHandlers, ...others}) {
                                         options={getQueryOptions()}
                                         variant={'standard'}
                                         autoWidth
+
+                                        data-testid="queryby-select"
                                     />
                                 </Grid>
                                     {
