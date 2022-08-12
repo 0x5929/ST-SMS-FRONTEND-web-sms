@@ -2,12 +2,13 @@ import '@testing-library/jest-dom'
 import { render, screen, cleanup } from '@testing-library/react'
 import { renderHook } from '@testing-library/react-hooks/dom' 
 
-import { useNotification, useStudentForm } from '../../hooks'
+import { useNotification, useQueryForm, useStudentForm } from '../../hooks'
 import Components from '../../components'
 
 import StudentForm from './StudentForm'
 import ProgramForm from './ProgramForm'
 import RotationForm from './RotationForm'
+import QueryForm from './QueryForm'
 
 
 
@@ -355,6 +356,60 @@ describe('testing form components', () => {
     })
 
     describe('testing QueryForm component', () => {
+        let setup
+        let queryFormStates
+        let queryFormHandlers
+
+        beforeAll(() => {
+            const setQueryResults = jest.fn()
+            const handleBackdrop = jest.fn()
+
+            const { result } = renderHook(() => useQueryForm(setQueryResults, handleBackdrop))
+            queryFormStates = result.current[0]
+            queryFormHandlers = result.current[1]
+
+        })
         
+        afterAll(() => {
+            queryFormHandlers = undefined
+            queryFormHandlers = undefined
+        })
+
+        beforeEach(() => {
+            setup = () => {
+
+                render(<QueryForm 
+                        queryFormStates={queryFormStates}
+                        queryFormHandlers={queryFormHandlers}
+                    />)
+                return {
+                    
+                    ...(testByMethods(screen)),
+                }
+            }
+        })
+
+        afterEach(() => {
+            setup = undefined
+            jest.clearAllMocks()
+            cleanup()
+        })
+
+        it('should render QuerySearchBar component', () => {
+            const { getInput } = setup()
+
+            expect(getInput('Search Student Database')).toBeInTheDocument()
+        })
+
+        it('should render QuerySelect component', () => {
+            const { getByTestId } = setup()
+
+            expect(getByTestId('queryby-select')).toBeInTheDocument()
+        })
+
+        // two tests below need more thoughts
+        it('should render delete button upon two or more query options', () => {})
+
+        it('should render add new button if there are less than 5 query options', () => {})
     })
 })
