@@ -79,6 +79,8 @@ function QueryForm({queryFormStates, queryFormHandlers, ...others}) {
                                                     color="error"
                                                     variant="outlined"
                                                     onClick={ ()=> (handleDelQuery(index, query.pk)) }
+
+                                                    data-testid="delete-query-btn"
                                                 />             
                                             </Grid>
                                         )

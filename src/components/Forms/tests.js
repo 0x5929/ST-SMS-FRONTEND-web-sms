@@ -47,9 +47,12 @@ describe('testing form components', () => {
                 getByText(text){
                     return screen.getByText(text)
                 },
+                getAllByText(text) {
+                    return screen.getAllByText(text)
+                },
                 queryByTestId(testId) {
                     return screen.queryByTestId(testId)
-                }
+                },
             }
         }
     })
@@ -407,8 +410,22 @@ describe('testing form components', () => {
             expect(getByTestId('queryby-select')).toBeInTheDocument()
         })
 
-        // two tests below need more thoughts
-        it('should render delete button upon two or more query options', () => {})
+        it('should render add new button', () => {
+            const { getByText } = setup()
+            expect(getByText(/add new/i)).toBeInTheDocument()
+
+        })
+
+        it('should render delete button upon two or more query options', () => {
+            const { getByText, getByTestId } = setup()
+            const addBtn = getByText(/add new/i)
+            const maxAdd = 4
+
+            for (let i = 0; i <= maxAdd; i++) {
+                addBtn.click()
+            }
+            expect(getByTestId('delete-query-btn')).toHaveLength(5)
+        })
 
         it('should render add new button if there are less than 5 query options', () => {})
     })
