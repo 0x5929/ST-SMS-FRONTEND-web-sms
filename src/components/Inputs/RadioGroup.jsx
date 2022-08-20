@@ -35,6 +35,8 @@ const RadioGroup = forwardRef((props, parentRef) => {
                 name={name}
                 value={value}
                 onChange={inputOnChange}
+
+                data-testid="mui-radiogroup" 
             >
                 {
                     items.map(
@@ -43,7 +45,7 @@ const RadioGroup = forwardRef((props, parentRef) => {
                                 key={item.value} 
                                 value={item.value}
                                 label={item.title} 
-                                control={<Radio inputRef={parentRef}/>} 
+                                control={<Radio data-testid="mui-radio" inputRef={parentRef}/>} 
                             />
                         )
                     )

@@ -32,9 +32,10 @@ function Modal(props) {
             onBackdropClick={handleCloseModal}
             fullWidth={true}
 
+            data-testid="mui-dialog"
             { ...others }
         >
-            <Styles.DialogTitle>
+            <Styles.DialogTitle data-testid="mui-dialogtitle">
                 <div style={{display: 'flex'}}>
                     <Typography
                         variant="h6"
@@ -47,6 +48,8 @@ function Modal(props) {
                         size="small"
                         color="secondary"
                         onClick={handleCloseModal}
+
+                        data-testid="modal-close-btn"
                     >
                         <CloseOutlinedIcon 
                             fontSize="small"
@@ -55,7 +58,7 @@ function Modal(props) {
                     </Styles.IconButton >
                 </div>
             </Styles.DialogTitle>
-            <DialogContent dividers>
+            <DialogContent data-testid="mui-dialogcontent" dividers>
 
                  { children }
             

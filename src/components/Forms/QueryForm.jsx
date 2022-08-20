@@ -99,6 +99,8 @@ function QueryForm({queryFormStates, queryFormHandlers, ...others}) {
                                                 <Styles.QueryButton 
                                                     type="Submit"
                                                     color="secondary"
+
+                                                    data-testid="query-submit-btn"
                                                 >
                                                     <DoubleArrowIcon 
                                                         fontSize="large"

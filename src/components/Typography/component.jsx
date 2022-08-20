@@ -14,6 +14,8 @@ function BaseTypography(props) {
 
     return (         
         <Styles.Typography
+            data-testid="mui-typography"
+            
             variant={variant || defaultVariant}
             color={ color || defaultColor}
             component={component || variant || defaultVariant}

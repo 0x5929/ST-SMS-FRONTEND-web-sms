@@ -20,8 +20,9 @@ const Input = forwardRef((props, parentRef) => {
             name={name}
             value={value}
             onChange={inputOnChange}
-            { ...((showError && errorHandler(value)) || error)  }
+            inputProps={{ "data-testid": "mui-textfield" }}
 
+            { ...((showError && errorHandler(value)) || error)  }
             
             { ...others }
         />

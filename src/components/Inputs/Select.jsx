@@ -31,6 +31,8 @@ const Select = (props) => {
         >
             <InputLabel> { label }</InputLabel>
             <MuiSelect
+                data-testid="mui-select"
+            
                 label={label}
                 name={name}
                 value={(value ? value: '')}
@@ -43,8 +45,11 @@ const Select = (props) => {
                     options.map(
                         option=> (
                             <MenuItem 
+                                component="div"
                                 key={option.value} 
                                 value={option.value}
+
+                                data-testid="mui-selectitem"
                             >
                                 { option.title }
                             </MenuItem>

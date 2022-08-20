@@ -27,6 +27,7 @@ function SearchBar(props) {
     return (  
         <Toolbar>
             <TextField 
+                inputRef={textInput}
                 variant="outlined"
                 color="primary"
                 label={label}
@@ -36,18 +37,20 @@ function SearchBar(props) {
                 InputProps={{
                     startAdornment: (
                         <InputAdornment position="start">
-                            <SearchIcon />
+                            <SearchIcon data-testid="mui-searchicon" />
                         </InputAdornment>
                     ),
                     endAdornment: (
                         <InputAdornment position="end">
                             <Styles.ClearIcon 
+                                data-testid="mui-clearIcon"
                                 onClick={() => handleClear(textInput, index, props.pk)}
                             />
                         </InputAdornment>
-                    )
+                    ),
+                    "data-testid" : "mui-searchbar"
                 }}
-                inputRef={textInput}
+
                 {...(error && { error:true, helperText: error })}
 
                 { ...others }

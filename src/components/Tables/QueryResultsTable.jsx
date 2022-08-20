@@ -30,6 +30,7 @@ const QueryResultsTblContainer= React.memo((props) => {
     return (
         <TableContainer component={Styles.Paper}>
             <Styles.Table
+                data-testid="query-results-table"
                 { ...others }
             >
                 { children }
@@ -47,7 +48,7 @@ const QueryResultsTblHead = React.memo((props) => {
 
     return (
         <TableHead {...others}>
-            <TableRow>
+            <TableRow data-testid="query-results-table-header">
                 { 
                     tableData.mainQueryResultHeadCells.map( headCell => (
 
@@ -55,11 +56,15 @@ const QueryResultsTblHead = React.memo((props) => {
                             key={ headCell.id }
                             sortDirection={orderBy === headCell.id ? order : false}
                         >
-                            { headCell.disableSorting? headCell.label : 
+                            { headCell.disableSorting ? 
+                                <span data-testid="query-result-header-cell">{ headCell.label }</span> : 
+                                
                                 <TableSortLabel
                                     active={ orderBy === headCell.id }
                                     direction={ orderBy === headCell.id ? order: 'asc' }
                                     onClick={ ()=>{handleSortRequest(headCell.id)} }
+
+                                    data-testid="query-result-header-cell"
                                 >
                                     { headCell.label }
                                 </TableSortLabel>
@@ -84,7 +89,7 @@ const QueryResultsTblBody = React.memo((props) => {
      } = props
 
     return (
-        <TableBody { ...others }>
+        <TableBody data-testid="query-results-table-body" { ...others }>
             {getFinalDisplayRecords().map(record => (
                     <TableRow key={ record.pk }>
                         <TableCell>{ record.studentId }</TableCell>
@@ -94,7 +99,9 @@ const QueryResultsTblBody = React.memo((props) => {
                         <TableCell>{ record.email }</TableCell>
                         <TableCell>{ record.course }</TableCell>
                         <TableCell>
-                            <Styles.ActionButton 
+                            <Styles.ActionButton
+                                data-testid="view-record-btn"
+                                
                                 variant="text"
                                 onClick={() => setRecordForView(record)}
                                 size="small"
@@ -106,6 +113,8 @@ const QueryResultsTblBody = React.memo((props) => {
                                 />
                             </Styles.ActionButton>
                             <Styles.ActionButton 
+                                data-testid="edit-record-btn"
+                                
                                 variant="text"
                                 onClick={() => setRecordForEdit(record)}
                                 size="small"
@@ -117,6 +126,8 @@ const QueryResultsTblBody = React.memo((props) => {
                                 />
                             </Styles.ActionButton>
                             <Styles.ActionButton 
+                                data-testid="del-record-btn"
+                                
                                 variant="text"
                                 onClick={() => handleDeletePress(record)}
                                 size="small"
@@ -143,6 +154,8 @@ const QueryResultsTblPagination = React.memo((props) => {
 
     return (
         <TablePagination 
+            data-testid="query-results-table-pagination"
+            
             component="div"
             count={count}
             page={page}

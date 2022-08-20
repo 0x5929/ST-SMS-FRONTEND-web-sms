@@ -23,18 +23,21 @@ const Checkbox = forwardRef((props, parentRef) => {
     } = props
 
 
-    const [ isChecked, handleToggle ] = useToggle(initialValue)
+    const [ isChecked, handleToggle ] = useToggle(initialValue, clearFields)
 
     return (  
         <FormControl {...others}>
             <FormControlLabel
                 label={label}
                 control={<MuiCheckbox
+                    data-testid="mui-checkbox"
+
                     inputRef={parentRef}
                     color="primary" 
                     name={name}
                     checked={isChecked}
                     onChange={e => handleToggle(convertToDefaultEventParam(name, e.target.checked))}
+                    
                 />}
             />
         </FormControl>

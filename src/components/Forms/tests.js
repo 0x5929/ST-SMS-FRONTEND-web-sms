@@ -32,7 +32,6 @@ describe('testing form components', () => {
         const { result } = renderHook( () => useStudentForm({notificationHandlers: notificationResults[0], notify: notificationResults[1]}))
         studentFormStates = result.current[0]
         studentFormHandlers = result.current[1]
-        console.log('studentFormHandlers', studentFormHandlers)
     
     
         testByMethods = (screen) => {
@@ -53,6 +52,9 @@ describe('testing form components', () => {
                 queryByTestId(testId) {
                     return screen.queryByTestId(testId)
                 },
+                getAllByTestId(testId) {
+                    return screen.getAllByTestId(testId)
+                }
             }
         }
     })
@@ -293,7 +295,7 @@ describe('testing form components', () => {
                 
                 const handleAddRotSubmitMk = jest.spyOn(studentFormHandlers.addRotHandlers, 'handleAddRotSubmit')
                 const handleAddRotClearMk = jest.spyOn(studentFormHandlers.addRotHandlers, 'handleAddRotClear')
-        
+                
                 render(
                     <RotationForm 
                         getCourseOptions={studentFormHandlers.getCourseOptions}
@@ -374,13 +376,25 @@ describe('testing form components', () => {
         })
         
         afterAll(() => {
-            queryFormHandlers = undefined
+            queryFormStates = undefined
             queryFormHandlers = undefined
         })
 
         beforeEach(() => {
-            setup = () => {
+            setup = ({moreThanOneOpt = false} = {}) => {
 
+
+                const handleAddNewQueryMk = jest.spyOn(queryFormHandlers, 'handleAddNewQuery')
+                const handleDelQueryMk = jest.spyOn(queryFormHandlers, 'handleDelQuery')
+                const handleSubmitMk = jest.spyOn(queryFormHandlers, 'handleSubmit')
+
+                if (moreThanOneOpt) {
+                    queryFormStates.queryOptions = [
+                        {query: 'clast_name', value: '', pk: 1001},
+                        {query: 'clast_name', value: '', pk: 1002}
+                    ]
+                }
+               
                 render(<QueryForm 
                         queryFormStates={queryFormStates}
                         queryFormHandlers={queryFormHandlers}
@@ -388,6 +402,9 @@ describe('testing form components', () => {
                 return {
                     
                     ...(testByMethods(screen)),
+                    handleAddNewQueryMk,
+                    handleDelQueryMk,
+                    handleSubmitMk
                 }
             }
         })
@@ -416,23 +433,51 @@ describe('testing form components', () => {
 
         })
 
-        it('should call addNewHandler when add new button is clicked', () => {})
+        it('should call addNewHandler when add new button is clicked', () => {
+            const { handleAddNewQueryMk, getByText } = setup()
+            const addNewBtn = getByText(/add new/i)
 
-        it('should not render delete button with only one query', () => {})
+            addNewBtn.click()
+            expect(handleAddNewQueryMk.mock.calls).toHaveLength(1)
+        })
+
+        it('should not render delete button with only one query', () => {
+            const { queryByTestId } = setup()
+            
+            // default there is only one query initialized
+            expect(queryByTestId('delete-query-btn')).not.toBeInTheDocument()
+        })
 
         it('should render delete button upon two or more query options', () => {
 
             // try changing the actual queries fed into the component, 2 queries should render, and delete should trigger deleteHandler
-            const { getByText, getByTestId } = setup()
-            const addBtn = getByText(/add new/i)
-            const maxAdd = 4
+            const { getAllByTestId } = setup({moreThanOneOpt: true})
 
-            for (let i = 0; i <= maxAdd; i++) {
-                addBtn.click()
-            }
-            // expect(getByTestId('delete-query-btn')).toHaveLength(5)
+            expect(getAllByTestId('delete-query-btn')).toHaveLength(2)
         })
 
-        it('should render add new button if there are less than 5 query options', () => {})
+        it('should trigger handleDelQuery when delete query button is clicked', () => {
+            const { handleDelQueryMk, getAllByTestId } = setup({moreThanOneOpt: true})
+            const deleteBtn = getAllByTestId('delete-query-btn')[0]
+
+            deleteBtn.click()
+            expect(handleDelQueryMk.mock.calls).toHaveLength(1)
+        })
+
+        it('should render submit button', () => {
+            const { getByTestId } = setup()
+            
+            expect(getByTestId('query-submit-btn')).toBeInTheDocument()
+
+        })
+
+        it('should trigger handleSubmit when query submit button is clicked', () => {
+            const { getByTestId, handleSubmitMk } = setup()
+            const submitBtn = getByTestId('query-submit-btn')
+
+            submitBtn.click()
+            expect(handleSubmitMk.mock.calls).toHaveLength(1)
+
+        })
     })
 })

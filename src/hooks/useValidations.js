@@ -38,9 +38,9 @@ function useValidations() {
             courseCost                      : useCallback((value) => (moneyRegex.test(value)) ? {} : { error: true, helperText: 'Please enter the correct format. ie: xxxx.xx' }, [moneyRegex]),
             chargesCharged                  : useCallback((value) => (moneyRegex.test(value)) ? {} : { error: true, helperText: 'Please enter the correct format. ie: xxxx.xx' }, [moneyRegex]),
             chargesPaid                     : useCallback((value) => (moneyRegex.test(value)) ? {} : { error: true, helperText: 'Please enter the correct format. ie: xxxx.xx' }, [moneyRegex]),
-            startDate                       : useCallback((value) => value !== '' ? {} : { error: true, helperText: 'This field is required.' }, []),
-            completionDate                  : useCallback((value) => value !== '' ? {} : { error: true, helperText: 'This field is required.' }, []),
-            dateEnrollmentAgreementSigned   : useCallback((value) => value !== '' ? {} : { error: true, helperText: 'This field is required.' }, []),
+            startDate                       : useCallback((value) => value ? {} : { error: true, helperText: 'This field is required.' }, []),
+            completionDate                  : useCallback((value) => value ? {} : { error: true, helperText: 'This field is required.' }, []),
+            dateEnrollmentAgreementSigned   : useCallback((value) => value ? {} : { error: true, helperText: 'This field is required.' }, []),
         }
 
     }

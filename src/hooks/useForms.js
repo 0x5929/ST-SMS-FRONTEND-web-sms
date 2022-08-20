@@ -137,9 +137,9 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
         phoneNumber: useRef(null),
         email: useRef(null),
         mailingAddress: useRef(null),
-        startDate: useRef(null),
-        completionDate: useRef(null),
-        dateEnrollmentAgreementSigned: useRef(null),
+        startDate: useRef(new Date()),
+        completionDate: useRef(new Date()),
+        dateEnrollmentAgreementSigned: useRef(new Date()),
         thirdPartyPayerInfo: useRef(null),
         courseCost: useRef(null),
         chargesCharged: useRef(null),
@@ -153,7 +153,10 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
         employmentAddress: useRef(null),
         startingWage: useRef(null),
         hoursWorked: useRef(null),
-        descriptionAttempts: useRef(null)
+        descriptionAttempts: useRef(null),
+
+        course: null,
+        rotation: null,
 
     }
 
@@ -351,7 +354,7 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
 
 
             });
-
+            console.log('DATA:', data)
             if (recordForEdit) {
                 data.pk = recordForEdit.pk
                 data.course = recordForEdit.course

@@ -11,6 +11,8 @@ function Notification({ notify, notificationHandlers, ...others }) {
 
     return (
         <Snackbar
+            data-testid="mui-snackbar"
+
             open={notify.isOpen}
             autoHideDuration={2000}
             anchorOrigin={anchorOrigin}
@@ -20,6 +22,8 @@ function Notification({ notify, notificationHandlers, ...others }) {
             {...others}
         >
             <Alert
+                data-testid="mui-alert"
+
                 severity={notify.type}
                 onClose={handleCloseNotification}
             >

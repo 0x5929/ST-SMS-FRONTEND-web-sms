@@ -17,6 +17,8 @@ const DetailedTblContainer = React.memo((props) => {
 
     return (
         <Styles.Table
+            data-testid="detailed-table"
+
             { ...others }
         >
             { children }
@@ -30,13 +32,11 @@ const DetailedTblHead = React.memo(({ tableData, ...others}) => {
     console.log('DetailedTblHead component rendered')
     return (
         <TableHead {...others}>
-            <TableRow>
+            <TableRow data-testid="detailed-table-header">
                 { 
                     tableData.detailedViewHeadCells.map( headCell => (
 
-                        <TableCell 
-                            key={ headCell.id }
-                        >
+                        <TableCell data-testid="detailed-table-header-cell" key={ headCell.id }>
                             { headCell.label }
                         </TableCell>
                     ))
@@ -56,7 +56,7 @@ const DetailedTblBody = React.memo((props) => {
      } = props
 
     return (
-        <TableBody {...others}>
+        <TableBody data-testid="detailed-table-body" {...others}>
             {
                 tableData.detailedViewColumnCells.map( col => (
                     <TableRow key={ col.id }>
