@@ -6,10 +6,12 @@ function Copyright(props) {
     console.log('Copyright feature rendered')
     return (
         <Components.BaseTypography 
+            data-testid="copy-right"
+
             variant="p" 
             color="text.secondary" 
             align="center"
-            text={`Copyright © Elemental Software Solutions ${new Date().getFullYear()}.`}
+            text={`Copyright © Elemental Software Solutions ${getCurrentYear()}.`}
             
             {...props}
         />
@@ -17,4 +19,8 @@ function Copyright(props) {
   }
 
 
+
+export const getCurrentYear = () => new Date().getFullYear()
 export default React.memo(Copyright)
+
+
