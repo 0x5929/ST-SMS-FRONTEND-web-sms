@@ -6,8 +6,6 @@ function Copyright(props) {
     console.log('Copyright feature rendered')
     return (
         <Components.BaseTypography 
-            data-testid="copy-right"
-
             variant="p" 
             color="text.secondary" 
             align="center"

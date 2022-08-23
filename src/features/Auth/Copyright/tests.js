@@ -10,9 +10,7 @@ describe('testing Auth feature Copyright component', () => {
     it('should render the Copyright text with the most current year', () => {
         render(<Copyright />)
 
-        expect(screen.getByTestId('copy-right')).toBeInTheDocument()        
-        expect(screen.getByTestId('copy-right')).toHaveTextContent('Copyright © Elemental Software Solutions')
-    
+        expect(screen.getByTestId('mui-typography')).toHaveTextContent('Copyright © Elemental Software Solutions')    
         cleanup()
     })
 

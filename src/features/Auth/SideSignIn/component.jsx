@@ -53,11 +53,15 @@ function Signin (){
             <Styles.MainGrid container component="main">
                 <CssBaseline />
                 <Styles.ImageGrid
+                    data-testid="mui-imagegrid"
+
                     item
                     tablet={4}
                     laptop={7}
                 />
                 <MuiGrid 
+                    data-testid="mui-formgrid"
+
                     item 
                     mobile={12} 
                     tablet={8} 
@@ -68,7 +72,7 @@ function Signin (){
                 >
                     <Styles.SignInBox>
                         <Styles.Avatar>
-                            <LockOutlinedIcon />
+                            <LockOutlinedIcon data-testid="lockedout-icon" />
                         </Styles.Avatar>
                         <Components.BaseTypography 
                             component="h1" 
@@ -97,6 +101,7 @@ function Signin (){
                                     endAdornment: (
                                         <InputAdornment position="end">
                                             <Styles.ClearIcon 
+                                                data-testid="clear-email-icon"
                                                 onClick={()=>(handleClearText('email'))}
                                             />
                                         </InputAdornment>
@@ -121,6 +126,7 @@ function Signin (){
                                     endAdornment: (
                                         <InputAdornment position="end">
                                             <Styles.ClearIcon 
+                                                data-testid="clear-pw-icon"
                                                 onClick={()=>(handleClearText('password'))}
                                             />
                                         </InputAdornment>
