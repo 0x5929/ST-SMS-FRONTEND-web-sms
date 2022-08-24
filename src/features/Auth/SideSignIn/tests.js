@@ -1,12 +1,25 @@
 import '@testing-library/jest-dom'
 import { render, screen, cleanup } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { BrowserRouter } from 'react-router-dom'
-import { renderHook } from '@testing-library/react-hooks/dom' 
-import { useSignInForm } from '../../../hooks' // should we just comment this out? that might work
+import { BrowserRouter } from 'react-router-dom' 
 
-import { AuthContextProvider, useAuthContext } from '../../../contexts'
+import { AuthContextProvider } from '../../../contexts'
 import Signin from './component'
+
+
+const mockSigninFn = jest.fn()
+
+jest.mock('../../../hooks/useForms', () => ({
+    useSignInForm : ({authed, user, logout}) => {
+
+        const [ loginStates, loginHandlers ] = jest.requireActual('../../../hooks/useForms')
+                                                    .useSignInForm({authed: false, user: null, login: jest.fn()})
+
+        return [ loginStates, {...loginHandlers, handleSubmit: mockSigninFn}]
+    }
+}))
+
+
 
 describe('testing signin form components', () => {
     let testByMethods
@@ -16,24 +29,11 @@ describe('testing signin form components', () => {
     
         testByMethods = (screen) => {
             return {
-    
-                getInput(labelText) {
-                    return screen.getByLabelText(labelText)
-                },
                 getByTestId(testId) {
                     return screen.getByTestId(testId)
                 },
-                getByText(text){
-                    return screen.getByText(text)
-                },
                 getAllByText(text) {
                     return screen.getAllByText(text)
-                },
-                queryByTestId(testId) {
-                    return screen.queryByTestId(testId)
-                },
-                getAllByTestId(testId) {
-                    return screen.getAllByTestId(testId)
                 },
                 getByRole(role, options) {
                     return screen.getByRole(role, options)
@@ -58,35 +58,6 @@ describe('testing signin form components', () => {
 
     beforeEach(() => {
         setup = () => {
-
-
-            const mockSigninFn = jest.fn()
-
-
-            jest.mock('../../../hooks/useForms', () => ({
-                useSignInForm : () => {
-                    const loginFormHandlers = {
-                        handleSubmit : mockSigninFn
-                    }
-
-                    return [{}, loginFormHandlers]
-                }
-            }))
-
-
-//             jest.mock('../../../hooks/useForm', ()=>({
-//                 ...jest.requireActual('../../../hooks/useForm'),
-//                 useSignInForm: () => (
-//                     [{}, {
-//                         loginFormHandlers: 
-//                             {
-//                                 handleSubmit: mockSigninFn,
-//                                 handleClear: jest.fn()
-//                             }
-//                         }
-//                     ])
-
-//             }))
 
             const result = render(
                 <AuthContextProvider>
@@ -131,7 +102,6 @@ describe('testing signin form components', () => {
         expect(container.querySelector('#password')).toBeInTheDocument()
         expect(getByRole('button', {name: 'Sign In'})).toBeInTheDocument()
 
-
     })
 
     it('should change inputs when input field is changed', async () => {
@@ -171,13 +141,12 @@ describe('testing signin form components', () => {
 
         const { container, getByRole, mockSigninFn } = setup()
 
-
         const emailInput = container.querySelector('#email')
-        await userEvent.type(emailInput, '__TEST_EMAIL__', {delay: 1})
-
         const pwInput = container.querySelector('#password')
+        
+        await userEvent.type(emailInput, '__TEST_EMAIL__', {delay: 1})
         await userEvent.type(pwInput, '__TEST_PW__', {delay: 1})
-        getByRole('button', {name: 'Sign In'}).click()
+        await userEvent.click(getByRole('button', {name: 'Sign In'}))
 
         expect(mockSigninFn.mock.calls).toHaveLength(1)
 
