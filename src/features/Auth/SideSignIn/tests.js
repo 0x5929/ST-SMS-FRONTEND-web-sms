@@ -72,7 +72,21 @@ describe('testing signin form components', () => {
                     return [{}, loginFormHandlers]
                 }
             }))
-    
+
+
+//             jest.mock('../../../hooks/useForm', ()=>({
+//                 ...jest.requireActual('../../../hooks/useForm'),
+//                 useSignInForm: () => (
+//                     [{}, {
+//                         loginFormHandlers: 
+//                             {
+//                                 handleSubmit: mockSigninFn,
+//                                 handleClear: jest.fn()
+//                             }
+//                         }
+//                     ])
+
+//             }))
 
             const result = render(
                 <AuthContextProvider>
