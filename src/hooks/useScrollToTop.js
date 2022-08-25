@@ -31,5 +31,5 @@ export default function useScrollToTop() {
     },
     [showScroll, setShowScroll])
 
-    return [ handleClick, showScroll ]
+    return [ showScroll, handleClick ] 
 }

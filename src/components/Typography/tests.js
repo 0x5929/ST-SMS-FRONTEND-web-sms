@@ -12,27 +12,11 @@ describe('testing base typography component', () => {
     
         testByMethods = (screen) => {
             return {
-    
-                getInput(labelText) {
-                    return screen.getByLabelText(labelText)
-                },
                 getByTestId(testId) {
                     return screen.getByTestId(testId)
                 },
                 getByText(text){
                     return screen.getByText(text)
-                },
-                getAllByText(text) {
-                    return screen.getAllByText(text)
-                },
-                queryByTestId(testId) {
-                    return screen.queryByTestId(testId)
-                },
-                getAllByTestId(testId) {
-                    return screen.getAllByTestId(testId)
-                },
-                getByRole(role, options) {
-                    return screen.getByRole(role, options)
                 }
             }
         }
