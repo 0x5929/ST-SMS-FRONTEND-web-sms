@@ -14,7 +14,6 @@ import createHeaderStyles from './styles'
 import { Drawer } from '../SideNav';
 import Components from '../../../components'
 import { useDrawer, useHeader } from '../../../hooks'
-import { useThemeContext, useAuthContext } from '../../../contexts'
 
 
 const Styles = createHeaderStyles({
@@ -48,12 +47,21 @@ function Header(props) {
             <Styles.AppBar data-testid="mui-appbar" position="static" enableColorOnDark>
                 <Toolbar>
                     {
-                        authed &&
+                        authed ? 
                         <Styles.BaseIconButton
                             size="large"
                             edge="start"
                             aria-label="menu"
                             onClick={()=>(handleToggleDrawer())}
+                        >
+                            <MenuIcon />
+                        </Styles.BaseIconButton>
+                        :
+                        <Styles.BaseIconButton
+                            size="large"
+                            edge="start"
+                            aria-label="menu"
+                            disabled
                         >
                             <MenuIcon />
                         </Styles.BaseIconButton>
@@ -64,6 +72,23 @@ function Header(props) {
                         component="div" 
                         text={headerTitle}
                     />
+                    {
+                        authed ?
+                        <Styles.Button 
+                            text="LOGOUT"
+                            variant="text"
+                            onClick={logout}
+                        /> : 
+                        <Styles.Button 
+                            text="LOGOUT"
+                            variant="text"
+                            onClick={logout}
+                            sx={{
+                                visibility: 'hidden'
+                            }}
+                        
+                        /> 
+                    }
                     <Styles.Switch data-testid="mui-switch" disabled checked={darkMode} onChange={toggleColorMode} />
                     <Styles.IconButton
                         size="small"
@@ -76,14 +101,6 @@ function Header(props) {
                                 <BrightnessHighIcon /> : <Brightness4Icon />
                         }
                     </Styles.IconButton>
-                    {
-                        authed && 
-                        <Styles.Button 
-                            text="LOGOUT"
-                            variant="text"
-                            onClick={logout}
-                        />
-                    }
                     <Drawer 
                         Link={Link}
                         isDrawerOpen={isDrawerOpen}

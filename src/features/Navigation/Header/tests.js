@@ -107,8 +107,8 @@ describe('testing Header component', () => {
     })
 
     it('should not render menu icon button if authed is false', () => {
-        const { queryByTestId } = setup()
-        expect(queryByTestId('MenuIcon')).not.toBeInTheDocument()
+        const { getByTestId } = setup()
+        expect(getByTestId('MenuIcon').closest('button')).toBeDisabled()
     })
 
 
@@ -235,7 +235,7 @@ describe('testing Header component', () => {
     it('should not render a logout button when not authed', () => {
         const { queryByText } = setup({User: LoggedOutUser})
 
-        expect(queryByText(/logout/i)).not.toBeInTheDocument()
+        expect(queryByText(/logout/i)).not.toBeVisible()
     })
 
     it('should render a logout button when authed', () => {
