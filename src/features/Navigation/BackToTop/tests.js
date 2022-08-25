@@ -5,8 +5,9 @@ import BackToTopButton from './component'
 
 const mockHandleClick = jest.fn()
 
-jest.mock('../../../hooks', () => ({
-    useScrollToTop: () => [ true, mockHandleClick ]
+jest.mock('../../../hooks/useScrollToTop', () => ({
+    __esModule: true,
+    default: () => [ true, mockHandleClick ]
 }))
 
 describe('testing BackToTopButton component', () => {

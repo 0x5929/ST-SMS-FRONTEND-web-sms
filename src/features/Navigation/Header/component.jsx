@@ -26,27 +26,26 @@ const Styles = createHeaderStyles({
     BaseButton: Components.BaseButton
 })
 
-function Header({ Link }) {
+function Header(props) {
     
     console.log('Header feature rendered')
-    const {
-        toggleColorMode,
-        darkMode
-    } = useThemeContext()
 
     const {
+        Link,
+        darkMode,
+        toggleColorMode,
         authed,
-        logout
-    } = useAuthContext()
+        logout,
+    } = props
+
 
     const headerTitle = useHeader()
-    const [ isDrawerOpen,handleToggleDrawer ] = useDrawer()
-
+    const [ isDrawerOpen, handleToggleDrawer ] = useDrawer()
 
     
     return (
         <Styles.Box>
-            <Styles.AppBar position="static" enableColorOnDark>
+            <Styles.AppBar data-testid="mui-appbar" position="static" enableColorOnDark>
                 <Toolbar>
                     {
                         authed &&
@@ -65,7 +64,7 @@ function Header({ Link }) {
                         component="div" 
                         text={headerTitle}
                     />
-                    <Styles.Switch disabled checked={darkMode} onChange={toggleColorMode} />
+                    <Styles.Switch data-testid="mui-switch" disabled checked={darkMode} onChange={toggleColorMode} />
                     <Styles.IconButton
                         size="small"
                         onClick={toggleColorMode}

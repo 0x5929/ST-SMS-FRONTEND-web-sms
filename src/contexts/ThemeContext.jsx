@@ -7,15 +7,15 @@ import { useToggle } from '../hooks'
 const AppThemeContext = createContext({
   toggleColorMode: () => {},
   mode: null
-});
+})
 
 
 const AppThemeContextProvider = ({ children }) => {
-    const [darkMode, setDarkMode] = useToggle(false);
+    const [darkMode, setDarkMode] = useToggle(false)
   
     const toggleColorMode = () => {
-        setDarkMode(!darkMode);
-    };
+        setDarkMode(!darkMode)
+    }
 
 
   // recreate theme everytime mode changes
@@ -71,7 +71,7 @@ const AppThemeContextProvider = ({ children }) => {
       }),
 
     [darkMode]
-  );
+  )
 
   return (
     <AppThemeContext.Provider
@@ -85,9 +85,9 @@ const AppThemeContextProvider = ({ children }) => {
             { children }
         </ThemeProvider>
     </AppThemeContext.Provider>
-  );
-};
+  )
+}
 
-export const useThemeContext = () => useContext(AppThemeContext);
+export const useThemeContext = () => useContext(AppThemeContext)
 
-export default AppThemeContextProvider;
+export default AppThemeContextProvider
