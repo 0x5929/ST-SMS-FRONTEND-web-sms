@@ -44,23 +44,6 @@ describe('testing Header component', () => {
     ///////////////////////////////////
 
     const Link = () => <div>__TEST_LINK__</div>
-
-    const LoggedInUser = () => {
-        const { login } = useAuthContext()
-
-        login()
-
-        return <div>__TEST_LOGGED_IN__</div>
-    }
-    const LoggedOutUser = () => {
-        const { logout } = useAuthContext()
-        
-        logout()
-
-        return <div>__TEST_LOGGED_IN__</div>
-    }
-
-
     const mockHandleToggleColorMode = jest.fn()
     const mockLogout = jest.fn()
 
@@ -233,7 +216,7 @@ describe('testing Header component', () => {
     })
 
     it('should not render a logout button when not authed', () => {
-        const { queryByText } = setup({User: LoggedOutUser})
+        const { queryByText } = setup()
 
         expect(queryByText(/logout/i)).not.toBeVisible()
     })
