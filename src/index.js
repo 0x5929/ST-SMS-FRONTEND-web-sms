@@ -1,8 +1,8 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'
+import ReactDOM from 'react-dom'
 import { BrowserRouter, Routes, Route, Outlet, Link } from 'react-router-dom'
 
-import { App } from './app';
+import { App } from './app'
 import { RequiredAuth } from './features/Auth/RequiredAuth'
 import { Signin } from './features/Auth/SideSignIn'
 import { Query } from './features/Query/Query'

@@ -24,9 +24,11 @@ function Drawer ({ Link, isDrawerOpen, handleToggleDrawer }) {
 
     return (
         <MuiDrawer
+            data-testid="mui-drawer"
+
             anchor="left"
             open={isDrawerOpen}
-            onClose={()=>(handleToggleDrawer())}
+            onClose={handleToggleDrawer}
         >
             <Styles.List>
                 <Link to="/query" onClick={()=>{handleToggleDrawer()}}>

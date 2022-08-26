@@ -2,7 +2,7 @@ import '@testing-library/jest-dom'
 import { render, screen, cleanup } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-import { AuthContextProvider, useAuthContext, AppThemeContextProvider } from '../../../contexts'
+import { AuthContextProvider, AppThemeContextProvider } from '../../../contexts'
 import Header from './component'
 
 const mockHandleToggleDrawer = jest.fn()
