@@ -124,6 +124,9 @@ describe('testing Create feature', () => {
         
         })
 
-        it('should render StudentForm component', () => {})
+        it('should render StudentForm component', () => {
+            const { getByTestId } = setup()
+            expect(getByTestId('student-form')).toBeInTheDocument()
+        })
     })
 })

@@ -50,7 +50,7 @@ function useValidations() {
 
         return {
             programName : useCallback((value)=> value !== '' ? {} : { error: true, helperText: 'This field is required.'} , []),
-            rotation    : useCallback((value) => (numberRegex.test(value)) ? {} : { error: true, helperText: 'Only numeric format is allowed.'}, [])
+            rotation    : useCallback((value) => (numberRegex.test(value)) ? {} : { error: true, helperText: 'Only numeric format is allowed.'}, [numberRegex])
         }
     }
 

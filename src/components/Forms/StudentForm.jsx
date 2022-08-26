@@ -72,7 +72,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
 
     return (
     //<Styles.StudentForm onSubmit={handleEditSubmit || ( (e) => handleSubmit(e, inputRefs) )} {...others}>
-    <Styles.StudentForm {...others}>
+    <Styles.StudentForm data-testid="student-form" {...others}>
         <Grid container>
             <Grid item laptop={6} tablet={12}>
                 <Input
