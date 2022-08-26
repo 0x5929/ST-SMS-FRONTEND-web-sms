@@ -28,7 +28,7 @@ function Drawer ({ Link, isDrawerOpen, handleToggleDrawer }) {
 
             anchor="left"
             open={isDrawerOpen}
-            onClose={handleToggleDrawer}
+            onClose={()=>handleToggleDrawer()}
         >
             <Styles.List>
                 <Link to="/query" onClick={()=>{handleToggleDrawer()}}>

@@ -39,7 +39,6 @@ const DatePicker = forwardRef((props, parentRef) => {
     //     return format(localDate, DEFAULT_DATE_FORMAT);
     //   };
 
-    console.log('showError: ', showError)
     return (  
         <LocalizationProvider dateAdapter={AdapterDateFns}>
             <MuiDatePicker

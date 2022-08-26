@@ -21,10 +21,12 @@ function Create() {
     return (
         <Styles.Paper>        
             <Styles.Typography
-            text="CREATE NEW STUDENT RECORD"
-            align='center'
-        />
-            <CreateStudent notify={notify} notificationHandlers={notificationHandlers} />
+                text="CREATE NEW STUDENT RECORD"
+                align='center'
+            />
+            <CreateStudent 
+                notify={notify} 
+                notificationHandlers={notificationHandlers} />
             <Components.Notification 
                 notify={notify}
                 notificationHandlers={notificationHandlers}

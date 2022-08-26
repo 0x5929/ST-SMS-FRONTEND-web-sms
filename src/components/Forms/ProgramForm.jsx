@@ -55,6 +55,7 @@ function ProgramForm({ validations, studentFormStates, studentFormHandlers, ...o
 
 
     const courseValue = useMemo(()=> { 
+
         if (recordForEdit) {
             if (!course){
                 return recordForEdit.course

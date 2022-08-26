@@ -315,16 +315,20 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
 
                     // try to think of a better way to achieve this. 
                     // one can just remove course and rotation from useRefs, BUT, how can we validate course?
-                    validationObj[key] = studentFormValidations[key](studentFormState[key])
+                    validationObj[key] = recordForEdit ?  
+                        studentFormValidations[key](recordForEdit[key]) : 
+                        studentFormValidations[key](studentFormState[key])
+
                 }
                 else {
 
                     validationObj[key] = studentFormValidations[key](inputRefs[key].current.value)
                 }
             }
-        });
+        })
+        console.log('validationObj: ', validationObj)
 
-        if (_checkForError(validationObj, ()=>studentFormDispatch({type: 'form-toggleShowErrors'}))) {
+        if (_checkForError(validationObj, () => studentFormDispatch({type: 'form-toggleShowErrors'}))) {
             let data = {}
             Object.keys(inputRefs).forEach(function(key) {
 
@@ -354,12 +358,13 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
 
 
             });
-            console.log('DATA:', data)
+
             if (recordForEdit) {
                 data.pk = recordForEdit.pk
                 data.course = recordForEdit.course
                 data.rotation = recordForEdit.rotation
             }
+
             return _createOrUpdate(data, handleCancel)
         } else {
             return recordForEdit
@@ -372,8 +377,8 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
         return () => {
           clearTimeout(progressTimer.current);
         };
-      }, []);
-
+      }, 
+    [])
 
 
     const studentFormStates = { 

@@ -27,9 +27,6 @@ describe('testing notification component', () => {
         testByMethods = (screen) => {
             return {
     
-                getInput(labelText) {
-                    return screen.getByLabelText(labelText)
-                },
                 getByTestId(testId) {
                     return screen.getByTestId(testId)
                 },

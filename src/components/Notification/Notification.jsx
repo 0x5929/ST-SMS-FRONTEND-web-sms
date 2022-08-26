@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Alert, Snackbar } from '@mui/material';
+import { Alert, Snackbar, Box } from '@mui/material';
 
 
 function Notification({ notify, notificationHandlers, ...others }) {
@@ -10,26 +10,28 @@ function Notification({ notify, notificationHandlers, ...others }) {
     const anchorOrigin = {vertical: 'bottom', horizontal: 'center'}
 
     return (
-        <Snackbar
-            data-testid="mui-snackbar"
+        <Box data-testid="notification-components">
+            <Snackbar
+                data-testid="mui-snackbar"
 
-            open={notify.isOpen}
-            autoHideDuration={2000}
-            anchorOrigin={anchorOrigin}
-            TransitionComponent={notify.Transition}
-            onClose={handleCloseNotification}
-
-            {...others}
-        >
-            <Alert
-                data-testid="mui-alert"
-
-                severity={notify.type}
+                open={notify.isOpen}
+                autoHideDuration={2000}
+                anchorOrigin={anchorOrigin}
+                TransitionComponent={notify.Transition}
                 onClose={handleCloseNotification}
+
+                {...others}
             >
-                {notify.message}
-            </Alert>
-        </Snackbar>
+                <Alert
+                    data-testid="mui-alert"
+
+                    severity={notify.type}
+                    onClose={handleCloseNotification}
+                >
+                    {notify.message}
+                </Alert>
+            </Snackbar>
+        </Box>
     )
 }
 
