@@ -6,7 +6,7 @@ import {
 	YAxis,
 	Tooltip,
 	Bar,
-	ResponsiveContainer } from "recharts";
+	ResponsiveContainer } from "recharts"
 
 import {createStatisticsStyles} from "./styles"
 import Components from '../../../components'

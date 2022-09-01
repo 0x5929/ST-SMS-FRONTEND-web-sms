@@ -1,10 +1,9 @@
 import '@testing-library/jest-dom'
 import { render, screen, cleanup } from '@testing-library/react'
 import { renderHook } from '@testing-library/react-hooks'
-import userEvent from '@testing-library/user-event'
+
 import Components from '../../components'
 import { useNotification } from '../../hooks'
-
 import Create from './Create'
 import CreateStudent from './CreateStudent'
 
@@ -22,18 +21,6 @@ describe('testing Create feature', () => {
                 },
                 getByText(text) {
                     return screen.getByText(text)
-                },
-                getAllByText(text) {
-                    return screen.getAllByText(text)
-                },
-                getByRole(role, options) {
-                    return screen.getByRole(role, options)
-                },
-                getByDisplayValue(text) {
-                    return screen.getByDisplayValue(text)
-                },
-                queryByDisplayValue(text) {
-                    return screen.queryByDisplayValue(text)
                 }
             }
         }
