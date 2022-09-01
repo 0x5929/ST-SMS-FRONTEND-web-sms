@@ -1,11 +1,14 @@
 import '@testing-library/jest-dom'
-import { render, screen, cleanup } from '@testing-library/react'
+import { render, screen, cleanup } from '@testing-library/react' 
+
+import useToggle from '../../../hooks/useToggle'
 
 import Query from './Query'
 import Statistics from './Statistics'
 import SearchStudent from './SearchStudents'
 
-//import { Query, Statistics, SearchStudent } from './index'
+global.ResizeObserver = jest.requireActual('resize-observer-polyfill') // this is for testing only
+
 
 describe('testing Query Feature components', () => {
 
@@ -65,12 +68,25 @@ describe('testing Query Feature components', () => {
         
         })
 
-        it('should render SearchStudent component when showResults is set to false', () => {})
-        it('should render Statistics component when showResults is set to false', () => {})
-        it('should render SimpleBackDrop component when showResults is set to false', () => {})
+        it('should render SearchStudent component when showResults is set to false', () => {
+            const { getByTestId } = setup()
+            expect(getByTestId('search-student-component')).toBeInTheDocument()
+
+        })
+        it('should render Statistics component when showResults is set to false', () => {
+            const { getByTestId } = setup()
+            expect(getByTestId('statistics-component')).toBeInTheDocument()
+        })
+
+        it('should render SimpleBackDrop component when showResults is set to false', () => {
+            const { getByTestId } = setup()
+            expect(getByTestId('circularProgress')).toBeInTheDocument()
+        })
 
         
-        it('should not render SearchStudent component when showResults is set to true', () => {})
+        it('should not render SearchStudent component when showResults is set to true', () => {
+        //https://stackoverflow.com/questions/64245013/difference-between-jest-mock-and-jest-domock
+        })
         it('should not render Statistics component when showResults is set to true', () => {})
         it('should not render SimpleBackDrop component when showResults is set to true', () => {})
         

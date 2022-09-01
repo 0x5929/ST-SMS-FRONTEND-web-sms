@@ -34,7 +34,7 @@ function Statistics() {
 
 	return (
 
-			<Styles.GridContainer container>
+			<Styles.GridContainer data-testid="statistics-component" container>
 				<Styles.Grid item mobile={12}>
 					<Styles.Typography text="Statistics" variant="h2"/>
 				</Styles.Grid>
