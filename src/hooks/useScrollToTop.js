@@ -1,7 +1,7 @@
 import { useEffect, useCallback } from 'react';
 import useToggle from './useToggle';
 
-export default function useScrollToTop() {
+const useScrollToTop = () => {
 
     const [ showScroll, setShowScroll ] = useToggle(false)
 
@@ -33,3 +33,5 @@ export default function useScrollToTop() {
 
     return [ showScroll, handleClick ] 
 }
+
+export default useScrollToTop

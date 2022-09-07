@@ -1,6 +1,6 @@
-import { useToggle } from '../hooks'
+import useToggle  from './useToggle'
 
-export default function useDrawer(){
+const useDrawer = () => {
     
     const [ isDrawerOpen, handleToggleDrawer ] = useToggle(false)
 
@@ -9,3 +9,5 @@ export default function useDrawer(){
         handleToggleDrawer, 
     ]
 }
+
+export default useDrawer;

@@ -1,14 +1,30 @@
 import '@testing-library/jest-dom'
 import { render, screen, cleanup } from '@testing-library/react' 
-
-import useToggle from '../../../hooks/useToggle'
-
 import Query from './Query'
 import Statistics from './Statistics'
 import SearchStudent from './SearchStudents'
+import useToggle from '../../../hooks/useToggle'
 
 global.ResizeObserver = jest.requireActual('resize-observer-polyfill') // this is for testing only
 
+const mockUseToggle = jest.fn()
+
+// ({
+//     __esModule: true,
+//     default: () => [false, jest.fn()]
+//     }
+// )
+// jest.mock('../../../hooks/useToggle', () => ({
+//     ...jest.requireActual('../../../hooks/useToggle'),
+//     __esModule: true,
+//     default: () => [ false, jest.fn() ]
+// }) )
+
+
+jest.mock('../../../hooks/useToggle', () => ({
+    __esModule: true,
+    default: () => [false, jest.fn()]
+}))
 
 describe('testing Query Feature components', () => {
 
@@ -21,6 +37,9 @@ describe('testing Query Feature components', () => {
             return {
                 getByTestId(testId) {
                     return screen.getByTestId(testId)
+                },
+                queryByTestId(testId) {
+                    return screen.queryByTestId(testId)
                 },
                 getByText(text) {
                     return screen.getByText(text)
@@ -49,9 +68,14 @@ describe('testing Query Feature components', () => {
     describe('testing Query component', () => {
         let setup
 
-        beforeEach(() => {
+        beforeEach(() => {            
+
+            
+           // useToggle.default.mockImplementation(() => [false, jest.fn()])
+            //mockUseToggle.mockImplementation(() => [false, jest.fn()])
             setup = () => {
-    
+
+                mockUseToggle.mockReturnValue({ default: () => [false, jest.fn()]})
                 render(
                     <Query />
                 )
@@ -86,6 +110,16 @@ describe('testing Query Feature components', () => {
         
         it('should not render SearchStudent component when showResults is set to true', () => {
         //https://stackoverflow.com/questions/64245013/difference-between-jest-mock-and-jest-domock
+        
+            // jest.doMock('../../../hooks/useToggle',  () => {
+            //     return {
+            //         default: () => [ true, jest.fn() ]
+            //     }
+            // })
+            //useToggle.default.mockImplementation(() => [ true, jest.fn() ])
+            // const { queryByTestId } = setup()
+            // expect(queryByTestId('search-student-component')).not.toBeInTheDocument()
+            
         })
         it('should not render Statistics component when showResults is set to true', () => {})
         it('should not render SimpleBackDrop component when showResults is set to true', () => {})
