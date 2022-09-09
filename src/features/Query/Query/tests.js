@@ -7,7 +7,7 @@ import useToggle from '../../../hooks/useToggle'
 
 global.ResizeObserver = jest.requireActual('resize-observer-polyfill') // this is for testing only
 
-const mockUseToggle = jest.fn()
+// const mockUseToggle = jest.fn()
 
 // ({
 //     __esModule: true,
@@ -23,7 +23,7 @@ const mockUseToggle = jest.fn()
 
 jest.mock('../../../hooks/useToggle', () => ({
     __esModule: true,
-    default: () => [false, jest.fn()]
+    default: jest.fn((state) => [false, jest.fn()])
 }))
 
 describe('testing Query Feature components', () => {
@@ -75,7 +75,7 @@ describe('testing Query Feature components', () => {
             //mockUseToggle.mockImplementation(() => [false, jest.fn()])
             setup = () => {
 
-                mockUseToggle.mockReturnValue({ default: () => [false, jest.fn()]})
+                
                 render(
                     <Query />
                 )
@@ -116,7 +116,7 @@ describe('testing Query Feature components', () => {
             //         default: () => [ true, jest.fn() ]
             //     }
             // })
-            //useToggle.default.mockImplementation(() => [ true, jest.fn() ])
+            // useToggle.mockImplementation(() => [ true, jest.fn() ])
             // const { queryByTestId } = setup()
             // expect(queryByTestId('search-student-component')).not.toBeInTheDocument()
             
