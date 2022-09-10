@@ -3,11 +3,12 @@ import { render, screen, cleanup } from '@testing-library/react'
 import Query from './Query'
 import Statistics from './Statistics'
 import SearchStudent from './SearchStudents'
-import useToggle from '../../../hooks/useToggle'
+//import useToggle from '../../../hooks/useToggle'
 
+import * as useToggle from '../../../hooks/useToggle'
 global.ResizeObserver = jest.requireActual('resize-observer-polyfill') // this is for testing only
 
-// const mockUseToggle = jest.fn()
+//const mockUseToggle = jest.fn(()=> [false, jest.fn()])()
 
 // ({
 //     __esModule: true,
@@ -21,10 +22,11 @@ global.ResizeObserver = jest.requireActual('resize-observer-polyfill') // this i
 // }) )
 
 
-jest.mock('../../../hooks/useToggle', () => ({
-    __esModule: true,
-    default: jest.fn((state) => [false, jest.fn()])
-}))
+// jest.mock('../../../hooks/useToggle', () => ({
+//     __esModule: true,
+//     default: () => mockUseToggle
+    
+// }))
 
 describe('testing Query Feature components', () => {
 
@@ -116,9 +118,14 @@ describe('testing Query Feature components', () => {
             //         default: () => [ true, jest.fn() ]
             //     }
             // })
-            // useToggle.mockImplementation(() => [ true, jest.fn() ])
+            // useToggle.mockReturnValue([ true, jest.fn() ])
             // const { queryByTestId } = setup()
             // expect(queryByTestId('search-student-component')).not.toBeInTheDocument()
+
+            const mockUseToggle = jest.spyOn(useToggle, 'default')
+            mockUseToggle.mockImplementation(() => [true, jest.fn()])
+            const { queryByTestId } = setup()
+            expect(queryByTestId('search-student-component')).not.toBeInTheDocument()
             
         })
         it('should not render Statistics component when showResults is set to true', () => {})
