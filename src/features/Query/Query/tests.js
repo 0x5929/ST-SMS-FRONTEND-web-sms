@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom'
-import { render, screen, cleanup } from '@testing-library/react' 
+import { render, screen, cleanup, act, fireEvent } from '@testing-library/react' 
 import userEvent from "@testing-library/user-event"
 import preview from 'jest-preview'
 
@@ -61,7 +61,7 @@ describe('testing Query Feature components', () => {
 
             setup = () => {
 
-                
+               // global.setTimeout = jest.fn(cb => cb());
                 render(
                     <Query />
                 )
@@ -139,21 +139,28 @@ describe('testing Query Feature components', () => {
         })
 
         
-        test('once searched for students, searchStudent, backdrop, and statistics are not rendered', async () => {
+        test('once searched for students, searchStudent, backdrop, and statistics are not rendered', () => {
             // search for any student, or anything for that matter
-            jest.useFakeTimers('legacy')
+            // https://marek-rozmus.medium.com/mocking-settimeout-with-jest-3fd6b8fa6307
+            jest.useFakeTimers()
             const { getInput, getByTestId, queryByTestId } = setup()
             const searchInput = getInput('Search Student Database')
             const searchBtn = getByTestId('query-submit-btn')
 
-            await userEvent.type(searchInput, '__TEST__', {delay: 1})
-            await userEvent.click(searchBtn)
-            jest.runAllTimers()
-            preview.debug()
+            fireEvent.change(searchInput, {target: { value: "__TEST__" }})
+            fireEvent.click(searchBtn)
+
+            
+            act(() => {
+                jest.runAllTimers()
+              })
+
+            // preview.debug()
             expect(queryByTestId('search-student-component')).not.toBeInTheDocument()           
             expect(queryByTestId('statistics-component')).not.toBeInTheDocument()
             expect(queryByTestId('circularProgress')).not.toBeInTheDocument()
-
+            
+            jest.useRealTimers()
 
 
 
