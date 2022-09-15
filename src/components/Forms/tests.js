@@ -46,9 +46,6 @@ describe('testing form components', () => {
                 getByText(text){
                     return screen.getByText(text)
                 },
-                getAllByText(text) {
-                    return screen.getAllByText(text)
-                },
                 queryByTestId(testId) {
                     return screen.queryByTestId(testId)
                 },

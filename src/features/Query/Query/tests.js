@@ -1,5 +1,8 @@
 import '@testing-library/jest-dom'
 import { render, screen, cleanup } from '@testing-library/react' 
+import userEvent from "@testing-library/user-event"
+import preview from 'jest-preview'
+
 import Query from './Query'
 import Statistics from './Statistics'
 import SearchStudent from './SearchStudents'
@@ -18,6 +21,9 @@ describe('testing Query Feature components', () => {
     
         testByMethods = (screen) => {
             return {
+                getInput(labelText) {
+                    return screen.getByLabelText(labelText)
+                },
                 getByTestId(testId) {
                     return screen.getByTestId(testId)
                 },
@@ -67,7 +73,8 @@ describe('testing Query Feature components', () => {
         })
         afterEach(() => {
             setup = undefined
-            jest.clearAllMocks()
+            jest.restoreAllMocks()
+            // jest.useRealTimers()
             cleanup()
         
         })
@@ -119,14 +126,39 @@ describe('testing Query Feature components', () => {
         })
 
         test('without implementation details, initially no query results are rendered', () => {
-            
-            const mockUseToggle = jest.spyOn(useToggle, 'default')
-            mockUseToggle.mockImplementation(() => [false, jest.fn()]) // i might need to make a change with the handler function so further tests can pass
             const { queryByTestId } = setup()
-
             expect(queryByTestId('query-results-component')).not.toBeInTheDocument()
         })
 
+        test('without implementation details, initially searchStudent, backdrop, statistics are rendered', () => {
+
+            const { getByTestId } = setup()
+            expect(getByTestId('search-student-component')).toBeInTheDocument()
+            expect(getByTestId('statistics-component')).toBeInTheDocument()
+            expect(getByTestId('circularProgress')).toBeInTheDocument()
+        })
+
+        
+        test('once searched for students, searchStudent, backdrop, and statistics are not rendered', async () => {
+            // search for any student, or anything for that matter
+            jest.useFakeTimers('legacy')
+            const { getInput, getByTestId, queryByTestId } = setup()
+            const searchInput = getInput('Search Student Database')
+            const searchBtn = getByTestId('query-submit-btn')
+
+            await userEvent.type(searchInput, '__TEST__', {delay: 1})
+            await userEvent.click(searchBtn)
+            jest.runAllTimers()
+            preview.debug()
+            expect(queryByTestId('search-student-component')).not.toBeInTheDocument()           
+            expect(queryByTestId('statistics-component')).not.toBeInTheDocument()
+            expect(queryByTestId('circularProgress')).not.toBeInTheDocument()
+
+
+
+
+        })
+        test('once searched for students, query results are rendered', () => {})
     })
 
     describe('testing SearchStudent component', () => {

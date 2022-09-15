@@ -24,7 +24,11 @@ function Query() {
 
         // in 1 second of time, close backdrop, show results
         // but when connecting to back end, we will wait until results are fetched
+        
+        console.log('outside setTimeout, inside handleBackdrop')
+
         setTimeout(()=> {
+            console.log('inside setTimeout')
             setIsBackdropOpen(false)
             setShowResults(true)
 
