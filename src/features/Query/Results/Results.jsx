@@ -57,7 +57,7 @@ function QueryResults({ handleBacktoQuery, queryResults } ) {
 
     return (
         <>
-            <Styles.Box>
+            <Styles.Box data-testid="query-results-component">
                 <Styles.SearchBar 
                     label="Search Results"
                     textInput={textInput}

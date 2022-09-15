@@ -3,30 +3,11 @@ import { render, screen, cleanup } from '@testing-library/react'
 import Query from './Query'
 import Statistics from './Statistics'
 import SearchStudent from './SearchStudents'
-//import useToggle from '../../../hooks/useToggle'
-
 import * as useToggle from '../../../hooks/useToggle'
+
 global.ResizeObserver = jest.requireActual('resize-observer-polyfill') // this is for testing only
 
-//const mockUseToggle = jest.fn(()=> [false, jest.fn()])()
 
-// ({
-//     __esModule: true,
-//     default: () => [false, jest.fn()]
-//     }
-// )
-// jest.mock('../../../hooks/useToggle', () => ({
-//     ...jest.requireActual('../../../hooks/useToggle'),
-//     __esModule: true,
-//     default: () => [ false, jest.fn() ]
-// }) )
-
-
-// jest.mock('../../../hooks/useToggle', () => ({
-//     __esModule: true,
-//     default: () => mockUseToggle
-    
-// }))
 
 describe('testing Query Feature components', () => {
 
@@ -72,9 +53,6 @@ describe('testing Query Feature components', () => {
 
         beforeEach(() => {            
 
-            
-           // useToggle.default.mockImplementation(() => [false, jest.fn()])
-            //mockUseToggle.mockImplementation(() => [false, jest.fn()])
             setup = () => {
 
                 
@@ -111,16 +89,6 @@ describe('testing Query Feature components', () => {
 
         
         it('should not render SearchStudent component when showResults is set to true', () => {
-        //https://stackoverflow.com/questions/64245013/difference-between-jest-mock-and-jest-domock
-        
-            // jest.doMock('../../../hooks/useToggle',  () => {
-            //     return {
-            //         default: () => [ true, jest.fn() ]
-            //     }
-            // })
-            // useToggle.mockReturnValue([ true, jest.fn() ])
-            // const { queryByTestId } = setup()
-            // expect(queryByTestId('search-student-component')).not.toBeInTheDocument()
 
             const mockUseToggle = jest.spyOn(useToggle, 'default')
             mockUseToggle.mockImplementation(() => [true, jest.fn()])
@@ -128,10 +96,36 @@ describe('testing Query Feature components', () => {
             expect(queryByTestId('search-student-component')).not.toBeInTheDocument()
             
         })
-        it('should not render Statistics component when showResults is set to true', () => {})
-        it('should not render SimpleBackDrop component when showResults is set to true', () => {})
+
+        it('should not render Statistics component when showResults is set to true', () => {
+            const mockUseToggle = jest.spyOn(useToggle, 'default')
+            mockUseToggle.mockImplementation(() => [true, jest.fn()])
+            const { queryByTestId } = setup()
+            expect(queryByTestId('statistics-component')).not.toBeInTheDocument()
+        })
+
+        it('should not render SimpleBackDrop component when showResults is set to true', () => {
+            const mockUseToggle = jest.spyOn(useToggle, 'default')
+            mockUseToggle.mockImplementation(() => [true, jest.fn()])
+            const { queryByTestId } = setup()
+            expect(queryByTestId('circularProgress')).not.toBeInTheDocument()           
+        })
         
-        it('should render QueryResults component when showResults is set to true', () => {})
+        it('should render QueryResults component when showResults is set to true', () => {
+            const mockUseToggle = jest.spyOn(useToggle, 'default')
+            mockUseToggle.mockImplementation(() => [true, jest.fn()])
+            const { getByTestId } = setup()
+            expect(getByTestId('query-results-component')).toBeInTheDocument()                  
+        })
+
+        test('without implementation details, initially no query results are rendered', () => {
+            
+            const mockUseToggle = jest.spyOn(useToggle, 'default')
+            mockUseToggle.mockImplementation(() => [false, jest.fn()]) // i might need to make a change with the handler function so further tests can pass
+            const { queryByTestId } = setup()
+
+            expect(queryByTestId('query-results-component')).not.toBeInTheDocument()
+        })
 
     })
 
