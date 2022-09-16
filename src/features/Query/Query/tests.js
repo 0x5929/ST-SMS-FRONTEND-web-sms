@@ -228,6 +228,11 @@ describe('testing Query Feature components', () => {
             expect(queryFields[2]).toHaveValue('2')
             expect(queryFields[4]).toHaveValue('4')
         })
+
+
+        it('should clear its own text and query when clear button is pressed on the query', () => {
+            throw new Error('need to implement this test')
+        })
     })
 
 
