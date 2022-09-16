@@ -24,11 +24,17 @@ describe('testing Query Feature components', () => {
                 getInput(labelText) {
                     return screen.getByLabelText(labelText)
                 },
+                queryAllByLabelText(labelText) {
+                    return screen.queryAllByLabelText(labelText)
+                },
                 getByTestId(testId) {
                     return screen.getByTestId(testId)
                 },
                 queryByTestId(testId) {
                     return screen.queryByTestId(testId)
+                },
+                queryAllByTestId(testId) {
+                    return screen.queryAllByTestId(testId)
                 },
                 getByText(text) {
                     return screen.getByText(text)
@@ -155,7 +161,7 @@ describe('testing Query Feature components', () => {
                 jest.runAllTimers()
               })
 
-            // preview.debug()
+           
             expect(queryByTestId('search-student-component')).not.toBeInTheDocument()           
             expect(queryByTestId('statistics-component')).not.toBeInTheDocument()
             expect(queryByTestId('circularProgress')).not.toBeInTheDocument()
@@ -164,41 +170,66 @@ describe('testing Query Feature components', () => {
             
             jest.useRealTimers()
 
-
-
         })
-        test('once searched for students, query results are rendered', () => {})
-    })
 
-    describe('testing SearchStudent component', () => {
-        let setup
-        let setQueryResults = jest.fn()
-        let handleBackdrop = jest.fn()
+        test('add query button works until 5 rows of query but all 5 will be rendered', async () => {
+            const { 
+                getByText, 
+                getInput, 
+                queryAllByLabelText, 
+                getByTestId, 
+                queryByTestId, 
+                queryAllByTestId } = setup()
 
-        beforeEach(() => {
-            setup = () => {
-    
-                render(
-                    <SearchStudent 
-                        handleBackdrop={handleBackdrop}
-                        setQueryResults={setQueryResults}
-                    />
-                )
-    
-                return {
-                    ...(testByMethods(screen)),
-                }
+            // max query obj is 5, but we will set the counter to 10, just to demonstrate max is 5.
+            const counter = 10
+
+            expect(getInput('Search Student Database')).toBeInTheDocument()
+            expect(getByTestId('queryby-select')).toBeInTheDocument()
+            expect(queryByTestId('delete-query-btn')).not.toBeInTheDocument()
+
+            for (let i = 0; i <= counter; i++) {
+                await userEvent.click(getByText(/add new/i))
             }
-        })
-        afterEach(() => {
-            setup = undefined
-            jest.clearAllMocks()
-            cleanup()
-        
+            // preview.debug()
+            expect(queryAllByLabelText('Search Student Database')).toHaveLength(5)
+            expect(queryAllByTestId('queryby-select')).toHaveLength(5)
+            expect(queryAllByTestId('delete-query-btn')).toHaveLength(5)
+
         })
 
-        it('should render QueryForm component', () => {})
+        test('del query button works, and will delete specific query objects', async () => {
+            const { getByText, queryAllByLabelText, queryAllByTestId } = setup()
+
+            const counter = 10
+
+            for (let i = 0; i <= counter; i++) {
+                await userEvent.click(getByText(/add new/i))
+            }
+
+            // lets write something in each of the input fields
+            const queryFields = queryAllByLabelText('Search Student Database')
+
+            for (let i = 0; i < queryFields.length; i++) {
+
+                await userEvent.type(queryFields[i], i.toString())
+            }
+            
+            const queryDelBtns = queryAllByTestId('delete-query-btn')
+            
+            // deleting the second and fourth query, should leave queries: 0,2,4 intact.
+            await userEvent.click(queryDelBtns[1])
+            await userEvent.click(queryDelBtns[3])
+            
+            
+            //preview.debug()
+
+            expect(queryFields[0]).toHaveValue('0')
+            expect(queryFields[2]).toHaveValue('2')
+            expect(queryFields[4]).toHaveValue('4')
+        })
     })
+
 
     describe('testing Statistics component', () => {
         let setup

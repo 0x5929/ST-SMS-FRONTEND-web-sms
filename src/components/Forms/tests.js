@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom'
 import { render, screen, cleanup } from '@testing-library/react'
+import userEvent from "@testing-library/user-event"
 import { renderHook } from '@testing-library/react-hooks/dom' 
 
 import { useNotification, useQueryForm, useStudentForm } from '../../hooks'
@@ -10,6 +11,8 @@ import ProgramForm from './ProgramForm'
 import RotationForm from './RotationForm'
 import QueryForm from './QueryForm'
 
+
+import preview from 'jest-preview'
 
 
 
@@ -51,6 +54,12 @@ describe('testing form components', () => {
                 },
                 getAllByTestId(testId) {
                     return screen.getAllByTestId(testId)
+                },
+                getAllByRole(role) {
+                    return screen.getAllByRole(role)
+                },
+                getByRole(role, options) {
+                    return screen.getByRole(role, options)
                 }
             }
         }
@@ -422,6 +431,14 @@ describe('testing form components', () => {
             const { getByTestId } = setup()
 
             expect(getByTestId('queryby-select')).toBeInTheDocument()
+        })
+
+        it('should render QuerySelect with 19 options', async () => {
+            const { getAllByTestId, getByRole } = setup()
+
+            await userEvent.click(getByRole('button', {expanded: false}))
+
+            expect(getAllByTestId('mui-selectitem')).toHaveLength(19)
         })
 
         it('should render add new button', () => {
