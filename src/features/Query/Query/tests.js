@@ -159,6 +159,8 @@ describe('testing Query Feature components', () => {
             expect(queryByTestId('search-student-component')).not.toBeInTheDocument()           
             expect(queryByTestId('statistics-component')).not.toBeInTheDocument()
             expect(queryByTestId('circularProgress')).not.toBeInTheDocument()
+
+            expect(getByTestId('query-results-component')).toBeInTheDocument()
             
             jest.useRealTimers()
 
