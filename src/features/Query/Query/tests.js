@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom'
-import { render, screen, cleanup, act, fireEvent } from '@testing-library/react' 
+import { render, screen, cleanup, act, fireEvent, within } from '@testing-library/react' 
 import userEvent from "@testing-library/user-event"
 import preview from 'jest-preview'
 
@@ -50,6 +50,9 @@ describe('testing Query Feature components', () => {
                 },
                 queryByDisplayValue(text) {
                     return screen.queryByDisplayValue(text)
+                },
+                queryAllByRole(role, options) {
+                    return screen.queryAllByRole(role, options)
                 }
             }
         }
@@ -230,8 +233,43 @@ describe('testing Query Feature components', () => {
         })
 
 
-        it('should clear its own text and query when clear button is pressed on the query', () => {
-            throw new Error('need to implement this test')
+        it('should clear its own text and query when clear button is pressed on the query', async () => {
+            //throw new Error('need to implement this test')
+            
+            const { getByText, queryAllByLabelText, queryAllByTestId } = setup()
+
+            const counter = 10
+
+            for (let i = 0; i <= counter; i++) {
+                await userEvent.click(getByText(/add new/i))
+            }
+
+            // lets write something in each of the input fields
+            const queryFields = queryAllByLabelText('Search Student Database')
+
+            for (let i = 0; i < queryFields.length; i++) {
+
+                await userEvent.type(queryFields[i], i.toString())
+
+            }
+
+            // to make sure we have all clear icon button
+            const clearIcons = queryAllByTestId('mui-clearIcon')
+            expect(clearIcons).toHaveLength(5)
+
+            // clearning the second and fourth query, should leave queries: 0,2,4 intact.
+            await userEvent.click(clearIcons[1])
+            await userEvent.click(clearIcons[3])
+
+            // preview.debug()
+
+            expect(queryFields[0]).toHaveValue('0')
+            expect(queryFields[1]).toHaveValue('')
+            expect(queryFields[2]).toHaveValue('2')
+            expect(queryFields[3]).toHaveValue('')
+            expect(queryFields[4]).toHaveValue('4')
+
+
         })
     })
 
