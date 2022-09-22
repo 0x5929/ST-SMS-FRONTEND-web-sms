@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom'
-import { render, screen, cleanup, act, fireEvent, within } from '@testing-library/react' 
+import { render, screen, cleanup, act, fireEvent } from '@testing-library/react' 
 import userEvent from "@testing-library/user-event"
 import preview from 'jest-preview'
 
@@ -295,8 +295,23 @@ describe('testing Query Feature components', () => {
         
         })
 
-        it('should render Card components', () => {})
-        it('should render Barchart  component', () => {})
+        it('should render Card components', () => {
+            const { getByText, queryAllByTestId } = setup()
+
+            expect(queryAllByTestId('card')).toHaveLength(4)
+
+            expect(getByText(/statistics/i)).toBeInTheDocument()
+            expect(getByText(/student enrollments/i)).toBeInTheDocument()
+            expect(getByText(/student employments/i)).toBeInTheDocument()
+            expect(getByText(/student graduates/i)).toBeInTheDocument()
+            expect(getByText(/student exams/i)).toBeInTheDocument()
+        })
+        it('should render Barchart  component', () => {
+            //https://github.com/recharts/recharts/issues/2268
+            // const { queryAllByTestId } = setup()
+
+            // expect(queryAllByTestId('statistics-barChart')).toHaveLength(4)
+        })
         it('should render X axis component', () => {})
         it('should render Y axis component', () => {})
         it('should render tooltip component', () => {})

@@ -48,22 +48,24 @@ function Statistics() {
 									width={chartWidth}
 									height={chartHeight}
 								>
-                                    <BarChart
-                                        data={data[key]}
-                                        margin={chartMargins}
-                                    >
-										<XAxis 
-											dataKey="year"
-											stroke={axisStroke}
-											style={axisStyle}
-										/>
-										<YAxis          
-											stroke={axisStroke}
-											style={axisStyle}
-										/>
-										<Tooltip />
-										<Bar dataKey="count" fill={barFill} />
-									</BarChart>
+									<div>
+										<BarChart //data-testid="statistics-barChart"
+											data={data[key]}
+											margin={chartMargins}
+										>
+											<XAxis 
+												dataKey="year"
+												stroke={axisStroke}
+												style={axisStyle}
+											/>
+											<YAxis          
+												stroke={axisStroke}
+												style={axisStyle}
+											/>
+											<Tooltip />
+											<Bar dataKey="count" fill={barFill} />
+										</BarChart>
+									</div>
 								</ResponsiveContainer>
 							</Styles.Card>
 						</Styles.Grid>
