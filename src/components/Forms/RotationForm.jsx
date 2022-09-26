@@ -68,7 +68,7 @@ function RotationForm({ getCourseOptions, addRotHandlers, addRotStates, ...other
                     <Button 
                         text="Cancel"
                         color="error"
-                        onClick={handleAddRotClear}
+                        onClick={() => handleAddRotClear(programName, rotationRef)}
                     />
                 </Styles.ButtonContainerBox>
             </Styles.Stack>

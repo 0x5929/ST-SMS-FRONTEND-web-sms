@@ -12,7 +12,7 @@ import RotationForm from './RotationForm'
 import QueryForm from './QueryForm'
 
 
-import preview from 'jest-preview'
+//import preview from 'jest-preview'
 
 
 

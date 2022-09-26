@@ -48,8 +48,7 @@ function Statistics() {
 									width={chartWidth}
 									height={chartHeight}
 								>
-									<div>
-										<BarChart //data-testid="statistics-barChart"
+										<BarChart 
 											data={data[key]}
 											margin={chartMargins}
 										>
@@ -65,7 +64,6 @@ function Statistics() {
 											<Tooltip />
 											<Bar dataKey="count" fill={barFill} />
 										</BarChart>
-									</div>
 								</ResponsiveContainer>
 							</Styles.Card>
 						</Styles.Grid>

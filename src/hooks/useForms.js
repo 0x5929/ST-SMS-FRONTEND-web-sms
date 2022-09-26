@@ -426,12 +426,21 @@ function useAddRotationForm(userFeedbackObj) {
     }, [])
 
 
-    const handleAddRotClear = useCallback(() => {
+    const handleAddRotClear = useCallback((programName, rotationRef) => {
+
+        if (programName === '' && rotationRef.current.value === '') {
+            
+            if (showError) {
+                setShowError(false)
+            }
+            return
+        }
+
         setClearFields(!clearFields)
         setProgramName('')
         setShowError(false)
 
-    }, [clearFields, setClearFields, setShowError])
+    }, [showError, clearFields, setClearFields, setShowError])
 
 
     const handleAddRotSubmit = useCallback( e => {

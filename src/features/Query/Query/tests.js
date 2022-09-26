@@ -1,11 +1,10 @@
 import '@testing-library/jest-dom'
 import { render, screen, cleanup, act, fireEvent } from '@testing-library/react' 
 import userEvent from "@testing-library/user-event"
-import preview from 'jest-preview'
+//import preview from 'jest-preview'
 
 import Query from './Query'
 import Statistics from './Statistics'
-import SearchStudent from './SearchStudents'
 import * as useToggle from '../../../hooks/useToggle'
 
 global.ResizeObserver = jest.requireActual('resize-observer-polyfill') // this is for testing only
@@ -306,16 +305,7 @@ describe('testing Query Feature components', () => {
             expect(getByText(/student graduates/i)).toBeInTheDocument()
             expect(getByText(/student exams/i)).toBeInTheDocument()
         })
-        it('should render Barchart  component', () => {
-            //https://github.com/recharts/recharts/issues/2268
-            // const { queryAllByTestId } = setup()
 
-            // expect(queryAllByTestId('statistics-barChart')).toHaveLength(4)
-        })
-        it('should render X axis component', () => {})
-        it('should render Y axis component', () => {})
-        it('should render tooltip component', () => {})
-        it('should render Bar component', () => {})
     })
 
 })
