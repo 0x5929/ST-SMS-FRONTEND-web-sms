@@ -28,7 +28,7 @@ function Query() {
         console.log('outside setTimeout, inside handleBackdrop')
 
         setTimeout(()=> {
-            console.log('inside setTimeout')
+        
             setIsBackdropOpen(false)
             setShowResults(true)
 
