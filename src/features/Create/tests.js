@@ -7,7 +7,7 @@ import Components from '../../components'
 import { useNotification } from '../../hooks'
 import Create from './Create'
 import CreateStudent from './CreateStudent'
-import preview from 'jest-preview'
+//import preview from 'jest-preview'
 
 describe('testing Create feature', () => {
 
@@ -26,6 +26,12 @@ describe('testing Create feature', () => {
                 },
                 getByText(text) {
                     return screen.getByText(text)
+                },
+                getAllByText(text) {
+                    return screen.getAllByText(text)
+                },
+                queryByText(text) {
+                    return screen.queryByText(text)
                 },
                 getByRole(role, options) {
                     return screen.getByRole(role, options)
@@ -102,8 +108,10 @@ describe('testing Create feature', () => {
         })
 
         it('should render changes and errors when inputs change', async () => {
-            const { getInput, getAllByRole, getByRole, getByText, getByTestId } = setup()
+            
+            const { getInput, getAllByRole, getByRole, getByText, getByTestId, queryByText, getAllByText } = setup()
 
+            // 
             await userEvent.type(getInput(/student id/i), '__TEST__') 
             expect(getInput(/student id/i)).toHaveValue('__TEST__')
             expect(getByText('Please enter the correct format. ie: RO-CNA-10-1005-KR')).toBeInTheDocument()
@@ -152,9 +160,18 @@ describe('testing Create feature', () => {
             await userEvent.click(getByText(/cg rotation 9/i))
             expect(getAllByRole('button', {expanded: false})[1]).toHaveTextContent(/cg rotation 9/i)
 
-            // clicking add rot button will launch the modal, assert render then close
+            // clicking add rot button will launch the modal, assert render then close ADD ROTATION FORM TESTS
             await userEvent.click(getByRole('button', {name: ''}))
+            expect(getByText('Add Rotation')).toBeInTheDocument()
             expect(getByTestId('rotation-form')).toBeInTheDocument()
+            await userEvent.click(getByRole('button', {expanded: false}))
+            await userEvent.click(getByText(/security guard/i))
+            expect(getByRole('button', {expanded: false})).toHaveTextContent(/security guard/i)
+            await userEvent.type(getInput(/rotation number/i), '__TEST__')
+            expect(getByText('Only numeric format is allowed.')).toBeInTheDocument()
+            await userEvent.click(getByTestId('rotation-form-cancel-btn'))
+            expect(queryByText(/security guard/i)).not.toBeInTheDocument()
+            expect(getInput(/rotation number/i)).toHaveValue('')
             await userEvent.click(getByTestId('CloseOutlinedIcon'))
 
             await userEvent.clear(getInput(/program start date/i))
@@ -183,6 +200,7 @@ describe('testing Create feature', () => {
 
             await userEvent.type(getInput(/charges paid/i), '__TEST__') 
             expect(getInput(/charges paid/i)).toHaveValue('__TEST__')
+            expect(getAllByText('Please enter the correct format. ie: xxxx.xx')).toHaveLength(3)
 
             // adding input change tests for the checkbox and radio options
 
@@ -220,15 +238,91 @@ describe('testing Create feature', () => {
             await userEvent.type(getInput(/comments/i), '__TEST__') 
             expect(getInput(/comments/i)).toHaveValue('__TEST__')
 
-            // note, only course and rotation select inptus are not tested for their error, since they don't have an error output
+            // note, only course and rotation select inptus are not tested for their error
+            // since they don't have an error output
             //preview.debug()
 
 
-        })
-        it('should clear of all inputs when cancel is pressed', () => {
+        }, 50000) // longer timeout is needed, since this is a big test case
+
+        it('should clear of all inputs when cancel is pressed', async () => {
             // copy from the test case above, but leave the clearing part, and then clear everything with cancel
             // which will get rid of (test these) error messages, all inputs except for date pickers, which will dispaly today's date
-        })
+        
+            const { getInput, getAllByRole, getByText, getByTestId, queryByText } = setup()
+
+            await userEvent.type(getInput(/student id/i), '__TEST__') 
+            await userEvent.type(getInput(/first name/i), '__TEST__')
+            await userEvent.type(getInput(/last name/i), '__TEST__') 
+            await userEvent.type(getInput(/phone number/i), '__TEST__') 
+            await userEvent.type(getInput(/email/i), '__TEST__') 
+            await userEvent.type(getInput(/mailing address/i), '__TEST__') 
+
+            await userEvent.click(getAllByRole('button', {expanded: false})[0])
+            await userEvent.click(getByText(/caregiver/i))
+            await userEvent.click(getAllByRole('button', {expanded: false})[1])
+            await userEvent.click(getByText(/cg rotation 9/i))
+
+            await userEvent.clear(getInput(/program start date/i))
+            await userEvent.type(getInput(/program start date/i), '20220101')
+            await userEvent.clear(getInput(/program completion date/i))
+            await userEvent.type(getInput(/program completion date/i), '20220101')
+            await userEvent.clear(getInput(/date enrollment agreement signed/i))
+            await userEvent.type(getInput(/date enrollment agreement signed/i), '20220101')
+            
+            await userEvent.type(getInput(/third party payer info/i), '__TEST__') 
+            await userEvent.type(getInput(/course cost/i), '__TEST__') 
+            await userEvent.type(getInput(/charges charged/i), '__TEST__') 
+
+            await userEvent.click(getInput(/graduated/i))
+            await userEvent.click(getInput(/passed first exam/i))
+            await userEvent.click(getInput(/passed second or third exam/i))
+            await userEvent.click(getInput(/employed/i))
+
+            await userEvent.click(getInput(/full-time/i))
+
+            await userEvent.type(getInput(/employment position/i), '__TEST__') 
+            await userEvent.type(getInput(/place of employment/i), '__TEST__') 
+            await userEvent.type(getInput(/employment address/i), '__TEST__') 
+            await userEvent.type(getInput(/starting wage/i), '__TEST__')
+            await userEvent.type(getInput(/comments/i), '__TEST__') 
+
+            // clicking cancel button should clear all inputs and errors
+            await userEvent.click(getByTestId('student-form-cancel-btn'))
+
+            // assert all fields are cleared
+            expect(getInput(/student id/i)).toHaveValue('')
+            expect(getInput(/first name/i)).toHaveValue('')
+            expect(getInput(/last name/i)).toHaveValue('')
+            expect(getInput(/phone number/i)).toHaveValue('')
+            expect(getInput(/email/i)).toHaveValue('')
+            expect(getInput(/mailing address/i)).toHaveValue('')
+            expect(queryByText(/caregiver/i)).not.toBeInTheDocument()
+            expect(queryByText(/cg rotation 9/i)).not.toBeInTheDocument()
+            expect(queryByText('2022-01-01')).not.toBeInTheDocument()
+            expect(getInput(/third party payer info/i)).toHaveValue('')
+            expect(getInput(/course cost/i)).toHaveValue('')
+            expect(getInput(/charges charged/i)).toHaveValue('')
+            expect(getInput(/graduated/i)).toHaveProperty('checked', false)
+            expect(getInput(/passed first exam/i)).toHaveProperty('checked', false)
+            expect(getInput(/passed second or third exam/i)).toHaveProperty('checked', false)
+            expect(getInput(/employed/i)).toHaveProperty('checked', false)
+            expect(getInput(/full-time/i).checked).toBe(false)
+            expect(getInput(/employment position/i)).toHaveValue('')
+            expect(getInput(/place of employment/i)).toHaveValue('')
+            expect(getInput(/employment address/i)).toHaveValue('')
+            expect(getInput(/starting wage/i)).toHaveValue('')
+            expect(getInput(/comments/i)).toHaveValue('')
+
+            // assert errors are cleared too
+            expect(queryByText('Please enter the correct format. ie: RO-CNA-10-1005-KR')).not.toBeInTheDocument()
+            expect(queryByText('This field is required.')).not.toBeInTheDocument()
+            expect(queryByText('Please enter the correct format. ie: xxx-xxx-xxxx')).not.toBeInTheDocument()
+            expect(queryByText('Incorrect email format.')).not.toBeInTheDocument()
+            expect(queryByText('Please enter the correct format. ie: xxxx.xx')).not.toBeInTheDocument()
+
+        }, 50000)
+
     })
 
     describe('testing CreateStudent component', () => {

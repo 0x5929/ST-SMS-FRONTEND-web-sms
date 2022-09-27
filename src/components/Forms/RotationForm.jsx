@@ -60,12 +60,12 @@ function RotationForm({ getCourseOptions, addRotHandlers, addRotStates, ...other
                     data-testid="rotation-number"
                 />
                 <Styles.ButtonContainerBox>
-                    <Button 
+                    <Button data-testid="rotation-form-submit-btn"
                         text="Submit"
                         type="submit"
                         onClick={(e)=>(handleAddRotSubmit(e))}
                     />
-                    <Button 
+                    <Button data-testid="rotation-form-cancel-btn"
                         text="Cancel"
                         color="error"
                         onClick={() => handleAddRotClear(programName, rotationRef)}

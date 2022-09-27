@@ -312,7 +312,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                         }
                     </Styles.ButtonBox>
                     <Styles.ButtonBox>
-                        <Button
+                        <Button data-testid="student-form-submit-btn"
                             text="Submit"
                             disabled={submitLoading}
                             onClick={ isEdit ? ( (e) => studentEditFormHandlers.handleEditSubmit(e)) : ( (e) => handleSubmit(e, inputRefs) ) }
@@ -324,7 +324,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                         }
                     </Styles.ButtonBox>
                     <Styles.ButtonBox>
-                        <Button
+                        <Button data-testid="student-form-cancel-btn"
                             color="error"
                             text="Cancel"
                             onClick={ isEdit ? studentEditFormHandlers.handleEditCancel : handleCancel }
