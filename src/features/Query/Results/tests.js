@@ -1,18 +1,19 @@
 import '@testing-library/jest-dom'
 import { render, screen, cleanup } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 import QueryResults from './Results'
 import ViewStudent from './ViewStudent'
 import EditStudent from './EditStudent'
 
-import * as SMSRecordService from '../../../services/SMSRecordService'
+import { sampleStudentData } from '../../../services/data/studentData'
+
+import preview from 'jest-preview'
+
 
 describe('testing Query feautre Result component', () => {
 
     let testByMethods
-
-    // consider mocking this
-    let studentRecords = SMSRecordService.getAllRecords()
 
     beforeAll(() => {
 
@@ -24,6 +25,9 @@ describe('testing Query feautre Result component', () => {
                 },
                 getByTestId(testId) {
                     return screen.getByTestId(testId)
+                },
+                getAllByTestId(testId) {
+                    return screen.getAllByTestId(testId)
                 },
                 getByText(text) {
                     return screen.getByText(text)
@@ -60,7 +64,7 @@ describe('testing Query feautre Result component', () => {
     
                 render(
                     <QueryResults 
-                        queryResults={studentRecords}
+                        queryResults={sampleStudentData}
                         handleBacktoQuery={jest.fn()}
                     />
                 )
@@ -78,7 +82,46 @@ describe('testing Query feautre Result component', () => {
         
         })
 
-        it('should render QueryResults components, and subcomponents', () => {})
+        it('should render QueryResults components, and subcomponents', () => {
+            const { getByTestId, getInput } = setup()
+
+            expect(getByTestId('query-results-component')).toBeInTheDocument()
+            expect(getByTestId('back-to-query-btn')).toBeInTheDocument()
+            expect(getInput('Search Results')).toBeInTheDocument()
+            
+            expect(getByTestId('query-results-table')).toBeInTheDocument()
+            expect(getByTestId('query-results-table-header')).toBeInTheDocument()
+            expect(getByTestId('query-results-table-body')).toBeInTheDocument()
+            expect(getByTestId('query-results-table-pagination')).toBeInTheDocument()
+
+
+
+        })
+
+        // test('each student should have working view student button',  async () => {
+        //     const { getAllByTestId, getAllByRole } = setup()
+        //     expect(getAllByTestId('view-record-btn')).toHaveLength(5)
+
+
+        //     await userEvent.click(getAllByRole('button', { name: 'view-record-btn'})[0])
+        //     preview.debug()
+        // })
+
+        test('each student should have working edit student button', async () => {
+            const { getAllByTestId } = setup()
+
+            expect(getAllByTestId('edit-record-btn')).toHaveLength(5)
+            await userEvent.click(getAllByTestId('edit-record-btn')[0])
+
+            preview.debug()
+        })
+        test('each student should have working delete student button', () => {
+            const { getAllByTestId } = setup()
+
+            expect(getAllByTestId('del-record-btn')).toHaveLength(5)
+        })
+
+
         it('should allow search with filter', () => {})
         it('should allow for results to be sorted',  () => {})
         it('should allow for results to paginate', () => {})

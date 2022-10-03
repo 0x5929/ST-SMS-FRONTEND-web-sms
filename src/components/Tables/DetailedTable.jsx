@@ -55,6 +55,9 @@ const DetailedTblBody = React.memo((props) => {
         ...others
      } = props
 
+     console.log('record: ', typeof record)
+     console.log('record: ', record['placeOfEmployment'])
+     console.log('record[firstName]: ', record['firstName'])
     return (
         <TableBody data-testid="detailed-table-body" {...others}>
             {

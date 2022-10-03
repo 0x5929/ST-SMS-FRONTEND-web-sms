@@ -103,6 +103,7 @@ const QueryResultsTblBody = React.memo((props) => {
                                 data-testid="view-record-btn"
                                 
                                 variant="text"
+                                aria-label="view-record-btn"
                                 onClick={() => setRecordForView(record)}
                                 size="small"
                                 color="primary"

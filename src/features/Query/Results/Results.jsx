@@ -64,7 +64,7 @@ function QueryResults({ handleBacktoQuery, queryResults } ) {
                     handleClear={handleClear}
                     onChange={handleFilter}
                 />
-                <Components.BaseButton
+                <Components.BaseButton data-testid="back-to-query-btn"
                     text="Back to query"
                     size="small"
                     color="secondary"
