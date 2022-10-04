@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom'
-import { render, screen, cleanup } from '@testing-library/react'
+import { render, screen, cleanup, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import QueryResults from './Results'
@@ -61,7 +61,6 @@ describe('testing Query feautre Result component', () => {
         beforeEach(() => {
 
             setup = () => {
-    
                 render(
                     <QueryResults 
                         queryResults={sampleStudentData}
@@ -72,6 +71,7 @@ describe('testing Query feautre Result component', () => {
                 return {
     
                     ...(testByMethods(screen)),
+                    debug: screen.debug
                 }
             }
         })
@@ -98,22 +98,24 @@ describe('testing Query feautre Result component', () => {
 
         })
 
-        // test('each student should have working view student button',  async () => {
-        //     const { getAllByTestId, getAllByRole } = setup()
-        //     expect(getAllByTestId('view-record-btn')).toHaveLength(5)
+        test('each student should have working view student button',  async () => {
+            const { getAllByTestId, getAllByRole, debug } = setup()
+            expect(getAllByTestId('view-record-btn')).toHaveLength(5)
 
+            await userEvent.click(getAllByTestId('view-record-btn')[0])
+            //debug()
+            //await userEvent.click(getAllByRole('button', { name: 'view-record-btn'})[0])
+            preview.debug()
+        })
 
-        //     await userEvent.click(getAllByRole('button', { name: 'view-record-btn'})[0])
-        //     preview.debug()
-        // })
-
-        test('each student should have working edit student button', async () => {
+        test('each student should have working edit student button',  () => {
             const { getAllByTestId } = setup()
 
             expect(getAllByTestId('edit-record-btn')).toHaveLength(5)
-            await userEvent.click(getAllByTestId('edit-record-btn')[0])
-
-            preview.debug()
+            
+            // //  userEvent.click(getAllByTestId('edit-record-btn')[0])
+            // fireEvent.click(getAllByTestId('view-record-btn')[0])
+            //preview.debug()
         })
         test('each student should have working delete student button', () => {
             const { getAllByTestId } = setup()
