@@ -70,8 +70,7 @@ describe('testing Query feautre Result component', () => {
     
                 return {
     
-                    ...(testByMethods(screen)),
-                    debug: screen.debug
+                    ...(testByMethods(screen))
                 }
             }
         })
@@ -94,17 +93,13 @@ describe('testing Query feautre Result component', () => {
             expect(getByTestId('query-results-table-body')).toBeInTheDocument()
             expect(getByTestId('query-results-table-pagination')).toBeInTheDocument()
 
-
-
         })
 
         test('each student should have working view student button',  async () => {
-            const { getAllByTestId, getAllByRole, debug } = setup()
+            const { getAllByTestId } = setup()
             expect(getAllByTestId('view-record-btn')).toHaveLength(5)
 
             await userEvent.click(getAllByTestId('view-record-btn')[0])
-            //debug()
-            //await userEvent.click(getAllByRole('button', { name: 'view-record-btn'})[0])
             preview.debug()
         })
 
