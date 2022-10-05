@@ -121,7 +121,6 @@ describe('testing Query feautre Result component', () => {
 
             // test able to close modal
             await userEvent.click(getByTestId('modal-close-btn'))
-            preview.debug()
             expect(queryByText(/detail view/i)).not.toBeVisible()
             expect(queryByText(/category/i)).not.toBeVisible()
             expect(queryByText(/data/i)).not.toBeVisible()
@@ -129,14 +128,14 @@ describe('testing Query feautre Result component', () => {
 
         })
 
-        test('each student should have working edit student button',  () => {
+        test('each student should have working edit student button',  async () => {
             const { getAllByTestId } = setup()
 
             expect(getAllByTestId('edit-record-btn')).toHaveLength(5)
             
-            // //  userEvent.click(getAllByTestId('edit-record-btn')[0])
-            // fireEvent.click(getAllByTestId('view-record-btn')[0])
-            //preview.debug()
+            await userEvent.click(getAllByTestId('edit-record-btn')[0])
+            preview.debug()
+
         })
         test('each student should have working delete student button', () => {
             const { getAllByTestId } = setup()
