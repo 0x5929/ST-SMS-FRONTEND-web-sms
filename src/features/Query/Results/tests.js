@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom'
 import { render, screen, cleanup, fireEvent } from '@testing-library/react'
+import { within } from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
 
 import QueryResults from './Results'
@@ -25,6 +26,9 @@ describe('testing Query feautre Result component', () => {
                 },
                 getByTestId(testId) {
                     return screen.getByTestId(testId)
+                },
+                queryByTestId(testId) {
+                    return screen.queryByTestId(testId)
                 },
                 getAllByTestId(testId) {
                     return screen.getAllByTestId(testId)
@@ -96,11 +100,33 @@ describe('testing Query feautre Result component', () => {
         })
 
         test('each student should have working view student button',  async () => {
-            const { getAllByTestId } = setup()
+            const { getAllByTestId, getByText, getByTestId, queryByTestId, queryByText } = setup()
+            let testingIndx = 0
+
             expect(getAllByTestId('view-record-btn')).toHaveLength(5)
 
-            await userEvent.click(getAllByTestId('view-record-btn')[0])
+            // this should be the first button
+            await userEvent.click(getAllByTestId('view-record-btn')[testingIndx])
+
+            expect(getByText(/detail view/i)).toBeInTheDocument()
+            expect(getByText(/category/i)).toBeInTheDocument()
+            expect(getByText(/data/i)).toBeInTheDocument()
+
+            // assert basic data will be rendered
+            const withinCatMod = within(getAllByTestId('detail-view-tbl-category-col')[testingIndx])
+            expect(withinCatMod.getByText('Student ID')).toBeInTheDocument()
+            
+            const withinDatmod = within(getAllByTestId('detailview-tbl-data-col')[testingIndx])
+            expect(withinDatmod.getByText('RO-CNA-100-0001-AB')).toBeInTheDocument()
+
+            // test able to close modal
+            await userEvent.click(getByTestId('modal-close-btn'))
             preview.debug()
+            expect(queryByText(/detail view/i)).not.toBeVisible()
+            expect(queryByText(/category/i)).not.toBeVisible()
+            expect(queryByText(/data/i)).not.toBeVisible()
+            expect(queryByTestId('modal-close-btn')).not.toBeVisible()
+
         })
 
         test('each student should have working edit student button',  () => {
