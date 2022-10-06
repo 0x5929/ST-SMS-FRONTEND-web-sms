@@ -74,7 +74,8 @@ describe('testing Query feautre Result component', () => {
     
                 return {
     
-                    ...(testByMethods(screen))
+                    ...(testByMethods(screen)),
+                    debug: screen.debug
                 }
             }
         })
@@ -129,18 +130,48 @@ describe('testing Query feautre Result component', () => {
         })
 
         test('each student should have working edit student button',  async () => {
-            const { getAllByTestId } = setup()
+            const { queryByText, getAllByTestId, getByText, getInput, getByTestId, debug } = setup()
 
             expect(getAllByTestId('edit-record-btn')).toHaveLength(5)
             
             await userEvent.click(getAllByTestId('edit-record-btn')[0])
-            preview.debug()
+
+            //assert necessary elements are there
+            expect(getByText(/edit student data/i)).toBeInTheDocument()
+            expect(getInput('Student ID')).toBeInTheDocument()
+            expect(getByText('RO-CNA-100-0001-AB')).toBeInTheDocument()
+
+            // test edit function
+            await userEvent.type(getInput('First Name'), '22')
+            expect(getInput('First Name')).toBeInTheDocument()
+            await userEvent.click(getByText('Submit'))
+            await userEvent.type(getInput('First Name'), '22')
+
+            // close edit modal
+            await userEvent.click(getByTestId('modal-close-btn'))
+            expect(queryByText('Edit Student Data')).not.toBeVisible()
+            
 
         })
-        test('each student should have working delete student button', () => {
-            const { getAllByTestId } = setup()
+        test('each student should have working delete student button', async () => {
+            const { getAllByTestId, getByText, queryByText } = setup()
 
             expect(getAllByTestId('del-record-btn')).toHaveLength(5)
+
+            // test delete function
+            await userEvent.click(getAllByTestId('del-record-btn')[0])
+            expect(getByText('Are you sure you want to delete this student record?')).toBeInTheDocument()
+            await userEvent.click(getByText('No'))
+            preview.debug()
+            expect(queryByText('Student record deleted!')).not.toBeInTheDocument()
+            await userEvent.click(getAllByTestId('del-record-btn')[0])
+
+            expect(getByText('Are you sure you want to delete this student record?')).toBeInTheDocument()
+            await userEvent.click(getByText('Yes'))
+            expect(getByText('Student record deleted!')).toBeInTheDocument()
+            expect(queryByText('Are you sure you want to delete this student record?')).not.toBeVisible()
+
+
         })
 
 
