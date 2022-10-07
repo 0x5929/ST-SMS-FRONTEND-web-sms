@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom'
-import { render, screen, cleanup, fireEvent } from '@testing-library/react'
+import { render, screen, cleanup } from '@testing-library/react'
 import { within } from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
 
@@ -175,8 +175,45 @@ describe('testing Query feautre Result component', () => {
         })
 
 
-        it('should allow search with filter', () => {})
-        it('should allow for results to be sorted',  () => {})
+        it('should allow search with filter', async () => {
+            const { getInput, getByText, getByTestId, queryByText } = setup()
+
+            await userEvent.type(getInput('Search Results'), 'RO-CNA-100-0001-AB')
+            expect(getByText('RO-CNA-100-0001-AB')).toBeInTheDocument()
+
+            await userEvent.click(getByTestId('mui-clearIcon'))
+            await userEvent.type(getInput('Search Results'), '__TEST__')
+            // expect(queryByText('__TEST__')).not.toBeInTheDocument()
+            // preview.debug()
+        })
+
+        it('should allow for results to be sorted', async () => {
+            const { getAllByTestId, getByText, queryByText, getAllByText } = setup()
+
+            // asssert that there are total 6 sortable columns
+            expect(getAllByTestId('ArrowDownwardIcon')).toHaveLength(6)
+
+            // test sort the first column
+            expect(queryByText('RO-CNA-100-0015-AB')).not.toBeInTheDocument()
+            await userEvent.click(getAllByTestId('ArrowDownwardIcon')[0])
+            await userEvent.click(getAllByTestId('ArrowDownwardIcon')[0])
+            expect(getByText('RO-CNA-100-0015-AB')).toBeInTheDocument()
+
+            // test sort the second column
+            await userEvent.click(getAllByTestId('ArrowDownwardIcon')[1])
+            expect(queryByText('student15')).not.toBeInTheDocument()
+            expect(getAllByText('student1')).toHaveLength(2)    // we have student1 as first and last name
+
+            // test sort the third column
+            await userEvent.click(getAllByTestId('ArrowDownwardIcon')[2])
+            expect(getAllByText('student13')).toHaveLength(2)
+            expect(getAllByText('student12')).toHaveLength(2)
+            expect(getAllByText('student11')).toHaveLength(2)
+            expect(getAllByText('student10')).toHaveLength(2)
+            expect(getAllByText('student1')).toHaveLength(2)
+            preview.debug()
+
+        })
         it('should allow for results to paginate', () => {})
         
     })
