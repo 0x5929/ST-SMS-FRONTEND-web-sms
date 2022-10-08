@@ -4,12 +4,9 @@ import { within } from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
 
 import QueryResults from './Results'
-import ViewStudent from './ViewStudent'
-import EditStudent from './EditStudent'
-
 import { sampleStudentData } from '../../../services/data/studentData'
 
-import preview from 'jest-preview'
+//import preview from 'jest-preview'
 
 
 describe('testing Query feautre Result component', () => {
@@ -86,7 +83,7 @@ describe('testing Query feautre Result component', () => {
         
         })
 
-        it('should render QueryResults components, and subcomponents', () => {
+        it('should render QueryResults components', () => {
             const { getByTestId, getInput } = setup()
 
             expect(getByTestId('query-results-component')).toBeInTheDocument()
@@ -211,12 +208,43 @@ describe('testing Query feautre Result component', () => {
             expect(getAllByText('student11')).toHaveLength(2)
             expect(getAllByText('student10')).toHaveLength(2)
             expect(getAllByText('student1')).toHaveLength(2)
-            preview.debug()
 
         })
-        it('should allow for results to paginate', () => {})
+        it('should allow for results to paginate', async () => {
+            const { getByTestId, getByText, queryByText, getByRole } = setup()
+            
+            expect(getByTestId('KeyboardArrowRightIcon')).toBeInTheDocument()
+            
+            // testing paginate from first page to second page (total 15 elements returned from results, so 5 per, but changable)
+            expect(getByText('RO-CNA-100-0001-AB')).toBeInTheDocument()
+            await userEvent.click(getByTestId('KeyboardArrowRightIcon'))
+            expect(queryByText('RO-CNA-100-0001-AB')).not.toBeInTheDocument()
+            expect(getByText('RO-CNA-100-0006-AB')).toBeInTheDocument()
+
+            // testing to paingate to the last page, displaying results #11 to #15
+            await userEvent.click(getByTestId('KeyboardArrowRightIcon'))
+            expect(queryByText('RO-CNA-100-0001-AB')).not.toBeInTheDocument()
+            expect(queryByText('RO-CNA-100-0006-AB')).not.toBeInTheDocument()
+            expect(getByText('RO-CNA-100-0011-AB')).toBeInTheDocument()
+
+            // now paginate back to first page
+            await userEvent.click(getByTestId('KeyboardArrowLeftIcon'))
+            await userEvent.click(getByTestId('KeyboardArrowLeftIcon'))
+            expect(getByText('RO-CNA-100-0001-AB')).toBeInTheDocument()
+            expect(queryByText('RO-CNA-100-0006-AB')).not.toBeInTheDocument()
+            expect(queryByText('RO-CNA-100-0011-AB')).not.toBeInTheDocument()
+
+            // testing changing amount of rows per page, options are 5, 10, 25
+            expect(queryByText('RO-CNA-100-0006-AB')).not.toBeInTheDocument()
+            await userEvent.click(getByRole('button', {name: 'Rows per page: 5'}))
+            expect(getByText('10')).toBeInTheDocument()
+            expect(getByText('25')).toBeInTheDocument()
+    
+            await userEvent.click(getByText('10'))
+            expect(getByText('RO-CNA-100-0006-AB')).toBeInTheDocument()
+            //preview.debug()
+        })
         
     })
-    describe('testing ViewStudent component', () => {})
-    describe('testing EditStudent component', () => {})
+
 })
