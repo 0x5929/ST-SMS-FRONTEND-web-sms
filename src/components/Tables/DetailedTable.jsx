@@ -51,12 +51,52 @@ const DetailedTblHead = React.memo(({ tableData, ...others}) => {
 
 const DetailedTblBody = React.memo((props) => {
     console.log('DetailedTblBody component rendered')
-    let { 
-        record, 
-        tableData,
 
+    const emptyStudent = {
+
+        pk: 0,
+        studentId : '',
+        firstName : '',
+        lastName  : '',
+        phoneNumber: '',
+        email: '',
+        mailingAddress : '',
+        course: '',
+        rotation: '1',
+        startDate: new Date(),
+        completionDate: new Date(),
+        dateEnrollmentAgreementSigned: new Date(),
+        thirdPartyPayerInfo: '',
+        courseCost: '',
+        chargesCharged : '',
+        chargesPaid: '',
+        paid: false,
+        graduated: false,
+        passedFirstExam: false,
+        passedSecondOrThird: false,
+        employed: false,
+        position: '',
+        placeOfEmployment: '',
+        employmentAddress: '',
+        startingWage: '',
+        hoursWorked: '',
+        descriptionAttempts: ''
+    
+    }
+
+    const convertNullToEmpty = () => emptyStudent
+
+
+    const { 
+        tableData,
         ...others
      } = props
+
+    // checks for condition null or undefined
+    let record = others.record
+    if (record == null) {
+        record = convertNullToEmpty()
+    }
 
 
     return (
@@ -65,11 +105,10 @@ const DetailedTblBody = React.memo((props) => {
                 tableData.detailedViewColumnCells.map( col => (
                     <TableRow key={ col.id }>
                         <TableCell data-testid="detail-view-tbl-category-col">{ col.label }</TableCell>
-                        { 
-                            record && <TableCell 
-                                        data-testid="detailview-tbl-data-col">{ record[col.id].toString() }</TableCell> 
-   
-                        }
+                        <TableCell 
+                            data-testid="detailview-tbl-data-col">
+                                { String(record[col.id]) }
+                        </TableCell> 
                     </TableRow>
                 ))
             }

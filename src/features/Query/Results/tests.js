@@ -159,7 +159,7 @@ describe('testing Query feautre Result component', () => {
             await userEvent.click(getAllByTestId('del-record-btn')[0])
             expect(getByText('Are you sure you want to delete this student record?')).toBeInTheDocument()
             await userEvent.click(getByText('No'))
-            preview.debug()
+            //preview.debug()
             expect(queryByText('Student record deleted!')).not.toBeInTheDocument()
             await userEvent.click(getAllByTestId('del-record-btn')[0])
 

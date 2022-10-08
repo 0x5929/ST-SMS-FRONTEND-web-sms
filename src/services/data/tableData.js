@@ -22,6 +22,7 @@ export const detailedViewColumnCells = [
     {id: 'email', label: 'Email Address'},
     {id: 'mailingAddress', label: 'Mailing Address'},
     {id: 'course', label: 'Course'},
+    {id: 'rotation', label: 'Rotation'},
     {id: 'startDate', label: 'Start Date'},
     {id: 'completionDate', label: 'Completion Date'},
     {id: 'dateEnrollmentAgreementSigned', label: 'Agreement Signed Date'},
