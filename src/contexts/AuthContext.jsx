@@ -12,10 +12,6 @@ const AuthContextProvider = ({ children }) => {
     // login/out functionalities
     const login = (creds) => {
         // do api calls and check for credentials
-        // setUser(creds)
-        // setAuthed(true)
-        // console.log('logged in with: ', creds)
-        
         return new Promise((res) => {
             setUser(creds)
             setAuthed(true)

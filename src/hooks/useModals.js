@@ -66,7 +66,6 @@ export function useDetailedViewModal ({ setRecordForView, recordForView }){
     }, [setIsDetailedViewModalOpen, setRecordForView])
 
     const handleDetailedViewModalOpen = useCallback(item => {
-        console.log('record for view: ', item)
         setRecordForView(item)
         setIsDetailedViewModalOpen(true)
     }, [setIsDetailedViewModalOpen, setRecordForView])

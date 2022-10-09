@@ -14,8 +14,7 @@ const Styles = createRotationFormStyles({MuiStack, MuiBox})
 
 
 function RotationForm({ getCourseOptions, addRotHandlers, addRotStates, ...others }) {
-    console.log('AddRotationForm component rendered')
-
+    
     const {
 
         rotFormValidations,

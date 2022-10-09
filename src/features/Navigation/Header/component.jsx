@@ -27,8 +27,6 @@ const Styles = createHeaderStyles({
 
 function Header(props) {
     
-    console.log('Header feature rendered')
-
     const {
         Link,
         darkMode,

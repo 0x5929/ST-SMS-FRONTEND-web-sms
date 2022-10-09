@@ -3,7 +3,7 @@ import Components from '../../../components';
 
 
 function Copyright(props) {
-    console.log('Copyright feature rendered')
+    
     return (
         <Components.BaseTypography 
             variant="p" 

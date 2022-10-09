@@ -10,7 +10,7 @@ const Styles = createSearchBarStyles({MuiClearIcon})
 // This is so that we don;t have to be forced to use useValueInput hook, and can lift the value states up to its parent
 // which is needed in this case due to the complexity of QueryForm. (also used for filter bar in results)
 function SearchBar(props) {
-    console.log('SearchBar component rendered')
+    
     const { 
         index=0,
         name,
@@ -19,10 +19,7 @@ function SearchBar(props) {
         error=null,
         onChange,
         textInput, 
-        handleClear, 
-
-        ...others 
-    } = props;
+        handleClear, ...others } = props;
     
     return (  
         <Toolbar>

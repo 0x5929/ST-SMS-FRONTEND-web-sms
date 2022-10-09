@@ -12,8 +12,6 @@ import { useInputValue } from '../../hooks'
 
 const RadioGroup = forwardRef((props, parentRef) => {
 
-    console.log('RadioGroup component rendered')
-
     const { 
         name, 
         label,  

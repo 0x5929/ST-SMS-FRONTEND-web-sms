@@ -20,8 +20,6 @@ const Styles = createSideNavStyles({
 
 function Drawer ({ Link, isDrawerOpen, handleToggleDrawer }) {
     
-    console.log('Drawer feature rendered')
-
     return (
         <MuiDrawer
             data-testid="mui-drawer"

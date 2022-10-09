@@ -5,7 +5,6 @@ import Components from '../../../components'
 import { useQueryForm } from '../../../hooks'
 
 function SearchStudents({ setQueryResults, handleBackdrop }) {
-    console.log('SearchStudents feature rendered')
     const [ queryFormStates, queryFormHandlers ] = useQueryForm({setQueryResults, handleBackdrop})
 
     return (

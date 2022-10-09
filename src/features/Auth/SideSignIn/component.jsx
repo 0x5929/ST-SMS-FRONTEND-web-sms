@@ -33,7 +33,7 @@ const Styles = createSigninStyles({
 })
 
 function Signin (){
-    console.log('Signin feature rendered')
+    
      const [ loginFormStates, loginFormHandlers ] = useSignInForm(useAuthContext())
 
      const {  

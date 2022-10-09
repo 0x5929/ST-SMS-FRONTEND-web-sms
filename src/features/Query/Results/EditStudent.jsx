@@ -4,8 +4,6 @@ import { useEditModal } from  '../../../hooks'
 import Components from '../../../components'
 
 function EditStudent({setRecordForEdit, setRecords, userFeedbackObj, recordForEdit}) {
-    console.log('EditStudent feature rendered')
-
     const [ { isEditModalOpen, studentFormStates }, editModalHandlers ] = useEditModal(
         {
             setRecordForEdit, 

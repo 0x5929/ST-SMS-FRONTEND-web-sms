@@ -9,8 +9,6 @@ import {
 import { useToggle } from '../../hooks'
 
 const Checkbox = forwardRef((props, parentRef) => {
-
-    console.log('Checkbox component rendered')
     
     const { 
         name, 

@@ -326,7 +326,6 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
                 }
             }
         })
-        console.log('validationObj: ', validationObj)
 
         if (_checkForError(validationObj, () => studentFormDispatch({type: 'form-toggleShowErrors'}))) {
             let data = {}

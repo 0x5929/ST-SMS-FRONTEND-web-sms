@@ -8,7 +8,6 @@ const Styles = createBackdropStyles({MuiBackdrop})
 
 function SimpleBackDrop({ openBackdrop, ...others }) {
 
-    console.log('SimpleBackDrop component rendered')
     return (
         <Styles.Backdrop open={openBackdrop} {...others}>
             <CircularProgress data-testid="circularProgress" color="inherit" />

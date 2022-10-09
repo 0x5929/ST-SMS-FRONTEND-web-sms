@@ -14,7 +14,7 @@ import {
 const Styles = createQueryFormStyles({SearchBar, BaseSelect, BaseButton, BaseIconButton})
 
 function QueryForm({queryFormStates, queryFormHandlers, ...others}) {
-    console.log('QueryForm component rendered')
+    
     const {
         
         queryOptions,

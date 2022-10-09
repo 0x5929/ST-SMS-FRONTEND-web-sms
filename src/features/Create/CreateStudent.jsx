@@ -4,8 +4,6 @@ import { useStudentForm } from '../../hooks'
 import Components from '../../components'
 
 function CreateStudent({ notificationHandlers, notify }) {
-    console.log('CreateStudent feature rendered')
-
     const [studentFormStates, studentFormHandlers] = useStudentForm({notificationHandlers, notify})
 
     return (

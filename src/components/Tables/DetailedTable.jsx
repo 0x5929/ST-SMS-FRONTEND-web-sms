@@ -14,7 +14,6 @@ const Styles = createDetailedTableStyles({MuiTable})
 
 
 const DetailedTblContainer = React.memo((props) => {
-    console.log('DetailedTblContainer component rendered')
     const { children, ...others } = props
 
     return (
@@ -31,7 +30,6 @@ const DetailedTblContainer = React.memo((props) => {
 
 const DetailedTblHead = React.memo(({ tableData, ...others}) => {
 
-    console.log('DetailedTblHead component rendered')
     return (
         <TableHead {...others}>
             <TableRow data-testid="detailed-table-header">
@@ -49,8 +47,7 @@ const DetailedTblHead = React.memo(({ tableData, ...others}) => {
 })
 
 
-const DetailedTblBody = React.memo((props) => {
-    console.log('DetailedTblBody component rendered')
+const DetailedTblBody = React.memo(({ tableData, ...others  }) => {
 
     const emptyStudent = {
 
@@ -85,12 +82,6 @@ const DetailedTblBody = React.memo((props) => {
     }
 
     const convertNullToEmpty = () => emptyStudent
-
-
-    const { 
-        tableData,
-        ...others
-     } = props
 
     // checks for condition null or undefined
     let record = others.record

@@ -10,8 +10,6 @@ const Styles = createAppStyles({MuiBox})
 
 function App({ Link, Outlet }) {
 
-    console.log('App component rendered')
-
     const {
         toggleColorMode,
         darkMode

@@ -12,8 +12,6 @@ import { useToggle } from '../../../hooks'
 const Styles = createQueryStyles({ MuiPaper, MuiBox })
 
 function Query() {
-
-    console.log('Query feature rendered')
     const [ queryResults, setQueryResults ] = useState([])
     const [ showResults, setShowResults ] = useToggle(false)
     const [ isBackdropOpen, setIsBackdropOpen ] = useToggle(false)
@@ -24,8 +22,6 @@ function Query() {
 
         // in 1 second of time, close backdrop, show results
         // but when connecting to back end, we will wait until results are fetched
-        
-        console.log('outside setTimeout, inside handleBackdrop')
 
         setTimeout(()=> {
         

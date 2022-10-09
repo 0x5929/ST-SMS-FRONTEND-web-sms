@@ -7,7 +7,6 @@ import createCardStyles from './styles'
 const Styles = createCardStyles({MuiCard, BaseTypography})
 
 function BaseCard({ title, children, ...others }) {
-    console.log('BaseCard component rendered')
 
     return (
         <Styles.Card

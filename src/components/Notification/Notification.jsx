@@ -4,9 +4,8 @@ import { Alert, Snackbar, Box } from '@mui/material';
 
 
 function Notification({ notify, notificationHandlers, ...others }) {
-    console.log('Notification component rendered')
+
     const { handleCloseNotification } = notificationHandlers
-    
     const anchorOrigin = {vertical: 'bottom', horizontal: 'center'}
 
     return (

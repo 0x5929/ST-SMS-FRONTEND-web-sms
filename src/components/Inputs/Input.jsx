@@ -4,12 +4,8 @@ import { useInputValue } from '../../hooks'
 
 const Input = forwardRef((props, parentRef) => {
 
-    console.log('Input component rendered')
-
     const { name, label, initialValue='', errorHandler, clearFields, showError, ...others } = props
-
     const [ { value, error }, { inputOnChange } ] = useInputValue({initialValue, errorHandler, clearFields})
-
 
     return (  
         <TextField 

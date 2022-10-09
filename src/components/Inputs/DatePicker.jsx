@@ -11,8 +11,6 @@ import { useInputValue } from '../../hooks'
 
 const DatePicker = forwardRef((props, parentRef) => {
 
-    console.log('DatePicker component rendered')
-    
     const { 
         name, 
         label, 

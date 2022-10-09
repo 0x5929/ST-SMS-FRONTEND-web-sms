@@ -7,8 +7,6 @@ const Styles = createButtonStyles({MuiButton})
 
 function BaseButton(props) {
 
-    console.log('BaseButton component rendered')
-
     const { 
         text, 
         size, 
