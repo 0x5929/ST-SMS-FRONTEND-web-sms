@@ -28,7 +28,7 @@ const AuthContextProvider = ({ children }) => {
             console.log('logged out')
         });
     }
-    
+
     useEffect(() => {
         setAuthed(JSON.parse(localStorage.getItem('authed')))
         setUser(JSON.parse(localStorage.getItem('user')))
@@ -36,7 +36,6 @@ const AuthContextProvider = ({ children }) => {
     }, [])
 
     useEffect(() => {
-        console.log('authed: ', authed)
         localStorage.setItem('authed', JSON.stringify(authed))
         localStorage.setItem('user', JSON.stringify(user))
     }, [authed, user])

@@ -229,7 +229,7 @@ describe('testing Query Feature components', () => {
             expect(queryFields[0]).toHaveValue('0')
             expect(queryFields[2]).toHaveValue('2')
             expect(queryFields[4]).toHaveValue('4')
-        })
+        }, 500000)
 
 
         it('should clear its own text and query when clear button is pressed on the query', async () => {
@@ -269,7 +269,7 @@ describe('testing Query Feature components', () => {
             expect(queryFields[4]).toHaveValue('4')
 
 
-        })
+        }, 500000)
     })
 
 

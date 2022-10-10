@@ -1,17 +1,12 @@
 import '@testing-library/jest-dom'
 import { render, screen, cleanup } from '@testing-library/react'
-import { BrowserRouter } from 'react-router-dom' 
+import { BrowserRouter, Route, Routes } from 'react-router-dom' 
+import userEvent from '@testing-library/user-event'
 
-
-import { AuthContextProvider, useAuthContext } from '../../../contexts'
+import { AuthContextProvider } from '../../../contexts'
 import RequiredAuth from './component'
 
-// needed since the RequiredAuth component has a condition that will 
-// return Navigate (from react-router-dom) to the signin page, which is /
-jest.mock('react-router-dom', () => ({
-    ...jest.requireActual('react-router-dom'),
-    Navigate : ({to, replace}) => <div>__TEST_SIGNIN_PAGE__</div>
-}))
+import Signin from '../SideSignIn/component'
 
 
 describe('testing RequiredAuth component', () => {
@@ -27,7 +22,10 @@ describe('testing RequiredAuth component', () => {
                 },
                 queryByText(text) {
                     return screen.queryByText(text)
-                }
+                },
+                getInput(labelText) {
+                    return screen.getByLabelText(labelText)
+                },
             }
         }
     })
@@ -45,38 +43,30 @@ describe('testing RequiredAuth component', () => {
         return <div>__TEST_CHILD__</div>
     }
 
-    const LoggedInUser = () => {
-        const { login } = useAuthContext()
-
-        login()
-
-        return <div>__TEST_LOGGED_IN__</div>
-    }
-    const LoggedOutUser = () => {
-        const { logout } = useAuthContext()
-        
-        logout()
-
-        return <div>__TEST_LOGGED_IN__</div>
-    }
 
 
     beforeEach(() => {
-        setup = (User) => {
+        setup = () => {
 
-            render(
+            const result = render(
                 <AuthContextProvider>
                     <BrowserRouter>
-                        <User />
-                        <RequiredAuth>
-                            <Child />
-                        </RequiredAuth>
+                    <Routes> 
+                        <Route path="/" index element={<Signin />} />
+                        <Route path="/query" element={
+                            <RequiredAuth>
+                                <Child />
+                            </RequiredAuth>
+                            } />
+                        
+                    </Routes> 
                     </BrowserRouter>
                 </AuthContextProvider>
             )
 
             return {
                 ...(testByMethods(screen)),
+                container: result.container
             }
         }
     })
@@ -89,15 +79,20 @@ describe('testing RequiredAuth component', () => {
 
     //testing the logic behind Required Auth
     it('should not render child component, if user is logged out or not logged in', () => {
-        const { queryByText, getByText } = setup(LoggedOutUser)
+        const { queryByText, getByText } = setup()
 
-        expect(getByText('__TEST_SIGNIN_PAGE__')).toBeInTheDocument()
+        // not signed in
+        expect(getByText('Sign in')).toBeInTheDocument()
         expect(queryByText('__TEST_CHILD__')).not.toBeInTheDocument()
 
     })
 
-    it('should render child component, if user is logged in', () => {       
-        const { getByText } = setup(LoggedInUser)
+    it('should render child component, if user is logged in', async () => {       
+        const { getByText, container } = setup()
+
+        await userEvent.type(container.querySelector('#email'), '__TEST_USER__')
+        await userEvent.type(container.querySelector('#password'), '__TEST_PW__')
+        await userEvent.click(getByText('Sign In'))
         expect(getByText('__TEST_CHILD__')).toBeInTheDocument()
 
     })

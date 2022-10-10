@@ -149,7 +149,7 @@ describe('testing Query feautre Result component', () => {
             expect(queryByText('Edit Student Data')).not.toBeVisible()
             
 
-        })
+        }, 500000)
         test('each student should have working delete student button', async () => {
             const { getAllByTestId, getByText, queryByText } = setup()
 

@@ -60,7 +60,7 @@
       "**/?(*.)*(test)(s)?.js"
     ],
     "transformIgnorePatterns": [
-      "<rootDir>/node_modules/(?!(d3.*|internmap))"
+      "<rootDir>/node_modules/(?!(d3.*|internmap))/"
     ]
   }
 }

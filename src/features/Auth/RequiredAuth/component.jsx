@@ -8,7 +8,7 @@ function RequiredAuth({ children }) {
 
     if ( authed === undefined ) return "... LOADING ..."
 
-    return authed ? children : <Navigate to="/" replace state={{from : location}}/>
+    return authed ? children : <Navigate to="/" replace state={{from : location}} />
 }
 
 export default React.memo(RequiredAuth)
