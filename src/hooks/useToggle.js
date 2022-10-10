@@ -11,11 +11,15 @@ const useToggle = ( initialState, clearFields=null ) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [clearFields])
 
-    const handleToggle = useCallback((state) => {
-        if (state) {
+    const handleToggle = useCallback((state = null) => {
+
+        if (state == null) {
+            return setIsTrue(prevState => !prevState)
+        }
+        else {
             return setIsTrue(state)
-        }else{
-        return setIsTrue(prevState => !prevState)}
+        }
+
     }, [])
 
     return [isTrue, handleToggle]

@@ -1,6 +1,5 @@
-import { useState, createContext, useContext } from "react"
+import { useState, createContext, useContext, useEffect, useCallback } from "react"
 import { useToggle } from '../hooks'
-
 
 const AuthContext = createContext(null)
 
@@ -18,7 +17,7 @@ const AuthContextProvider = ({ children }) => {
             res()
             console.log('logged in with: ', creds)
         })
-    
+
     }
         
     const logout = () => {
@@ -29,6 +28,18 @@ const AuthContextProvider = ({ children }) => {
             console.log('logged out')
         });
     }
+    
+    useEffect(() => {
+        setAuthed(JSON.parse(localStorage.getItem('authed')))
+        setUser(JSON.parse(localStorage.getItem('user')))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    useEffect(() => {
+        console.log('authed: ', authed)
+        localStorage.setItem('authed', JSON.stringify(authed))
+        localStorage.setItem('user', JSON.stringify(user))
+    }, [authed, user])
 
     return (
         <AuthContext.Provider

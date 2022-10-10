@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useReducer, useCallback } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 import { useAddRotationModal } from './useModals';
 import useValidations from './useValidations'
@@ -27,6 +27,8 @@ function _isEmpty(obj) {
 
 export function useSignInForm({ authed, user, login }) {
     const navigate = useNavigate()
+    const { state } = useLocation()
+    const { from } = state || {}
     const signInFormValidations = useValidations().useLoginValidation()
     const [ showEmailError, setShowEmailError ] = useToggle(false)
     const [ clearEmailField, setClearEmailField ] = useToggle(false)
@@ -88,14 +90,13 @@ export function useSignInForm({ authed, user, login }) {
 
 
     useEffect(()=>{
-
-        if (authed) {
-            navigate('/query')
+        if (authed && user) {
+            navigate(from?.pathname || '/query')
         }
         else {
             navigate('/')
         }
-    }, [authed, user, navigate])
+    }, [authed, user, navigate, from?.pathname])
 
     const loginStates = { 
         user, 

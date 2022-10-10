@@ -1,12 +1,14 @@
 import React from 'react'
-import { Navigate } from 'react-router-dom'
-import { useAuthContext } from '../../../contexts';
+import { Navigate, useLocation } from 'react-router-dom'
+import { useAuthContext } from '../../../contexts'
 
 function RequiredAuth({ children }) {
-    
+    const location = useLocation()
     const { authed } = useAuthContext()
 
-    return authed === true ? children : <Navigate to="/" replace />;
+    if ( authed === undefined ) return "... LOADING ..."
+
+    return authed ? children : <Navigate to="/" replace state={{from : location}}/>
 }
 
 export default React.memo(RequiredAuth)
