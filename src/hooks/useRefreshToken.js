@@ -6,8 +6,9 @@ const useRefreshToken = () => {
     const { setUser } = useAuthContext()
 
     const refresh = async () => {
-        // should we add post body? its the refresh token from http only cookie, only withCredentials?
-        const response = await axios.post('auth/token/refresh/', { withCredential: true })
+        // backend todo: need to override get method inside the refresh view by creating our own 
+        // and inherit the rest from refresh_view(), ie POST
+        const response = await axios.get('auth/token/refresh/', { withCredential: true })
 
         setUser(prev => {
             return { ...prev, accessToken: response.data.access_token }
