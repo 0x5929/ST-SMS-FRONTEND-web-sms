@@ -1,11 +1,10 @@
-import axios from 'axios'
-
-export default axios.create({
-    baseURL: 'http://127.0.0.1:8000/api/sms/'
-})
+import { useAxiosWithIntercept } from "../../hooks"
+import axios from './axios'
 
 
-export const serverBaseUrl = 'http://127.0.0.1:8000/api/sms/'
+export const smsEndpointUrl = 'api/sms/'
+
+const axiosWithCreds = useAxiosWithIntercept()
 
 // POST request for authentication
 export const authenticationPOST = async (creds) => {
@@ -13,7 +12,7 @@ export const authenticationPOST = async (creds) => {
     let authBody = creds
 
     try {
-        const response = await axios.post(serverBaseUrl + authUrl, authBody)
+        const response = await axios.post(authUrl, authBody)
         console.log(response.data)
 
         return response.data
@@ -28,7 +27,7 @@ export const studentStatisticsGET = async () => {
     let statisticsUrl = 'student_statistics/'
 
     try {
-        const response = await axios.get(serverBaseUrl + statisticsUrl)
+        const response = await axiosWithCreds.get(smsEndpointUrl + statisticsUrl)
         console.log(response)
 
         return response.data
@@ -46,7 +45,7 @@ export const studentQueryGET = async (queryParams) => {
     let queryUrl = 'students/?' + convertQueryParams(queryParams)
 
     try {
-        const response = await axios.get(serverBaseUrl + queryUrl)
+        const response = await axiosWithCreds.get(smsEndpointUrl + queryUrl)
         console.log(response)
 
         return response.data
@@ -65,7 +64,7 @@ export const studentCreatePOST = async (studentRecord) => {
     studentRecord['rotation'] = convertRotationUUID(studentRecord)
 
     try {
-        const response = await axios.post(serverBaseUrl + postUrl, studentRecord)
+        const response = await axiosWithCreds.post(smsEndpointUrl + postUrl, studentRecord)
 
         console.log(response.data)
 
@@ -85,7 +84,7 @@ export const studentEditPUT = async (studentRecord) => {
     studentRecord['rotation'] = convertRotationUUID(studentRecord)
 
     try {
-        const response = await axios.put(serverBaseUrl + putUrl, studentRecord)
+        const response = await axiosWithCreds.put(smsEndpointUrl + putUrl, studentRecord)
         console.log(response.data)
 
         // we should maybe also return status code
@@ -103,7 +102,7 @@ export const studentRemoveDELETE = async (studentRecord) => {
     let delUrl = 'students/' + getStudentUUID(studentRecord['studentId']) + '/'
 
     try {
-        const response = await axios.delete(delUrl)
+        const response = await axiosWithCreds.delete(delUrl)
 
         console.log(response.data)
 
@@ -139,7 +138,7 @@ const convertRotationUUID = async (record) => {
     let rotationQueryStr = 'students/?rotation__rotation_number=' + rotationNumber.toString() + '&rotation__program__program_name' + programName.toString()
 
     try {
-        const rotationQueryResponse = await axios.get(serverBaseUrl + rotationQueryStr)
+        const rotationQueryResponse = await axiosWithCreds.get(smsEndpointUrl + rotationQueryStr)
 
         return rotationQueryResponse.data[0]['rotation']
      
@@ -158,7 +157,7 @@ const getStudentUUID = async (studentId) => {
     let studentIdQueryStr = 'students/?student_id=' + studentId
 
     try {
-        const response = await axios.get(serverBaseUrl + studentIdQueryStr)
+        const response = await axiosWithCreds.get(smsEndpointUrl + studentIdQueryStr)
         return response.data[0]['student_uuid']
     }
     catch(error) {
