@@ -38,7 +38,9 @@ const useAuthedAxios  = () => {
 
                 // once request is sent again with refresh token, set set to true
                 // avoid endless loop of request and responses due to 403
-                if (error?.response.status === 403 && !prevRequest?.sent) {
+                if ( (error?.response.status === 403 || error?.response.status === 400)
+                    && (!prevRequest?.sent) ) {
+                        
                     prevRequest.sent = true
                     const newAccessToken = await refresh()
                     prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`       
