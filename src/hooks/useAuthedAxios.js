@@ -6,7 +6,7 @@ import { useAuthContext } from '../contexts'
 
 
 
-const useAxiosWithIntercept  = () => {
+const useAuthedAxios  = () => {
     const refresh = useRefreshToken()
     const { user } = useAuthContext()
 
@@ -64,4 +64,4 @@ const useAxiosWithIntercept  = () => {
 }
 
 
-export default useAxiosWithIntercept
+export default useAuthedAxios

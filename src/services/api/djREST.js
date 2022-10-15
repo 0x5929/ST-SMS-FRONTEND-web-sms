@@ -1,33 +1,35 @@
-import { useAxiosWithIntercept } from "../../hooks"
 import axios from './axios'
 
 
 export const smsEndpointUrl = 'api/sms/'
 
-const axiosWithCreds = useAxiosWithIntercept()
-
 // POST request for authentication
 export const authenticationPOST = async (creds) => {
     let authUrl = 'auth/login/'
-    let authBody = creds
+    let authBody = JSON.stringify(creds)
+    let config = {
+        headers: { 'Content-Type' :  'application/json' },
+        withCredentials: true
+    }
 
     try {
-        const response = await axios.post(authUrl, authBody)
+        const response = await axios.post(authUrl, authBody, config)
         console.log(response.data)
 
         return response.data
     }
     catch(error) {
         console.error(error)
+        throw error
     }
 }
 
 // GET request for student statistics
-export const studentStatisticsGET = async () => {
+export const studentStatisticsGET = async (authedAxio) => {
     let statisticsUrl = 'student_statistics/'
 
     try {
-        const response = await axiosWithCreds.get(smsEndpointUrl + statisticsUrl)
+        const response = await authedAxio.get(smsEndpointUrl + statisticsUrl)
         console.log(response)
 
         return response.data
@@ -41,11 +43,11 @@ export const studentStatisticsGET = async () => {
 
 
 // GET request for student query
-export const studentQueryGET = async (queryParams) => {
+export const studentQueryGET = async (authedAxio, queryParams) => {
     let queryUrl = 'students/?' + convertQueryParams(queryParams)
 
     try {
-        const response = await axiosWithCreds.get(smsEndpointUrl + queryUrl)
+        const response = await authedAxio.get(smsEndpointUrl + queryUrl)
         console.log(response)
 
         return response.data
@@ -59,12 +61,12 @@ export const studentQueryGET = async (queryParams) => {
 }
 
 // POST request for new student
-export const studentCreatePOST = async (studentRecord) => {
+export const studentCreatePOST = async (authedAxio, studentRecord) => {
     let postUrl = 'students/'
-    studentRecord['rotation'] = convertRotationUUID(studentRecord)
+    studentRecord['rotation'] = convertRotationUUID(authedAxio, studentRecord)
 
     try {
-        const response = await axiosWithCreds.post(smsEndpointUrl + postUrl, studentRecord)
+        const response = await authedAxio.post(smsEndpointUrl + postUrl, studentRecord)
 
         console.log(response.data)
 
@@ -79,12 +81,12 @@ export const studentCreatePOST = async (studentRecord) => {
 }
 
 // PUT request for student edit
-export const studentEditPUT = async (studentRecord) => {
-    let putUrl = 'students/' + getStudentUUID(studentRecord['studentId']) + '/'
-    studentRecord['rotation'] = convertRotationUUID(studentRecord)
+export const studentEditPUT = async (authedAxio, studentRecord) => {
+    let putUrl = 'students/' + getStudentUUID(authedAxio, studentRecord['studentId']) + '/'
+    studentRecord['rotation'] = convertRotationUUID(authedAxio, studentRecord)
 
     try {
-        const response = await axiosWithCreds.put(smsEndpointUrl + putUrl, studentRecord)
+        const response = await authedAxio.put(smsEndpointUrl + putUrl, studentRecord)
         console.log(response.data)
 
         // we should maybe also return status code
@@ -98,11 +100,11 @@ export const studentEditPUT = async (studentRecord) => {
 }
 
 // DELETE request for student deletion
-export const studentRemoveDELETE = async (studentRecord) => {
-    let delUrl = 'students/' + getStudentUUID(studentRecord['studentId']) + '/'
+export const studentRemoveDELETE = async (authedAxio, studentRecord) => {
+    let delUrl = 'students/' + getStudentUUID(authedAxio, studentRecord['studentId']) + '/'
 
     try {
-        const response = await axiosWithCreds.delete(delUrl)
+        const response = await authedAxio.delete(delUrl)
 
         console.log(response.data)
 
@@ -131,14 +133,14 @@ const convertQueryParams = (paramObj) => {
     return finalStr
 }
 
-const convertRotationUUID = async (record) => {
+const convertRotationUUID = async (authedAxio, record) => {
     // convert rotation to UUID
     let rotationNumber = record['rotation']
     let programName = record['course']
     let rotationQueryStr = 'students/?rotation__rotation_number=' + rotationNumber.toString() + '&rotation__program__program_name' + programName.toString()
 
     try {
-        const rotationQueryResponse = await axiosWithCreds.get(smsEndpointUrl + rotationQueryStr)
+        const rotationQueryResponse = await authedAxio.get(smsEndpointUrl + rotationQueryStr)
 
         return rotationQueryResponse.data[0]['rotation']
      
@@ -153,11 +155,11 @@ const convertRotationUUID = async (record) => {
 
 }
 
-const getStudentUUID = async (studentId) => {
+const getStudentUUID = async (authedAxio, studentId) => {
     let studentIdQueryStr = 'students/?student_id=' + studentId
 
     try {
-        const response = await axiosWithCreds.get(smsEndpointUrl + studentIdQueryStr)
+        const response = await authedAxio.get(smsEndpointUrl + studentIdQueryStr)
         return response.data[0]['student_uuid']
     }
     catch(error) {

@@ -91,6 +91,7 @@ export function useSignInForm({ authed, user, login }) {
 
     useEffect(()=>{
         if (authed && user) {
+            // default goes to /query page
             navigate(from?.pathname || '/query')
         }
         else {
