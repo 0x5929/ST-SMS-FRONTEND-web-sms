@@ -20,6 +20,7 @@ const PersistLogin = ({children}) => {
                 console.error(err)
                 setUser(null)
                 setAuthed(false)
+                // maybe boot the user to / to login again
 
             }finally {
 
@@ -32,6 +33,7 @@ const PersistLogin = ({children}) => {
         }
         else {
             setIsLoading(false)
+            // navigate to what it was from before?
         }
        
        
