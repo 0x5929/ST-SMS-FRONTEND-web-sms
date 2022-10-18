@@ -8,8 +8,7 @@ export const authenticationPOST = async (creds) => {
     let authUrl = 'auth/login/'
     let authBody = JSON.stringify(creds)
     let config = {
-        headers: { 'Content-Type' :  'application/json' },
-        withCredentials: true
+        headers: { 'Content-Type' :  'application/json' }
     }
 
     try {

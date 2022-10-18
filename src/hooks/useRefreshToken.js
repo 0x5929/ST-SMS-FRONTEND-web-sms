@@ -8,13 +8,21 @@ const useRefreshToken = () => {
     const refresh = async () => {
         // backend todo: need to override get method inside the refresh view by creating our own 
         // and inherit the rest from refresh_view(), ie POST
-        const response = await axios.get('auth/token/refresh/', { withCredential: true })
+        try {
+            const response = await axios.get('auth/token/refresh/')
+            console.log(response)
+    
+            setUser(prev => {
+                return { ...prev, accessToken: response.data.access }
+            })
+    
+            return response.data.access
 
-        setUser(prev => {
-            return { ...prev, accessToken: response.data.access_token }
-        })
-
-        return response.data.access_token
+        }
+        catch(err) {
+            console.error(err)
+            throw err
+        }
 
     }
 

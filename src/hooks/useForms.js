@@ -42,7 +42,7 @@ export function useSignInForm({ authed, user, login }) {
 
     }
 
-    const handleSubmit = useCallback(e => {
+    const handleSubmit = useCallback(async e => {
         e.preventDefault()
 
         let validationObj = {}
@@ -63,7 +63,7 @@ export function useSignInForm({ authed, user, login }) {
                 data[key] = inputRefs[key].current.value
             });
 
-            login({ email: data.email, password: data.password })
+            await login({ email: data.email, password: data.password })
         }
 
         //disabled lint because it wants inputRef to be part of the dependency
