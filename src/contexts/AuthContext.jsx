@@ -35,13 +35,21 @@ const AuthContextProvider = ({ children }) => {
 
     }
         
-    const logout = () => {
-        return new Promise((res) => {
+    const logout = async () => {
+
+        try {
+            const response = await axioService.logoutPOST()
+            console.log('logout response: ', response)
+        }
+        catch(err) {
+            console.error(err)
+        }
+        finally {
+            
             setUser(null)
             setAuthed(false)
-            res()
             console.log('logged out')
-        });
+        }
     }
 
 

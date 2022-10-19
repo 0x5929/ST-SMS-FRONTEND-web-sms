@@ -3,7 +3,7 @@ import { useAuthContext } from '../contexts/AuthContext'
 
 const useRefreshToken = () => {
 
-    const { setUser } = useAuthContext()
+    const { setUser, setAuthed } = useAuthContext()
 
     const refresh = async () => {
         // backend todo: need to override get method inside the refresh view by creating our own 
@@ -12,6 +12,7 @@ const useRefreshToken = () => {
             const response = await axios.get('auth/token/refresh/')
             console.log(response)
     
+            setAuthed(true)
             setUser(prev => {
                 return { ...prev, accessToken: response.data.access }
             })

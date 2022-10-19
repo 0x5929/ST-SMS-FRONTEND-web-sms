@@ -23,6 +23,28 @@ export const authenticationPOST = async (creds) => {
     }
 }
 
+// POST request for logout
+
+export const logoutPOST = async () => {
+    let logoutUrl = 'auth/logout/'
+    let body = null
+    let config = {
+        headers: { 'Content-Type' :  'application/json' }
+    }
+
+    try {
+        const response = await axios.post(logoutUrl, body, config)
+        console.log(response.data)
+
+        return response.data
+    }
+    catch(error) {
+        console.error(error)
+        throw error
+    }
+
+}
+
 // GET request for student statistics
 export const studentStatisticsGET = async (authedAxio) => {
     let statisticsUrl = 'student_statistics/'

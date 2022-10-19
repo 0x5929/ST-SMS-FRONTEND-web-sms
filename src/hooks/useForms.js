@@ -1,9 +1,7 @@
 import { useState, useEffect, useRef, useReducer, useCallback } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 
-import { useAddRotationModal } from './useModals';
-import useValidations from './useValidations'
-import useToggle from './useToggle'
+import { useAddRotationModal, useValidations, useToggle, useRefreshToken } from './index'
 import * as SMSRecordService from '../services/SMSRecordService'
 
 
@@ -26,6 +24,7 @@ function _isEmpty(obj) {
 
 
 export function useSignInForm({ authed, user, login }) {
+    const refresh = useRefreshToken()
     const navigate = useNavigate()
     const { state } = useLocation()
     const { from } = state || {}
@@ -89,6 +88,26 @@ export function useSignInForm({ authed, user, login }) {
     }, [setClearEmailField, setClearPwField, setShowEmailError, setShowPwError])
 
 
+
+    useEffect(() => {
+
+        const fetchAccessTknAndSetUserAuthed = async () => {
+            try {
+                // refresh, when successful will call setUser and setAuthed
+                return await refresh()
+            }
+            catch(err) {
+                console.error(err)
+            }
+
+        }
+
+        fetchAccessTknAndSetUserAuthed()
+
+    // everytime the component mounts, we need to see if we have previously been authenticated
+    }, [])
+
+    // everytime authed and or user is altered, we need to either navigate to /query to back to login at /
     useEffect(()=>{
         if (authed && user) {
             // default goes to /query page
@@ -98,6 +117,10 @@ export function useSignInForm({ authed, user, login }) {
             navigate('/')
         }
     }, [authed, user, navigate, from?.pathname])
+
+
+    
+
 
     const loginStates = { 
         user, 

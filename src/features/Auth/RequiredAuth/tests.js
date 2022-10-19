@@ -2,12 +2,21 @@ import '@testing-library/jest-dom'
 import { render, screen, cleanup } from '@testing-library/react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom' 
 import userEvent from '@testing-library/user-event'
-
+import axios from '../../../services/api/axios'
 import { AuthContextProvider } from '../../../contexts'
 import RequiredAuth from './component'
 
 import Signin from '../SideSignIn/component'
 
+// const mockAxios = {
+//     post: () => {
+//         return true
+//     }
+// }
+
+// jest.mock('../../../services/api/axios', () => ({
+//     default: mockAxios
+// }))
 
 describe('testing RequiredAuth component', () => {
     let testByMethods
@@ -87,7 +96,10 @@ describe('testing RequiredAuth component', () => {
 
     })
 
-    it('should render child component, if user is logged in', async () => {       
+    it('should render child component, if user is logged in', async () => {   
+        const mockAxios = jest.spyOn(axios, 'post')
+        mockAxios.mockImplementation(() => true)
+        
         const { getByText, container } = setup()
 
         await userEvent.type(container.querySelector('#email'), '__TEST_USER__')
