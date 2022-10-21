@@ -6,7 +6,7 @@ import { AuthContextProvider, AppThemeContextProvider } from '../../../contexts'
 import Header from './component'
 
 const mockHandleToggleDrawer = jest.fn()
-jest.mock('../../../hooks/useDrawer', () => ({
+jest.mock('../../../hooks/useToggle', () => ({
     __esModule : true,
     default :  () => [ false, mockHandleToggleDrawer ]
 }))

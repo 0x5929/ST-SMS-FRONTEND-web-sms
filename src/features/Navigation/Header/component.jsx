@@ -13,7 +13,7 @@ import {
 import createHeaderStyles from './styles'
 import { Drawer } from '../SideNav';
 import Components from '../../../components'
-import { useDrawer, useHeader } from '../../../hooks'
+import { useToggle, useHeader } from '../../../hooks'
 
 
 const Styles = createHeaderStyles({
@@ -37,7 +37,7 @@ function Header(props) {
 
 
     const headerTitle = useHeader()
-    const [ isDrawerOpen, handleToggleDrawer ] = useDrawer()
+    const [ isDrawerOpen, handleToggleDrawer ] = useToggle(false)
 
     
     return (

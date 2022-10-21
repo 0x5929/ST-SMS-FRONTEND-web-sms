@@ -1,5 +1,6 @@
-import React from "react"
+import React, { useEffect, useState }  from "react"
 import { Grid as MuiGrid } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
 import {
 	BarChart,
 	XAxis,
@@ -10,7 +11,8 @@ import {
 
 import {createStatisticsStyles} from "./styles"
 import Components from '../../../components'
-import { useCharts } from "../../../hooks"
+import { getStats } from "../../../services/SMSStatisticsService"
+import { useAuthedAxios } from "../../../hooks"
 
 const Styles = createStatisticsStyles({
 	MuiGrid,
@@ -19,7 +21,13 @@ const Styles = createStatisticsStyles({
 })
 
 function Statistics() {
-	const [ data, theme ] = useCharts()
+	const [ stats, setStats ] = useState([])
+    const theme = useTheme()
+    const authedAxios = useAuthedAxios()
+
+	useEffect(() => {
+		getStats(authedAxios).then(data => setStats(data))
+	}, [authedAxios])
 
 	const {
 		chartWidth,
@@ -37,7 +45,7 @@ function Statistics() {
 					<Styles.Typography text="Statistics" variant="h2"/>
 				</Styles.Grid>
 				{
-					Object.keys(data).map((key, index)=>(
+					Object.keys(stats).map((key, index)=>(
 						<Styles.Grid item laptop={6} key={key}>
 							<Styles.Card
 								title={`Student ${key}s`}
@@ -47,7 +55,7 @@ function Statistics() {
 									height={chartHeight}
 								>
 										<BarChart 
-											data={data[key]}
+											data={stats[key]}
 											margin={chartMargins}
 										>
 											<XAxis 

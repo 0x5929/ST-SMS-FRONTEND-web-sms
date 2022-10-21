@@ -1,11 +1,13 @@
 import '@testing-library/jest-dom'
 import { render, screen, cleanup, act, fireEvent } from '@testing-library/react' 
 import userEvent from "@testing-library/user-event"
-//import preview from 'jest-preview'
+import preview from 'jest-preview'
 
 import Query from './Query'
-import Statistics from './Statistics'
+import { AuthContextProvider } from '../../../contexts'
 import * as useToggle from '../../../hooks/useToggle'
+import * as SMSStatisticsService from '../../../services/SMSStatisticsService'
+import { SMSStats } from '../../../services/data/studentData'
 
 global.ResizeObserver = jest.requireActual('resize-observer-polyfill') // this is for testing only
 
@@ -16,7 +18,9 @@ describe('testing Query Feature components', () => {
     let testByMethods
 
     beforeAll(() => {
-
+        
+        const mockGetStats = jest.spyOn(SMSStatisticsService, 'getStats')
+        mockGetStats.mockImplementation(() => Promise.resolve(SMSStats[0]))   
     
         testByMethods = (screen) => {
             return {
@@ -65,13 +69,18 @@ describe('testing Query Feature components', () => {
     describe('testing Query component', () => {
         let setup
 
-        beforeEach(() => {            
+        beforeEach(() => {         
+            
+            const mockGetStats = jest.spyOn(SMSStatisticsService, 'getStats')
+            mockGetStats.mockImplementation(() => Promise.resolve(SMSStats[0]))   
 
             setup = () => {
 
                // global.setTimeout = jest.fn(cb => cb());
                 render(
-                    <Query />
+                    <AuthContextProvider>
+                        <Query />
+                    </AuthContextProvider>
                 )
     
                 return {
@@ -184,6 +193,7 @@ describe('testing Query Feature components', () => {
                 queryAllByTestId } = setup()
 
             // max query obj is 5, but we will set the counter to 10, just to demonstrate max is 5.
+   
             const counter = 10
 
             expect(getInput('Search Student Database')).toBeInTheDocument()
@@ -193,7 +203,7 @@ describe('testing Query Feature components', () => {
             for (let i = 0; i <= counter; i++) {
                 await userEvent.click(getByText(/add new/i))
             }
-            // preview.debug()
+            
             expect(queryAllByLabelText('Search Student Database')).toHaveLength(5)
             expect(queryAllByTestId('queryby-select')).toHaveLength(5)
             expect(queryAllByTestId('delete-query-btn')).toHaveLength(5)
@@ -270,33 +280,11 @@ describe('testing Query Feature components', () => {
 
 
         }, 500000)
-    })
 
 
-    describe('testing Statistics component', () => {
-        let setup
-        beforeEach(() => {
-            setup = () => {
-    
-                render(
-                    <Statistics />
-                )
-    
-                return {
-                    ...(testByMethods(screen)),
-                }
-            }
-        })
-        afterEach(() => {
-            setup = undefined
-            jest.clearAllMocks()
-            cleanup()
-        
-        })
-
-        it('should render Card components', () => {
-            const { getByText, queryAllByTestId } = setup()
-
+        it('should render Card components', async () => {
+            const { getByText, queryAllByTestId } = await setup()
+            preview.debug()
             expect(queryAllByTestId('card')).toHaveLength(4)
 
             expect(getByText(/statistics/i)).toBeInTheDocument()
@@ -305,7 +293,45 @@ describe('testing Query Feature components', () => {
             expect(getByText(/student graduates/i)).toBeInTheDocument()
             expect(getByText(/student exams/i)).toBeInTheDocument()
         })
-
     })
+
+
+    // describe('testing Statistics component', () => {
+    //     let setup
+    //     beforeEach(() => {
+
+    //         setup = () => {
+    
+    //             render(
+    //                 <AuthContextProvider>
+    //                     <Statistics />
+    //                 </AuthContextProvider>
+    //             )
+    
+    //             return {
+    //                 ...(testByMethods(screen)),
+    //             }
+    //         }
+    //     })
+    //     afterEach(() => {
+    //         setup = undefined
+    //         jest.clearAllMocks()
+    //         cleanup()
+        
+    //     })
+
+    //     it('should render Card components', () => {
+    //         const { getByText, queryAllByTestId } = setup()
+    //         preview.debug()
+    //         expect(queryAllByTestId('card')).toHaveLength(4)
+
+    //         expect(getByText(/statistics/i)).toBeInTheDocument()
+    //         expect(getByText(/student enrollments/i)).toBeInTheDocument()
+    //         expect(getByText(/student employments/i)).toBeInTheDocument()
+    //         expect(getByText(/student graduates/i)).toBeInTheDocument()
+    //         expect(getByText(/student exams/i)).toBeInTheDocument()
+    //     })
+
+    // })
 
 })

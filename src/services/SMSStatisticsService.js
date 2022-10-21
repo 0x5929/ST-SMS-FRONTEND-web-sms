@@ -1,9 +1,12 @@
-import { SMSStats } from './data/studentData'
-//import { studentStatisticsGET } from './api/djREST' 
+import { studentStatisticsGET } from './api/djREST' 
 
-export function getStats() {
-    // normally we this would call an back end API, instead of just returning data from the data folder
+export async function getStats(authedAxios) {
+    try {
+        const response = await studentStatisticsGET(authedAxios)
 
-    //studentStatisticsGET()
-    return SMSStats[0]
+        return response[0]
+    }
+    catch(err) {
+        console.error(err)
+    }
 }
