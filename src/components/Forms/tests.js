@@ -10,6 +10,11 @@ import StudentForm from './StudentForm'
 import ProgramForm from './ProgramForm'
 import RotationForm from './RotationForm'
 import QueryForm from './QueryForm'
+import { AuthContextProvider } from '../../contexts'
+import * as axioService from '../../services/api/djREST'
+import * as SMSRecordService from '../../services/SMSRecordService'
+import { sampleStudentData } from '../../services/data/studentData'
+import { useRef } from 'react'
 
 
 //import preview from 'jest-preview'
@@ -372,52 +377,74 @@ describe('testing form components', () => {
         let queryFormStates
         let queryFormHandlers
 
-        beforeAll(() => {
-            const setQueryResults = jest.fn()
-            const handleBackdrop = jest.fn()
-
-            const { result } = renderHook(() => useQueryForm(setQueryResults, handleBackdrop))
-            queryFormStates = result.current[0]
-            queryFormHandlers = result.current[1]
-
-        })
-        
-        afterAll(() => {
-            queryFormStates = undefined
-            queryFormHandlers = undefined
-        })
 
         beforeEach(() => {
+
+
+            const { result } = renderHook(() => useRef(null))
+            const textInput = result.current
+
             setup = ({moreThanOneOpt = false} = {}) => {
 
+                const handleAddNewQuery = jest.fn()
+                const handleDelQuery = jest.fn()
+                const handleSubmit = jest.fn()
 
-                const handleAddNewQueryMk = jest.spyOn(queryFormHandlers, 'handleAddNewQuery')
-                const handleDelQueryMk = jest.spyOn(queryFormHandlers, 'handleDelQuery')
-                const handleSubmitMk = jest.spyOn(queryFormHandlers, 'handleSubmit')
+                const queryFormHandlers = {
+                    handleAddNewQuery,
+                    handleDelQuery,
+                    handleSubmit,
+                    getQueryOptions : SMSRecordService.getQueryOptions
+                }
 
+                let queryFormStates = {
+                    queryOptions: null,
+                    textInput : textInput,
+                    queryFormErrors: {}
+                }
+
+                
                 if (moreThanOneOpt) {
                     queryFormStates.queryOptions = [
                         {query: 'clast_name', value: '', pk: 1001},
                         {query: 'clast_name', value: '', pk: 1002}
                     ]
                 }
+                else {
+                    queryFormStates.queryOptions = [
+                        {query: 'clast_name', value: '', pk: 1001}
+                    ]
+                }
+                
+                const mockGetQuery = jest.spyOn(axioService, 'studentQueryGET')
+                mockGetQuery.mockImplementation(() => Promise.resolve(sampleStudentData))   
+
+                render(
+                    <AuthContextProvider>
+                        <QueryForm 
+                            queryFormStates={queryFormStates}
+                            queryFormHandlers={queryFormHandlers}
+                        />
+                    </AuthContextProvider>
+                )
+
+
                
-                render(<QueryForm 
-                        queryFormStates={queryFormStates}
-                        queryFormHandlers={queryFormHandlers}
-                    />)
+    
                 return {
                     
                     ...(testByMethods(screen)),
-                    handleAddNewQueryMk,
-                    handleDelQueryMk,
-                    handleSubmitMk
+                    handleAddNewQuery,
+                    handleDelQuery,
+                    handleSubmit
                 }
             }
         })
 
         afterEach(() => {
             setup = undefined
+            queryFormStates = undefined
+            queryFormHandlers = undefined
             jest.clearAllMocks()
             cleanup()
         })
@@ -449,11 +476,11 @@ describe('testing form components', () => {
         })
 
         it('should call addNewHandler when add new button is clicked', () => {
-            const { handleAddNewQueryMk, getByText } = setup()
+            const { handleAddNewQuery, getByText } = setup()
             const addNewBtn = getByText(/add new/i)
 
             addNewBtn.click()
-            expect(handleAddNewQueryMk.mock.calls).toHaveLength(1)
+            expect(handleAddNewQuery.mock.calls).toHaveLength(1)
         })
 
         it('should not render delete button with only one query', () => {
@@ -472,11 +499,11 @@ describe('testing form components', () => {
         })
 
         it('should trigger handleDelQuery when delete query button is clicked', () => {
-            const { handleDelQueryMk, getAllByTestId } = setup({moreThanOneOpt: true})
+            const { handleDelQuery, getAllByTestId } = setup({moreThanOneOpt: true})
             const deleteBtn = getAllByTestId('delete-query-btn')[0]
 
             deleteBtn.click()
-            expect(handleDelQueryMk.mock.calls).toHaveLength(1)
+            expect(handleDelQuery.mock.calls).toHaveLength(1)
         })
 
         it('should render submit button', () => {
@@ -487,11 +514,11 @@ describe('testing form components', () => {
         })
 
         it('should trigger handleSubmit when query submit button is clicked', () => {
-            const { getByTestId, handleSubmitMk } = setup()
+            const { getByTestId, handleSubmit } = setup()
             const submitBtn = getByTestId('query-submit-btn')
 
             submitBtn.click()
-            expect(handleSubmitMk.mock.calls).toHaveLength(1)
+            expect(handleSubmit.mock.calls).toHaveLength(1)
 
         })
     })

@@ -71,7 +71,7 @@ export const studentQueryGET = async (authedAxio, queryParams) => {
         const response = await authedAxio.get(smsEndpointUrl + queryUrl)
         console.log(response)
 
-        return response.data
+        return responseObjMapper(response.data)
     }
     catch(error) {
         console.error(error)
@@ -103,7 +103,7 @@ export const studentCreatePOST = async (authedAxio, studentRecord) => {
 
 // PUT request for student edit
 export const studentEditPUT = async (authedAxio, studentRecord) => {
-    let putUrl = 'students/' + getStudentUUID(authedAxio, studentRecord['studentId']) + '/'
+    let putUrl = 'students/' + getStudentUUID(authedAxio, studentRecord['pk']) + '/'
     studentRecord['rotation'] = convertRotationUUID(authedAxio, studentRecord)
 
     try {
@@ -122,7 +122,7 @@ export const studentEditPUT = async (authedAxio, studentRecord) => {
 
 // DELETE request for student deletion
 export const studentRemoveDELETE = async (authedAxio, studentRecord) => {
-    let delUrl = 'students/' + getStudentUUID(authedAxio, studentRecord['studentId']) + '/'
+    let delUrl = 'students/' + getStudentUUID(authedAxio, studentRecord['pk']) + '/'
 
     try {
         const response = await authedAxio.delete(delUrl)
@@ -141,16 +141,23 @@ export const studentRemoveDELETE = async (authedAxio, studentRecord) => {
 
 // const convertDate = () => {}
 
-const convertQueryParams = (paramObj) => {
+const convertQueryParams = (paramArr) => {
     let finalStr = ''
     
-    for ( const [key, value] of Object.entries(paramObj)) {
-        finalStr = finalStr + key.toString() + '=' + value.toString() + '&'
+    for (let i = 0; i < paramArr.length; i++) {
+
+        if (paramArr[i].query.toString() === 'pk') {
+            continue
+        }
+
+        finalStr = finalStr + paramArr[i].query.toString() + '=' + paramArr[i].value.toString() + '&'
+
     }
 
     if (finalStr.slice(-1) === '&') {
         finalStr = finalStr.slice(0, -1)
     }
+
     return finalStr
 }
 
@@ -176,16 +183,69 @@ const convertRotationUUID = async (authedAxio, record) => {
 
 }
 
-const getStudentUUID = async (authedAxio, studentId) => {
-    let studentIdQueryStr = 'students/?student_id=' + studentId
+const getStudentUUID = async (authedAxio, student_uuid) => {
+    let studentIdQueryStr = 'students/?student_id=' + student_uuid
 
     try {
         const response = await authedAxio.get(smsEndpointUrl + studentIdQueryStr)
         return response.data[0]['student_uuid']
     }
     catch(error) {
-        console.log("error occured in grabbing this record's student UUID", error, studentId)
+        console.log("error occured in grabbing this record's student UUID", error, student_uuid)
 
         return
     }
+}
+
+
+const dataMapper = {
+    student_uuid : 'pk',
+    student_id : 'studentId',
+    first_name : 'firstName',
+    last_name : 'lastName',
+    phone_number : 'phoneNumber',
+    email : 'email',
+    mailing_address : 'mailingAddress',
+    course : 'course',
+    start_date : 'startDate',
+    completion_date : 'completionDate',
+    date_enrollment_agreement_signed : 'dateEnrollmentAgreementSigned',
+    third_party_payer_info : 'thirdPartyPayerInfo',
+    course_cost : 'courseCost',
+    total_charges_charged : 'chargesCharged',
+    total_charges_paid : 'chargesPaid',
+    paid : 'paid',
+    graduated : 'graduated',
+    passed_first_exam : 'passedFirstExam',
+    passed_second_or_third_exam : 'passedSecondOrThird',
+    employed : 'employed',
+    place_of_employment : 'placeOfEmployment',
+    employment_address : 'employmentAddress',
+    position : 'position',
+    starting_wage : 'startingWage',
+    hours_worked_weekly : 'hoursWorked',
+    description_of_attempts_to_contact_student : 'descriptionAttempts'
+
+}
+
+const responseObjMapper = (APIResponseData) => {
+    let finalArray = []
+    for (let i = 0; i < APIResponseData.length; i++) {
+        let newRecordObj = {}
+
+        Object.keys(APIResponseData[i]).forEach(function(key) {
+
+            if (key in dataMapper) {
+                newRecordObj[dataMapper[key]] = APIResponseData[i][key]        
+            }
+            else {
+                newRecordObj[key] = APIResponseData[i][key]  
+            }
+
+        })
+
+        finalArray.push(newRecordObj)
+    }
+    return finalArray
+
 }

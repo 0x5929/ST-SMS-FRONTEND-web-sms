@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef, useReducer, useCallback } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 
-import { useAddRotationModal, useValidations, useToggle, useRefreshToken } from './index'
+import { useAddRotationModal, useValidations, useToggle, useRefreshToken, useAuthedAxios } from './index'
 import * as SMSRecordService from '../services/SMSRecordService'
+import * as axioService from '../services/api/djREST'
+
 
 
 function _checkForError(validations, callback) {
@@ -117,9 +119,6 @@ export function useSignInForm({ authed, user, login }) {
             navigate('/')
         }
     }, [authed, user, navigate, from?.pathname])
-
-
-    
 
 
     const loginStates = { 
@@ -528,6 +527,7 @@ export function useQueryForm({ setQueryResults, handleBackdrop }){
     const [ queryFormErrors, setQueryFormErrors ] = useState({})
     const { queryValidation } = useValidations()
     const getQueryOptions = SMSRecordService.getQueryOptions
+    const authedAxios = useAuthedAxios()
 
     const handleSetQueryFormErrorCallback = useCallback((temp)=>{
         setQueryFormErrors({...temp})
@@ -610,17 +610,13 @@ export function useQueryForm({ setQueryResults, handleBackdrop }){
 
 
 
-    const handleSubmit = useCallback((e, queryOptions) => {
+    const handleSubmit = useCallback( async (e, queryOptions) =>  {
         e.preventDefault()
 
         if (queryValidation(queryOptions, handleSetQueryFormErrorCallback, queryFormErrors)){
-            // load sample data for result table for dev and testing
-            SMSRecordService.insertSampleRecords()
-
-            console.log('QUERY PARAM AND DATA: ', queryOptions)
-            // send the queryOptions to backend API
-
-            setQueryResults(SMSRecordService.getAllRecords())    
+            const response = await axioService.studentQueryGET(authedAxios, queryOptions) 
+            console.log('response: ', response)
+            setQueryResults(response)   
             handleBackdrop()            
         }
     },  [handleBackdrop, handleSetQueryFormErrorCallback, queryFormErrors, queryValidation, setQueryResults])

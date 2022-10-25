@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-import { axiosWithIntercept } from '../services/api/axios'
+import axio  from '../services/api/axios'
 import { useRefreshToken } from './index'
 import { useAuthContext } from '../contexts'
 
@@ -12,7 +12,7 @@ const useAuthedAxios  = () => {
 
     useEffect(() => {
 
-        const requestIntercept = axiosWithIntercept.interceptors.request.use(
+        const requestIntercept = axio.interceptors.request.use(
             config => {
 
                 // first attempt in auth request, authorization header not set yet
@@ -29,7 +29,7 @@ const useAuthedAxios  = () => {
         )
 
 
-        const responseIntercept = axiosWithIntercept.interceptors.response.use(
+        const responseIntercept = axio.interceptors.response.use(
             response => response,
 
             // response with error (403?)
@@ -46,7 +46,7 @@ const useAuthedAxios  = () => {
                     prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`       
                     
                     // after adding new access token to the prevRequest, redo request again
-                    return axiosWithIntercept(prevRequest)
+                    return axio(prevRequest)
                 }
 
                 return Promise.reject(error)
@@ -55,14 +55,14 @@ const useAuthedAxios  = () => {
 
         // cleanup all interceptors
         return () => {
-            axiosWithIntercept.interceptors.request.eject(requestIntercept)
-            axiosWithIntercept.interceptors.response.eject(responseIntercept)
+            axio.interceptors.request.eject(requestIntercept)
+            axio.interceptors.response.eject(responseIntercept)
         }
 
     }, [user, refresh])
 
     // return this so other hook logic can use and request backend API
-    return axiosWithIntercept
+    return axio
 }
 
 
