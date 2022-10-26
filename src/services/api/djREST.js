@@ -69,7 +69,7 @@ export const studentQueryGET = async (authedAxio, queryParams) => {
 
     try {
         const response = await authedAxio.get(smsEndpointUrl + queryUrl)
-        console.log(response)
+        console.log('response from djREST: ', response)
 
         return responseObjMapper(response.data)
     }

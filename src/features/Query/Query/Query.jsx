@@ -17,7 +17,6 @@ function Query() {
     const [ isBackdropOpen, setIsBackdropOpen ] = useToggle(false)
 
     const handleBackdrop = useCallback(() =>{
-        console.log('HNDLE BACKDROP?')
         setIsBackdropOpen(true)
 
         // in 1 second of time, close backdrop, show results
@@ -25,14 +24,11 @@ function Query() {
 
         setTimeout(()=> {
         
-            console.log('THIS IS RUNNING FOREVER?')
             setIsBackdropOpen(false)
             setShowResults(true)
-            console.log('SETSHOWRESULTS SHOULD BE TRUE?', showResults)
 
         }, 1000)
 
-        console.log('after timeout, i am never there', isBackdropOpen, showResults)
 
     }, [setIsBackdropOpen, setShowResults])
 

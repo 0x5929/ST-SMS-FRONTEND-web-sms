@@ -106,6 +106,7 @@ describe('testing Query Feature components', () => {
 
     describe('testing Query component', () => {
         let setup
+        let mockSMSStatisticsService
 
         beforeEach(() => {      
 
@@ -140,7 +141,9 @@ describe('testing Query Feature components', () => {
             
             // const mockGetQuery = jest.spyOn(axioService, 'studentQueryGET') 
             // mockGetQuery.mockImplementation(() => Promise.resolve(sampleStudentData))   
+            mockSMSStatisticsService = jest.spyOn(SMSStatisticsService, 'getStats')
 
+            mockSMSStatisticsService.mockResolvedValueOnce(SMSStats[0])
             setup = () => {
 
                // global.setTimeout = jest.fn(cb => cb());
@@ -158,7 +161,7 @@ describe('testing Query Feature components', () => {
         afterEach(() => {
             setup = undefined
             jest.restoreAllMocks()
-            // jest.useRealTimers()
+            mockSMSStatisticsService.mockReset()
             cleanup()
         
         })
@@ -229,153 +232,163 @@ describe('testing Query Feature components', () => {
         })
 
         
-        test('once searched for students, searchStudent, backdrop, and statistics are not rendered', () => {
+        test('once searched for students, searchStudent, backdrop, and statistics are not rendered', async () => {
             // search for any student, or anything for that matter
             // https://marek-rozmus.medium.com/mocking-settimeout-with-jest-3fd6b8fa6307
 
-
+            const user = userEvent.setup({ delay: null })
             jest.useFakeTimers()
 
-            // const mockDjRESTService = jest.spyOn(axioService, 'studentQueryGET')
+            const mockDjRESTService = jest.spyOn(axioService, 'studentQueryGET')
 
-            // mockDjRESTService.mockResolvedValueOnce({data: sampleStudentData})
+            mockDjRESTService.mockResolvedValueOnce(sampleStudentData)
 
 
             const { getInput, getByTestId, queryByTestId } = setup()
             const searchInput = getInput('Search Student Database')
             const searchBtn = getByTestId('query-submit-btn')
 
-            fireEvent.change(searchInput, {target: { value: "__TEST__" }})
-            fireEvent.click(searchBtn)
+            await user.type(searchInput, '__TESTS__')
+            await user.click(searchBtn)
 
-            
+
             act(() => {
+                jest.runAllTicks()
                 jest.runAllTimers()
-                //jest.runAllTicks()
               })
 
 
-            // await waitFor(() => {
+            await waitFor(() => {
 
-                preview.debug()
+    
                 expect(queryByTestId('search-student-component')).not.toBeInTheDocument()           
                 expect(queryByTestId('statistics-component')).not.toBeInTheDocument()
                 expect(queryByTestId('circularProgress')).not.toBeInTheDocument()
-
                 expect(getByTestId('query-results-component')).toBeInTheDocument()
                 
                 jest.useRealTimers()
-            //})
-            //mockDjRESTService.mockReset()
-            //jest.runOnlyPendingTimers()
-            //jest.useRealTimers()
+              })
+
+            mockDjRESTService.mockReset()
+            jest.useRealTimers()
 
         })
 
-        // test('add query button works until 5 rows of query but all 5 will be rendered', async () => {
-        //     const { 
-        //         getByText, 
-        //         getInput, 
-        //         queryAllByLabelText, 
-        //         getByTestId, 
-        //         queryByTestId, 
-        //         queryAllByTestId } = setup()
+        test('add query button works until 5 rows of query but all 5 will be rendered', async () => {
 
-        //     // max query obj is 5, but we will set the counter to 10, just to demonstrate max is 5.
+
+
+
+            const { 
+                getByText, 
+                getInput, 
+                queryAllByLabelText, 
+                getByTestId, 
+                queryByTestId, 
+                queryAllByTestId } = setup()
+
+            // max query obj is 5, but we will set the counter to 10, just to demonstrate max is 5.
    
-        //     const counter = 10
+            const counter = 10
 
-        //     expect(getInput('Search Student Database')).toBeInTheDocument()
-        //     expect(getByTestId('queryby-select')).toBeInTheDocument()
-        //     expect(queryByTestId('delete-query-btn')).not.toBeInTheDocument()
+            expect(getInput('Search Student Database')).toBeInTheDocument()
+            expect(getByTestId('queryby-select')).toBeInTheDocument()
+            expect(queryByTestId('delete-query-btn')).not.toBeInTheDocument()
 
-        //     for (let i = 0; i <= counter; i++) {
-        //         await userEvent.click(getByText(/add new/i))
-        //     }
+
+            for (let i = 0; i <= counter; i++) {
+                await userEvent.click(getByText(/add new/i), {delay: 1})
+            }
+            //preview.debug()
             
-        //     expect(queryAllByLabelText('Search Student Database')).toHaveLength(5)
-        //     expect(queryAllByTestId('queryby-select')).toHaveLength(5)
-        //     expect(queryAllByTestId('delete-query-btn')).toHaveLength(5)
+            expect(queryAllByLabelText('Search Student Database')).toHaveLength(5)
+            expect(queryAllByTestId('queryby-select')).toHaveLength(5)
+            expect(queryAllByTestId('delete-query-btn')).toHaveLength(5)
 
-        // })
-
-        // test('del query button works, and will delete specific query objects', async () => {
-        //     const { getByText, queryAllByLabelText, queryAllByTestId } = setup()
-
-        //     const counter = 10
-
-        //     for (let i = 0; i <= counter; i++) {
-        //         await userEvent.click(getByText(/add new/i))
-        //     }
-
-        //     // lets write something in each of the input fields
-        //     const queryFields = queryAllByLabelText('Search Student Database')
-
-        //     for (let i = 0; i < queryFields.length; i++) {
-
-        //         await userEvent.type(queryFields[i], i.toString())
-        //     }
             
-        //     const queryDelBtns = queryAllByTestId('delete-query-btn')
+
+        })
+
+        test('del query button works, and will delete specific query objects', async () => {
+
+
+
+
+
+            const { getByText, queryAllByLabelText, queryAllByTestId } = setup()
+
+            const counter = 10
+
+            for (let i = 0; i <= counter; i++) {
+                await userEvent.click(getByText(/add new/i))
+            }
+
+            // lets write something in each of the input fields
+            const queryFields = queryAllByLabelText('Search Student Database')
+
+            for (let i = 0; i < queryFields.length; i++) {
+
+                await userEvent.type(queryFields[i], i.toString())
+            }
             
-        //     // deleting the second and fourth query, should leave queries: 0,2,4 intact.
-        //     await userEvent.click(queryDelBtns[1])
-        //     await userEvent.click(queryDelBtns[3])
+            const queryDelBtns = queryAllByTestId('delete-query-btn')
             
+            // deleting the second and fourth query, should leave queries: 0,2,4 intact.
+            await userEvent.click(queryDelBtns[1])
+            await userEvent.click(queryDelBtns[3])
             
-        //     //preview.debug()
-
-        //     expect(queryFields[0]).toHaveValue('0')
-        //     expect(queryFields[2]).toHaveValue('2')
-        //     expect(queryFields[4]).toHaveValue('4')
-        // }, 500000)
+            expect(queryFields[0]).toHaveValue('0')
+            expect(queryFields[2]).toHaveValue('2')
+            expect(queryFields[4]).toHaveValue('4')
+        }, 500000)
 
 
-        // it('should clear its own text and query when clear button is pressed on the query', async () => {
-        //     //throw new Error('need to implement this test')
+        it('should clear its own text and query when clear button is pressed on the query', async () => {
+            //throw new Error('need to implement this test')
+
+
             
-        //     const { getByText, queryAllByLabelText, queryAllByTestId } = setup()
+            const { getByText, queryAllByLabelText, queryAllByTestId } = setup()
 
-        //     const counter = 10
+            const counter = 10
 
-        //     for (let i = 0; i <= counter; i++) {
-        //         await userEvent.click(getByText(/add new/i))
-        //     }
+            for (let i = 0; i <= counter; i++) {
+                await userEvent.click(getByText(/add new/i))
+            }
 
-        //     // lets write something in each of the input fields
-        //     const queryFields = queryAllByLabelText('Search Student Database')
+            // lets write something in each of the input fields
+            const queryFields = queryAllByLabelText('Search Student Database')
 
-        //     for (let i = 0; i < queryFields.length; i++) {
+            for (let i = 0; i < queryFields.length; i++) {
 
-        //         await userEvent.type(queryFields[i], i.toString())
+                await userEvent.type(queryFields[i], i.toString())
 
-        //     }
+            }
 
-        //     // to make sure we have all clear icon button
-        //     const clearIcons = queryAllByTestId('mui-clearIcon')
-        //     expect(clearIcons).toHaveLength(5)
+            // to make sure we have all clear icon button
+            const clearIcons = queryAllByTestId('mui-clearIcon')
+            expect(clearIcons).toHaveLength(5)
 
-        //     // clearning the second and fourth query, should leave queries: 0,2,4 intact.
-        //     await userEvent.click(clearIcons[1])
-        //     await userEvent.click(clearIcons[3])
+            // clearning the second and fourth query, should leave queries: 0,2,4 intact.
+            await userEvent.click(clearIcons[1])
+            await userEvent.click(clearIcons[3])
 
-        //     // preview.debug()
+            // preview.debug()
 
-        //     expect(queryFields[0]).toHaveValue('0')
-        //     expect(queryFields[1]).toHaveValue('')
-        //     expect(queryFields[2]).toHaveValue('2')
-        //     expect(queryFields[3]).toHaveValue('')
-        //     expect(queryFields[4]).toHaveValue('4')
+            expect(queryFields[0]).toHaveValue('0')
+            expect(queryFields[1]).toHaveValue('')
+            expect(queryFields[2]).toHaveValue('2')
+            expect(queryFields[3]).toHaveValue('')
+            expect(queryFields[4]).toHaveValue('4')
 
+            
 
-        // }, 500000)
+        }, 500000)
 
 
         it('should render Card components', async () => {
 
-            const mockSMSStatisticsService = jest.spyOn(SMSStatisticsService, 'getStats')
 
-            mockSMSStatisticsService.mockResolvedValueOnce(SMSStats[0])
 
             const { getByText, queryAllByTestId } = setup()
 
@@ -393,7 +406,7 @@ describe('testing Query Feature components', () => {
 
             })
 
-            mockSMSStatisticsService.mockReset()
+            
 
         })
     })

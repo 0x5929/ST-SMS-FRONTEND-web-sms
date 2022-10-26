@@ -107,6 +107,7 @@ export function useSignInForm({ authed, user, login }) {
         fetchAccessTknAndSetUserAuthed()
 
     // everytime the component mounts, we need to see if we have previously been authenticated
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     // everytime authed and or user is altered, we need to either navigate to /query to back to login at /
@@ -615,11 +616,10 @@ export function useQueryForm({ setQueryResults, handleBackdrop }){
 
         if (queryValidation(queryOptions, handleSetQueryFormErrorCallback, queryFormErrors)){
             const response = await axioService.studentQueryGET(authedAxios, queryOptions) 
-            console.log('response: ', response)
             setQueryResults(response)   
             handleBackdrop()            
         }
-    },  [handleBackdrop, handleSetQueryFormErrorCallback, queryFormErrors, queryValidation, setQueryResults])
+    },  [handleBackdrop, handleSetQueryFormErrorCallback, queryFormErrors, queryValidation, setQueryResults, authedAxios])
 
 
     
