@@ -16,30 +16,6 @@ import * as useAuthedAxios from '../../../hooks/useAuthedAxios'
 
 global.ResizeObserver = jest.requireActual('resize-observer-polyfill') // this is for testing only
 
-const mockSMSStats = SMSStats[0]
-const mockSampleStudentData = sampleStudentData
-
-// jest.mock('axios', () => { 
-//     const originalModule = jest.requireActual('axios')
-    
-//     return {
-//         __esModule: true,
-//         ...(originalModule),
-        
-//         get: jest.fn(() => Promise.resolve(mockSampleStudentData)),
-//         post: jest.fn(() => Promise.resolve({user: '__TEST_USER__', refresh_token: '__TEST_REFRESH_TOKEN__', access_token: '__TEST_ACCESS_TOKEN__', access: '__TEST_ACCESS__'}))
-//         // create: jest.fn(() => ({
-//         //     get: jest.fn(() => Promise.resolve(mockSampleStudentData)),
-//         //     post: jest.fn(() => Promise.resolve({user: '__TEST_USER__', refresh_token: '__TEST_REFRESH_TOKEN__', access_token: '__TEST_ACCESS_TOKEN__', access: '__TEST_ACCESS__'})),
-//         //     interceptors: {
-//         //         request: { use: jest.fn(), eject: jest.fn() },
-//         //         response: { use: jest.fn(), eject: jest.fn() }
-//         //       }
-//         // }))
-//     }\\est.spyOn(axioService, 'studentQueryGET')
-// })
-
-
 
 describe('testing Query Feature components', () => {
 
@@ -47,16 +23,7 @@ describe('testing Query Feature components', () => {
 
     beforeAll(() => {
         
-        // const mockGetStats = jest.spyOn(SMSStatisticsService, 'getStats')
-        // mockGetStats.mockImplementation(() => Promise.resolve(SMSStats[0]))   
 
-        // const mockGetQuery = jest.spyOn(axioService, 'studentQueryGET')
-        // mockGetQuery.mockImplementation(() => Promise.resolve(sampleStudentData))   
-        // const mkUseAuthedAxios = jest.spyOn(useAuthedAxios, 'default')
-        // mkUseAuthedAxios.mockReturnValue({
-        //     get: jest.fn(() => Promise.resolve(SMSStats[0])),
-        //     // post: jest.fn(() => Promise.resolve({user: '__TEST_USER__', refresh_token: '__TEST_REFRESH_TOKEN__', access_token: '__TEST_ACCESS_TOKEN__', access: '__TEST_ACCESS__'}))
-        // })
         testByMethods = (screen) => {
             return {
                 getInput(labelText) {
@@ -110,40 +77,11 @@ describe('testing Query Feature components', () => {
 
         beforeEach(() => {      
 
-        // const mockGetStats = jest.spyOn(SMSStatisticsService, 'getStats')
-        // mockGetStats.mockImplementation(() => Promise.resolve(SMSStats))   
-            // const mkUseAuthedAxios = jest.spyOn(useAuthedAxios, 'default')
-            // mkUseAuthedAxios.mockReturnValue({
-            //     get: jest.fn(() => Promise.resolve({data: SMSStats})),
-            //     // post: jest.fn(() => Promise.resolve({user: '__TEST_USER__', refresh_token: '__TEST_REFRESH_TOKEN__', access_token: '__TEST_ACCESS_TOKEN__', access: '__TEST_ACCESS__'}))
-            // })
-
-
-
-            // const { result } = renderHook(() => useAuthedAxios())
-
-            // axios.create.mockReturnValue({
-            //     interceptors: {
-            //         request: { use: jest.fn(), eject: jest.fn() },
-            //         response: { use: jest.fn(), eject: jest.fn() }
-            //     },
-            //     post: jest.fn(() => Promise.resolve({user: '__TEST_USER__', refresh_token: '__TEST_REFRESH_TOKEN__', access_token: '__TEST_ACCESS_TOKEN__', access: '__TEST_ACCESS__'})),
-            //     get: jest.fn(() => Promise.resolve(sampleStudentData))
-            // })
-            
-            // axios.post.mockImplementation(() => {
-            //     Promise.resolve({user: '__TEST_USER__', refresh_token: '__TEST_REFRESH_TOKEN__', access_token: '__TEST_ACCESS_TOKEN__', access: '__TEST_ACCESS__'})
-            // })
-
-            // axios.get.mockImplementation(() => {
-            //     Promise.resolve(sampleStudentData)
-            // })
-            
-            // const mockGetQuery = jest.spyOn(axioService, 'studentQueryGET') 
-            // mockGetQuery.mockImplementation(() => Promise.resolve(sampleStudentData))   
             mockSMSStatisticsService = jest.spyOn(SMSStatisticsService, 'getStats')
 
             mockSMSStatisticsService.mockResolvedValueOnce(SMSStats[0])
+
+            
             setup = () => {
 
                // global.setTimeout = jest.fn(cb => cb());
