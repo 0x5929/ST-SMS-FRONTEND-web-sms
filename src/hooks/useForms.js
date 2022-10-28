@@ -219,7 +219,7 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
             case 'form-toggleShowErrors' : 
                 return {
                     ...state,
-                    showError: !state.showError
+                    showError: action.payload
                 }
             case 'form-toggleClearFields' : 
                 return {
@@ -271,7 +271,7 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
 
             console.log('postResponse: ', JSON.stringify(postResponse))
 
-            SMSRecordService.createRecord(record)
+            //SMSRecordService.createRecord(record)
         }
         else {
             // in reality createRecord should return a promise, and will take a callback function as input
@@ -285,7 +285,7 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
 
         console.log(op, ' success with: ', record)
         return record
-    }, [handleProgress, userFeedbackObj])
+    }, [handleProgress, userFeedbackObj, authedAxios])
 
     const convertToDefaultEventParam = useCallback((name, value) => ({
         target: {
@@ -302,7 +302,7 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
 
     const handleClearError = useCallback(() => {
         if (studentFormState.showError) {
-            studentFormDispatch({type: 'form-toggleShowErrors'})
+            studentFormDispatch({type: 'form-toggleShowErrors', payload: false})
         }
         studentFormDispatch({type: 'set-submitSuccess', payload: false})
     }, [studentFormState.showError])
@@ -359,7 +359,7 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
             }
         })
 
-        if (_checkForError(validationObj, () => studentFormDispatch({type: 'form-toggleShowErrors'}))) {
+        if (_checkForError(validationObj, () => studentFormDispatch({type: 'form-toggleShowErrors', payload: true}))) {
             let data = {}
             Object.keys(inputRefs).forEach(function(key) {
 

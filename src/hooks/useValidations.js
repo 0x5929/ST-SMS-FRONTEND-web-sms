@@ -42,7 +42,7 @@ function useValidations() {
             startDate                       : useCallback((value) => value ? {} : { error: true, helperText: 'This field is required.' }, []),
             completionDate                  : useCallback((value) => value ? {} : { error: true, helperText: 'This field is required.' }, []),
             dateEnrollmentAgreementSigned   : useCallback((value) => value ? {} : { error: true, helperText: 'This field is required.' }, []),
-            startingWage                    : useCallback((value) => (numberRegex.test(value)) ? {} : {error: true, helperText: 'Please enter a valid wage amount, numbers only.'}, [])
+            startingWage                    : useCallback((value) => (numberRegex.test(value)) ? {} : {error: true, helperText: 'Please enter a valid wage amount, numbers only.'}, [numberRegex])
         }
 
     }

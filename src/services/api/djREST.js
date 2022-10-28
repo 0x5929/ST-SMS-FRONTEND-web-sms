@@ -1,5 +1,5 @@
 import axios from './axios'
-
+import * as studentData from '../data/studentData'
 
 export const smsEndpointUrl = 'api/sms/'
 
@@ -57,8 +57,7 @@ export const studentStatisticsGET = async (authedAxio) => {
     }
     catch(error) {
         console.error(error)
-
-        return []
+        return studentData.SMSStats
     }
 }
 
@@ -90,12 +89,11 @@ export const studentCreatePOST = async (authedAxio, studentRecord) => {
     console.log('data before Request: ', studentRecord)
     try {
         studentRecord['rotation'] = await convertRotationUUID(authedAxio, studentRecord)
-       // const response = await authedAxio.post(smsEndpointUrl + postUrl, studentRecord)
+       const response = await authedAxio.post(smsEndpointUrl + postUrl, studentRecord)
 
-        //console.log(response.data)
-
+        console.log(response.data)
+        return response.data
         // we should maybe also return status code
-        return studentRecord
     }
     catch(error) {
 
