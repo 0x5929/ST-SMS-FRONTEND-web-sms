@@ -24,6 +24,7 @@ function useValidations() {
         let studentIdRegex = useMemo(()=>/^(RO|AL)-(CNA|HHA|SG|ESOL|BLS|HSFA)-\d{1,3}-\d{4}-[A-Z]{2}$/, []);
         let phoneRegex = useMemo(()=>/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/, []);
         let moneyRegex = useMemo(()=>/^[0-9]+\.?[0-9]?[0-9]?$/, []);
+        let numberRegex = useMemo(()=>/(^(?![\s\S])|(^\d+(\.\d+$)?))/, [])
         
         // NOTE: DRY violated here because useCallback cant be called in for loop or a forEach callback
         return {
@@ -41,6 +42,7 @@ function useValidations() {
             startDate                       : useCallback((value) => value ? {} : { error: true, helperText: 'This field is required.' }, []),
             completionDate                  : useCallback((value) => value ? {} : { error: true, helperText: 'This field is required.' }, []),
             dateEnrollmentAgreementSigned   : useCallback((value) => value ? {} : { error: true, helperText: 'This field is required.' }, []),
+            startingWage                    : useCallback((value) => (numberRegex.test(value)) ? {} : {error: true, helperText: 'Please enter a valid wage amount, numbers only.'}, [])
         }
 
     }

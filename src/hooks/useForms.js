@@ -151,6 +151,7 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
     const progressTimer = useRef()
     const [ studentFormState, studentFormDispatch ] = useReducer(reducer, initialStudentFormState)
     const [ addRotStates, addRotHandlers ] = useAddRotationForm(userFeedbackObj)
+    const authedAxios = useAuthedAxios()
     const { getCourseOptions, getRotationOptions, getHoursWorkedRadioItems } = SMSRecordService
     
 
@@ -248,7 +249,7 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
           }
     }, [studentFormState.submitLoading])
 
-    const _createOrUpdate = useCallback((record, resetForm) => {
+    const _createOrUpdate = useCallback(async (record, resetForm) => {
 
         // notification on after form submission
         const {  notificationHandlers } = userFeedbackObj
@@ -264,6 +265,12 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
             // here instead, we will just pass in window.setTimeout
             handleProgress(window.setTimeout)
             op = 'Create'
+            
+
+            const postResponse = await axioService.studentCreatePOST(authedAxios, record)
+
+            console.log('postResponse: ', JSON.stringify(postResponse))
+
             SMSRecordService.createRecord(record)
         }
         else {
@@ -375,7 +382,9 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
                     case 'passedSecondOrThird':
                         data[key] = inputRefs[key].current.checked
                         break;
-
+                    case 'startingWage': 
+                        data[key] = inputRefs[key].current.value?inputRefs[key].current.value:'0.00'
+                        break;
                     default: 
                         data[key] = inputRefs[key].current.value
                 }

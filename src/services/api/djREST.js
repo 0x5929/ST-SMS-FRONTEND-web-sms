@@ -84,15 +84,18 @@ export const studentQueryGET = async (authedAxio, queryParams) => {
 // POST request for new student
 export const studentCreatePOST = async (authedAxio, studentRecord) => {
     let postUrl = 'students/'
-    studentRecord['rotation'] = convertRotationUUID(authedAxio, studentRecord)
 
+    studentRecord = requestObjMapper(studentRecord)
+
+    console.log('data before Request: ', studentRecord)
     try {
-        const response = await authedAxio.post(smsEndpointUrl + postUrl, studentRecord)
+        studentRecord['rotation'] = await convertRotationUUID(authedAxio, studentRecord)
+       // const response = await authedAxio.post(smsEndpointUrl + postUrl, studentRecord)
 
-        console.log(response.data)
+        //console.log(response.data)
 
         // we should maybe also return status code
-        return response.data
+        return studentRecord
     }
     catch(error) {
 
@@ -162,14 +165,16 @@ const convertQueryParams = (paramArr) => {
 }
 
 const convertRotationUUID = async (authedAxio, record) => {
+    console.log('hello from convertRotationUUID')
     // convert rotation to UUID
     let rotationNumber = record['rotation']
     let programName = record['course']
-    let rotationQueryStr = 'students/?rotation__rotation_number=' + rotationNumber.toString() + '&rotation__program__program_name' + programName.toString()
+    let rotationQueryStr = 'students/?rotation__rotation_number=' + rotationNumber.toString() + '&rotation__program__program_name=' + programName.toString()
 
     try {
         const rotationQueryResponse = await authedAxio.get(smsEndpointUrl + rotationQueryStr)
 
+        console.log('rotationQueryResponse: ', rotationQueryResponse)
         return rotationQueryResponse.data[0]['rotation']
      
     }
@@ -207,6 +212,7 @@ const dataMapper = {
     email : 'email',
     mailing_address : 'mailingAddress',
     course : 'course',
+    rotation: 'rotation',
     start_date : 'startDate',
     completion_date : 'completionDate',
     date_enrollment_agreement_signed : 'dateEnrollmentAgreementSigned',
@@ -247,5 +253,27 @@ const responseObjMapper = (APIResponseData) => {
         finalArray.push(newRecordObj)
     }
     return finalArray
+
+}
+
+
+const requestObjMapper = (clientRequestData) => {
+    const finalObj = {}
+
+    console.log('clientRequestData: ', clientRequestData)
+    // need to make sure mapperKey maps to dataValue
+    for (const [ dataKey, dataValue ] of Object.entries(clientRequestData)) {
+        
+        for (const [ mapperKey, mapperValue ] of Object.entries(dataMapper)) {
+            // check if key is same as dataMapper values
+            if (dataKey === mapperValue) {
+                finalObj[mapperKey] = dataValue
+            }
+
+        }
+
+    }
+
+    return finalObj
 
 }

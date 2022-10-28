@@ -256,6 +256,8 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                     name="startingWage"
                     label="Starting Wage"
                     clearFields={clearFields}
+                    errorHandler={studentFormValidations.startingWage}
+                    showError={showError}    
                 />
                 <RadioGroup
                     ref={inputRefs.hoursWorked}
