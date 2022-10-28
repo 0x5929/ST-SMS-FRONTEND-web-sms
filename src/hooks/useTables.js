@@ -1,9 +1,9 @@
-import { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import * as SMSRecordService from '../services/SMSRecordService'
 
 export default function useQueryResultTable(userFeedbackObj, results) {
 
-    const [records, setRecords] = useState(results)
+    const [records, setRecords] = useState([])
     const [recordForEdit, setRecordForEdit] = useState(null)
     const [recordForView, setRecordForView] = useState(null)
     const [paginationStates, paginationHandlers] = usePagination(records)
@@ -42,6 +42,8 @@ export default function useQueryResultTable(userFeedbackObj, results) {
     },[_handleDelete, confirmDialogHandlers])
     
   
+    useEffect(() => setRecords(results), [results])
+
     const useQueryResultTableStates = { 
         records, 
         recordForEdit, 

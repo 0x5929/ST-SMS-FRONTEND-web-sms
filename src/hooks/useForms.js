@@ -148,7 +148,6 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
     }
 
     const studentFormValidations = useValidations().useCreateValidation()
-    const progressTimer = useRef()
     const [ studentFormState, studentFormDispatch ] = useReducer(reducer, initialStudentFormState)
     const [ addRotStates, addRotHandlers ] = useAddRotationForm(userFeedbackObj)
     const authedAxios = useAuthedAxios()
@@ -237,17 +236,23 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
     }
 
 
-    const handleProgress = useCallback((callback) => {
+    const handleProgress = useCallback(async (callback, record) => {
         if (!studentFormState.submitLoading) {
 
             studentFormDispatch({type: 'form-submissionLoading'})
-            
-            // this would be connected to axio to fetch back end API, instead of using a timeout callback
-            progressTimer.current = callback(() => {
-            studentFormDispatch({type: 'form-submissionSuccess'})
-            }, 2000);
-          }
-    }, [studentFormState.submitLoading])
+
+            try {
+                const response = await callback(authedAxios, record)
+                studentFormDispatch({type: 'form-submissionSuccess'})
+                return response
+
+            }
+            catch(err) {
+                console.error(err)
+            }
+
+        }
+    }, [authedAxios, studentFormState.submitLoading])
 
     const _createOrUpdate = useCallback(async (record, resetForm) => {
 
@@ -263,15 +268,10 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
 
             // in reality createRecord should return a promise, and will take a callback function as input
             // here instead, we will just pass in window.setTimeout
-            handleProgress(window.setTimeout)
             op = 'Create'
-            
+            const response = await handleProgress(axioService.studentCreatePOST, record)
 
-            const postResponse = await axioService.studentCreatePOST(authedAxios, record)
-
-            console.log('postResponse: ', JSON.stringify(postResponse))
-
-            //SMSRecordService.createRecord(record)
+            console.log('postResponse: ', JSON.stringify(response))
         }
         else {
             // in reality createRecord should return a promise, and will take a callback function as input
@@ -285,7 +285,7 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
 
         console.log(op, ' success with: ', record)
         return record
-    }, [handleProgress, userFeedbackObj, authedAxios])
+    }, [handleProgress, userFeedbackObj])
 
     const convertToDefaultEventParam = useCallback((name, value) => ({
         target: {
@@ -404,15 +404,6 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
         }
 
     }, [_createOrUpdate, handleCancel, studentFormState, studentFormValidations, recordForEdit])
-
-    // when StudentForm component mounts and unmounts, maybe do some data op during cleanup when after fetch backend data?
-    useEffect(() => {
-        return () => {
-          clearTimeout(progressTimer.current);
-        };
-      }, 
-    [])
-
 
     const studentFormStates = { 
         studentFormValidations,
@@ -624,9 +615,18 @@ export function useQueryForm({ setQueryResults, handleBackdrop }){
         e.preventDefault()
 
         if (queryValidation(queryOptions, handleSetQueryFormErrorCallback, queryFormErrors)){
-            const response = await axioService.studentQueryGET(authedAxios, queryOptions) 
-            setQueryResults(response)   
-            handleBackdrop()            
+            // const response = await axioService.studentQueryGET(authedAxios, queryOptions) 
+            // setQueryResults(response)   
+//            handleBackdrop()            
+            try {
+
+                const response = await handleBackdrop(axioService.studentQueryGET, authedAxios, queryOptions)
+                console.log('query response: ', response)
+                setQueryResults(response)   
+            }
+            catch(err) {
+                console.error(err)
+            }
         }
     },  [handleBackdrop, handleSetQueryFormErrorCallback, queryFormErrors, queryValidation, setQueryResults, authedAxios])
 

@@ -16,18 +16,20 @@ function Query() {
     const [ showResults, setShowResults ] = useToggle(false)
     const [ isBackdropOpen, setIsBackdropOpen ] = useToggle(false)
 
-    const handleBackdrop = useCallback(() =>{
+    const handleBackdrop = useCallback(async (callback, authedAxios, queryOptions) =>{
         setIsBackdropOpen(true)
 
-        // in 1 second of time, close backdrop, show results
-        // but when connecting to back end, we will wait until results are fetched
-
-        setTimeout(()=> {
-        
+        try{
+            const response = await callback(authedAxios, queryOptions)
             setIsBackdropOpen(false)
             setShowResults(true)
+            
+            return response
 
-        }, 1000)
+        }
+        catch(err) {
+            console.error(err)
+        }
 
 
     }, [setIsBackdropOpen, setShowResults])
@@ -40,6 +42,8 @@ function Query() {
             setIsBackdropOpen(false)
         }
     }, [isBackdropOpen, setIsBackdropOpen, setShowResults])
+
+    console.log('QUERYRESULTS: ', queryResults)
 
     return (
         <Styles.Paper>
