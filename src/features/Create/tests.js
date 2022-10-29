@@ -3,11 +3,12 @@ import { render, screen, cleanup } from '@testing-library/react'
 import userEvent from "@testing-library/user-event"
 import { renderHook } from '@testing-library/react-hooks'
 
+import { AuthContextProvider } from '../../contexts'
 import Components from '../../components'
 import { useNotification } from '../../hooks'
 import Create from './Create'
 import CreateStudent from './CreateStudent'
-//import preview from 'jest-preview'
+import preview from 'jest-preview'
 
 describe('testing Create feature', () => {
 
@@ -23,6 +24,9 @@ describe('testing Create feature', () => {
                 },
                 getByTestId(testId) {
                     return screen.getByTestId(testId)
+                },
+                getAllByTestId(testId) {
+                    return screen.getAllByTestId(testId)
                 },
                 getByText(text) {
                     return screen.getByText(text)
@@ -74,7 +78,9 @@ describe('testing Create feature', () => {
             setup = () => {
     
                 render(
-                    <Create />
+                    <AuthContextProvider>
+                        <Create />
+                    </AuthContextProvider>
                 )
     
                 return {
@@ -103,8 +109,10 @@ describe('testing Create feature', () => {
         })
 
         it('should render Notification component', () => {
-            const { getByTestId } = setup()
-            expect(getByTestId('notification-components')).toBeInTheDocument()
+            const { getAllByTestId } = setup()
+
+            // used to be just one notification bar component, but AuthContext also has one on the very upper level, therefore now there are two notification-components.
+            expect(getAllByTestId('notification-components')).toHaveLength(2)
         })
 
         it('should render changes and errors when inputs change', async () => {
@@ -343,10 +351,12 @@ describe('testing Create feature', () => {
             setup = () => {
     
                 render(
-                    <CreateStudent 
-                        notificationHandlers={notificationHandlers}
-                        notify={notify}
-                    />
+                    <AuthContextProvider>
+                        <CreateStudent 
+                            notificationHandlers={notificationHandlers}
+                            notify={notify}
+                        />
+                    </AuthContextProvider>
                 )
     
                 return {

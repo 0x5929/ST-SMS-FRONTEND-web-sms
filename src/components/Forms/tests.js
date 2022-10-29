@@ -2,9 +2,7 @@ import '@testing-library/jest-dom'
 import { render, screen, cleanup } from '@testing-library/react'
 import userEvent from "@testing-library/user-event"
 import { renderHook } from '@testing-library/react-hooks/dom' 
-
-import { useNotification, useQueryForm, useStudentForm } from '../../hooks'
-import Components from '../../components'
+import Components from '../../components' // needed or else, there is an input error inside StudentForm > ProgramForm > RotationForm > Input/Select
 
 import StudentForm from './StudentForm'
 import ProgramForm from './ProgramForm'
@@ -23,25 +21,85 @@ import { useRef } from 'react'
 
 describe('testing form components', () => {
 
-    let notificationResults
-    let studentFormStates
-    let studentFormHandlers
+
     let testByMethods
     
-    function getNotificationResults() {
-        const { result } = renderHook(() => useNotification(Components.NotificationSlide))
-        return result.current
+    const { result } = renderHook(() => useRef(null))
+    const inputRef = result.current
+    const resolveValue = jest.fn()
+    const handleClearError = jest.fn()
+    const handleClearCourse = jest.fn()
+    const handleRotationChange = jest.fn()
+    const handleSubmit = jest.fn()
+    const handleCancel = jest.fn()
+    const handleCourseChange = jest.fn()
+    const convertToDefaultEventParam = jest.fn()
+    const getCourseOptions = SMSRecordService.getCourseOptions
+    const getRotationOptions = SMSRecordService.getRotationOptions
+    const getHoursWorkedRadioItems = SMSRecordService.getHoursWorkedRadioItems
+
+    const addRotModalHandlers = {
+        handleOpenAddRotModal : jest.fn(),
+        handleCloseAddRotModal: jest.fn()
     }
-    
+
+    const addRotHandlers = {
+        handleAddRotSubmit : jest.fn(),
+        handleAddRotClear : jest.fn(),
+        handleProgramNameChange : jest.fn(),
+        addRotModalHandlers: addRotModalHandlers
+    }
+
+    const studentFormHandlers = { 
+        resolveValue,
+        handleClearError,
+        handleClearCourse,
+        handleCourseChange,
+        handleRotationChange,
+        handleSubmit,
+        handleCancel,
+        convertToDefaultEventParam,
+        getCourseOptions, 
+        getRotationOptions, 
+        getHoursWorkedRadioItems,
+
+        addRotHandlers: {...addRotHandlers}
+
+    }
+
+    const studentFormValidations = {}
+    const studentFormState = {
+        studentFormValues: [],
+        studentFormErrors: {},
+        course: '',
+        rotation: '',
+        showError: false,
+        clearFields: false,
+        submitLoading: false,
+        submitSuccess: false
+    }
+    const inputRefs = {}
+    const recordForEdit = {}
+    const addRotStates = {
+        rotFormValidations: {},
+        isAddRotModalOpen: false,
+        programName : '',
+        showError: false,
+        clearFields: false,
+        rotationRef : inputRef
+    }
+
+    const studentFormStates = { 
+        studentFormValidations,
+        studentFormState, 
+        recordForEdit,
+        inputRefs,
+        addRotStates: {...addRotStates}
+    }
+
     
     beforeAll(() => {
-        notificationResults = getNotificationResults()
-    
-        const { result } = renderHook( () => useStudentForm({notificationHandlers: notificationResults[0], notify: notificationResults[1]}))
-        studentFormStates = result.current[0]
-        studentFormHandlers = result.current[1]
-    
-    
+
         testByMethods = (screen) => {
             return {
     
@@ -72,9 +130,9 @@ describe('testing form components', () => {
     
     
     afterAll(() => {
-        notificationResults = undefined
-        studentFormStates = undefined
-        studentFormHandlers = undefined
+        // notificationResults = undefined
+        // studentFormStates = undefined
+        // studentFormHandlers = undefined
         testByMethods= undefined
     })
 
@@ -82,6 +140,7 @@ describe('testing form components', () => {
     describe('testing StudentForm component', () => {
 
         let setup
+
 
         // here beforeEach will outline this test coverage.
         beforeEach(() => {
@@ -96,17 +155,22 @@ describe('testing form components', () => {
                 const cancelMk = jest.spyOn(studentFormHandlers, 'handleCancel')
                 const handleEditSubmitMk = jest.spyOn(studentEditFormHandlers, 'handleEditSubmit')
                 const handleEditCancelMk = jest.spyOn(studentEditFormHandlers, 'handleEditCancel')
+        
+
 
                 if (!isEdit) {
                     studentEditFormHandlers = undefined
                 }
 
                 render(
-                    <StudentForm 
-                        studentFormStates={studentFormStates}
-                        studentFormHandlers={studentFormHandlers}
-                        studentEditFormHandlers={studentEditFormHandlers}
-                    />)
+                    <AuthContextProvider>
+                        <StudentForm 
+                            studentFormStates={studentFormStates}
+                            studentFormHandlers={studentFormHandlers}
+                            studentEditFormHandlers={studentEditFormHandlers}
+                        />
+                    </AuthContextProvider>
+                )
 
                 return {
 
@@ -226,11 +290,11 @@ describe('testing form components', () => {
 
         let setup
 
+
         beforeEach(() => {
             setup = ({ addRot = false } = {}) => {
-                const validations = studentFormStates.studentFormValidations
 
-          
+                const validations = studentFormStates.studentFormValidations
 
                 const openAddRotModalMk = jest.spyOn(
                         studentFormHandlers.addRotHandlers.addRotModalHandlers, 
@@ -240,11 +304,14 @@ describe('testing form components', () => {
                     studentFormStates.addRotStates.isAddRotModalOpen = true
                 }
                 render(
-                    <ProgramForm 
-                        validations={validations}
-                        studentFormStates={studentFormStates}
-                        studentFormHandlers={studentFormHandlers}
-                    />)
+                    <AuthContextProvider>
+                        <ProgramForm 
+                            validations={validations}
+                            studentFormStates={studentFormStates}
+                            studentFormHandlers={studentFormHandlers}
+                        />
+                    </AuthContextProvider>
+                )
 
                 return {
                     ...(testByMethods(screen)),
@@ -308,11 +375,13 @@ describe('testing form components', () => {
                 const handleAddRotClearMk = jest.spyOn(studentFormHandlers.addRotHandlers, 'handleAddRotClear')
                 
                 render(
-                    <RotationForm 
-                        getCourseOptions={studentFormHandlers.getCourseOptions}
-                        addRotHandlers={studentFormHandlers.addRotHandlers}
-                        addRotStates={studentFormStates.addRotStates}
-                    />
+                    <AuthContextProvider>
+                        <RotationForm 
+                            getCourseOptions={studentFormHandlers.getCourseOptions}
+                            addRotHandlers={studentFormHandlers.addRotHandlers}
+                            addRotStates={studentFormStates.addRotStates}
+                        />
+                    </AuthContextProvider>
                 )
 
                 return {
@@ -380,10 +449,6 @@ describe('testing form components', () => {
 
         beforeEach(() => {
 
-
-            const { result } = renderHook(() => useRef(null))
-            const textInput = result.current
-
             setup = ({moreThanOneOpt = false} = {}) => {
 
                 const handleAddNewQuery = jest.fn()
@@ -399,7 +464,7 @@ describe('testing form components', () => {
 
                 let queryFormStates = {
                     queryOptions: null,
-                    textInput : textInput,
+                    textInput : inputRef,
                     queryFormErrors: {}
                 }
 

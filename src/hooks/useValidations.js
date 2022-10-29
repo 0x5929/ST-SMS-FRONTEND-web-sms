@@ -48,7 +48,7 @@ function useValidations() {
     }
 
     const useAddRotValidation = () => {
-        let numberRegex = useMemo(()=>/^[1-9]{1,}$/, [])
+        let numberRegex = useMemo(()=>/^[0-9]+$/, [])
 
         return {
             programName : useCallback((value)=> value !== '' ? {} : { error: true, helperText: 'This field is required.'} , []),

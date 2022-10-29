@@ -80,13 +80,28 @@ export const studentQueryGET = async (authedAxio, queryParams) => {
     }
 }
 
+
+// GET request for all courses
+export const programNameGET = async (authedAxio) => {
+    let queryUrl = 'programs/'
+
+    try {
+        const response = await authedAxio.get(smsEndpointUrl + queryUrl)
+
+        return programNameGetter(response.data)
+    }
+    catch(err) {
+        console.error(err)
+    }
+
+}
+
 // POST request for new student
 export const studentCreatePOST = async (authedAxio, studentRecord) => {
     let postUrl = 'students/'
 
     studentRecord = requestObjMapper(studentRecord)
 
-    console.log('data before Request: ', studentRecord)
     try {
         studentRecord['rotation'] = await convertRotationUUID(authedAxio, studentRecord)
        const response = await authedAxio.post(smsEndpointUrl + postUrl, studentRecord)
@@ -101,6 +116,14 @@ export const studentCreatePOST = async (authedAxio, studentRecord) => {
 
     }
 }
+
+
+// POST request for rotation 
+export const rotationCreatePOST = async (authedAxio, {programName, rotation}) => {
+
+
+}
+
 
 // PUT request for student edit
 export const studentEditPUT = async (authedAxio, studentRecord) => {
@@ -137,6 +160,32 @@ export const studentRemoveDELETE = async (authedAxio, studentRecord) => {
         console.error('something went wrong in deleting student record: ', error, studentRecord)
     }
 }
+
+
+const programNameGetter = (responseData) => {
+    let programValues = []
+    let finalOutput = []
+
+    for (let i = 0; i < responseData.length; i++) {
+        let programValue = responseData[i]['program_name']
+
+        programValues.push(programValue)
+    }
+
+    // an array with unqiue names, we dont need duplicates
+    let uniqueProgramValues = [...new Set(programValues)]
+
+    for (let i = 0; i < uniqueProgramValues.length; i++) {
+        let programInfo = {}
+        programInfo['value'] = uniqueProgramValues[i]
+        programInfo['title'] = courseMapper[uniqueProgramValues[i]]
+
+        finalOutput.push(programInfo)
+    }
+
+    return finalOutput
+}
+
 
 // helper methods (converting date objects accordingly)
 
@@ -230,6 +279,16 @@ const dataMapper = {
     hours_worked_weekly : 'hoursWorked',
     description_of_attempts_to_contact_student : 'descriptionAttempts'
 
+}
+
+const courseMapper = {
+    CNA :  'Certified Nurse Assistant',
+    HHA : 'Home Health Aide',
+    SG  : 'Security Guard',
+    CG  : 'Caregiver',
+    ESOL: 'English to Speakers of Other Language',
+    BLS : 'Basic Life Support',
+    HSFA: 'Heartsaver First Aid'
 }
 
 const responseObjMapper = (APIResponseData) => {

@@ -8,15 +8,6 @@ import RequiredAuth from './component'
 
 import Signin from '../SideSignIn/component'
 
-// const mockAxios = {
-//     post: () => {
-//         return true
-//     }
-// }
-
-// jest.mock('../../../services/api/axios', () => ({
-//     default: mockAxios
-// }))
 
 describe('testing RequiredAuth component', () => {
     let testByMethods

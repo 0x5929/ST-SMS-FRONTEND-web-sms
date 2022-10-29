@@ -3,6 +3,7 @@ import { render, screen, cleanup } from '@testing-library/react'
 import { within } from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
 
+import { AuthContextProvider } from '../../../contexts'
 import QueryResults from './Results'
 import { sampleStudentData } from '../../../services/data/studentData'
 
@@ -63,10 +64,12 @@ describe('testing Query feautre Result component', () => {
 
             setup = () => {
                 render(
-                    <QueryResults 
-                        queryResults={sampleStudentData}
-                        handleBacktoQuery={jest.fn()}
-                    />
+                    <AuthContextProvider>
+                        <QueryResults 
+                            queryResults={sampleStudentData}
+                            handleBacktoQuery={jest.fn()}
+                        />
+                    </AuthContextProvider>
                 )
     
                 return {
