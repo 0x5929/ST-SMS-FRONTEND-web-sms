@@ -5,7 +5,8 @@ import userEvent from '@testing-library/user-event'
 
 import { AuthContextProvider } from '../../../contexts'
 import QueryResults from './Results'
-import { sampleStudentData } from '../../../services/data/studentData'
+import { sampleStudentData, sampleCourseOptions } from '../../../services/data/studentData'
+import * as SMSRecordService from '../../../services/SMSRecordService'
 
 //import preview from 'jest-preview'
 
@@ -15,7 +16,6 @@ describe('testing Query feautre Result component', () => {
     let testByMethods
 
     beforeAll(() => {
-
     
         testByMethods = (screen) => {
             return {                
@@ -62,6 +62,9 @@ describe('testing Query feautre Result component', () => {
 
         beforeEach(() => {
 
+            const getCourseOptionsMk = jest.spyOn(SMSRecordService, 'getCourseOptions')
+            getCourseOptionsMk.mockResolvedValueOnce(sampleCourseOptions)
+            
             setup = () => {
                 render(
                     <AuthContextProvider>
@@ -153,6 +156,7 @@ describe('testing Query feautre Result component', () => {
             
 
         }, 500000)
+
         test('each student should have working delete student button', async () => {
             const { getAllByTestId, getByText, queryByText } = setup()
 

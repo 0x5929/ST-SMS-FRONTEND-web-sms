@@ -2,7 +2,7 @@ import '@testing-library/jest-dom'
 import { render, screen, cleanup } from '@testing-library/react'
 import userEvent from "@testing-library/user-event"
 import { renderHook } from '@testing-library/react-hooks/dom' 
-import Components from '../../components' // needed or else, there is an input error inside StudentForm > ProgramForm > RotationForm > Input/Select
+import Components from '../../components' // needed or else, there is an input error inside StudentForm > ProgramForm > RotationForm > Input/Select, aka rendering issue?
 
 import StudentForm from './StudentForm'
 import ProgramForm from './ProgramForm'
@@ -11,7 +11,7 @@ import QueryForm from './QueryForm'
 import { AuthContextProvider } from '../../contexts'
 import * as axioService from '../../services/api/djREST'
 import * as SMSRecordService from '../../services/SMSRecordService'
-import { sampleStudentData } from '../../services/data/studentData'
+import { sampleStudentData, sampleCourseOptions } from '../../services/data/studentData'
 import { useRef } from 'react'
 
 
@@ -23,6 +23,7 @@ describe('testing form components', () => {
 
 
     let testByMethods
+    let getCourseOptionsMk
     
     const { result } = renderHook(() => useRef(null))
     const inputRef = result.current
@@ -34,7 +35,6 @@ describe('testing form components', () => {
     const handleCancel = jest.fn()
     const handleCourseChange = jest.fn()
     const convertToDefaultEventParam = jest.fn()
-    const getCourseOptions = SMSRecordService.getCourseOptions
     const getRotationOptions = SMSRecordService.getRotationOptions
     const getHoursWorkedRadioItems = SMSRecordService.getHoursWorkedRadioItems
 
@@ -59,18 +59,19 @@ describe('testing form components', () => {
         handleSubmit,
         handleCancel,
         convertToDefaultEventParam,
-        getCourseOptions, 
         getRotationOptions, 
         getHoursWorkedRadioItems,
 
         addRotHandlers: {...addRotHandlers}
 
     }
-
+getCourseOptionsMk
     const studentFormValidations = {}
     const studentFormState = {
         studentFormValues: [],
         studentFormErrors: {},
+        courseOptions: [],
+        rotationOptions: [],
         course: '',
         rotation: '',
         showError: false,
@@ -99,6 +100,9 @@ describe('testing form components', () => {
 
     
     beforeAll(() => {
+
+        getCourseOptionsMk = jest.spyOn(SMSRecordService, 'getCourseOptions')
+        getCourseOptionsMk.mockResolvedValueOnce(sampleCourseOptions)
 
         testByMethods = (screen) => {
             return {
@@ -134,6 +138,8 @@ describe('testing form components', () => {
         // studentFormStates = undefined
         // studentFormHandlers = undefined
         testByMethods= undefined
+        
+        getCourseOptionsMk.mockRestore()
     })
 
 
@@ -151,11 +157,11 @@ describe('testing form components', () => {
                     handleEditCancel: () => {}
                 }
 
+
                 const submitMk = jest.spyOn(studentFormHandlers, 'handleSubmit')
                 const cancelMk = jest.spyOn(studentFormHandlers, 'handleCancel')
                 const handleEditSubmitMk = jest.spyOn(studentEditFormHandlers, 'handleEditSubmit')
                 const handleEditCancelMk = jest.spyOn(studentEditFormHandlers, 'handleEditCancel')
-        
 
 
                 if (!isEdit) {
@@ -377,7 +383,7 @@ describe('testing form components', () => {
                 render(
                     <AuthContextProvider>
                         <RotationForm 
-                            getCourseOptions={studentFormHandlers.getCourseOptions}
+                            courseOptions={studentFormStates.studentFormState.courseOptions}
                             addRotHandlers={studentFormHandlers.addRotHandlers}
                             addRotStates={studentFormStates.addRotStates}
                         />

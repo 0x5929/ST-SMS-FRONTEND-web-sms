@@ -139,12 +139,14 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
     const initialStudentFormState = {
         studentFormValues: SMSRecordService.getInitialStudentValues(),
         studentFormErrors: {},
+        courseOptions: [],
+        rotationOptions: [],
         course: '',
         rotation: '',
         showError: false,
         clearFields: false,
         submitLoading: false,
-        submitSuccess: false
+        submitSuccess: false,
     }
 
     const studentFormValidations = useValidations().useCreateValidation()
@@ -192,6 +194,10 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
                 return {...state, studentFormValues: action.payload}
             case 'set-studentFormErrors': 
                 return {...state, studentFormErrors: action.payload}
+            case 'set-courseOptions': 
+                return {...state, courseOptions: action.payload}
+            case 'set-rotationOptions': 
+                return {...state, rotationOptions: action.payload}
             case 'set-submitLoading': 
                 return {...state, submitLoading: action.payload}
             case 'set-submitSuccess': 
@@ -405,6 +411,19 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
 
     }, [_createOrUpdate, handleCancel, studentFormState, studentFormValidations, recordForEdit])
 
+
+    useEffect(() => {
+        const courseOptions = async () => {
+            const courses = await getCourseOptions(authedAxios)
+
+            studentFormDispatch({type: 'set-courseOptions', payload: courses})
+            return courses
+        }
+
+        courseOptions()
+    }, [])
+
+
     const studentFormStates = { 
         studentFormValidations,
         studentFormState, 
@@ -614,14 +633,10 @@ export function useQueryForm({ setQueryResults, handleBackdrop }){
     const handleSubmit = useCallback( async (e, queryOptions) =>  {
         e.preventDefault()
 
-        if (queryValidation(queryOptions, handleSetQueryFormErrorCallback, queryFormErrors)){
-            // const response = await axioService.studentQueryGET(authedAxios, queryOptions) 
-            // setQueryResults(response)   
-//            handleBackdrop()            
+        if (queryValidation(queryOptions, handleSetQueryFormErrorCallback, queryFormErrors)){     
             try {
 
                 const response = await handleBackdrop(axioService.studentQueryGET, authedAxios, queryOptions)
-                console.log('query response: ', response)
                 setQueryResults(response)   
             }
             catch(err) {

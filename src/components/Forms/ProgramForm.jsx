@@ -22,6 +22,7 @@ function ProgramForm({ validations, studentFormStates, studentFormHandlers, ...o
         studentFormState : {
             rotation,
             course,
+            courseOptions,
             showError,
             clearFields,
             
@@ -33,7 +34,6 @@ function ProgramForm({ validations, studentFormStates, studentFormHandlers, ...o
         handleClearCourse,
         handleCourseChange,
         handleRotationChange,
-        getCourseOptions, 
         getRotationOptions, 
 
         addRotHandlers : {
@@ -48,7 +48,7 @@ function ProgramForm({ validations, studentFormStates, studentFormHandlers, ...o
     } = studentFormHandlers
 
 
-
+    // NOTE this is an ecapulated level, no designated useForm hook yet, logic is quite simple
     useEffect(()=>{
         handleClearCourse() 
     }, [handleClearCourse, clearFields])
@@ -85,14 +85,14 @@ function ProgramForm({ validations, studentFormStates, studentFormHandlers, ...o
         }
     }, [recordForEdit, rotation])
 
+
     return (
         <MuiBox data-testid="program-form" { ...others }>
             <Select
                 name="course"
                 label="Course"
-                options={getCourseOptions()}
+                options={courseOptions}
                 value={courseValue}
-                defaultValue={getCourseOptions()[0].value} 
                 errorHandler={validations.course}
                 handleChange={handleCourseChange}
                 showError={showError}            
@@ -127,7 +127,7 @@ function ProgramForm({ validations, studentFormStates, studentFormHandlers, ...o
                 handleCloseModal={handleCloseAddRotModal}
             >
                 <RotationForm 
-                    getCourseOptions={getCourseOptions}
+                    courseOptions={courseOptions}
                     addRotHandlers={studentFormHandlers.addRotHandlers}
                     addRotStates={studentFormStates.addRotStates}
                 

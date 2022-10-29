@@ -1,25 +1,26 @@
 import * as localStorageOps from './api/localStorageOperations'
 import * as studentData from './data/studentData'
 import * as tableData from './data/tableData'
+import * as axioService from '../services/api/djREST'
 
 const KEYS = {
     students: 'students',
     studentPk: 'studentPk'
 }
 
-export const getCourseOptions = ()=>{
+export const getCourseOptions = async (authedAxios) => {
     
-    // API call for https://backend.api/api/sms/programs/
-    // filter through for program names
-    return [
-    {value: 'CNA', title: 'Certified Nurse Assistant'},
-    {value: 'HHA', title: 'Home Health Aide'},
-    {value: 'SG', title: 'Security Guard'},
-    {value: 'CG', title: 'Caregiver'},
-    {value: 'ESOL', title: 'English to Speakers of Other Language'},
-    {value: 'BLS', title: 'Basic Life Support'},
-    {value: 'HSFA', title: 'Heartsaver First Aid'},
-]}
+    try {
+
+        const courses = await axioService.programNameGET(authedAxios)
+
+        return courses
+    }
+    catch(err) {
+        console.error(err)
+    }
+
+}
 
 export const getRotationOptions = (course) => {
     // API call for https://backend.api/api/sms/rotations/program__program_name=<course>

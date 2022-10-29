@@ -8,7 +8,10 @@ import Components from '../../components'
 import { useNotification } from '../../hooks'
 import Create from './Create'
 import CreateStudent from './CreateStudent'
-import preview from 'jest-preview'
+import * as SMSRecordService from '../../services/SMSRecordService'
+import { sampleCourseOptions } from '../../services/data/studentData'
+
+//import preview from 'jest-preview'
 
 describe('testing Create feature', () => {
 
@@ -74,6 +77,9 @@ describe('testing Create feature', () => {
                 }),
               })
 
+              
+            const getCourseOptionsMk = jest.spyOn(SMSRecordService, 'getCourseOptions')
+            getCourseOptionsMk.mockResolvedValueOnce(sampleCourseOptions)
 
             setup = () => {
     
@@ -347,6 +353,10 @@ describe('testing Create feature', () => {
         beforeEach(() => {
 
             ([ notify, notificationHandlers ] = getNotificationResults())
+
+            const getCourseOptionsMk = jest.spyOn(SMSRecordService, 'getCourseOptions')
+            getCourseOptionsMk.mockResolvedValueOnce(sampleCourseOptions)
+
 
             setup = () => {
     

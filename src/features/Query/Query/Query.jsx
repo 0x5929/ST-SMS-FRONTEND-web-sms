@@ -43,7 +43,6 @@ function Query() {
         }
     }, [isBackdropOpen, setIsBackdropOpen, setShowResults])
 
-    console.log('QUERYRESULTS: ', queryResults)
 
     return (
         <Styles.Paper>

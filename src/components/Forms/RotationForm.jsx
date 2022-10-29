@@ -13,7 +13,7 @@ import {  BaseButton as Button } from '../../components/Buttons'
 const Styles = createRotationFormStyles({MuiStack, MuiBox})
 
 
-function RotationForm({ getCourseOptions, addRotHandlers, addRotStates, ...others }) {
+function RotationForm({ courseOptions, addRotHandlers, addRotStates, ...others }) {
     
     const {
 
@@ -39,9 +39,8 @@ function RotationForm({ getCourseOptions, addRotHandlers, addRotStates, ...other
                 <Select
                     name="programName"
                     label="Program Name"
-                    options={getCourseOptions()}
+                    options={courseOptions}
                     value={programName}
-                    defaultValue={getCourseOptions()[0].value}
                     handleChange={handleProgramNameChange}
                     errorHandler={rotFormValidations.programName}
                     showError={showError}
