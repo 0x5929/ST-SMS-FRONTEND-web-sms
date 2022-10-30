@@ -73,13 +73,13 @@ describe('testing Query Feature components', () => {
 
     describe('testing Query component', () => {
         let setup
-        let mockSMSStatisticsService
+        // let mockSMSStatisticsService
 
         beforeEach(() => {      
 
-            mockSMSStatisticsService = jest.spyOn(SMSStatisticsService, 'getStats')
+            // mockSMSStatisticsService = jest.spyOn(SMSStatisticsService, 'getStats')
 
-            mockSMSStatisticsService.mockResolvedValueOnce(SMSStats[0])
+            // mockSMSStatisticsService.mockResolvedValueOnce(SMSStats[0])
 
             
             setup = () => {
@@ -99,7 +99,7 @@ describe('testing Query Feature components', () => {
         afterEach(() => {
             setup = undefined
             jest.restoreAllMocks()
-            mockSMSStatisticsService.mockReset()
+            //mockSMSStatisticsService.mockReset()
             cleanup()
         
         })
@@ -177,9 +177,9 @@ describe('testing Query Feature components', () => {
             const user = userEvent.setup({ delay: null })
             jest.useFakeTimers()
 
-            const mockDjRESTService = jest.spyOn(axioService, 'studentQueryGET')
+            // const mockDjRESTService = jest.spyOn(axioService, 'studentQueryGET')
 
-            mockDjRESTService.mockResolvedValueOnce(sampleStudentData)
+            // mockDjRESTService.mockResolvedValueOnce(sampleStudentData)
 
 
             const { getInput, getByTestId, queryByTestId } = setup()
@@ -207,15 +207,12 @@ describe('testing Query Feature components', () => {
                 jest.useRealTimers()
               })
 
-            mockDjRESTService.mockReset()
+            // mockDjRESTService.mockReset()
             jest.useRealTimers()
 
         })
 
         test('add query button works until 5 rows of query but all 5 will be rendered', async () => {
-
-
-
 
             const { 
                 getByText, 
@@ -248,10 +245,6 @@ describe('testing Query Feature components', () => {
         })
 
         test('del query button works, and will delete specific query objects', async () => {
-
-
-
-
 
             const { getByText, queryAllByLabelText, queryAllByTestId } = setup()
 
@@ -349,43 +342,5 @@ describe('testing Query Feature components', () => {
         })
     })
 
-
-    // describe('testing Statistics component', () => {
-    //     let setup
-    //     beforeEach(() => {
-
-    //         setup = () => {
-    
-    //             render(
-    //                 <AuthContextProvider>
-    //                     <Statistics />
-    //                 </AuthContextProvider>
-    //             )
-    
-    //             return {
-    //                 ...(testByMethods(screen)),
-    //             }
-    //         }
-    //     })
-    //     afterEach(() => {
-    //         setup = undefined
-    //         jest.clearAllMocks()
-    //         cleanup()
-        
-    //     })
-
-    //     it('should render Card components', () => {
-    //         const { getByText, queryAllByTestId } = setup()
-    //         preview.debug()
-    //         expect(queryAllByTestId('card')).toHaveLength(4)
-
-    //         expect(getByText(/statistics/i)).toBeInTheDocument()
-    //         expect(getByText(/student enrollments/i)).toBeInTheDocument()
-    //         expect(getByText(/student employments/i)).toBeInTheDocument()
-    //         expect(getByText(/student graduates/i)).toBeInTheDocument()
-    //         expect(getByText(/student exams/i)).toBeInTheDocument()
-    //     })
-
-    // })
 
 })

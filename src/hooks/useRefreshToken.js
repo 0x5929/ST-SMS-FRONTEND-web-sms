@@ -1,4 +1,4 @@
-import axios from '../services/api/axios'
+import * as axioService from '../services/api/djREST'
 import { useAuthContext } from '../contexts/AuthContext'
 
 const useRefreshToken = () => {
@@ -6,18 +6,16 @@ const useRefreshToken = () => {
     const { setUser, setAuthed } = useAuthContext()
 
     const refresh = async () => {
-        // backend todo: need to override get method inside the refresh view by creating our own 
-        // and inherit the rest from refresh_view(), ie POST
+
         try {
-            const response = await axios.get('auth/token/refresh/')
-            console.log(response)
+            const data = await axioService.authRefreshGET()
     
             setAuthed(true)
             setUser(prev => {
-                return { ...prev, accessToken: response.data.access }
+                return { ...prev, accessToken: data.access }
             })
     
-            return response.data.access
+            return data.access
 
         }
         catch(err) {

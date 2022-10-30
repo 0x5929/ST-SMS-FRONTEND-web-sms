@@ -3,6 +3,22 @@ import * as studentData from '../data/studentData'
 
 export const smsEndpointUrl = 'api/sms/'
 
+
+// REFRESH TOKEN
+export const authRefreshGET = async () => {
+    let url = 'auth/token/refresh/'
+
+    try {
+        const response = await axios.get(url)
+        return response.data
+    }
+    catch(err) {
+        console.error(err)
+
+    }
+}
+
+
 // POST request for authentication
 export const authenticationPOST = async (creds) => {
     let authUrl = 'auth/login/'
@@ -68,7 +84,6 @@ export const studentQueryGET = async (authedAxio, queryParams) => {
 
     try {
         const response = await authedAxio.get(smsEndpointUrl + queryUrl)
-        console.log('response from djREST: ', response)
 
         return responseObjMapper(response.data)
     }
@@ -211,8 +226,7 @@ const convertQueryParams = (paramArr) => {
     return finalStr
 }
 
-const convertRotationUUID = async (authedAxio, record) => {
-    console.log('hello from convertRotationUUID')
+export const convertRotationUUID = async (authedAxio, record) => {
     // convert rotation to UUID
     let rotationNumber = record['rotation']
     let programName = record['course']

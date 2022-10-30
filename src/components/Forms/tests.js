@@ -101,8 +101,8 @@ getCourseOptionsMk
     
     beforeAll(() => {
 
-        getCourseOptionsMk = jest.spyOn(SMSRecordService, 'getCourseOptions')
-        getCourseOptionsMk.mockResolvedValueOnce(sampleCourseOptions)
+        // getCourseOptionsMk = jest.spyOn(SMSRecordService, 'getCourseOptions')
+        // getCourseOptionsMk.mockResolvedValueOnce(sampleCourseOptions)
 
         testByMethods = (screen) => {
             return {
@@ -139,7 +139,7 @@ getCourseOptionsMk
         // studentFormHandlers = undefined
         testByMethods= undefined
         
-        getCourseOptionsMk.mockRestore()
+        //getCourseOptionsMk.mockRestore()
     })
 
 
@@ -487,8 +487,8 @@ getCourseOptionsMk
                     ]
                 }
                 
-                const mockGetQuery = jest.spyOn(axioService, 'studentQueryGET')
-                mockGetQuery.mockImplementation(() => Promise.resolve(sampleStudentData))   
+                // const mockGetQuery = jest.spyOn(axioService, 'studentQueryGET')
+                // mockGetQuery.mockImplementation(() => Promise.resolve(sampleStudentData))   
 
                 render(
                     <AuthContextProvider>

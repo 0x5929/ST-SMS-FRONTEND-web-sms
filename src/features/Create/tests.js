@@ -78,8 +78,8 @@ describe('testing Create feature', () => {
               })
 
               
-            const getCourseOptionsMk = jest.spyOn(SMSRecordService, 'getCourseOptions')
-            getCourseOptionsMk.mockResolvedValueOnce(sampleCourseOptions)
+            // const getCourseOptionsMk = jest.spyOn(SMSRecordService, 'getCourseOptions')
+            // getCourseOptionsMk.mockResolvedValueOnce(sampleCourseOptions)
 
             setup = () => {
     

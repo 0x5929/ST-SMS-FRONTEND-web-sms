@@ -107,6 +107,8 @@ function Signin (){
                                         </InputAdornment>
                                     )
                                 }}
+
+                                data-testid="login-email-input"
                             />
                             <Components.Input 
                                 required

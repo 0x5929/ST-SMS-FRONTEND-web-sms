@@ -62,8 +62,8 @@ describe('testing Query feautre Result component', () => {
 
         beforeEach(() => {
 
-            const getCourseOptionsMk = jest.spyOn(SMSRecordService, 'getCourseOptions')
-            getCourseOptionsMk.mockResolvedValueOnce(sampleCourseOptions)
+            // const getCourseOptionsMk = jest.spyOn(SMSRecordService, 'getCourseOptions')
+            // getCourseOptionsMk.mockResolvedValueOnce(sampleCourseOptions)
             
             setup = () => {
                 render(

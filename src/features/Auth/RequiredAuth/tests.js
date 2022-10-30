@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom'
-import { render, screen, cleanup } from '@testing-library/react'
+import { render, screen, cleanup, fireEvent } from '@testing-library/react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom' 
 import userEvent from '@testing-library/user-event'
 import axios from '../../../services/api/axios'
@@ -8,6 +8,7 @@ import RequiredAuth from './component'
 
 import Signin from '../SideSignIn/component'
 
+import preview from 'jest-preview'
 
 describe('testing RequiredAuth component', () => {
     let testByMethods
@@ -54,10 +55,11 @@ describe('testing RequiredAuth component', () => {
                     <Routes> 
                         <Route path="/" index element={<Signin />} />
                         <Route path="/query" element={
-                            <RequiredAuth>
-                                <Child />
-                            </RequiredAuth>
-                            } />
+                                <RequiredAuth>
+                                    <Child />
+                                </RequiredAuth>
+                            } 
+                        />
                         
                     </Routes> 
                     </BrowserRouter>
@@ -66,7 +68,8 @@ describe('testing RequiredAuth component', () => {
 
             return {
                 ...(testByMethods(screen)),
-                container: result.container
+                container: result.container,
+                debug: screen.debug
             }
         }
     })
@@ -88,14 +91,18 @@ describe('testing RequiredAuth component', () => {
     })
 
     it('should render child component, if user is logged in', async () => {   
-        const mockAxios = jest.spyOn(axios, 'post')
-        mockAxios.mockImplementation(() => true)
-        
-        const { getByText, container } = setup()
+        const { getByText, getInput } = setup()
 
-        await userEvent.type(container.querySelector('#email'), '__TEST_USER__')
-        await userEvent.type(container.querySelector('#password'), '__TEST_PW__')
+        const emailInput = getInput('Email Address *')
+        const passInput = getInput('Password *')
+        expect(emailInput).toBeInTheDocument()
+        expect(passInput).toBeInTheDocument()
+
+        // somehow userEvent doesn't work with these inputs :/
+        fireEvent.change(emailInput, {target: {value: '__TEST_USER__'}})
+        fireEvent.change(passInput, {target: {value: '__TEST_PW__'}})
         await userEvent.click(getByText('Sign In'))
+        // preview.debug()
         expect(getByText('__TEST_CHILD__')).toBeInTheDocument()
 
     })
