@@ -9,9 +9,7 @@ import ProgramForm from './ProgramForm'
 import RotationForm from './RotationForm'
 import QueryForm from './QueryForm'
 import { AuthContextProvider } from '../../contexts'
-import * as axioService from '../../services/api/djREST'
 import * as SMSRecordService from '../../services/SMSRecordService'
-import { sampleStudentData, sampleCourseOptions } from '../../services/data/studentData'
 import { useRef } from 'react'
 
 
