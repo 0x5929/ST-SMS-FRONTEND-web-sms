@@ -78,8 +78,6 @@ describe('testing Create feature', () => {
               })
 
               
-            // const getCourseOptionsMk = jest.spyOn(SMSRecordService, 'getCourseOptions')
-            // getCourseOptionsMk.mockResolvedValueOnce(sampleCourseOptions)
 
             setup = () => {
     
@@ -125,7 +123,6 @@ describe('testing Create feature', () => {
             
             const { getInput, getAllByRole, getByRole, getByText, getByTestId, queryByText, getAllByText } = setup()
 
-            // 
             await userEvent.type(getInput(/student id/i), '__TEST__') 
             expect(getInput(/student id/i)).toHaveValue('__TEST__')
             expect(getByText('Please enter the correct format. ie: RO-CNA-10-1005-KR')).toBeInTheDocument()

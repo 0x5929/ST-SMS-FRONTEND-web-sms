@@ -4,7 +4,7 @@ import * as studentData from '../data/studentData'
 export const smsEndpointUrl = 'api/sms/'
 
 
-// REFRESH TOKEN
+// GET refresh auth token
 export const authRefreshGET = async () => {
     let url = 'auth/token/refresh/'
 
@@ -141,6 +141,7 @@ export const rotationCreatePOST = async (authedAxio, {programName, rotation}) =>
 
 
 // PUT request for student edit
+// but should we change it to patch??
 export const studentEditPUT = async (authedAxio, studentRecord) => {
     let putUrl = 'students/' + getStudentUUID(authedAxio, studentRecord['pk']) + '/'
     studentRecord['rotation'] = convertRotationUUID(authedAxio, studentRecord)
@@ -331,7 +332,6 @@ const responseObjMapper = (APIResponseData) => {
 const requestObjMapper = (clientRequestData) => {
     const finalObj = {}
 
-    console.log('clientRequestData: ', clientRequestData)
     // need to make sure mapperKey maps to dataValue
     for (const [ dataKey, dataValue ] of Object.entries(clientRequestData)) {
         

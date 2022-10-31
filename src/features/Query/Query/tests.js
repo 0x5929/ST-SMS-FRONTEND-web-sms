@@ -1,18 +1,12 @@
 import '@testing-library/jest-dom'
-import { render, screen, cleanup, act, fireEvent, waitFor } from '@testing-library/react' 
-import userEvent from "@testing-library/user-event"
-import preview from 'jest-preview'
+import { render, screen, cleanup, act, waitFor } from '@testing-library/react' 
+import userEvent from '@testing-library/user-event'
 
-import axios from 'axios'
 import Query from './Query'
 import { AuthContextProvider } from '../../../contexts'
 import * as useToggle from '../../../hooks/useToggle'
-import * as SMSStatisticsService from '../../../services/SMSStatisticsService'
-import * as axioService from '../../../services/api/djREST'
-import { sampleStudentData, SMSStats } from '../../../services/data/studentData'
 
-import { renderHook } from '@testing-library/react-hooks/dom' 
-import * as useAuthedAxios from '../../../hooks/useAuthedAxios'
+import preview from 'jest-preview'
 
 global.ResizeObserver = jest.requireActual('resize-observer-polyfill') // this is for testing only
 
@@ -73,13 +67,8 @@ describe('testing Query Feature components', () => {
 
     describe('testing Query component', () => {
         let setup
-        // let mockSMSStatisticsService
 
         beforeEach(() => {      
-
-            // mockSMSStatisticsService = jest.spyOn(SMSStatisticsService, 'getStats')
-
-            // mockSMSStatisticsService.mockResolvedValueOnce(SMSStats[0])
 
             
             setup = () => {
@@ -99,7 +88,6 @@ describe('testing Query Feature components', () => {
         afterEach(() => {
             setup = undefined
             jest.restoreAllMocks()
-            //mockSMSStatisticsService.mockReset()
             cleanup()
         
         })
@@ -177,11 +165,6 @@ describe('testing Query Feature components', () => {
             const user = userEvent.setup({ delay: null })
             jest.useFakeTimers()
 
-            // const mockDjRESTService = jest.spyOn(axioService, 'studentQueryGET')
-
-            // mockDjRESTService.mockResolvedValueOnce(sampleStudentData)
-
-
             const { getInput, getByTestId, queryByTestId } = setup()
             const searchInput = getInput('Search Student Database')
             const searchBtn = getByTestId('query-submit-btn')
@@ -207,7 +190,6 @@ describe('testing Query Feature components', () => {
                 jest.useRealTimers()
               })
 
-            // mockDjRESTService.mockReset()
             jest.useRealTimers()
 
         })

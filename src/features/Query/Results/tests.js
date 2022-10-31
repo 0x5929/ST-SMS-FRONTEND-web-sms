@@ -5,8 +5,7 @@ import userEvent from '@testing-library/user-event'
 
 import { AuthContextProvider } from '../../../contexts'
 import QueryResults from './Results'
-import { sampleStudentData, sampleCourseOptions } from '../../../services/data/studentData'
-import * as SMSRecordService from '../../../services/SMSRecordService'
+import { sampleStudentData } from '../../../services/data/studentData'
 
 //import preview from 'jest-preview'
 
@@ -61,9 +60,6 @@ describe('testing Query feautre Result component', () => {
         
 
         beforeEach(() => {
-
-            // const getCourseOptionsMk = jest.spyOn(SMSRecordService, 'getCourseOptions')
-            // getCourseOptionsMk.mockResolvedValueOnce(sampleCourseOptions)
             
             setup = () => {
                 render(
@@ -187,7 +183,7 @@ describe('testing Query feautre Result component', () => {
 
             await userEvent.click(getByTestId('mui-clearIcon'))
             await userEvent.type(getInput('Search Results'), '__TEST__')
-            // expect(queryByText('__TEST__')).not.toBeInTheDocument()
+            expect(queryByText('__TEST__')).not.toBeInTheDocument()
             // preview.debug()
         })
 
