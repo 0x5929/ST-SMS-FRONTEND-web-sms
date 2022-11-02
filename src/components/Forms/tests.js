@@ -32,7 +32,6 @@ describe('testing form components', () => {
     const handleCancel = jest.fn()
     const handleCourseChange = jest.fn()
     const convertToDefaultEventParam = jest.fn()
-    const getRotationOptions = SMSRecordService.getRotationOptions
     const getHoursWorkedRadioItems = SMSRecordService.getHoursWorkedRadioItems
 
     const addRotModalHandlers = {
@@ -48,10 +47,6 @@ describe('testing form components', () => {
     }
 
 
-    // delete these two after moving programForm logic into useStudentForm.js
-    const authedAxio = {}
-    const studentFormDispatch = jest.fn()
-
 
     const studentFormHandlers = { 
         resolveValue,
@@ -62,9 +57,7 @@ describe('testing form components', () => {
         handleSubmit,
         handleCancel,
         convertToDefaultEventParam,
-        getRotationOptions, 
         getHoursWorkedRadioItems,
-        studentFormDispatch,
 
         addRotHandlers: {...addRotHandlers}
 
@@ -72,8 +65,6 @@ describe('testing form components', () => {
 
     const studentFormValidations = {}
     const studentFormState = {
-        studentFormValues: [],
-        studentFormErrors: {},
         courseOptions: [],
         rotationOptions: [],
         course: '',
@@ -84,7 +75,6 @@ describe('testing form components', () => {
         submitSuccess: false
     }
     const inputRefs = {}
-    const recordForEdit = {}
 
 
     const addRotStates = {
@@ -97,10 +87,8 @@ describe('testing form components', () => {
     }
 
     const studentFormStates = { 
-        authedAxio,
         studentFormValidations,
         studentFormState, 
-        recordForEdit,
         inputRefs,
         addRotStates: {...addRotStates}
     }
