@@ -13,7 +13,7 @@ import * as SMSRecordService from '../../services/SMSRecordService'
 import { useRef } from 'react'
 
 
-//import preview from 'jest-preview'
+import preview from 'jest-preview'
 
 
 
@@ -21,7 +21,6 @@ describe('testing form components', () => {
 
 
     let testByMethods
-    let getCourseOptionsMk
     
     const { result } = renderHook(() => useRef(null))
     const inputRef = result.current
@@ -48,6 +47,12 @@ describe('testing form components', () => {
         addRotModalHandlers: addRotModalHandlers
     }
 
+
+    // delete these two after moving programForm logic into useStudentForm.js
+    const authedAxio = {}
+    const studentFormDispatch = jest.fn()
+
+
     const studentFormHandlers = { 
         resolveValue,
         handleClearError,
@@ -59,11 +64,12 @@ describe('testing form components', () => {
         convertToDefaultEventParam,
         getRotationOptions, 
         getHoursWorkedRadioItems,
+        studentFormDispatch,
 
         addRotHandlers: {...addRotHandlers}
 
     }
-getCourseOptionsMk
+
     const studentFormValidations = {}
     const studentFormState = {
         studentFormValues: [],
@@ -79,6 +85,8 @@ getCourseOptionsMk
     }
     const inputRefs = {}
     const recordForEdit = {}
+
+
     const addRotStates = {
         rotFormValidations: {},
         isAddRotModalOpen: false,
@@ -89,6 +97,7 @@ getCourseOptionsMk
     }
 
     const studentFormStates = { 
+        authedAxio,
         studentFormValidations,
         studentFormState, 
         recordForEdit,
@@ -521,8 +530,8 @@ getCourseOptionsMk
 
         it('should render QuerySelect with 19 options', async () => {
             const { getAllByTestId, getByRole } = setup()
-
             await userEvent.click(getByRole('button', {expanded: false}))
+            preview.debug()
 
             expect(getAllByTestId('mui-selectitem')).toHaveLength(19)
         })

@@ -22,11 +22,18 @@ export const getCourseOptions = async (authedAxios) => {
 
 }
 
-export const getRotationOptions = (course) => {
+export const getRotationOptions = async (authedAxios, course) => {
     // API call for https://backend.api/api/sms/rotations/program__program_name=<course>
     // filter through and str(rotation_number) of each rotations
     // return data in the following format (inverse from biggest to lowest)
     
+    try {
+        const rotations = await axioService.rotationNumberGET(authedAxios, course)
+        return rotations
+    }
+    catch(err) {
+        console.error(err)
+    }
 
     return [
         {course: course, value: '10', title: course + ' rotation 10'},

@@ -14,6 +14,7 @@ export const authRefreshGET = async () => {
     }
     catch(err) {
         console.error(err)
+        throw err
 
     }
 }
@@ -111,6 +112,26 @@ export const programNameGET = async (authedAxio) => {
 
 }
 
+// GET request for all rorations
+export const rotationNumberGET = async (authedAxio, course) => {
+    if (course === '') {
+        return []
+    }
+
+    let queryUrl = 'rotations/?program__program_name=' + course
+
+    try {
+        const response = await authedAxio.get(smsEndpointUrl + queryUrl)
+
+        return rotationNumberGetter(response.data, course)
+
+    }
+    catch(err) {
+        console.error(err)
+        throw err
+    }
+}
+
 // POST request for new student
 export const studentCreatePOST = async (authedAxio, studentRecord) => {
     let postUrl = 'students/'
@@ -202,6 +223,34 @@ const programNameGetter = (responseData) => {
     return finalOutput
 }
 
+
+const rotationNumberGetter = (responseData, course) => {
+    let rotationNumbers = []
+    let finalOutput = []
+
+    for (let i = 0; i < responseData.length; i++) {
+        let rotationValue = responseData[i]['rotation_number']
+
+        rotationNumbers.push(rotationValue)
+    }
+
+    // an array with unqiue rotation numbers, we dont need duplicates
+    let uniqueRotationNumbers = [...new Set(rotationNumbers)].sort(function(a, b) { return b - a })
+
+
+    //numArray = numArray.sort(function (a, b) {  return a - b;  });
+    for (let i = 0; i < uniqueRotationNumbers.length; i++) {
+        let rotationInfo = {}
+        rotationInfo['course'] = course
+        rotationInfo['value'] = uniqueRotationNumbers[i].toString()
+        rotationInfo['title'] = rotationInfo['course'] + ' rotation ' + rotationInfo['value']
+
+        finalOutput.push(rotationInfo)
+    }
+    console.log('rotations: ', finalOutput)
+    return finalOutput
+
+}
 
 // helper methods (converting date objects accordingly)
 

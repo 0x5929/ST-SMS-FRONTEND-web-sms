@@ -21,6 +21,10 @@ const useAuthedAxios  = () => {
                     config.headers['Authorization'] = `Bearer ${user?.accessToken}`
                 }
 
+                if (!config.headers['Content-Type']) {
+                    config.headers['Content-Type'] = 'application/json; charset=UTF-8'
+                }
+
                 return config
             },
 

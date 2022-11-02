@@ -417,7 +417,7 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
             const courses = await getCourseOptions(authedAxios)
 
             studentFormDispatch({type: 'set-courseOptions', payload: courses})
-            return courses
+            //return courses
         }
 
         courseOptions()
@@ -425,6 +425,7 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
 
 
     const studentFormStates = { 
+        authedAxios,
         studentFormValidations,
         studentFormState, 
         recordForEdit,
@@ -444,6 +445,7 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
         getCourseOptions, 
         getRotationOptions, 
         getHoursWorkedRadioItems,
+        studentFormDispatch,
 
         addRotHandlers: {...addRotHandlers}
 

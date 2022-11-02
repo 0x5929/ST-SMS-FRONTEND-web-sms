@@ -11,7 +11,7 @@ import CreateStudent from './CreateStudent'
 import * as SMSRecordService from '../../services/SMSRecordService'
 import { sampleCourseOptions } from '../../services/data/studentData'
 
-//import preview from 'jest-preview'
+import preview from 'jest-preview'
 
 describe('testing Create feature', () => {
 
@@ -163,13 +163,13 @@ describe('testing Create feature', () => {
    
 
             await userEvent.click(getAllByRole('button', {expanded: false})[0])
-            await userEvent.click(getByText(/caregiver/i))
-            expect(getAllByRole('button', {expanded: false})[0]).toHaveTextContent(/caregiver/i)
+            await userEvent.click(getByText(/certified nurse assistant/i))
+            expect(getAllByRole('button', {expanded: false})[0]).toHaveTextContent(/certified nurse assistant/i)
 
             
             await userEvent.click(getAllByRole('button', {expanded: false})[1])
-            await userEvent.click(getByText(/cg rotation 9/i))
-            expect(getAllByRole('button', {expanded: false})[1]).toHaveTextContent(/cg rotation 9/i)
+            await userEvent.click(getByText(/cna rotation 9/i))
+            expect(getAllByRole('button', {expanded: false})[1]).toHaveTextContent(/cna rotation 9/i)
 
             // clicking add rot button will launch the modal, assert render then close ADD ROTATION FORM TESTS
             await userEvent.click(getByRole('button', {name: ''}))
@@ -261,7 +261,6 @@ describe('testing Create feature', () => {
             // which will get rid of (test these) error messages, all inputs except for date pickers, which will dispaly today's date
         
             const { getInput, getAllByRole, getByText, getByTestId, queryByText } = setup()
-
             await userEvent.type(getInput(/student id/i), '__TEST__') 
             await userEvent.type(getInput(/first name/i), '__TEST__')
             await userEvent.type(getInput(/last name/i), '__TEST__') 
@@ -270,9 +269,10 @@ describe('testing Create feature', () => {
             await userEvent.type(getInput(/mailing address/i), '__TEST__') 
 
             await userEvent.click(getAllByRole('button', {expanded: false})[0])
-            await userEvent.click(getByText(/caregiver/i))
+            await userEvent.click(getByText(/certified nurse assistant/i))
             await userEvent.click(getAllByRole('button', {expanded: false})[1])
-            await userEvent.click(getByText(/cg rotation 9/i))
+            //preview.debug()
+            await userEvent.click(getByText(/cna rotation 9/i))
 
             await userEvent.clear(getInput(/program start date/i))
             await userEvent.type(getInput(/program start date/i), '20220101')
@@ -350,9 +350,6 @@ describe('testing Create feature', () => {
         beforeEach(() => {
 
             ([ notify, notificationHandlers ] = getNotificationResults())
-
-            const getCourseOptionsMk = jest.spyOn(SMSRecordService, 'getCourseOptions')
-            getCourseOptionsMk.mockResolvedValueOnce(sampleCourseOptions)
 
 
             setup = () => {

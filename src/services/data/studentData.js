@@ -501,6 +501,20 @@ const sampleCourseOptions = [
     {value: 'HSFA', title: 'Heartsaver First Aid'},
 ]
 
+
+const sampleRotationOptions = (course) => ([
+    {course: course, value: '10', title: course + ' rotation 10'},
+    {course: course, value: '9', title: course + ' rotation 9'},
+    {course: course, value: '8', title: course + ' rotation 8'},
+    {course: course, value: '7', title: course + ' rotation 7'},
+    {course: course, value: '6', title: course + ' rotation 6'},
+    {course: course, value: '5', title: course + ' rotation 5'},
+    {course: course, value: '4', title: course + ' rotation 4'},
+    {course: course, value: '3', title: course + ' rotation 3'},
+    {course: course, value: '2', title: course + ' rotation 2'},
+    {course: course, value: '1', title: course + ' rotation 1'},
+])
+
 const SMSStats = [
     {
         "enrollment": [
@@ -558,4 +572,4 @@ const SMSStats = [
 ]
 
 
-export {initialStudentValues, hoursWorkedRadioItems, sampleStudentData, SMSStats, sampleCourseOptions}
+export { initialStudentValues, hoursWorkedRadioItems, sampleStudentData, SMSStats, sampleCourseOptions, sampleRotationOptions }

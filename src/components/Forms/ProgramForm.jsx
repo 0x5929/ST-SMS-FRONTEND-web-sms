@@ -17,12 +17,14 @@ const Styles = createProgramFormStyles({MuiStack, MuiBox, BaseIconButton, BaseMo
 function ProgramForm({ validations, studentFormStates, studentFormHandlers, ...others }) {
 
     const {
+        authedAxios,
         recordForEdit,
 
         studentFormState : {
             rotation,
             course,
             courseOptions,
+            rotationOptions,
             showError,
             clearFields,
             
@@ -35,7 +37,7 @@ function ProgramForm({ validations, studentFormStates, studentFormHandlers, ...o
         handleCourseChange,
         handleRotationChange,
         getRotationOptions, 
-
+        studentFormDispatch,
         addRotHandlers : {
 
 
@@ -86,6 +88,16 @@ function ProgramForm({ validations, studentFormStates, studentFormHandlers, ...o
     }, [recordForEdit, rotation])
 
 
+    useEffect(() => {
+        const rotationOptions = async () => {
+            const rotations = await getRotationOptions(authedAxios, courseValue)
+
+            studentFormDispatch({type: 'set-rotationOptions', payload: rotations})
+        }
+
+        rotationOptions()
+    }, [courseValue])
+
     return (
         <MuiBox data-testid="program-form" { ...others }>
             <Select
@@ -103,9 +115,8 @@ function ProgramForm({ validations, studentFormStates, studentFormHandlers, ...o
                 <Select
                     name="rotation"
                     label="Rotation"
-                    options={getRotationOptions(courseValue)}
+                    options={rotationOptions}
                     value={rotationValue}
-                    defaultValue={getRotationOptions()[0].rotation}
                     errorHandler={validations.rotation}
                     handleChange={handleRotationChange}
                     showError={showError}    
