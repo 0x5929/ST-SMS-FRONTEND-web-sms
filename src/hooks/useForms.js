@@ -147,11 +147,12 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
         clearFields: false,
         submitLoading: false,
         submitSuccess: false,
+        rotationAdded: false,
     }
 
     const studentFormValidations = useValidations().useCreateValidation()
     const [ studentFormState, studentFormDispatch ] = useReducer(reducer, initialStudentFormState)
-    const [ addRotStates, addRotHandlers ] = useAddRotationForm(userFeedbackObj)
+    const [ addRotStates, addRotHandlers ] = useAddRotationForm(userFeedbackObj, studentFormState.rotationAdded)
     const authedAxios = useAuthedAxios()
     const { getCourseOptions, getRotationOptions, getHoursWorkedRadioItems } = SMSRecordService
     
@@ -509,7 +510,7 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
 }
 
 
-function useAddRotationForm(userFeedbackObj) {
+function useAddRotationForm(userFeedbackObj, rotationAddedState) {
 
     const { notificationHandlers } = userFeedbackObj
     const [ isAddRotModalOpen, addRotModalHandlers ] = useAddRotationModal()
