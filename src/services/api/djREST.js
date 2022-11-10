@@ -283,17 +283,17 @@ const convertQueryParams = (paramArr) => {
 
 export const convertRotationUUID = async (authedAxio, record) => {
     // convert rotation to UUID
-    // let rotationNumber = record['rotation']
-    // let programName = record['course']
-    // let rotationQueryStr = 'students/?rotation__rotation_number=' + rotationNumber.toString() + '&rotation__program__program_name=' + programName.toString()
+    let rotationNumber = record['rotation']
+    let programName = record['course']
+    let rotationQueryStr = 'students/?rotation__rotation_number=' + rotationNumber.toString() + '&rotation__program__program_name=' + programName.toString()
 
-    let rotationQueryStr = 'students/' + await getStudentUUID(authedAxio, record['pk']) + '/'
+    //let rotationQueryStr = 'students/' + await getStudentUUID(authedAxio, record['pk']) + '/'
 
     try {
         const rotationQueryResponse = await authedAxio.get(smsEndpointUrl + rotationQueryStr)
 
         console.log('rotationQueryResponse: ', rotationQueryResponse)
-        return rotationQueryResponse.data['rotation']
+        return rotationQueryResponse.data[0]['rotation']
      
     }
     catch(error) {
