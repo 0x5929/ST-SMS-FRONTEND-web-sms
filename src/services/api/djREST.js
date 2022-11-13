@@ -154,7 +154,6 @@ export const schoolOptionsEditGET = async (authedAxio, rotationId) => {
 
 
 // GET request for all courses
-// TODO: for create and edit, specify school in qauery!
 export const programNameGET = async (authedAxio, schoolName) => {
     let queryUrl = 'programs/?school__school_name=' + schoolName
 
