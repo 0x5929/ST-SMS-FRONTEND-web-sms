@@ -471,8 +471,6 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
     // all changes in recordForEdit will have a diff api call depending if we are editting or not
     }, [recordForEdit])
 
-    useEffect(() => console.log('studentFormState.rotationOptions: ', studentFormState.rotationOptions), [studentFormState.rotationOptions])
-
 
     // fetches course options for student form when loaded
     useEffect(() => {
