@@ -30,8 +30,6 @@ export const authenticationPOST = async (creds) => {
 
     try {
         const response = await axios.post(authUrl, authBody, config)
-        console.log(response.data)
-
         return response.data
     }
     catch(error) {
@@ -41,7 +39,6 @@ export const authenticationPOST = async (creds) => {
 }
 
 // POST request for logout
-
 export const logoutPOST = async () => {
     let logoutUrl = 'auth/logout/'
     let body = null

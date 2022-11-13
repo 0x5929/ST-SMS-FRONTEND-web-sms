@@ -111,7 +111,7 @@ export function useSignInForm({ authed, user, login }) {
 
     // everytime authed and or user is altered, we need to either navigate to /query to back to login at /
     useEffect(()=>{
-        if (authed && user) {
+        if (authed && user?.accessToken) {
             // default goes to /query page
             navigate(from?.pathname || '/query')
         }

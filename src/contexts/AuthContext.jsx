@@ -17,8 +17,8 @@ const AuthContextProvider = ({ children }) => {
         // do api calls and check for credentials
 
         try {
-            const response = await axioService.authenticationPOST(creds)
-            const accessToken = response?.data?.access_token
+            const data = await axioService.authenticationPOST(creds)
+            const accessToken = data.access_token
 
             setAuthed(true)
             setUser({ user: creds.email, accessToken: accessToken })

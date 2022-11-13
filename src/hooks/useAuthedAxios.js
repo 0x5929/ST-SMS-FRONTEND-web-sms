@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import axio  from '../services/api/axios'
 import { useRefreshToken } from './index'
@@ -7,8 +8,9 @@ import { useAuthContext } from '../contexts'
 
 
 const useAuthedAxios  = () => {
+    const navigate = useNavigate()
     const refresh = useRefreshToken()
-    const { user } = useAuthContext()
+    const { user, logout } = useAuthContext()
 
     useEffect(() => {
 
@@ -42,7 +44,7 @@ const useAuthedAxios  = () => {
 
                 // once request is sent again with refresh token, set set to true
                 // avoid endless loop of request and responses due to 403
-                if ( (error?.response.status === 403 || error?.response.status === 400)
+                if ( (error?.response.status === 400 || error?.response.status === 401 || error?.response.status === 403)
                     && (!prevRequest?.sent) ) {
                         
                     prevRequest.sent = true
@@ -53,7 +55,10 @@ const useAuthedAxios  = () => {
                     return axio(prevRequest)
                 }
 
-                return Promise.reject(error)
+                return Promise.reject(error).then(()=>{}, (error) => {
+                    console.error(error)
+                    navigate('/')
+                })
             }
         )
 
