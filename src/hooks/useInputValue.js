@@ -12,7 +12,9 @@ const useInputValue = ( {initialValue, errorHandler=null, clearFields} ) => {
         // NOTE: disabled lint because it wants initialValue to be one of the dependencies, but 
         // we only want to run this function when clearFields changes!
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [clearFields])
+    }, [clearFields, initialValue])
+    // NOTE the only time initialValue changes is during some input fields that async fetches data from API
+    // then the input depends on the data, where it was empty or null in beginning, and it will change once API is loaded
 
 
     const inputOnChange = useCallback( e => {

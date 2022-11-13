@@ -5,7 +5,7 @@ import {
     CircularProgress as MuiCircularProgress,
     Stack as MuiStack } from '@mui/material'
 import { 
-    Check as CheckIcon, 
+    Check as CheckIcon,  
     Save as SaveIcon } from '@mui/icons-material'
 
 
@@ -38,12 +38,15 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
     const {
     
         studentFormState : {
+            schoolOptions,
             showError,
             clearFields,
             submitLoading,
             submitSuccess,
+            school,
         },
         inputRefs,
+        schoolRadioDefaultValue,
         studentFormValidations,
 
     } = studentFormStates
@@ -54,7 +57,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
         handleCancel,
         convertToDefaultEventParam,
         getHoursWorkedRadioItems,
-
+        studentFormDispatch,
     } = studentFormHandlers
 
     let isEdit
@@ -67,12 +70,29 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
         isEdit = false
     }
 
-
     return (
-    //<Styles.StudentForm onSubmit={handleEditSubmit || ( (e) => handleSubmit(e, inputRefs) )} {...others}>
     <Styles.StudentForm data-testid="student-form" {...others}>
         <Grid container>
             <Grid item laptop={6} tablet={12}>
+                {
+                    !isEdit &&
+                    
+                    <RadioGroup 
+                        ref={inputRefs.school}
+                        school={school}
+                        studentFormDispatch={studentFormDispatch}
+                        initialValue={schoolRadioDefaultValue}
+                        name="school"
+                        label="School"
+                        items={schoolOptions}
+                        errorHandler={studentFormValidations.school}
+                        showError={showError}
+                        clearFields={clearFields}
+
+                    // we can take away the errorprops if we set a default value and take away clearFields so it cant be cleared
+
+                />
+                }
                 <Input
                     ref={inputRefs.studentId}
                     initialValue={resolveValue('studentId')}

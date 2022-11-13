@@ -28,6 +28,7 @@ function useValidations() {
         
         // NOTE: DRY violated here because useCallback cant be called in for loop or a forEach callback
         return {
+            school                          : useCallback((value) => value !== '' ? {} : { error: true, helperText: 'This field is required.' }, []),
             studentId                       : useCallback((value) => (studentIdRegex.test(value)) ? {} : { error: true, helperText: 'Please enter the correct format. ie: RO-CNA-10-1005-KR' }, [studentIdRegex]),
             firstName                       : useCallback((value) => value !== '' ? {} : { error: true, helperText: 'This field is required.' }, []),
             lastName                        : useCallback((value) => value !== '' ? {} : { error: true, helperText: 'This field is required.' }, []),

@@ -14,11 +14,12 @@ const Select = (props) => {
     const { 
         name, 
         label, 
-        value, 
+        value,
         errorHandler,
         handleChange, 
         showError, 
         required, 
+        disabled=false,
         options,  ...others } = props
     
 
@@ -26,6 +27,7 @@ const Select = (props) => {
         <FormControl
             variant="outlined"
             required={required}
+            disabled={ disabled ? true : false }
         >
             <InputLabel> { label }</InputLabel>
             <MuiSelect

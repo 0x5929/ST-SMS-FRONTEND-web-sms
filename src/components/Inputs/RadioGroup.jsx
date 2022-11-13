@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useEffect } from 'react';
 
 import { 
     FormControl,
@@ -16,15 +16,32 @@ const RadioGroup = forwardRef((props, parentRef) => {
         name, 
         label,  
         initialValue='', 
+        errorHandler=null,
+        school=null,
+        studentFormDispatch=null,
         clearFields,
+        showError,
         items, ...others } = props;
 
-    const [ { value }, { inputOnChange } ] = useInputValue({initialValue, clearFields})
+    const [ { value, error }, { inputOnChange } ] = useInputValue({initialValue, errorHandler, clearFields})
+
+    // for school radio only, bc the only other radio component, no schoolChanged nor studentFormDispatch was passed in
+    // if school value changes, it will change form state, which will trigger another its useeffect to refetch program and rotation data
+    useEffect(() => {
+        if (studentFormDispatch) {
+            studentFormDispatch({type: 'set-school', payload: value})
+        }
+    }, [value])
 
 
     return (  
 
-        <FormControl {...others}>
+        <FormControl {...others}
+                                                                            
+            { ...((showError && errorHandler(value)) || error)  }
+            { ...others }
+        
+        >
             <FormLabel>
                 { label }
             </FormLabel>
@@ -32,6 +49,8 @@ const RadioGroup = forwardRef((props, parentRef) => {
                 row
                 name={name}
                 value={value}
+                defaultValue={initialValue}
+                checked={initialValue | value}
                 onChange={inputOnChange}
 
                 data-testid="mui-radiogroup" 
@@ -43,11 +62,13 @@ const RadioGroup = forwardRef((props, parentRef) => {
                                 key={item.value} 
                                 value={item.value}
                                 label={item.title} 
-                                control={<Radio data-testid="mui-radio" inputRef={parentRef}/>} 
+                                control={<Radio data-testid="mui-radio" inputRef={parentRef} />} 
+
                             />
                         )
                     )
                 }
+
             </MuiRadioGroup>
         </FormControl>
     );

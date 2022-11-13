@@ -20,10 +20,11 @@ function ProgramForm({ validations, studentFormStates, studentFormHandlers, ...o
         studentFormState : {
             courseOptions,
             rotationOptions,
+            rotation,
+            course,
             showError,
         },
-        rotationValue,
-        courseValue,
+        recordForEdit,
         addRotStates : { isAddRotModalOpen }
     } = studentFormStates
 
@@ -40,18 +41,18 @@ function ProgramForm({ validations, studentFormStates, studentFormHandlers, ...o
         }
     } = studentFormHandlers
     
-
     return (
         <MuiBox data-testid="program-form" { ...others }>
             <Select
                 name="course"
                 label="Course"
                 options={courseOptions}
-                value={courseValue}
+                value={course}
                 errorHandler={validations.course}
                 handleChange={handleCourseChange}
                 showError={showError}            
-                
+                disabled={recordForEdit ? true : false}
+
                 data-testid="course-select"
             />
             <Styles.Stack direction="row" spacing={1}>
@@ -59,7 +60,7 @@ function ProgramForm({ validations, studentFormStates, studentFormHandlers, ...o
                     name="rotation"
                     label="Rotation"
                     options={rotationOptions}
-                    value={rotationValue}
+                    value={rotation}
                     errorHandler={validations.rotation}
                     handleChange={handleRotationChange}
                     showError={showError}    

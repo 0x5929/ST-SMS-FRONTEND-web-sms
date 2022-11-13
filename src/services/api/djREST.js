@@ -96,10 +96,67 @@ export const studentQueryGET = async (authedAxio, queryParams) => {
     }
 }
 
+// GET request for school Info when creating
+// NOTE these return to a radiogroup options, which requires { title, value }
+// however, we are really only interested in the school_name in terms of query
+export const schoolOptionsCreateGET = async (authedAxio) => {
+    let schoolQueryUrl = 'schools/'
+    let returnData = []
+    try {
+        const response = await authedAxio.get(smsEndpointUrl + schoolQueryUrl)
+        console.log('response in schoolOptionsCreateGET: ', response)
+        for (let i = 0; i < response.data.length; i++) {
+            returnData.push({
+                value: response.data[i]['school_name'],
+                title: response.data[i]['school_name']
+            })
+        }
+
+        return returnData
+
+    }
+    catch(e) {
+        console.error(e)
+        throw e
+    }
+}
+
+
+// GET request for school name when editting (mostly just for course and rotation options fetch)
+export const schoolOptionsEditGET = async (authedAxio, rotationId) => {
+    let rotationQueryUrl = 'rotations/'
+    let programQueryUrl = 'programs/'
+    let schoolQueryUrl = 'schools/'
+
+    try {
+        // first get programId
+        const rotationResponse = await authedAxio.get(smsEndpointUrl + rotationQueryUrl + rotationId + '/')
+        const programId = rotationResponse.data['program']
+
+        // second get schoolId
+        const programResponse = await authedAxio.get(smsEndpointUrl + programQueryUrl + programId + '/')
+        const schoolId = programResponse.data['school']
+
+        // last get schoolName
+        const schoolResponse = await authedAxio.get(smsEndpointUrl + schoolQueryUrl + schoolId + '/')
+        const schoolName = schoolResponse.data['school_name']
+        
+        return schoolName
+    
+    } 
+    catch(e) {
+        console.error(e)
+        throw e
+    }
+
+}
+
+
 
 // GET request for all courses
-export const programNameGET = async (authedAxio) => {
-    let queryUrl = 'programs/'
+// TODO: for create and edit, specify school in qauery!
+export const programNameGET = async (authedAxio, schoolName) => {
+    let queryUrl = 'programs/?school__school_name=' + schoolName
 
     try {
         const response = await authedAxio.get(smsEndpointUrl + queryUrl)
@@ -112,13 +169,13 @@ export const programNameGET = async (authedAxio) => {
 
 }
 
-// GET request for all rorations
-export const rotationNumberGET = async (authedAxio, course) => {
+// GET request for all rotation numbers for select field options
+export const rotationNumberGET = async (authedAxio, course, schoolName) => {
     if (course === '') {
         return []
     }
 
-    let queryUrl = 'rotations/?program__program_name=' + course
+    let queryUrl = 'rotations/?program__program_name=' + course + '&program__school__school_name=' + schoolName
 
     try {
         const response = await authedAxio.get(smsEndpointUrl + queryUrl)
@@ -129,6 +186,22 @@ export const rotationNumberGET = async (authedAxio, course) => {
     catch(err) {
         console.error(err)
         throw err
+    }
+}
+
+// GET request for one single rotation given the rotation uuid
+// this is for convertion of rotation value in edit student, and view student forms
+export const rotationNumberByUUIDGET = async (authedAxio, rotationUUID) => {
+    let queryUrl = 'rotations/' + rotationUUID + '/'
+
+    try {
+        const response = await authedAxio.get(smsEndpointUrl + queryUrl)
+        return response.data['rotation_number'].toString()
+
+    }
+    catch (e) {
+        console.error(e)
+        throw e
     }
 }
 
@@ -248,7 +321,7 @@ const rotationNumberGetter = (responseData, course) => {
 
         finalOutput.push(rotationInfo)
     }
-    console.log('rotations: ', finalOutput)
+
     return finalOutput
 
 }

@@ -6,7 +6,6 @@ import * as SMSRecordService from '../services/SMSRecordService'
 import * as axioService from '../services/api/djREST'
 
 
-
 function _checkForError(validations, callback) {
     let validationKeys = Object.keys(validations)
     for ( var i = 0; i < validationKeys.length; i++ ) {
@@ -136,11 +135,13 @@ export function useSignInForm({ authed, user, login }) {
 }
 
 export function useStudentForm(userFeedbackObj, recordForEdit=null) {
+
+    // setting initial student form states for reducer
     const initialStudentFormState = {
-        // studentFormValues: SMSRecordService.getInitialStudentValues(),
-        // studentFormErrors: {},
+        schoolOptions: [],
         courseOptions: [],
         rotationOptions: [],
+        school: '',
         course: '',
         rotation: '',
         showError: false,
@@ -159,6 +160,7 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
 
 
     const inputRefs = {
+        school: useRef(null),
         studentId: useRef(null),
         firstName: useRef(null),
         lastName: useRef(null),
@@ -183,6 +185,8 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
         hoursWorked: useRef(null),
         descriptionAttempts: useRef(null),
 
+        
+        // are these necessary? if not plz delete
         course: null,
         rotation: null,
 
@@ -191,10 +195,9 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
 
     function reducer(state, action) {
         switch (action.type) {
-            // case 'set-studentFormValues': 
-            //     return {...state, studentFormValues: action.payload}
-            // case 'set-studentFormErrors': 
-            //     return {...state, studentFormErrors: action.payload}
+ 
+            case 'set-schoolOptions': 
+                return {...state, schoolOptions: action.payload}
             case 'set-courseOptions': 
                 return {...state, courseOptions: action.payload}
             case 'set-rotationOptions': 
@@ -203,17 +206,12 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
                 return {...state, submitLoading: action.payload}
             case 'set-submitSuccess': 
                 return {...state, submitSuccess: action.payload}
-            case 'set-course' : 
+            case 'set-course': 
                 return { ...state, course : action.payload }
             case 'set-rotation': 
                 return { ...state, rotation: action.payload }
-            // case 'clear-studentForm' : 
-            //     return {
-            //         ...state,
-            //         studentFormValues: initialStudentFormState.studentFormValues,
-            //         studentFormErrors: initialStudentFormState.studentFormErrors,
-            //         submitSuccess: initialStudentFormState.submitSuccess
-            //     }
+            case 'set-school': 
+                return { ...state, school: action.payload}
             case 'form-submissionSuccess' : 
                 return {
                     ...state,  
@@ -412,67 +410,100 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
     }, [_createOrUpdate, handleCancel, studentFormState, studentFormValidations, recordForEdit])
 
 
-    // if studentForm is used in an edit mode, return record of interest's course property
-    const courseValue = useMemo(()=> { 
+    const schoolRadioDefaultValue = useMemo(() => {
+        if (studentFormState.schoolOptions.length > 0)
+            return studentFormState.schoolOptions[0]['value']
 
-        if (recordForEdit) {
-            if (!studentFormState.course){
-                return recordForEdit.course
-            }
-            else {
-                return studentFormState.course
-            }
+    }, [studentFormState.schoolOptions])
+
+
+    // when studentForm is mounted, we need to check for school
+    // either create: get all school value possible OR
+    // edit: get current user school value (note cannot edit school value when editting, this will become messy)
+    // if needed, user can create the same student in the different school
+    useEffect(() => {
+        const schoolOptionsFetchInCreate = async () => {
+            const schoolOptions = await axioService.schoolOptionsCreateGET(authedAxios)
+            studentFormDispatch({type: 'set-schoolOptions', payload: schoolOptions})
         }
+
+
+        const editFormPrep = async (recordForEdit) => {
+
+            // can we set a progress circle while we wait?
+            // set school options 
+            const schoolName = await axioService.schoolOptionsEditGET(authedAxios, recordForEdit.rotation)    
+
+            // clear course and rotation values
+            studentFormDispatch({type: 'set-course', payload: ''})
+            studentFormDispatch({type: 'set-rotation', payload: ''})
+
+            // set course options
+            const courses = await getCourseOptions(authedAxios, schoolName)
+            studentFormDispatch({type: 'set-courseOptions', payload: courses})
+
+            // set course
+            studentFormDispatch({type: 'set-course', payload: recordForEdit.course})
+
+            // set rotation Options
+            const rotations = await getRotationOptions(authedAxios, recordForEdit.course, schoolName)
+            studentFormDispatch({type: 'set-rotationOptions', payload: rotations})
+        
+            // set rotation
+            const rotationNumber = await axioService.rotationNumberByUUIDGET(authedAxios, recordForEdit.rotation)
+            studentFormDispatch({type: 'set-rotation', payload: rotationNumber})
+        }
+
+
+         // if not edit we should be in create mode, then we must grab all possible school values that user can fetch
+        if (!recordForEdit) {
+            schoolOptionsFetchInCreate()
+        }
+        // if we are editting, prepare forms, fetch school name first to get the correct course and rotation value
+        // note in StudentForm.jsx, if editting, school field wont show, course field is not mutable
         else {
-            return studentFormState.course
+           
+           editFormPrep(recordForEdit)
         }
-    
-  }, [recordForEdit, studentFormState.course])
+
+    // all changes in recordForEdit will have a diff api call depending if we are editting or not
+    }, [recordForEdit])
 
 
-    // if studentForm is used in an edit mode, return record of interest's rotation property
-    const rotationValue = useMemo(()=>{
-        if (recordForEdit) {
-            if (!studentFormState.rotation) {
-                return recordForEdit.rotation
-            }
-            else {
-                return studentFormState.rotation
-            }
-        }
-        else {
-            return studentFormState.rotation
-        }
-    }, [recordForEdit, studentFormState.rotation])
 
 
     // fetches course options for student form when loaded
     useEffect(() => {
         const courseOptions = async () => {
-            const courses = await getCourseOptions(authedAxios)
+            const courses = await getCourseOptions(authedAxios, studentFormState.school)
 
+            studentFormDispatch({type: 'set-course', payload: ''})
+            studentFormDispatch({type: 'set-rotation', payload: ''})
             studentFormDispatch({type: 'set-courseOptions', payload: courses})
-            //return courses
-        }
 
+        }
         courseOptions()
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    // this will also be triggered when the school state value is changed
+    }, [studentFormState.school])
 
 
     // fetches rotation option for studfentform, whenever courseValue changes, this needs to re-fetch
+    // when courseOptions change, it means the school changed, and rotation values should change too
+    // when course change, of course the rotation values will change
     useEffect(() => {
         const rotationOptions = async () => {
-            const rotations = await getRotationOptions(authedAxios, courseValue)
+            const rotations = await getRotationOptions(authedAxios, studentFormState.course, studentFormState.school)
 
+            studentFormDispatch({type: 'set-rotation', payload: ''})
             studentFormDispatch({type: 'set-rotationOptions', payload: rotations})
         }
 
         rotationOptions()
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [courseValue])
+    }, [studentFormState.course, studentFormState.courseOptions])
+
+
 
     // whenever studentFormState.clearField changes, we need to also clear program and rotation select fields
     useEffect(()=>{
@@ -486,8 +517,8 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
         studentFormState,
         studentFormValidations,
         inputRefs,
-        rotationValue,
-        courseValue,
+        schoolRadioDefaultValue,
+        recordForEdit,
         addRotStates: {...addRotStates}
     }
 
@@ -500,6 +531,7 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
         handleCancel,
         convertToDefaultEventParam,
         getHoursWorkedRadioItems,
+        studentFormDispatch,
 
         addRotHandlers: {...addRotHandlers}
 
