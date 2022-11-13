@@ -153,7 +153,7 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
 
     const studentFormValidations = useValidations().useCreateValidation()
     const [ studentFormState, studentFormDispatch ] = useReducer(reducer, initialStudentFormState)
-    const [ addRotStates, addRotHandlers ] = useAddRotationForm(userFeedbackObj, studentFormState.rotationAdded)
+    const [ addRotStates, addRotHandlers ] = useAddRotationForm(userFeedbackObj, studentFormState.school, studentFormDispatch, recordForEdit)
     const authedAxios = useAuthedAxios()
     const { getCourseOptions, getRotationOptions, getHoursWorkedRadioItems } = SMSRecordService
     
@@ -202,16 +202,18 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
                 return {...state, courseOptions: action.payload}
             case 'set-rotationOptions': 
                 return {...state, rotationOptions: action.payload}
-            case 'set-submitLoading': 
-                return {...state, submitLoading: action.payload}
-            case 'set-submitSuccess': 
-                return {...state, submitSuccess: action.payload}
+            case 'set-school': 
+                return { ...state, school: action.payload}
             case 'set-course': 
                 return { ...state, course : action.payload }
             case 'set-rotation': 
                 return { ...state, rotation: action.payload }
-            case 'set-school': 
-                return { ...state, school: action.payload}
+            case 'set-submitLoading': 
+                return {...state, submitLoading: action.payload}
+            case 'set-submitSuccess': 
+                return {...state, submitSuccess: action.payload}
+            case 'set-rotationAdded': 
+                return {...state, rotationAdded: action.payload}
             case 'form-submissionSuccess' : 
                 return {
                     ...state,  
@@ -431,7 +433,7 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
         const editFormPrep = async (recordForEdit) => {
 
             // can we set a progress circle while we wait?
-            // set school options 
+            // get school name
             const schoolName = await axioService.schoolOptionsEditGET(authedAxios, recordForEdit.rotation)    
 
             // clear course and rotation values
@@ -469,7 +471,7 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
     // all changes in recordForEdit will have a diff api call depending if we are editting or not
     }, [recordForEdit])
 
-
+    useEffect(() => console.log('studentFormState.rotationOptions: ', studentFormState.rotationOptions), [studentFormState.rotationOptions])
 
 
     // fetches course options for student form when loaded
@@ -482,7 +484,9 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
             studentFormDispatch({type: 'set-courseOptions', payload: courses})
 
         }
-        courseOptions()
+
+        if (!recordForEdit)
+            courseOptions()
 
     // this will also be triggered when the school state value is changed
     }, [studentFormState.school])
@@ -499,10 +503,33 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
             studentFormDispatch({type: 'set-rotationOptions', payload: rotations})
         }
 
-        rotationOptions()
+        if (!recordForEdit)
+            rotationOptions()
 
     }, [studentFormState.course, studentFormState.courseOptions])
 
+
+    useEffect(() => {
+        const refreshRotationOptions = async () => {
+            var rotations
+            if (!recordForEdit) {
+                rotations = await getRotationOptions(authedAxios, studentFormState.course, studentFormState.school)
+            }
+            else {
+                const schoolName = await axioService.schoolOptionsEditGET(authedAxios, recordForEdit.rotation) 
+                rotations = await getRotationOptions(authedAxios, recordForEdit.course, schoolName)
+            }
+
+            studentFormDispatch({type: 'set-rotation', payload: ''})
+            studentFormDispatch({type: 'set-rotationOptions', payload: rotations})
+        }
+
+        if (studentFormState.rotationAdded === true) {
+            // refetch rotationOptions
+            refreshRotationOptions()
+            studentFormDispatch({type: 'set-rotationAdded', payload: false})
+        }
+    }, [studentFormState.rotationAdded])
 
 
     // whenever studentFormState.clearField changes, we need to also clear program and rotation select fields
@@ -541,8 +568,7 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
     return [studentFormStates, studentFormHandlers]
 }
 
-
-function useAddRotationForm(userFeedbackObj, rotationAddedState) {
+function useAddRotationForm(userFeedbackObj, schoolName, studentFormDispatch, recordForEdit) {
 
     const { notificationHandlers } = userFeedbackObj
     const [ isAddRotModalOpen, addRotModalHandlers ] = useAddRotationModal()
@@ -551,6 +577,7 @@ function useAddRotationForm(userFeedbackObj, rotationAddedState) {
     const [ clearFields, setClearFields ] = useToggle(false)
     const rotationRef = useRef(null)
     const rotFormValidations = useValidations().useAddRotValidation()
+    const authedAxios = useAuthedAxios()
 
     const handleProgramNameChange = useCallback((e) => {
         setProgramName(e.target.value)
@@ -574,7 +601,7 @@ function useAddRotationForm(userFeedbackObj, rotationAddedState) {
     }, [showError, clearFields, setClearFields, setShowError])
 
 
-    const handleAddRotSubmit = useCallback( e => {
+    const handleAddRotSubmit = useCallback( async e => {
         e.preventDefault()
 
         let validationObj = {
@@ -606,6 +633,23 @@ function useAddRotationForm(userFeedbackObj, rotationAddedState) {
                 }
             });
 
+            
+            try {
+                // get school name
+                const school = recordForEdit ? await axioService.schoolOptionsEditGET(authedAxios, recordForEdit.rotation) : schoolName
+
+                // post rotation
+                const response = await axioService.rotationCreatePOST(authedAxios, data, school)
+
+                // set state to trigger useEffect is useStudentForm
+                studentFormDispatch({type: 'set-rotationAdded', payload: true})
+
+                console.log('Rotation created successfully, server response: ', response.data)
+
+            }
+            catch(e) {
+                console.error(e)
+            }
 
             console.log('Rotation added successfully, ', data)
             notificationHandlers.handleOpenNotification('Rotation added successfully')

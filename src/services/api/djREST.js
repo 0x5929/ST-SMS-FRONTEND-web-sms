@@ -227,9 +227,20 @@ export const studentCreatePOST = async (authedAxio, studentRecord) => {
 
 
 // POST request for rotation 
-export const rotationCreatePOST = async (authedAxio, {programName, rotation}) => {
+export const rotationCreatePOST = async (authedAxio, {programName, rotation}, schoolName) => {
     let postUrl = 'rotations/'
-    let postData = rotationCreateDataGetter(programName, rotation)
+
+    try {
+        let postData = await rotationCreateDataGetter(authedAxio, programName, rotation, schoolName)
+        
+        const response = await authedAxio.post(smsEndpointUrl + postUrl, postData)
+
+        return response.data
+    }
+    catch (e) {
+        console.error(e)
+        throw e
+    }
 
 }
 
@@ -325,8 +336,25 @@ const rotationNumberGetter = (responseData, course) => {
 
 }
 
-const rotationCreateDataGetter = (programName, rotationNumber) => {
-    
+const rotationCreateDataGetter = async (authedAxio, programName, rotationNumber, schoolName) => {
+    let queryUrl = 'rotations/?program__program_name=' + programName + '&program__school__school_name=' + schoolName
+    let data = {}
+
+    // get program uuid 
+    try {
+        const response = await authedAxio.get(smsEndpointUrl + queryUrl)
+        const programUUID = response.data[0]['program']
+
+        data['program'] = programUUID
+        data['rotation_number'] = rotationNumber
+
+        return data
+        
+    }
+    catch (e) {
+        console.error(e)
+        throw e
+    }
 }
 
 // helper methods (converting date objects accordingly)

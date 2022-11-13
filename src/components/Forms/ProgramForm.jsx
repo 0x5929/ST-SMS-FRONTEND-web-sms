@@ -67,14 +67,19 @@ function ProgramForm({ validations, studentFormStates, studentFormHandlers, ...o
 
                     data-testid="rotation-select"                
                 />
-                <Styles.AddRotBtn 
-                    size="medium" 
-                    onClick={handleOpenAddRotModal}
-                
-                    data-testid="addrot-btn"
-                >
-                    <AddBoxIcon />
-                </Styles.AddRotBtn>
+                {
+                    course && 
+                    
+                    <Styles.AddRotBtn 
+                        size="medium" 
+                        onClick={handleOpenAddRotModal}
+                    
+                        data-testid="addrot-btn"
+                    >
+                        <AddBoxIcon />
+                    </Styles.AddRotBtn>
+                }
+
             </Styles.Stack>
             <Styles.Modal
                 modalTitle="Add Rotation"
