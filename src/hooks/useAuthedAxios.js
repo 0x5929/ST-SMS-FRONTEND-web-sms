@@ -10,7 +10,7 @@ import { useAuthContext } from '../contexts'
 const useAuthedAxios  = () => {
     const navigate = useNavigate()
     const refresh = useRefreshToken()
-    const { user, logout } = useAuthContext()
+    const { user } = useAuthContext()
 
     useEffect(() => {
 
@@ -38,27 +38,41 @@ const useAuthedAxios  = () => {
         const responseIntercept = axio.interceptors.response.use(
             response => response,
 
-            // response with error (403?)
+            // response with errors (dealing with errors)
             async (error) => {
+
+                
                 const prevRequest = error?.config
 
-                // once request is sent again with refresh token, set set to true
-                // avoid endless loop of request and responses due to 403
-                if ( (error?.response.status === 400 || error?.response.status === 401 || error?.response.status === 403)
+                // if response error is within 400s, see to that we resend it after trying to refresh 
+                // with our refresh token http only cookie
+                if ( (error?.response.status === 400 || error?.response.status === 403)
                     && (!prevRequest?.sent) ) {
                         
                     prevRequest.sent = true
+
                     const newAccessToken = await refresh()
                     prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`       
-                    
-                    // after adding new access token to the prevRequest, redo request again
                     return axio(prevRequest)
+                
+      
                 }
+                // if refresh() above came back not refreshed, and bc no valid refresh token is found, redirect to sign in
+                // also needed so the above condition doesnt go into infinite loop, care when refactoring
+                else if (error?.response?.data?.detail === 'No valid refresh token found.') {
 
-                return Promise.reject(error).then(()=>{}, (error) => {
-                    console.error(error)
+                    return Promise.reject(error).then(()=>{}, (error) => {
+                        console.error(error)
+    
+                        // since it is a protected route, it will refresh tokens and load, if not 
+                        // user will be set to null and / sign in will be rendered (from useEffect login inside useSigninForm())
+
+                        navigate('/')
+                    })
+                }
+                else {
                     navigate('/')
-                })
+                }
             }
         )
 
@@ -68,7 +82,7 @@ const useAuthedAxios  = () => {
             axio.interceptors.response.eject(responseIntercept)
         }
 
-    }, [user, refresh])
+    }, [user])
 
     // return this so other hook logic can use and request backend API
     return axio
