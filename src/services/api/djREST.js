@@ -186,7 +186,6 @@ export const rotationNumberGET = async (authedAxio, course, schoolName) => {
 }
 
 // GET request for one single rotation given the rotation uuid
-// this is for convertion of rotation value in edit student, and view student forms
 export const rotationNumberByUUIDGET = async (authedAxio, rotationUUID) => {
     let queryUrl = 'rotations/' + rotationUUID + '/'
 
@@ -205,10 +204,10 @@ export const rotationNumberByUUIDGET = async (authedAxio, rotationUUID) => {
 export const studentCreatePOST = async (authedAxio, studentRecord) => {
     let postUrl = 'students/'
 
-    studentRecord = requestObjMapper(studentRecord)
-
     try {
         studentRecord['rotation'] = await convertRotationUUID(authedAxio, studentRecord)
+        studentRecord = requestObjMapper(studentRecord)
+
        const response = await authedAxio.post(smsEndpointUrl + postUrl, studentRecord)
 
         console.log(response.data)
@@ -226,7 +225,7 @@ export const studentCreatePOST = async (authedAxio, studentRecord) => {
 // POST request for rotation 
 export const rotationCreatePOST = async (authedAxio, {programName, rotation}, schoolName) => {
     let postUrl = 'rotations/'
-
+    
     try {
         let postData = await rotationCreateDataGetter(authedAxio, programName, rotation, schoolName)
         
@@ -244,21 +243,25 @@ export const rotationCreatePOST = async (authedAxio, {programName, rotation}, sc
 
 // PUT request for student edit
 // but should we change it to patch??
-export const studentEditPUT = async (authedAxio, studentRecord) => {
-    let putUrl = 'students/' + getStudentUUID(authedAxio, studentRecord['pk']) + '/'
-    studentRecord['rotation'] = convertRotationUUID(authedAxio, studentRecord)
+export const studentEditPATCH = async (authedAxio, studentRecord) => {
 
     try {
-        const response = await authedAxio.put(smsEndpointUrl + putUrl, studentRecord)
-        console.log(response.data)
+        let studentId = await getStudentUUID(authedAxio, studentRecord['studentId'])
+        
+        studentRecord['rotation'] = await convertRotationUUID(authedAxio, studentRecord)
+        studentRecord = requestObjMapper(studentRecord)
+
+        let patchUrl = 'students/' + studentId + '/'
+        const response = await authedAxio.patch(smsEndpointUrl + patchUrl, studentRecord)
+        console.log('PATCH response.data', response.data)
 
         // we should maybe also return status code
-        return response.data
+        return responseObjMapper([response.data])[0]
     }
     catch(error) {
 
         console.error('something went wrong in editting student record: ', error, studentRecord)
-
+        throw error
     }
 }
 
@@ -378,47 +381,44 @@ const convertQueryParams = (paramArr) => {
     return finalStr
 }
 
-export const convertRotationUUID = async (authedAxio, record) => {
-    // convert rotation to UUID
-    let rotationNumber = record['rotation']
-    let programName = record['course']
-    let rotationQueryStr = 'students/?rotation__rotation_number=' + rotationNumber.toString() + '&rotation__program__program_name=' + programName.toString()
+// given a record's rotation number, grab its rotation uuid from API
+export const convertRotationUUID = async (authedAxio, { rotation, course, school}) => {
 
-    //let rotationQueryStr = 'students/' + await getStudentUUID(authedAxio, record['pk']) + '/'
+    let rotationQueryStr = 'students/?rotation__rotation_number=' + rotation.toString() + '&rotation__program__program_name=' + course.toString() + '&rotation__program__school__school_name=' + school.toString()
 
     try {
         const rotationQueryResponse = await authedAxio.get(smsEndpointUrl + rotationQueryStr)
 
-        console.log('rotationQueryResponse: ', rotationQueryResponse)
         return rotationQueryResponse.data[0]['rotation']
      
     }
     catch(error) {
-        console.error("there is an error in grabbing this record's rotation UUID", error, record)
+        console.error("there is an error in grabbing this record's rotation UUID", error)
 
         // we should return error so the POST proedure can be terminated
-        return 
+        throw error 
     }
 
 
 }
 
-const getStudentUUID = async (authedAxio, student_uuid) => {
-    let studentIdQueryStr = 'students/?student_id=' + student_uuid
+export const getStudentUUID = async (authedAxio, studentId) => {
+    let studentIdQueryStr = 'students/?student_id=' + studentId
 
     try {
         const response = await authedAxio.get(smsEndpointUrl + studentIdQueryStr)
         return response.data[0]['student_uuid']
     }
     catch(error) {
-        console.log("error occured in grabbing this record's student UUID", error, student_uuid)
+        console.log("error occured in grabbing this record's student UUID", error, studentId)
 
-        return
+        return ''
     }
 }
 
 
 const dataMapper = {
+    rotation: 'rotation',
     student_uuid : 'pk',
     student_id : 'studentId',
     first_name : 'firstName',
@@ -458,6 +458,7 @@ const courseMapper = {
     BLS : 'Basic Life Support',
     HSFA: 'Heartsaver First Aid'
 }
+
 
 const responseObjMapper = (APIResponseData) => {
     let finalArray = []

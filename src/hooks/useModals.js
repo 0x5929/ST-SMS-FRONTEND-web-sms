@@ -18,13 +18,27 @@ export function useEditModal ({setRecordForEdit, setRecords, userFeedbackObj, re
     }, [setIsEditModalOpen, setRecordForEdit, studentFormHandlers])
 
 
-    const handleEditSubmit = useCallback(e => {
+    const handleEditSubmit = useCallback(async e => {
 
-        let submittedData = studentFormHandlers.handleSubmit(e, studentFormStates.inputRefs)
+        let submittedData = await studentFormHandlers.handleSubmit(e, studentFormStates.inputRefs)
 
         setRecordForEdit(submittedData)
-        setRecords(studentRecordService.getAllRecords())
-    }, [setRecordForEdit, setRecords, studentFormHandlers, studentFormStates.inputRefs])
+        
+        // filter through the records and replace the record Editted with this submitted data thats successful
+        setRecords((prevRecords) => {
+            let currentRecords = []
+            for (let i = 0; i < prevRecords.length; i++) {
+                if (prevRecords[i]['studentId'] === submittedData['studentId']) {
+                    currentRecords.push(submittedData)
+                }
+                else {
+                    currentRecords.push(prevRecords[i])
+                }
+            }
+
+            return currentRecords
+        })
+    }, [setRecordForEdit, studentFormHandlers, studentFormStates.inputRefs])
 
 
     const handleEditCancel = useCallback(()=> {

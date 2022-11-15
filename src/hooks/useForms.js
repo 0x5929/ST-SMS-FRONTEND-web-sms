@@ -5,7 +5,7 @@ import { useAddRotationModal, useValidations, useToggle, useRefreshToken, useAut
 import * as SMSRecordService from '../services/SMSRecordService'
 import * as axioService from '../services/api/djREST'
 
-
+// this needs to be replaced by checkError inside useStudentForm.submitHandle logic
 function _checkForError(validations, callback) {
     let validationKeys = Object.keys(validations)
     for ( var i = 0; i < validationKeys.length; i++ ) {
@@ -185,11 +185,6 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
         hoursWorked: useRef(null),
         descriptionAttempts: useRef(null),
 
-        
-        // are these necessary? if not plz delete
-        course: null,
-        rotation: null,
-
     }
 
 
@@ -244,6 +239,7 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
 
 
     const handleProgress = useCallback(async (callback, record) => {
+        console.log('record inside handleProgress', record)
         if (!studentFormState.submitLoading) {
 
             studentFormDispatch({type: 'form-submissionLoading'})
@@ -260,51 +256,6 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
 
         }
     }, [authedAxios, studentFormState.submitLoading])
-
-    const _createOrUpdate = useCallback(async (record, resetForm) => {
-
-        // notification on after form submission
-        const {  notificationHandlers } = userFeedbackObj
-
-        let op = undefined
-
-        const recordIndexToEdit = SMSRecordService.getRecordIndex(record)
-
-
-        if (recordIndexToEdit === false){
-
-            // in reality createRecord should return a promise, and will take a callback function as input
-            // here instead, we will just pass in window.setTimeout
-            op = 'Create'
-            var response = await handleProgress(axioService.studentCreatePOST, record)
-
-        }
-        else {
-            // in reality createRecord should return a promise, and will take a callback function as input
-            // here instead, we will just pass in window.setTimeout
-            handleProgress(window.setTimeout)
-            op = 'Update'
-            SMSRecordService.updateRecord(record, recordIndexToEdit)
-        }
-        notificationHandlers.handleOpenNotification(op + ' successful')
-        resetForm()
-
-        console.log(op, ' success with: ', JSON.stringify(response))
-        return record
-    }, [handleProgress, userFeedbackObj])
-
-    const convertToDefaultEventParam = useCallback((name, value) => ({
-        target: {
-            name,
-            value
-        }
-    }), [])
-    
-    const resolveValue = useCallback((recordProp)=> {
-        return recordForEdit ? recordForEdit[recordProp] : ''
-    }, [recordForEdit])
-
-    
 
     const handleClearError = useCallback(() => {
         if (studentFormState.showError) {
@@ -337,79 +288,41 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
     }, [])
 
 
-    const handleSubmit = useCallback((e, inputRefs) =>{
-        // DEV configuration so we dont refresh the page when testing submit button
-        e.preventDefault()
+    const requestProcessing = useCallback(async (record, resetForm, isEdit ) => {
+        // notification on after form submission
+        const {  notificationHandlers } = userFeedbackObj
 
-        // validation logic
-        let validationObj = {}
+        let op = undefined
+        let response
 
-        // grab validation
-        Object.keys(inputRefs).forEach(function(key) {
-            // both objs have the same key
-            if ( key in studentFormValidations) {
+        if (isEdit === false){
 
-                if (key === 'course' || key === 'rotation'){
+            op = 'Create'
+            response = await handleProgress(axioService.studentCreatePOST, record)
+        }   
+        else {
+            op = 'Update'
 
-                    // try to think of a better way to achieve this. 
-                    // one can just remove course and rotation from useRefs, BUT, how can we validate course?
-                    validationObj[key] = recordForEdit ?  
-                        studentFormValidations[key](recordForEdit[key]) : 
-                        studentFormValidations[key](studentFormState[key])
-
-                }
-                else {
-
-                    validationObj[key] = studentFormValidations[key](inputRefs[key].current.value)
-                }
-            }
-        })
-
-        if (_checkForError(validationObj, () => studentFormDispatch({type: 'form-toggleShowErrors', payload: true}))) {
-            let data = {}
-            Object.keys(inputRefs).forEach(function(key) {
-
-                switch(key) {
-                    case 'course': 
-                        data[key] = studentFormState[key]
-                        break;
-                    case 'rotation': 
-                        data[key] = studentFormState[key]
-                        break;
-                    case 'graduated':
-                        data[key] = inputRefs[key].current.checked
-                        break;
-                    case 'employed':
-                        data[key] = inputRefs[key].current.checked
-                        break;
-                    case 'passedFirstExam':
-                        data[key] = inputRefs[key].current.checked
-                        break;
-                    case 'passedSecondOrThird':
-                        data[key] = inputRefs[key].current.checked
-                        break;
-                    case 'startingWage': 
-                        data[key] = inputRefs[key].current.value?inputRefs[key].current.value:'0.00'
-                        break;
-                    default: 
-                        data[key] = inputRefs[key].current.value
-                }
-
-
-            });
-
-            if (recordForEdit) {
-                data.pk = recordForEdit.pk
-                data.course = recordForEdit.course
-                data.rotation = recordForEdit.rotation
-            }
-
-            return _createOrUpdate(data, handleCancel)
-        } else {
-            return recordForEdit
+            response = await handleProgress(axioService.studentEditPATCH, record)
         }
 
-    }, [_createOrUpdate, handleCancel, studentFormState, studentFormValidations, recordForEdit])
+
+        notificationHandlers.handleOpenNotification(op + ' successful')
+        resetForm()
+
+        return response
+    }, [handleProgress, userFeedbackObj])
+
+    const convertToDefaultEventParam = useCallback((name, value) => ({
+        target: {
+            name,
+            value
+        }
+    }), [])
+    
+    const resolveValue = useCallback((recordProp)=> {
+        return recordForEdit ? recordForEdit[recordProp] : ''
+    }, [recordForEdit])
 
 
     const schoolRadioDefaultValue = useMemo(() => {
@@ -417,6 +330,77 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
             return studentFormState.schoolOptions[0]['value']
 
     }, [studentFormState.schoolOptions])
+
+
+    const handleSubmit =  (e, inputRefs) =>{
+        // DEV configuration so we dont refresh the page when testing submit button
+        e.preventDefault()
+
+        let isEdit = false
+
+        // TODO: make a cleaner way to submit POST/PUT data (that also can be implemented across)
+
+        // 1. construct data object 
+        // 2. iterate through each object key to check for validation, redo checkForError func if needed
+        // 3. if validated, check object, pass it to a requestProcessing function that calls djREST inside its handleProgress 
+        // 4. if not validated, toggle error, and do nothing else
+
+        // construct data
+        var requestData = {}
+
+
+        // first take care of edit form data
+        if (recordForEdit) {
+            isEdit = true
+
+            requestData.pk = recordForEdit.pk
+            requestData.school = studentFormState.school
+            requestData.course = studentFormState.course
+            requestData.rotation = studentFormState.rotation
+        }
+        else {
+            requestData.course = studentFormState.course
+            requestData.rotation = studentFormState.rotation
+        }
+
+        for (let key in inputRefs) {
+            if (key === 'school') {
+                requestData[key] = requestData[key] ? requestData[key] : inputRefs[key].current.value
+            }
+            else if (key === 'graduated' || key === 'employed' || key === 'passedFirstExam' || key === 'passedSecondOrThird') {
+                requestData[key] = inputRefs[key].current.checked
+            }
+            else if (key === 'startingWage') {
+                requestData[key] = inputRefs[key].current.value ? inputRefs[key].current.value : '0.00'
+            }
+            else {
+                requestData[key] = inputRefs[key].current.value
+            } 
+        }
+
+
+        // check for error
+        var hasError = false
+        for (let key in requestData) {
+            if (key in studentFormValidations) {
+                let validationFunc = studentFormValidations[key]
+                if (!_isEmpty(validationFunc(requestData[key]))) {
+                    break
+                }
+            }
+        }
+
+        // if there are error, return execution to app, aka do nothing
+        if (hasError) {
+           studentFormDispatch({type : 'form-toggleShowErrors', payload: true})
+           return recordForEdit
+        }
+        else {
+            return requestProcessing(requestData, handleCancel, isEdit)
+        }
+
+    }
+
 
 
     // when studentForm is mounted, we need to check for school
@@ -432,9 +416,11 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
 
         const editFormPrep = async (recordForEdit) => {
 
-            // can we set a progress circle while we wait?
-            // get school name
-            const schoolName = await axioService.schoolOptionsEditGET(authedAxios, recordForEdit.rotation)    
+            // TODO: can we set a progress circle while we wait?
+
+            // set school name for 
+            const schoolName = await axioService.schoolOptionsEditGET(authedAxios, recordForEdit.rotation) 
+            studentFormDispatch({type: 'set-school', payload: schoolName})
 
             // clear course and rotation values
             studentFormDispatch({type: 'set-course', payload: ''})
@@ -462,9 +448,8 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
             schoolOptionsFetchInCreate()
         }
         // if we are editting, prepare forms, fetch school name first to get the correct course and rotation value
-        // note in StudentForm.jsx, if editting, school field wont show, course field is not mutable
+        // note in StudentForm.jsx, if editting, school field wont show& course field is not mutable
         else {
-           
            editFormPrep(recordForEdit)
         }
 
@@ -534,8 +519,6 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
     useEffect(()=>{
         handleClearCourse() 
     }, [handleClearCourse, studentFormState.clearFields])
-
-
 
 
     const studentFormStates = { 
@@ -670,7 +653,7 @@ function useAddRotationForm(userFeedbackObj, schoolName, studentFormDispatch, re
 
 
 
-export function useQueryForm({ setQueryResults, handleBackdrop }){
+export function useQueryForm({ setQueryResults, handleBackdrop, shouldRefresh }){
 
     var textInput = useRef(null)
     const [ queryOptions, setQueryOptions ] = useState([{query: 'clast_name', value: '', pk: 0}])
@@ -775,7 +758,22 @@ export function useQueryForm({ setQueryResults, handleBackdrop }){
         }
     },  [handleBackdrop, handleSetQueryFormErrorCallback, queryFormErrors, queryValidation, setQueryResults, authedAxios])
 
+    useEffect(() => {
+        const refreshQueryResults = async (queryOptions) => {
+            try {
+                const response = await handleBackdrop(axioService.studentQueryGET, authedAxios, queryOptions)
+                setQueryResults(response)
 
+            }
+            catch(e) {
+                console.error(e)
+            }
+        }
+        if (shouldRefresh) {
+            console.log('desprate attempt')
+            refreshQueryResults(queryOptions)
+        }
+    }, [shouldRefresh])
     
     const queryFormStates = { queryOptions, queryFormErrors, textInput }
     const queryFormHandlers = {
