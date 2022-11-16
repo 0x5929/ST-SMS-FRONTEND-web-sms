@@ -246,12 +246,11 @@ export const rotationCreatePOST = async (authedAxio, {programName, rotation}, sc
 export const studentEditPATCH = async (authedAxio, studentRecord) => {
 
     try {
-        let studentId = await getStudentUUID(authedAxio, studentRecord['studentId'])
-        
+        let studentPk = studentRecord['pk']
         studentRecord['rotation'] = await convertRotationUUID(authedAxio, studentRecord)
         studentRecord = requestObjMapper(studentRecord)
 
-        let patchUrl = 'students/' + studentId + '/'
+        let patchUrl = 'students/' + studentPk + '/'
         const response = await authedAxio.patch(smsEndpointUrl + patchUrl, studentRecord)
         console.log('PATCH response.data', response.data)
 
@@ -266,11 +265,11 @@ export const studentEditPATCH = async (authedAxio, studentRecord) => {
 }
 
 // DELETE request for student deletion
-export const studentRemoveDELETE = async (authedAxio, studentRecord) => {
-    let delUrl = 'students/' + getStudentUUID(authedAxio, studentRecord['pk']) + '/'
+export const studentRemoveDELETE = async (authedAxio, studentPk) => {
+    let delUrl = 'students/' + studentPk + '/'
 
     try {
-        const response = await authedAxio.delete(delUrl)
+        const response = await authedAxio.delete(smsEndpointUrl + delUrl)
 
         console.log(response.data)
 
@@ -278,7 +277,8 @@ export const studentRemoveDELETE = async (authedAxio, studentRecord) => {
         return response.data
     }
     catch(error) {
-        console.error('something went wrong in deleting student record: ', error, studentRecord)
+        console.error('something went wrong in deleting student record, pk: ', error, studentPk)
+        throw error
     }
 }
 
@@ -402,7 +402,7 @@ export const convertRotationUUID = async (authedAxio, { rotation, course, school
 
 }
 
-export const getStudentUUID = async (authedAxio, studentId) => {
+const getStudentUUID = async (authedAxio, studentId) => {
     let studentIdQueryStr = 'students/?student_id=' + studentId
 
     try {

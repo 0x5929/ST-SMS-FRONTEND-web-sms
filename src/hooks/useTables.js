@@ -1,5 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
 import * as SMSRecordService from '../services/SMSRecordService'
+import * as AxioService from '../services/api/djREST'
+import { useAuthedAxios } from '../hooks'
 
 export default function useQueryResultTable(userFeedbackObj, results) {
 
@@ -9,6 +11,7 @@ export default function useQueryResultTable(userFeedbackObj, results) {
     const [paginationStates, paginationHandlers] = usePagination(records)
     const [sortingStates, sortingHandlers]= useSorting()
     const [filterStates, filterHandlers] = useFilter(setRecords)
+    const authedAxio = useAuthedAxios()
 
     const { getTableData } = SMSRecordService
     const { notificationHandlers, confirmDialogHandlers } = userFeedbackObj
@@ -20,16 +23,35 @@ export default function useQueryResultTable(userFeedbackObj, results) {
       return paginationHandlers.recordsAfterPaging(sortedResults)
     }, [filterHandlers, paginationHandlers, records, sortingHandlers])
 
-    const _handleDelete = useCallback((record) => {
-
+    const _handleDelete = useCallback(async (record) => {
         confirmDialogHandlers.handleUnconfirmed()
 
-        SMSRecordService.deleteRecord(record.pk)
-        setRecords(SMSRecordService.getAllRecords())
+        // SMSRecordService.deleteRecord(record.pk)
+        try {
 
-        notificationHandlers.handleOpenNotification('Student record deleted!', 'error')
+            const responseData = await AxioService.studentRemoveDELETE(authedAxio, record['pk'])
+            setRecords((prevRecords) => {
+                let currentRecords = []
 
-        console.log('Delete successful: ', record)
+                for (let i = 0; i < prevRecords.length; i++) {
+                    if (prevRecords[i]['studentId'] === record['studentId']) {
+                        continue
+                    }
+                    else {
+                        currentRecords.push(prevRecords[i])
+                    }
+                }
+                return currentRecords
+            })
+            notificationHandlers.handleOpenNotification('Student record deleted!', 'error')
+            console.log('Delete successful: ', record, responseData)
+        }
+        catch (err) {
+            console.error(err)
+            notificationHandlers.handleOpenNotification('Something went wrong, student record NOT deleted!', 'error')
+        }
+
+
     }, [confirmDialogHandlers, notificationHandlers])
 
     const handleDeletePress = useCallback((record) =>{
