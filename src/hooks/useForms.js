@@ -653,7 +653,7 @@ function useAddRotationForm(userFeedbackObj, schoolName, studentFormDispatch, re
 
 
 
-export function useQueryForm({ setQueryResults, handleBackdrop, shouldRefresh }){
+export function useQueryForm({ setQueryResults, setShowResults, handleSetProgressStatus }){
 
     var textInput = useRef(null)
     const [ queryOptions, setQueryOptions ] = useState([{query: 'clast_name', value: '', pk: 0}])
@@ -731,7 +731,6 @@ export function useQueryForm({ setQueryResults, handleBackdrop, shouldRefresh })
     }, [queryOptions])
 
 
-
     const handleClear = useCallback((textInput, index, pk=null) =>{
         // textInput is not used here, because we have set the value of the searchbar/textField, so instead, we will manipulate the value from its state obj
         if (pk !== null) {
@@ -742,38 +741,29 @@ export function useQueryForm({ setQueryResults, handleBackdrop, shouldRefresh })
     }, [clearError, handleQueryOnChange])
 
 
-
     const handleSubmit = useCallback( async (e, queryOptions) =>  {
         e.preventDefault()
-
         if (queryValidation(queryOptions, handleSetQueryFormErrorCallback, queryFormErrors)){     
             try {
+                // turn circular progress to true
+                await handleSetProgressStatus({progressState: true})
 
-                const response = await handleBackdrop(axioService.studentQueryGET, authedAxios, queryOptions)
+                // then run callback and then return progress to false once finished
+                const response = await handleSetProgressStatus({
+                    callback: axioService.studentQueryGET, 
+                    callbackArgs : [authedAxios, queryOptions], 
+                    progressState: false
+                })
+                
                 setQueryResults(response)   
+                setShowResults(true)
             }
             catch(err) {
                 console.error(err)
             }
         }
-    },  [handleBackdrop, handleSetQueryFormErrorCallback, queryFormErrors, queryValidation, setQueryResults, authedAxios])
+    },  [handleSetQueryFormErrorCallback, queryFormErrors, queryValidation, setQueryResults, authedAxios])
 
-    useEffect(() => {
-        const refreshQueryResults = async (queryOptions) => {
-            try {
-                const response = await handleBackdrop(axioService.studentQueryGET, authedAxios, queryOptions)
-                setQueryResults(response)
-
-            }
-            catch(e) {
-                console.error(e)
-            }
-        }
-        if (shouldRefresh) {
-            console.log('desprate attempt')
-            refreshQueryResults(queryOptions)
-        }
-    }, [shouldRefresh])
     
     const queryFormStates = { queryOptions, queryFormErrors, textInput }
     const queryFormHandlers = {

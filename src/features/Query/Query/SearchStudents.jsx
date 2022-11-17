@@ -4,8 +4,8 @@ import { Box } from '@mui/material'
 import Components from '../../../components'
 import { useQueryForm } from '../../../hooks'
 
-function SearchStudents({ setQueryResults, handleBackdrop }) {
-    const [ queryFormStates, queryFormHandlers ] = useQueryForm({setQueryResults, handleBackdrop})
+function SearchStudents({ setQueryResults, setShowResults, handleSetProgressStatus }) {
+    const [ queryFormStates, queryFormHandlers ] = useQueryForm({setQueryResults, setShowResults, handleSetProgressStatus})
 
     return (
         <Box data-testid="search-student-component">

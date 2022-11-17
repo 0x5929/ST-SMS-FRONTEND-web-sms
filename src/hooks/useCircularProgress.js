@@ -3,29 +3,28 @@ import { useToggle } from './'
 const useCircularProgress = () => {
     const [ progressOn, setProgressOn ] = useToggle(false)
 
-    // callback: func, callbackArgs: arr
-    const handleCircularProgress = async (callback, callbackArgs) => {
+    // call a callback (if provided) and turn toggle to true or false
+    const handleSetProgressStatus = async ({callback, callbackArgs, progressState}) => {
 
-        setProgressOn(true)
-        
         try {
-            const response = await callback(...callbackArgs)
-            return response
+            if (callback) {
+                const callbackReturned = await callback(...callbackArgs)
+                return callbackReturned
+            }
+            return true
         }
-        catch (err) {
+        catch(err) {
             console.error(err)
             throw err
         }
         finally {
-            setProgressOn(false)
+            setProgressOn(progressState)
         }
-
 
     }
 
-    // note: the last handler func setProgressOn is exported here in case other modules need to impolement a custom progressHandler, 
-    // whereas the handleCircularProgress is a generic way to handle CircularProgress
-    return [progressOn, handleCircularProgress, setProgressOn]
+
+    return [progressOn, handleSetProgressStatus]
 
 
 }

@@ -15,7 +15,7 @@ const Styles = createResultsStyles({
 })
 
 
-function QueryResults({ handleBacktoQuery, queryResults } ) {
+function QueryResults({ queryResults, handleSetProgressStatus, setShowResults } ) {
     const [ notify, notificationHandlers ] = useNotification(Components.NotificationSlide)
     const [ confirmDialog, confirmDialogHandlers ] = useConfirmDialog()
     const [ useQueryResultTableStates, useQueryResultTableHandlers ] = useQueryResultTable(
@@ -52,6 +52,7 @@ function QueryResults({ handleBacktoQuery, queryResults } ) {
     } = useQueryResultTableHandlers
     
 
+
     return (
         <>
             <Styles.Box data-testid="query-results-component">
@@ -66,7 +67,11 @@ function QueryResults({ handleBacktoQuery, queryResults } ) {
                     size="small"
                     color="secondary"
                     variant="outlined"
-                    onClick={handleBacktoQuery}
+                    onClick={() => handleSetProgressStatus({
+                        callback: setShowResults, 
+                        callbackArgs: [false], 
+                        progressState: false
+                    })}
                 />
             </Styles.Box>
             <Styles.QueryResultsTblContainer>
