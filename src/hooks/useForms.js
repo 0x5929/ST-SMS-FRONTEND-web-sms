@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useReducer, useMemo, useCallback } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 
-import { useAddRotationModal, useValidations, useToggle, useRefreshToken, useAuthedAxios } from './index'
+import { useAddRotationModal, useValidations, useToggle, useRefreshToken, useAuthedAxios, useCircularProgress } from './index'
 import * as SMSRecordService from '../services/SMSRecordService'
 import * as axioService from '../services/api/djREST'
 
@@ -154,6 +154,7 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
     const studentFormValidations = useValidations().useCreateValidation()
     const [ studentFormState, studentFormDispatch ] = useReducer(reducer, initialStudentFormState)
     const [ addRotStates, addRotHandlers ] = useAddRotationForm(userFeedbackObj, studentFormState.school, studentFormDispatch, recordForEdit)
+    const [ progressOn, handleSetProgressStatus ] = useCircularProgress()
     const authedAxios = useAuthedAxios()
     const { getCourseOptions, getRotationOptions, getHoursWorkedRadioItems } = SMSRecordService
     
@@ -338,16 +339,8 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
 
         let isEdit = false
 
-        // TODO: make a cleaner way to submit POST/PUT data (that also can be implemented across)
-
-        // 1. construct data object 
-        // 2. iterate through each object key to check for validation, redo checkForError func if needed
-        // 3. if validated, check object, pass it to a requestProcessing function that calls djREST inside its handleProgress 
-        // 4. if not validated, toggle error, and do nothing else
-
         // construct data
         var requestData = {}
-
 
         // first take care of edit form data
         if (recordForEdit) {
@@ -402,7 +395,7 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
     }
 
 
-
+    // SETUP for studentForm
     // when studentForm is mounted, we need to check for school
     // either create: get all school value possible OR
     // edit: get current user school value (note cannot edit school value when editting, this will become messy)
@@ -414,10 +407,7 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
         }
 
 
-        const editFormPrep = async (recordForEdit) => {
-
-            // TODO: can we set a progress circle while we wait?
-
+        const editFormPrep = async () => {
             // set school name for 
             const schoolName = await axioService.schoolOptionsEditGET(authedAxios, recordForEdit.rotation) 
             studentFormDispatch({type: 'set-school', payload: schoolName})
@@ -445,12 +435,16 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
 
          // if not edit we should be in create mode, then we must grab all possible school values that user can fetch
         if (!recordForEdit) {
-            schoolOptionsFetchInCreate()
+            handleSetProgressStatus({progressState: true})
+            handleSetProgressStatus({callback: schoolOptionsFetchInCreate, callbackArgs: [], progressState: false})
+
         }
         // if we are editting, prepare forms, fetch school name first to get the correct course and rotation value
         // note in StudentForm.jsx, if editting, school field wont show& course field is not mutable
         else {
-           editFormPrep(recordForEdit)
+            handleSetProgressStatus({progressState: true})
+            handleSetProgressStatus({callback: editFormPrep, callbackArgs: [], progressState: false})
+
         }
 
     // all changes in recordForEdit will have a diff api call depending if we are editting or not
@@ -527,6 +521,7 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
         inputRefs,
         schoolRadioDefaultValue,
         recordForEdit,
+        progressOn,
         addRotStates: {...addRotStates}
     }
 

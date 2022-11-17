@@ -1,7 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
 import * as SMSRecordService from '../services/SMSRecordService'
 import * as AxioService from '../services/api/djREST'
-import { useAuthedAxios } from '../hooks'
+import { useAuthedAxios, useCircularProgress } from '../hooks'
 
 export default function useQueryResultTable(userFeedbackObj, results) {
 
@@ -11,6 +11,7 @@ export default function useQueryResultTable(userFeedbackObj, results) {
     const [paginationStates, paginationHandlers] = usePagination(records)
     const [sortingStates, sortingHandlers]= useSorting()
     const [filterStates, filterHandlers] = useFilter(setRecords)
+    const [ progressOn, handleSetProgressStatus ] = useCircularProgress()
     const authedAxio = useAuthedAxios()
 
     const { getTableData } = SMSRecordService
@@ -23,31 +24,46 @@ export default function useQueryResultTable(userFeedbackObj, results) {
       return paginationHandlers.recordsAfterPaging(sortedResults)
     }, [filterHandlers, paginationHandlers, records, sortingHandlers])
 
+
+    const deleteAction = async (record) => {
+        const responseData = await AxioService.studentRemoveDELETE(authedAxio, record['pk'])
+        setRecords((prevRecords) => {
+            let currentRecords = []
+
+            for (let i = 0; i < prevRecords.length; i++) {
+                if (prevRecords[i]['studentId'] === record['studentId']) {
+                    continue
+                }
+                else {
+                    currentRecords.push(prevRecords[i])
+                }
+            }
+            return currentRecords
+        })
+
+        return responseData
+    }
+
+
     const _handleDelete = useCallback(async (record) => {
         confirmDialogHandlers.handleUnconfirmed()
 
-        // SMSRecordService.deleteRecord(record.pk)
         try {
+            var responseData
+            const progressResponse = await handleSetProgressStatus({progressState: true})
 
-            const responseData = await AxioService.studentRemoveDELETE(authedAxio, record['pk'])
-            setRecords((prevRecords) => {
-                let currentRecords = []
+            if (progressResponse) {
+                responseData = await handleSetProgressStatus({callback: deleteAction, callbackArgs: [record], progressState: false})
+            }
+            else {
+                throw new Error('error in setting progress')
+            }
 
-                for (let i = 0; i < prevRecords.length; i++) {
-                    if (prevRecords[i]['studentId'] === record['studentId']) {
-                        continue
-                    }
-                    else {
-                        currentRecords.push(prevRecords[i])
-                    }
-                }
-                return currentRecords
-            })
             notificationHandlers.handleOpenNotification('Student record deleted!', 'error')
             console.log('Delete successful: ', record, responseData)
         }
         catch (err) {
-            console.error(err)
+            console.error('error: ', err, record)
             notificationHandlers.handleOpenNotification('Something went wrong, student record NOT deleted!', 'error')
         }
 
@@ -73,6 +89,7 @@ export default function useQueryResultTable(userFeedbackObj, results) {
         paginationStates, 
         sortingStates,
         filterStates,
+        progressOn,
     }
 
     const useQueryResultTableHandlers = {

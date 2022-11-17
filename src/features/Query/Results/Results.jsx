@@ -27,7 +27,7 @@ function QueryResults({ queryResults, handleSetProgressStatus, setShowResults } 
     )
 
     const {
-
+        progressOn,
         records, 
         recordForEdit,
         recordForView,
@@ -110,6 +110,9 @@ function QueryResults({ queryResults, handleSetProgressStatus, setShowResults } 
             <Components.ConfirmDialog 
                 confirmDialog={confirmDialog}
                 confirmDialogHandlers={confirmDialogHandlers}
+            />
+            <Components.SimpleBackDrop 
+                openBackdrop={progressOn}
             />
         </>
     )

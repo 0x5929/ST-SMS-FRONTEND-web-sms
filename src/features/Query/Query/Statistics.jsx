@@ -12,7 +12,7 @@ import {
 import {createStatisticsStyles} from "./styles"
 import Components from '../../../components'
 import { getStats } from "../../../services/SMSStatisticsService"
-import { useAuthedAxios } from "../../../hooks"
+import { useAuthedAxios, useCircularProgress } from "../../../hooks"
 
 const Styles = createStatisticsStyles({
 	MuiGrid,
@@ -23,10 +23,24 @@ const Styles = createStatisticsStyles({
 function Statistics() {
 	const [ stats, setStats ] = useState([])
     const theme = useTheme()
+	const [ progressOn, handleSetProgressStatus ] = useCircularProgress()
     const authedAxios = useAuthedAxios()
 
 	useEffect(() => {
-		getStats(authedAxios).then(data => setStats(data))
+
+		const getStatistics = async () => {
+			try {
+
+				const data = await getStats(authedAxios)
+				setStats(data)
+			}
+			catch(err) {
+				console.error(err)
+			}
+		}
+		handleSetProgressStatus({progressState: true})
+		handleSetProgressStatus({callback: getStatistics, callbackArgs: [], progressState: false})
+
 	}, [authedAxios])
 
 	const {
@@ -75,7 +89,7 @@ function Statistics() {
 						</Styles.Grid>
 					))
 				}
-
+				<Components.SimpleBackDrop openBackdrop={progressOn} />
 			</Styles.GridContainer>
 	)
 }

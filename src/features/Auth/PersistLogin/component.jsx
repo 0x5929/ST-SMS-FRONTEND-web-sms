@@ -2,12 +2,13 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useToggle, useRefreshToken } from '../../../hooks'
 import { useAuthContext } from '../../../contexts'
+import { SimpleBackDrop } from '../../../components/Backdrop'
 
 const PersistLogin = ({children}) => {
     const navigate  = useNavigate()
     const refresh = useRefreshToken()
     const [ isLoading, setIsLoading ] = useToggle(true)
-    const { user, setUser, setAuthed  } = useAuthContext()
+    const { setUser, setAuthed  } = useAuthContext()
 
     // everytime persistLogin (routes protected by it) is visited, check following for refresh
     useEffect(() => {
@@ -16,8 +17,6 @@ const PersistLogin = ({children}) => {
                 // if successful, accesstoken will be set inside refresh()
                 // change isLoading to false so children can render
                 await refresh()
-                setIsLoading(false)
-                console.log('ok this should have worked too')
 
             }catch(err) {
                 console.error(err)
@@ -44,8 +43,8 @@ const PersistLogin = ({children}) => {
     return (
         <>
             {
-                isLoading 
-                    ? <div>circular progress</div> 
+                isLoading   
+                    ? <div></div>
                     : children
             }
         </>
