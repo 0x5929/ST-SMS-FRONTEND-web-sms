@@ -12,7 +12,7 @@ import {
     studentCreatePOST, 
     rotationCreatePOST,
     studentRemoveDELETE,
-    studentEditPUT 
+    studentEditPATCH 
 } from './services/api/djREST'
 
 jest.mock('./services/api/djREST')
@@ -27,7 +27,7 @@ const mockResolvedValues = {
     rotationNumberGET   : sampleRotationOptions(sampleCourseOptions[0].value),
     studentCreatePOST   : [],
     rotationCreatePOST  : [],
-    studentEditPUT      : sampleStudentData[0],
+    studentEditPATCH      : sampleStudentData[0],
     studentRemoveDELETE : [],
 }
 
@@ -45,7 +45,7 @@ beforeEach(() => {
     rotationNumberGET.mockResolvedValue(mockResolvedValues['rotationNumberGET'])
     studentCreatePOST.mockResolvedValue(mockResolvedValues['studentCreatePOST'])
     rotationCreatePOST.mockResolvedValue(mockResolvedValues['rotationCreatePOST'])
-    studentEditPUT.mockResolvedValue(mockResolvedValues['studentEditPUT'])
+    studentEditPATCH.mockResolvedValue(mockResolvedValues['studentEditPUT'])
     studentRemoveDELETE.mockResolvedValue(mockResolvedValues['studentRemoveDELETE'])
 
 
