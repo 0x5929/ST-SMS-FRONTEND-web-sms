@@ -89,7 +89,7 @@ export function useSignInForm({ authed, user, login }) {
     }, [setClearEmailField, setClearPwField, setShowEmailError, setShowPwError])
 
 
-
+    // similarly to our PersistentLogin logic inside protected routes
     useEffect(() => {
 
         const fetchAccessTknAndSetUserAuthed = async () => {

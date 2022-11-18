@@ -46,7 +46,7 @@ const useAuthedAxios  = () => {
 
                 // if response error is within 400s, see to that we resend it after trying to refresh 
                 // with our refresh token http only cookie
-                if ( (error?.response.status === 400 || error?.response.status === 403)
+                if ( (error?.response.status === 400 || error?.response.status === 403 || error?.response?.dasta?.detail === 'Given token not valid for any token type')
                     && (!prevRequest?.sent) ) {
                         
                     prevRequest.sent = true
