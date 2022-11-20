@@ -101,7 +101,6 @@ export const schoolOptionsCreateGET = async (authedAxio) => {
     let returnData = []
     try {
         const response = await authedAxio.get(smsEndpointUrl + schoolQueryUrl)
-        console.log('response in schoolOptionsCreateGET: ', response)
         for (let i = 0; i < response.data.length; i++) {
             returnData.push({
                 value: response.data[i]['school_name'],
@@ -400,20 +399,6 @@ export const convertRotationUUID = async (authedAxio, { rotation, course, school
     }
 
 
-}
-
-const getStudentUUID = async (authedAxio, studentId) => {
-    let studentIdQueryStr = 'students/?student_id=' + studentId
-
-    try {
-        const response = await authedAxio.get(smsEndpointUrl + studentIdQueryStr)
-        return response.data[0]['student_uuid']
-    }
-    catch(error) {
-        console.log("error occured in grabbing this record's student UUID", error, studentId)
-
-        return ''
-    }
 }
 
 

@@ -150,7 +150,7 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
         submitSuccess: false,
         rotationAdded: false,
     }
-
+    const mountedRef = useRef(true)
     const studentFormValidations = useValidations().useCreateValidation()
     const [ studentFormState, studentFormDispatch ] = useReducer(reducer, initialStudentFormState)
     const [ addRotStates, addRotHandlers ] = useAddRotationForm(userFeedbackObj, studentFormState.school, studentFormDispatch, recordForEdit)
@@ -378,10 +378,12 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
             if (key in studentFormValidations) {
                 let validationFunc = studentFormValidations[key]
                 if (!_isEmpty(validationFunc(requestData[key]))) {
+                    hasError = true
                     break
                 }
             }
         }
+
 
         // if there are error, return execution to app, aka do nothing
         if (hasError) {
@@ -394,6 +396,15 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
 
     }
 
+    // on component dismount, set mountRef to be false, so that all api calls are not set as state
+    useEffect(() => {
+
+        return () => {
+            mountedRef.current = false
+        }
+    }, [])
+
+
 
     // SETUP for studentForm
     // when studentForm is mounted, we need to check for school
@@ -402,14 +413,23 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
     // if needed, user can create the same student in the different school
     useEffect(() => {
         const schoolOptionsFetchInCreate = async () => {
-            const schoolOptions = await axioService.schoolOptionsCreateGET(authedAxios)
-            studentFormDispatch({type: 'set-schoolOptions', payload: schoolOptions})
+
+            try {
+
+                const schoolOptions = await axioService.schoolOptionsCreateGET(authedAxios)
+                if (!mountedRef.current) return null
+                studentFormDispatch({type: 'set-schoolOptions', payload: schoolOptions})
+            }
+            catch(err) {
+                throw err
+            }
         }
 
 
         const editFormPrep = async () => {
             // set school name for 
             const schoolName = await axioService.schoolOptionsEditGET(authedAxios, recordForEdit.rotation) 
+            if (!mountedRef.current) return null
             studentFormDispatch({type: 'set-school', payload: schoolName})
 
             // clear course and rotation values
@@ -435,13 +455,20 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
 
          // if not edit we should be in create mode, then we must grab all possible school values that user can fetch
         if (!recordForEdit) {
-            handleSetProgressStatus({progressState: true})
-            handleSetProgressStatus({callback: schoolOptionsFetchInCreate, callbackArgs: [], progressState: false})
+            try {
+                handleSetProgressStatus({progressState: true})
+                handleSetProgressStatus({callback: schoolOptionsFetchInCreate, callbackArgs: [], progressState: false})
+                
+
+            }catch(err) {
+                throw err
+            }
 
         }
         // if we are editting, prepare forms, fetch school name first to get the correct course and rotation value
         // note in StudentForm.jsx, if editting, school field wont show& course field is not mutable
         else {
+            console.log('WE SHOULD BE HERE TOO')
             handleSetProgressStatus({progressState: true})
             handleSetProgressStatus({callback: editFormPrep, callbackArgs: [], progressState: false})
 
