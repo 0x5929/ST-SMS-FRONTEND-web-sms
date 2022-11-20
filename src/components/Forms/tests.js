@@ -1,27 +1,18 @@
 import '@testing-library/jest-dom'
-import { render, screen, cleanup, act, waitFor } from '@testing-library/react'
-import { BrowserRouter } from 'react-router-dom' 
+import { render, screen, cleanup, act } from '@testing-library/react'
 import userEvent from "@testing-library/user-event"
 import { renderHook } from '@testing-library/react-hooks/dom' 
-import Components from '../../components' // needed or else, there is an input error inside StudentForm > ProgramForm > RotationForm > Input/Select, aka rendering issue?
+
+import Components from '../../components' 
 import { useNotification } from '../../hooks'
-import StudentForm from './StudentForm'
-import ProgramForm from './ProgramForm'
-import RotationForm from './RotationForm'
 import CreateStudent from '../../features/Create/CreateStudent'
 import EditStudent from '../../features/Query/Results/EditStudent'
-import QueryForm from './QueryForm'
-import { AuthContextProvider, useAuthContext } from '../../contexts'
-import * as SMSRecordService from '../../services/SMSRecordService'
-import { useRef } from 'react'
+import SearchStudents from '../../features/Query/Query/SearchStudents'
 
-import { sampleCourseOptions, sampleRotationOptions, sampleStudentData } from '../../services/data/studentData'
-import * as AxioService from '../../services/api/djREST'
 
 import preview from 'jest-preview'
-import PersistLogin from '../../features/Auth/PersistLogin/component'
 
-
+// mock authedAxios
 jest.mock('../../hooks/useAuthedAxios', () => ({
     __esModule: true,
     default: jest.fn(()=>({}))
@@ -30,16 +21,8 @@ jest.mock('../../hooks/useAuthedAxios', () => ({
 
 
 describe('testing form components', () => {
-
-
-
     let testByMethods    
     let notificationResults
-    let studentFormStates
-    let studentFormHandlers
-
-
-
 
 
     function getNotificationResults() {
@@ -101,7 +84,6 @@ describe('testing form components', () => {
 
 
         await userEvent.click(getAllByRole('button', {expanded: false})[0])
-        //preview.debug()
         await userEvent.click(getByText(/certified nurse assistant/i))
         expect(getAllByRole('button', {expanded: false})[0]).toHaveTextContent(/certified nurse assistant/i)
 
@@ -110,19 +92,6 @@ describe('testing form components', () => {
         await userEvent.click(getByText(/cna rotation 9/i))
         expect(getAllByRole('button', {expanded: false})[1]).toHaveTextContent(/cna rotation 9/i)
 
-        // // clicking add rot button will launch the modal, assert render then close ADD ROTATION FORM TESTS
-        // await userEvent.click(getByRole('button', {name: ''}))
-        // expect(getByText('Add Rotation')).toBeInTheDocument()
-        // expect(getByTestId('rotation-form')).toBeInTheDocument()
-        // await userEvent.click(getByRole('button', {expanded: false}))
-        // await userEvent.click(getByText(/security guard/i))
-        // expect(getByRole('button', {expanded: false})).toHaveTextContent(/security guard/i)
-        // await userEvent.type(getInput(/rotation number/i), '__TEST__')
-        // expect(getByText('Only numeric format is allowed.')).toBeInTheDocument()
-        // await userEvent.click(getByTestId('rotation-form-cancel-btn'))
-        // expect(queryByText(/security guard/i)).not.toBeInTheDocument()
-        // expect(getInput(/rotation number/i)).toHaveValue('')
-        // await userEvent.click(getByTestId('CloseOutlinedIcon'))
 
         await userEvent.clear(getInput(/program start date/i))
         expect(getByText('This field is required.')).toBeInTheDocument()
@@ -164,79 +133,6 @@ describe('testing form components', () => {
 
     }
 
-    // trying the hook method again, if not the tests are going to be done right
-
-    //const { refResult } = renderHook(() => useRef(null))
-    //const inputRef = refResult.current
-    // const resolveValue = jest.fn()
-    // const handleClearError = jest.fn()
-    // const handleClearCourse = jest.fn()
-    // const handleRotationChange = jest.fn()
-    // const handleSubmit = jest.fn()
-    // const handleCancel = jest.fn()
-    // const handleCourseChange = jest.fn()
-    // const convertToDefaultEventParam = jest.fn()
-    // const getHoursWorkedRadioItems = SMSRecordService.getHoursWorkedRadioItems
-
-    // const addRotModalHandlers = {
-    //     handleOpenAddRotModal : jest.fn(),
-    //     handleCloseAddRotModal: jest.fn()
-    // }
-
-    // const addRotHandlers = {
-    //     handleAddRotSubmit : jest.fn(),
-    //     handleAddRotClear : jest.fn(),
-    //     handleProgramNameChange : jest.fn(),
-    //     addRotModalHandlers: addRotModalHandlers
-    // }
-
-
-
-    // const studentFormHandlers = { 
-    //     resolveValue,
-    //     handleClearError,
-    //     handleClearCourse,
-    //     handleCourseChange,
-    //     handleRotationChange,
-    //     handleSubmit,
-    //     handleCancel,
-    //     convertToDefaultEventParam,
-    //     getHoursWorkedRadioItems,
-
-    //     addRotHandlers: {...addRotHandlers}
-
-    // }
-
-    // const studentFormValidations = {}
-    // const studentFormState = {
-    //     courseOptions: sampleCourseOptions,
-    //     rotationOptions: sampleRotationOptions(sampleCourseOptions[0]['value']),
-    //     course: '',
-    //     rotation: '',
-    //     showError: false,
-    //     clearFields: false,
-    //     submitLoading: false,
-    //     submitSuccess: false
-    // }
-    // const inputRefs = {}
-
-
-    // const addRotStates = {
-    //     rotFormValidations: {},
-    //     isAddRotModalOpen: false,
-    //     programName : '',
-    //     showError: false,
-    //     clearFields: false,
-    //     rotationRef : inputRef
-    // }
-
-    // const studentFormStates = { 
-    //     studentFormValidations,
-    //     studentFormState, 
-    //     inputRefs,
-    //     addRotStates: {...addRotStates}
-    // }
-
     
     beforeAll(() => {
 
@@ -247,6 +143,9 @@ describe('testing form components', () => {
     
                 getInput(labelText) {
                     return screen.getByLabelText(labelText)
+                },
+                getAllByLabelText(labelText) {
+                    return screen.getAllByLabelText(labelText)
                 },
                 getByTestId(testId) {
                     return screen.getByTestId(testId)
@@ -294,18 +193,7 @@ describe('testing form components', () => {
         beforeEach( async () => {
             setup = async ({isEdit=false} = {}) => {
 
-                // var studentEditFormHandlers = {
-                //     handleEditSubmit: () => {},
-                //     handleEditCancel: () => {}
-                // }
-
-
-                // if (!isEdit) {
-                //     studentEditFormHandlers = undefined
-                // }
-
-
-                // setup Form hooks
+                // setup Form hooks for Create Student and EditStudent
                 notificationResults = getNotificationResults()
     
                 let handleOpenNotificationMk = jest.fn()
@@ -313,8 +201,6 @@ describe('testing form components', () => {
                 let setRecordMk = jest.fn()
                 let userFeedbackObj = { notify: notificationResults[1], notificationHandlers: {handleOpenNotification: handleOpenNotificationMk}}
                 let recordForEdit = {course: 'CNA'}
-
-                //function EditStudent({setRecordForEdit, setRecords, userFeedbackObj, recordForEdit})
 
                 if (!isEdit) {
 
@@ -335,7 +221,7 @@ describe('testing form components', () => {
                     await act( async () => {
 
                         render(
-                                <EditStudent 
+                            <EditStudent 
                                 setRecordForEdit={setRecordForEditMk}
                                 setRecords={setRecordMk}
                                 userFeedbackObj={userFeedbackObj}
@@ -347,31 +233,11 @@ describe('testing form components', () => {
                 }
 
 
-            //    var handleEditSubmitMk, handleEditCancelMk
-
-            //    const submitMk = jest.spyOn(studentFormHandlers, 'handleSubmit')
-            //    const cancelMk = jest.spyOn(studentFormHandlers, 'handleCancel')
-
-            //    if (isEdit) {
-
-            //        handleEditSubmitMk = jest.spyOn(studentEditFormHandlers, 'handleEditSubmit')
-            //        handleEditCancelMk = jest.spyOn(studentEditFormHandlers, 'handleEditCancel')
-            //        studentFormStates.recordForEdit = sampleStudentData[0]
-   
-            //    }
-
                 
                 return {
 
                     ...(testByMethods(screen)),
                     handleOpenNotificationMk,
-                    // studentFormStates,
-                    // studentFormHandlers,
-                    // submitMk,
-                    // cancelMk,
-                    // handleEditSubmitMk,
-                    // handleEditCancelMk,
-                    // studentEditFormHandlers,
                 }
             }
         })
@@ -387,7 +253,6 @@ describe('testing form components', () => {
             const { getByTestId } = await setup()
 
             expect(getByTestId('program-form')).toBeInTheDocument()
-            //preview.debug()
         })
 
 
@@ -620,7 +485,7 @@ describe('testing form components', () => {
 
             await userEvent.click(getAllByRole('button', {expanded: false})[0])
             await userEvent.click(getAllByText(/certified nurse assistant/i)[1])
-            preview.debug()
+            //preview.debug()
             expect(getAllByRole('button', {expanded: false})[0]).toHaveTextContent(/certified nurse assistant/i)
             expect(queryByText('Only numeric format is allowed.')).not.toBeInTheDocument()
             
@@ -634,148 +499,132 @@ describe('testing form components', () => {
     })
 
 
-    // describe('testing QueryForm component', () => {
-    //     let setup
-    //     let queryFormStates
-    //     let queryFormHandlers
+    describe('testing QueryForm component', () => {
+        let setup
 
 
-    //     beforeEach(() => {
+        beforeEach( async () => {
 
-    //         setup = ({moreThanOneOpt = false} = {}) => {
+            setup = async ({moreThanOneOpt = false} = {}) => {
 
-    //             const handleAddNewQuery = jest.fn()
-    //             const handleDelQuery = jest.fn()
-    //             const handleSubmit = jest.fn()
+                let mksetQueryResults = jest.fn()
+                let mksetShowResults = jest.fn()
+                let mkhandleSetProgressStatus = jest.fn()
 
-    //             const queryFormHandlers = {
-    //                 handleAddNewQuery,
-    //                 handleDelQuery,
-    //                 handleSubmit,
-    //                 getQueryOptions : SMSRecordService.getQueryOptions
-    //             }
+                await act( async () => {
 
-    //             let queryFormStates = {
-    //                 queryOptions: null,
-    //                 textInput : null,
-    //                 queryFormErrors: {}
-    //             }
-
+                    render(
+                        <SearchStudents 
+                            setQueryResults={mksetQueryResults}
+                            setShowResults={mksetShowResults}
+                            handleSetProgressStatus={mkhandleSetProgressStatus}
+                        />
+                    )
+    
+                })
                 
-    //             if (moreThanOneOpt) {
-    //                 queryFormStates.queryOptions = [
-    //                     {query: 'clast_name', value: '', pk: 1001},
-    //                     {query: 'clast_name', value: '', pk: 1002}
-    //                 ]
-    //             }
-    //             else {
-    //                 queryFormStates.queryOptions = [
-    //                     {query: 'clast_name', value: '', pk: 1001}
-    //                 ]
-    //             }
-                
-
-    //             render(
-    //                 <AuthContextProvider>
-    //                     <QueryForm 
-    //                         queryFormStates={queryFormStates}
-    //                         queryFormHandlers={queryFormHandlers}
-    //                     />
-    //                 </AuthContextProvider>
-    //             )
-
 
                
     
-    //             return {
+                return {
                     
-    //                 ...(testByMethods(screen)),
-    //                 handleAddNewQuery,
-    //                 handleDelQuery,
-    //                 handleSubmit
-    //             }
-    //         }
-    //     })
+                    ...(testByMethods(screen)),
+                    mksetQueryResults,
+                    mksetShowResults,
+                    mkhandleSetProgressStatus,
+                }
+            }
+        })
 
-    //     afterEach(() => {
-    //         setup = undefined
-    //         queryFormStates = undefined
-    //         queryFormHandlers = undefined
-    //         jest.clearAllMocks()
-    //         cleanup()
-    //     })
+        afterEach(() => {
+            setup = undefined
+            jest.restoreAllMocks()
+            cleanup()
+        })
 
-    //     it('should render QuerySearchBar component', () => {
-    //         const { getInput } = setup()
+        it('should render QuerySearchBar and select components', async () => {
+            const { getInput, getByTestId } = await setup()
 
-    //         expect(getInput('Search Student Database')).toBeInTheDocument()
-    //     })
+            expect(getInput('Search Student Database')).toBeInTheDocument()
+            expect(getByTestId('queryby-select')).toBeInTheDocument()
+        })
 
-    //     it('should render QuerySelect component', () => {
-    //         const { getByTestId } = setup()
+        it('should render QuerySelect with 19 options', async () => {
+            const { getAllByTestId, getByRole } = await setup()
+            await userEvent.click(getByRole('button', {expanded: false}))
 
-    //         expect(getByTestId('queryby-select')).toBeInTheDocument()
-    //     })
+            expect(getAllByTestId('mui-selectitem')).toHaveLength(19)
+        })
 
-    //     it('should render QuerySelect with 19 options', async () => {
-    //         const { getAllByTestId, getByRole } = setup()
-    //         await userEvent.click(getByRole('button', {expanded: false}))
-    //         //preview.debug()
+        it('should render add new button', async () => {
+            const { getByText } = await setup()
+            expect(getByText(/add new/i)).toBeInTheDocument()
 
-    //         expect(getAllByTestId('mui-selectitem')).toHaveLength(19)
-    //     })
+        })
 
-    //     it('should render add new button', () => {
-    //         const { getByText } = setup()
-    //         expect(getByText(/add new/i)).toBeInTheDocument()
+        it('should add new query row when add new button is clicked', async () => {
+            const {getAllByLabelText, getByText, getAllByTestId } = await setup()
+            expect(getAllByLabelText('Search Student Database')).toHaveLength(1)
+            expect(getAllByTestId('queryby-select')).toHaveLength(1)
+            const addNewBtn = getByText(/add new/i)
 
-    //     })
+            await userEvent.click(addNewBtn)
+            expect(getAllByLabelText('Search Student Database')).toHaveLength(2)
+            expect(getAllByTestId('queryby-select')).toHaveLength(2)
+        })
 
-    //     it('should call addNewHandler when add new button is clicked', () => {
-    //         const { handleAddNewQuery, getByText } = setup()
-    //         const addNewBtn = getByText(/add new/i)
-
-    //         addNewBtn.click()
-    //         expect(handleAddNewQuery.mock.calls).toHaveLength(1)
-    //     })
-
-    //     it('should not render delete button with only one query', () => {
-    //         const { queryByTestId } = setup()
+        it('should not render delete button with only one query', async () => {
+            const { queryByTestId } = await setup()
             
-    //         // default there is only one query initialized
-    //         expect(queryByTestId('delete-query-btn')).not.toBeInTheDocument()
-    //     })
+            // default there is only one query initialized
+            expect(queryByTestId('delete-query-btn')).not.toBeInTheDocument()
+        })
 
-    //     it('should render delete button upon two or more query options', () => {
+        it('should render delete button upon two or more query options', async () => {
+            const { getAllByTestId, getByText } = await setup()
 
-    //         // try changing the actual queries fed into the component, 2 queries should render, and delete should trigger deleteHandler
-    //         const { getAllByTestId } = setup({moreThanOneOpt: true})
+            await userEvent.click(getByText(/add new/i))
 
-    //         expect(getAllByTestId('delete-query-btn')).toHaveLength(2)
-    //     })
+            expect(getAllByTestId('delete-query-btn')).toHaveLength(2)
+        })
 
-    //     it('should trigger handleDelQuery when delete query button is clicked', () => {
-    //         const { handleDelQuery, getAllByTestId } = setup({moreThanOneOpt: true})
-    //         const deleteBtn = getAllByTestId('delete-query-btn')[0]
+        it('should trigger handleDelQuery when delete query button is clicked', async () => {
+            const { getAllByTestId, getByText, queryByTestId } = await setup()
 
-    //         deleteBtn.click()
-    //         expect(handleDelQuery.mock.calls).toHaveLength(1)
-    //     })
+            await userEvent.click(getByText(/add new/i))
+            expect(getAllByTestId('delete-query-btn')).toHaveLength(2)
 
-    //     it('should render submit button', () => {
-    //         const { getByTestId } = setup()
+            const deleteBtn = getAllByTestId('delete-query-btn')[0]
+            await userEvent.click(deleteBtn)
+
+            expect(queryByTestId('delete-query-btn')).not.toBeInTheDocument()
+        })
+
+        it('should render submit button', async () => {
+            const { getByTestId } = await setup()
             
-    //         expect(getByTestId('query-submit-btn')).toBeInTheDocument()
+            expect(getByTestId('query-submit-btn')).toBeInTheDocument()
 
-    //     })
+        })
 
-    //     it('should trigger handleSubmit when query submit button is clicked', () => {
-    //         const { getByTestId, handleSubmit } = setup()
-    //         const submitBtn = getByTestId('query-submit-btn')
+        it('should trigger handleSubmit when query submit button is clicked', async () => {
+            const { getInput, getByTestId, getByText, mksetQueryResults, mksetShowResults, mkhandleSetProgressStatus, } = await setup()
+            const submitBtn = getByTestId('query-submit-btn')
 
-    //         submitBtn.click()
-    //         expect(handleSubmit.mock.calls).toHaveLength(1)
+            // submit with errors
+            await userEvent.click(submitBtn)
+            expect(getByText('All fields required.')).toBeInTheDocument()
 
-    //     })
-    // })
+            // submit without errors
+            await userEvent.type(getInput('Search Student Database'), '__TEST__')
+            expect(getInput('Search Student Database')).toHaveValue('__TEST__')
+            await userEvent.click(submitBtn)
+
+            // query submit will call the following three functions, setQueryResults, setShowResults and handleSetProgress
+            expect(mksetQueryResults.mock.calls).toHaveLength(1)
+            expect(mksetShowResults.mock.calls).toHaveLength(1)
+            expect(mkhandleSetProgressStatus.mock.calls).toHaveLength(2)
+
+        })
+    })
 })
