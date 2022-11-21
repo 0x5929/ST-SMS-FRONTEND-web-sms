@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom'
-import { render, screen, cleanup } from '@testing-library/react'
+import { render, screen, cleanup, act } from '@testing-library/react'
 import { within } from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
 
@@ -7,7 +7,14 @@ import { AuthContextProvider } from '../../../contexts'
 import QueryResults from './Results'
 import { sampleStudentData } from '../../../services/data/studentData'
 
-//import preview from 'jest-preview'
+import preview from 'jest-preview'
+
+// mock authedAxios
+jest.mock('../../../hooks/useAuthedAxios', () => ({
+    __esModule: true,
+    default: jest.fn(()=>({}))
+}))
+
 
 
 describe('testing Query feautre Result component', () => {
@@ -59,34 +66,31 @@ describe('testing Query feautre Result component', () => {
         let setup
         
 
-        beforeEach(() => {
+        beforeEach(async () => {
             
-            setup = () => {
-                render(
-                    <AuthContextProvider>
-                        <QueryResults 
-                            queryResults={sampleStudentData}
-                            handleBacktoQuery={jest.fn()}
-                        />
-                    </AuthContextProvider>
-                )
+            setup = async () => {
+                
+                await act(async () =>{render(
+                    <QueryResults 
+                        queryResults={sampleStudentData}
+                        handleBacktoQuery={jest.fn()}
+                    />)})
     
                 return {
     
-                    ...(testByMethods(screen)),
-                    debug: screen.debug
+                    ...(testByMethods(screen))
                 }
             }
         })
         afterEach(() => {
             setup = undefined
-            jest.clearAllMocks()
+            jest.restoreAllMocks()
             cleanup()
         
         })
 
-        it('should render QueryResults components', () => {
-            const { getByTestId, getInput } = setup()
+        it('should render QueryResults components', async () => {
+            const { getByTestId, getInput } = await setup()
 
             expect(getByTestId('query-results-component')).toBeInTheDocument()
             expect(getByTestId('back-to-query-btn')).toBeInTheDocument()
@@ -100,7 +104,7 @@ describe('testing Query feautre Result component', () => {
         })
 
         test('each student should have working view student button',  async () => {
-            const { getAllByTestId, getByText, getByTestId, queryByTestId, queryByText } = setup()
+            const { getAllByTestId, getByText, getByTestId, queryByTestId, queryByText } = await setup()
             let testingIndx = 0
 
             expect(getAllByTestId('view-record-btn')).toHaveLength(5)
@@ -129,12 +133,11 @@ describe('testing Query feautre Result component', () => {
         })
 
         test('each student should have working edit student button',  async () => {
-            const { queryByText, getAllByTestId, getByText, getInput, getByTestId, debug } = setup()
+            const { queryByText, getAllByTestId, getByText, getInput, getByTestId } = await setup()
 
             expect(getAllByTestId('edit-record-btn')).toHaveLength(5)
             
             await userEvent.click(getAllByTestId('edit-record-btn')[0])
-
             //assert necessary elements are there
             expect(getByText(/edit student data/i)).toBeInTheDocument()
             expect(getInput('Student ID')).toBeInTheDocument()
@@ -142,19 +145,16 @@ describe('testing Query feautre Result component', () => {
 
             // test edit function
             await userEvent.type(getInput('First Name'), '22')
-            expect(getInput('First Name')).toBeInTheDocument()
-            await userEvent.click(getByText('Submit'))
-            await userEvent.type(getInput('First Name'), '22')
+            preview.debug()
 
             // close edit modal
             await userEvent.click(getByTestId('modal-close-btn'))
             expect(queryByText('Edit Student Data')).not.toBeVisible()
-            
 
-        }, 500000)
+        }, 50_000)
 
         test('each student should have working delete student button', async () => {
-            const { getAllByTestId, getByText, queryByText } = setup()
+            const { getAllByTestId, getByText, queryByText } = await setup()
 
             expect(getAllByTestId('del-record-btn')).toHaveLength(5)
 
@@ -162,21 +162,19 @@ describe('testing Query feautre Result component', () => {
             await userEvent.click(getAllByTestId('del-record-btn')[0])
             expect(getByText('Are you sure you want to delete this student record?')).toBeInTheDocument()
             await userEvent.click(getByText('No'))
-            //preview.debug()
+            
             expect(queryByText('Student record deleted!')).not.toBeInTheDocument()
             await userEvent.click(getAllByTestId('del-record-btn')[0])
 
             expect(getByText('Are you sure you want to delete this student record?')).toBeInTheDocument()
             await userEvent.click(getByText('Yes'))
             expect(getByText('Student record deleted!')).toBeInTheDocument()
-            expect(queryByText('Are you sure you want to delete this student record?')).not.toBeVisible()
-
-
+            expect(queryByText('Are you sure you want to delete this student record?')).not.toBeInTheDocument()
         })
 
 
         it('should allow search with filter', async () => {
-            const { getInput, getByText, getByTestId, queryByText } = setup()
+            const { getInput, getByText, getByTestId, queryByText } = await setup()
 
             await userEvent.type(getInput('Search Results'), 'RO-CNA-100-0001-AB')
             expect(getByText('RO-CNA-100-0001-AB')).toBeInTheDocument()
@@ -188,23 +186,23 @@ describe('testing Query feautre Result component', () => {
         })
 
         it('should allow for results to be sorted', async () => {
-            const { getAllByTestId, getByText, queryByText, getAllByText } = setup()
+            const { getAllByTestId, getByText, queryByText, getAllByText } = await setup()
 
             // asssert that there are total 6 sortable columns
             expect(getAllByTestId('ArrowDownwardIcon')).toHaveLength(6)
 
-            // test sort the first column
+            // test sort the first column (Student ID) (sorting from bigger num to little num)
             expect(queryByText('RO-CNA-100-0015-AB')).not.toBeInTheDocument()
             await userEvent.click(getAllByTestId('ArrowDownwardIcon')[0])
             await userEvent.click(getAllByTestId('ArrowDownwardIcon')[0])
             expect(getByText('RO-CNA-100-0015-AB')).toBeInTheDocument()
 
-            // test sort the second column
+            // test sort the second column (First Name) (sorted back now from little to big)
             await userEvent.click(getAllByTestId('ArrowDownwardIcon')[1])
             expect(queryByText('student15')).not.toBeInTheDocument()
             expect(getAllByText('student1')).toHaveLength(2)    // we have student1 as first and last name
 
-            // test sort the third column
+            // test sort the third column (Last Name) (sorted back again from big to little number)
             await userEvent.click(getAllByTestId('ArrowDownwardIcon')[2])
             expect(getAllByText('student13')).toHaveLength(2)
             expect(getAllByText('student12')).toHaveLength(2)
@@ -214,7 +212,7 @@ describe('testing Query feautre Result component', () => {
 
         })
         it('should allow for results to paginate', async () => {
-            const { getByTestId, getByText, queryByText, getByRole } = setup()
+            const { getByTestId, getByText, queryByText, getByRole } = await setup()
             
             expect(getByTestId('KeyboardArrowRightIcon')).toBeInTheDocument()
             
@@ -230,7 +228,7 @@ describe('testing Query feautre Result component', () => {
             expect(queryByText('RO-CNA-100-0006-AB')).not.toBeInTheDocument()
             expect(getByText('RO-CNA-100-0011-AB')).toBeInTheDocument()
 
-            // now paginate back to first page
+            // now paginate back to first page, displaying results # 1 to #5
             await userEvent.click(getByTestId('KeyboardArrowLeftIcon'))
             await userEvent.click(getByTestId('KeyboardArrowLeftIcon'))
             expect(getByText('RO-CNA-100-0001-AB')).toBeInTheDocument()
@@ -242,7 +240,8 @@ describe('testing Query feautre Result component', () => {
             await userEvent.click(getByRole('button', {name: 'Rows per page: 5'}))
             expect(getByText('10')).toBeInTheDocument()
             expect(getByText('25')).toBeInTheDocument()
-    
+            
+            // displaying results # 1 to #10
             await userEvent.click(getByText('10'))
             expect(getByText('RO-CNA-100-0006-AB')).toBeInTheDocument()
             //preview.debug()

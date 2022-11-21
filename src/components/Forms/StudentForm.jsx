@@ -88,13 +88,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                             name="school"
                             label="School"
                             items={schoolOptions}
-                            errorHandler={studentFormValidations.school}
-                            showError={showError}
-                            clearFields={clearFields}
-
-                        // we can take away the errorprops if we set a default value and take away clearFields so it cant be cleared
-
-                    />
+                        />
                     }
                     <Input
                         ref={inputRefs.studentId}

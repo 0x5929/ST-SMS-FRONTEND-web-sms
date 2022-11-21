@@ -1,17 +1,21 @@
 import '@testing-library/jest-dom'
-import { render, screen, cleanup } from '@testing-library/react'
+import { render, screen, cleanup, act } from '@testing-library/react'
 import userEvent from "@testing-library/user-event"
-import { renderHook } from '@testing-library/react-hooks'
 
-import { AuthContextProvider } from '../../contexts'
-import Components from '../../components'
-import { useNotification } from '../../hooks'
 import Create from './Create'
-import CreateStudent from './CreateStudent'
-import * as SMSRecordService from '../../services/SMSRecordService'
-import { sampleCourseOptions } from '../../services/data/studentData'
 
 import preview from 'jest-preview'
+
+
+
+
+// mock authedAxios
+jest.mock('../../hooks/useAuthedAxios', () => ({
+    __esModule: true,
+    default: jest.fn(()=>({}))
+}))
+
+
 
 describe('testing Create feature', () => {
 
@@ -60,8 +64,9 @@ describe('testing Create feature', () => {
         let setup
         
 
-        beforeEach(() => {
+        beforeEach(async () => {
 
+            // needed for date pickers
             Object.defineProperty(window, "matchMedia", {
                 writable: true,
                 value: (query) => ({
@@ -79,49 +84,43 @@ describe('testing Create feature', () => {
 
               
 
-            setup = () => {
-    
-                render(
-                    <AuthContextProvider>
-                        <Create />
-                    </AuthContextProvider>
-                )
-    
+            setup = async () => {
+                await act(async () => {render(<Create />)})
+
                 return {
-    
                     ...(testByMethods(screen)),
                 }
+
             }
         })
         afterEach(() => {
             setup = undefined
-            jest.clearAllMocks()
+            jest.restoreAllMocks()
             cleanup()
         
         })
 
 
-        it('should render title of feature page', () => {
-            const { getByText } = setup()
+        it('should render title of feature page', async () => {
+            const { getByText } = await setup()
             expect(getByText(/CREATE NEW STUDENT RECORD/i)).toBeInTheDocument()
         })
 
-        it('should render CreateStudent component', () => {
-            const { getByTestId } = setup()
+        it('should render CreateStudent component and it\'s subcomponent, StudentForm', async () => {
+            const { getByTestId } = await setup()
             expect(getByTestId('create-student-component')).toBeInTheDocument()
-
+            expect(getByTestId('student-form')).toBeInTheDocument()
         })
 
-        it('should render Notification component', () => {
-            const { getAllByTestId } = setup()
-
-            // used to be just one notification bar component, but AuthContext also has one on the very upper level, therefore now there are two notification-components.
-            expect(getAllByTestId('notification-components')).toHaveLength(2)
+        it('should render Notification component', async () => {
+            const { getByTestId } = await setup()
+            expect(getByTestId('notification-components')).toBeInTheDocument()
         })
 
+        // this contains some duplicate tests, also tested inside components/forms/tests.js
         it('should render changes and errors when inputs change', async () => {
             
-            const { getInput, getAllByRole, getByRole, getByText, getByTestId, queryByText, getAllByText } = setup()
+            const { getInput, getAllByRole, getByRole, getByText, getByTestId, queryByText, getAllByText } = await setup()
 
             await userEvent.type(getInput(/student id/i), '__TEST__') 
             expect(getInput(/student id/i)).toHaveValue('__TEST__')
@@ -254,13 +253,14 @@ describe('testing Create feature', () => {
             //preview.debug()
 
 
-        }, 50000) // longer timeout is needed, since this is a big test case
+        }, 50_000) // longer timeout is needed, since this is a big test case
 
+        // also duplicated in form testing, see comment before last test
         it('should clear of all inputs when cancel is pressed', async () => {
             // copy from the test case above, but leave the clearing part, and then clear everything with cancel
             // which will get rid of (test these) error messages, all inputs except for date pickers, which will dispaly today's date
         
-            const { getInput, getAllByRole, getByText, getByTestId, queryByText } = setup()
+            const { getInput, getAllByRole, getByText, getByTestId, queryByText } = await setup()
             await userEvent.type(getInput(/student id/i), '__TEST__') 
             await userEvent.type(getInput(/first name/i), '__TEST__')
             await userEvent.type(getInput(/last name/i), '__TEST__') 
@@ -271,7 +271,6 @@ describe('testing Create feature', () => {
             await userEvent.click(getAllByRole('button', {expanded: false})[0])
             await userEvent.click(getByText(/certified nurse assistant/i))
             await userEvent.click(getAllByRole('button', {expanded: false})[1])
-            //preview.debug()
             await userEvent.click(getByText(/cna rotation 9/i))
 
             await userEvent.clear(getInput(/program start date/i))
@@ -291,7 +290,6 @@ describe('testing Create feature', () => {
             await userEvent.click(getInput(/employed/i))
 
             await userEvent.click(getInput(/full-time/i))
-
             await userEvent.type(getInput(/employment position/i), '__TEST__') 
             await userEvent.type(getInput(/place of employment/i), '__TEST__') 
             await userEvent.type(getInput(/employment address/i), '__TEST__') 
@@ -334,51 +332,5 @@ describe('testing Create feature', () => {
 
         }, 50000)
 
-    })
-
-    describe('testing CreateStudent component', () => {
-
-        let setup
-
-        let notify, notificationHandlers
-
-        function getNotificationResults() {
-            const { result } = renderHook(() => useNotification(Components.NotificationSlide))
-            return result.current
-        }
-
-        beforeEach(() => {
-
-            ([ notify, notificationHandlers ] = getNotificationResults())
-
-
-            setup = () => {
-    
-                render(
-                    <AuthContextProvider>
-                        <CreateStudent 
-                            notificationHandlers={notificationHandlers}
-                            notify={notify}
-                        />
-                    </AuthContextProvider>
-                )
-    
-                return {
-    
-                    ...(testByMethods(screen)),
-                }
-            }
-        })
-        afterEach(() => {
-            setup = undefined
-            jest.clearAllMocks()
-            cleanup()
-        
-        })
-
-        it('should render StudentForm component', () => {
-            const { getByTestId } = setup()
-            expect(getByTestId('student-form')).toBeInTheDocument()
-        })
     })
 })
