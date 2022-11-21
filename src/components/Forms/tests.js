@@ -350,7 +350,7 @@ describe('testing form components', () => {
 
             expect(handleOpenNotificationMk.mock.calls).toHaveLength(1)
             expect(handleOpenNotificationMk).toHaveBeenLastCalledWith('Create successful')
-        },50000)
+        },50_000)
 
         it('should invoke success notification if no errors are found when submitting for update', async () => {
             
@@ -364,7 +364,7 @@ describe('testing form components', () => {
 
             expect(handleOpenNotificationMk.mock.calls).toHaveLength(1)
             expect(handleOpenNotificationMk).toHaveBeenLastCalledWith('Update successful')
-        }, 50000)
+        }, 50_000)
 
         test('that when in edit mode, course cannot be changed', async () => {
             const { getByText, queryByTestId } = await setup({isEdit: true})

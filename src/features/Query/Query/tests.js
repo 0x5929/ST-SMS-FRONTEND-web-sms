@@ -1,12 +1,15 @@
 import '@testing-library/jest-dom'
-import { render, screen, cleanup, act, waitFor } from '@testing-library/react' 
+import { render, screen, cleanup, act } from '@testing-library/react' 
 import userEvent from '@testing-library/user-event'
 
 import Query from './Query'
-import { AuthContextProvider } from '../../../contexts'
-import * as useToggle from '../../../hooks/useToggle'
-
 import preview from 'jest-preview'
+
+// mock authedAxios
+jest.mock('../../../hooks/useAuthedAxios', () => ({
+    __esModule: true,
+    default: jest.fn(()=>({}))
+}))
 
 global.ResizeObserver = jest.requireActual('resize-observer-polyfill') // this is for testing only
 
@@ -28,6 +31,9 @@ describe('testing Query Feature components', () => {
                 },
                 getByTestId(testId) {
                     return screen.getByTestId(testId)
+                },
+                getAllByTestId(testId) {
+                    return screen.getAllByTestId(testId)
                 },
                 queryByTestId(testId) {
                     return screen.queryByTestId(testId)
@@ -68,18 +74,12 @@ describe('testing Query Feature components', () => {
     describe('testing Query component', () => {
         let setup
 
-        beforeEach(() => {      
+        beforeEach(async () => {      
 
             
-            setup = () => {
-
-               // global.setTimeout = jest.fn(cb => cb());
-                render(
-                    <AuthContextProvider>
-                        <Query />
-                    </AuthContextProvider>
-                )
-    
+            setup = async () => {              
+                await act( async () => {render(<Query />)})
+                    
                 return {
                     ...(testByMethods(screen)),
                 }
@@ -92,107 +92,38 @@ describe('testing Query Feature components', () => {
         
         })
 
-        it('should render SearchStudent component when showResults is set to false', async () => {
-            const { getByTestId } = setup()
-
-            await waitFor(() => {
-                expect(getByTestId('search-student-component')).toBeInTheDocument()
-           })
-
-        })
-        it('should render Statistics component when showResults is set to false', async () => {
-            const { getByTestId } = setup()
-
-            await waitFor(() => {
-                expect(getByTestId('statistics-component')).toBeInTheDocument()
-            })
-        })
-
-        it('should render SimpleBackDrop component when showResults is set to false', () => {
-            const { getByTestId } = setup()
-            expect(getByTestId('circularProgress')).toBeInTheDocument()
+        it('should render SearchStudent, Statistics, Simple component when showResults is set to false', async () => {
+            const { getByTestId, getAllByTestId } = await setup()
+            expect(getByTestId('search-student-component')).toBeInTheDocument()
+            expect(getByTestId('statistics-component')).toBeInTheDocument()
+            expect(getAllByTestId('circularProgress')).toHaveLength(2)
         })
 
         
-        it('should not render SearchStudent component when showResults is set to true', () => {
+        // when queried for results, display results instead of search
+        it('should not render SearchStudent, Stats, Progress component after query, show Results', async () => {
 
-            const mockUseToggle = jest.spyOn(useToggle, 'default')
-            mockUseToggle.mockImplementation(() => [true, jest.fn()])
-            const { queryByTestId } = setup()
+            const { getInput, getByTestId, queryByTestId } = await setup()
+            const submitBtn = getByTestId('query-submit-btn')
+
+            expect(queryByTestId('query-results-component')).not.toBeInTheDocument()
+
+            await userEvent.type(getInput('Search Student Database'), '__TEST__')
+            expect(getInput('Search Student Database')).toHaveValue('__TEST__')
+            await userEvent.click(submitBtn)
+
             expect(queryByTestId('search-student-component')).not.toBeInTheDocument()
+            expect(queryByTestId('statistics-component')).not.toBeInTheDocument()
+
+            // circularProgress is within Results too, thats why the following won't work
+            // tests by snapshots?
+            //expect(queryByTestId('circularProgress')).not.toBeInTheDocument() 
+
+            expect(getByTestId('query-results-component')).toBeInTheDocument()    
             
         })
 
-        it('should not render Statistics component when showResults is set to true', () => {
-            const mockUseToggle = jest.spyOn(useToggle, 'default')
-            mockUseToggle.mockImplementation(() => [true, jest.fn()])
-            const { queryByTestId } = setup()
-            expect(queryByTestId('statistics-component')).not.toBeInTheDocument()
-        })
-
-        it('should not render SimpleBackDrop component when showResults is set to true', () => {
-            const mockUseToggle = jest.spyOn(useToggle, 'default')
-            mockUseToggle.mockImplementation(() => [true, jest.fn()])
-            const { queryByTestId } = setup()
-            expect(queryByTestId('circularProgress')).not.toBeInTheDocument()           
-        })
         
-        it('should render QueryResults component when showResults is set to true', () => {
-            const mockUseToggle = jest.spyOn(useToggle, 'default')
-            mockUseToggle.mockImplementation(() => [true, jest.fn()])
-            const { getByTestId } = setup()
-            expect(getByTestId('query-results-component')).toBeInTheDocument()                  
-        })
-
-        test('without implementation details, initially no query results are rendered', () => {
-            const { queryByTestId } = setup()
-            expect(queryByTestId('query-results-component')).not.toBeInTheDocument()
-        })
-
-        test('without implementation details, initially searchStudent, backdrop, statistics are rendered', () => {
-
-            const { getByTestId } = setup()
-            expect(getByTestId('search-student-component')).toBeInTheDocument()
-            expect(getByTestId('statistics-component')).toBeInTheDocument()
-            expect(getByTestId('circularProgress')).toBeInTheDocument()
-        })
-
-        
-        test('once searched for students, searchStudent, backdrop, and statistics are not rendered', async () => {
-            // search for any student, or anything for that matter
-            // https://marek-rozmus.medium.com/mocking-settimeout-with-jest-3fd6b8fa6307
-
-            const user = userEvent.setup({ delay: null })
-            jest.useFakeTimers()
-
-            const { getInput, getByTestId, queryByTestId } = setup()
-            const searchInput = getInput('Search Student Database')
-            const searchBtn = getByTestId('query-submit-btn')
-
-            await user.type(searchInput, '__TESTS__')
-            await user.click(searchBtn)
-
-
-            act(() => {
-                jest.runAllTicks()
-                jest.runAllTimers()
-              })
-
-
-            await waitFor(() => {
-
-    
-                expect(queryByTestId('search-student-component')).not.toBeInTheDocument()           
-                expect(queryByTestId('statistics-component')).not.toBeInTheDocument()
-                expect(queryByTestId('circularProgress')).not.toBeInTheDocument()
-                expect(getByTestId('query-results-component')).toBeInTheDocument()
-                
-                jest.useRealTimers()
-              })
-
-            jest.useRealTimers()
-
-        })
 
         test('add query button works until 5 rows of query but all 5 will be rendered', async () => {
 
@@ -202,7 +133,7 @@ describe('testing Query Feature components', () => {
                 queryAllByLabelText, 
                 getByTestId, 
                 queryByTestId, 
-                queryAllByTestId } = setup()
+                queryAllByTestId } = await setup()
 
             // max query obj is 5, but we will set the counter to 10, just to demonstrate max is 5.
    
@@ -216,19 +147,17 @@ describe('testing Query Feature components', () => {
             for (let i = 0; i <= counter; i++) {
                 await userEvent.click(getByText(/add new/i), {delay: 1})
             }
-            //preview.debug()
+            
             
             expect(queryAllByLabelText('Search Student Database')).toHaveLength(5)
             expect(queryAllByTestId('queryby-select')).toHaveLength(5)
             expect(queryAllByTestId('delete-query-btn')).toHaveLength(5)
 
-            
-
         })
 
         test('del query button works, and will delete specific query objects', async () => {
 
-            const { getByText, queryAllByLabelText, queryAllByTestId } = setup()
+            const { getByText, queryAllByLabelText, queryAllByTestId } = await setup()
 
             const counter = 10
 
@@ -253,15 +182,11 @@ describe('testing Query Feature components', () => {
             expect(queryFields[0]).toHaveValue('0')
             expect(queryFields[2]).toHaveValue('2')
             expect(queryFields[4]).toHaveValue('4')
-        }, 500000)
+        }, 50_000)
 
 
         it('should clear its own text and query when clear button is pressed on the query', async () => {
-            //throw new Error('need to implement this test')
-
-
-            
-            const { getByText, queryAllByLabelText, queryAllByTestId } = setup()
+            const { getByText, queryAllByLabelText, queryAllByTestId } = await setup()
 
             const counter = 10
 
@@ -286,8 +211,6 @@ describe('testing Query Feature components', () => {
             await userEvent.click(clearIcons[1])
             await userEvent.click(clearIcons[3])
 
-            // preview.debug()
-
             expect(queryFields[0]).toHaveValue('0')
             expect(queryFields[1]).toHaveValue('')
             expect(queryFields[2]).toHaveValue('2')
@@ -296,30 +219,18 @@ describe('testing Query Feature components', () => {
 
             
 
-        }, 500000)
+        }, 50_000)
 
 
         it('should render Card components', async () => {
+            const { getByText, queryAllByTestId } = await setup()
 
-
-
-            const { getByText, queryAllByTestId } = setup()
-
-            await waitFor(() => {
-
-                //preview.debug()
-
-                expect(queryAllByTestId('card')).toHaveLength(4)
-
-                expect(getByText(/statistics/i)).toBeInTheDocument()
-                expect(getByText(/student enrollments/i)).toBeInTheDocument()
-                expect(getByText(/student employments/i)).toBeInTheDocument()
-                expect(getByText(/student graduates/i)).toBeInTheDocument()
-                expect(getByText(/student exams/i)).toBeInTheDocument()
-
-            })
-
-            
+            expect(queryAllByTestId('card')).toHaveLength(4)
+            expect(getByText(/statistics/i)).toBeInTheDocument()
+            expect(getByText(/student enrollments/i)).toBeInTheDocument()
+            expect(getByText(/student employments/i)).toBeInTheDocument()
+            expect(getByText(/student graduates/i)).toBeInTheDocument()
+            expect(getByText(/student exams/i)).toBeInTheDocument()
 
         })
     })
