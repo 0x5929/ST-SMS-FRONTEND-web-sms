@@ -78,17 +78,16 @@ export function useDetailedViewModal ({ setRecordForView, recordForView }){
         setIsDetailedViewModalOpen(false)
     }, [setIsDetailedViewModalOpen, setRecordForView])
 
-    const handleDetailedViewModalOpen = useCallback(item => {
-        setRecordForView(item)
+    const handleDetailedViewModalOpen = useCallback(() => {
         setIsDetailedViewModalOpen(true)
-    }, [setIsDetailedViewModalOpen, setRecordForView])
+    }, [])
 
     const detailedViewModalStates = { isDetailedViewModalOpen  }
     const detailedViewModalHandlers = { handleDetailedViewModalOpen, handleDetailedViewModalClose, getDetailedRecord }
 
     useEffect(() => {
         if (recordForView)
-            handleDetailedViewModalOpen(recordForView)
+            handleDetailedViewModalOpen()
     }, [recordForView, handleDetailedViewModalOpen])
     
     return [detailedViewModalStates, detailedViewModalHandlers] 

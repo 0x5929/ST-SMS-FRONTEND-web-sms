@@ -3,7 +3,6 @@ import { render, screen, cleanup, act } from '@testing-library/react'
 import { within } from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
 
-import { AuthContextProvider } from '../../../contexts'
 import QueryResults from './Results'
 import { sampleStudentData } from '../../../services/data/studentData'
 
@@ -145,7 +144,7 @@ describe('testing Query feautre Result component', () => {
 
             // test edit function
             await userEvent.type(getInput('First Name'), '22')
-            preview.debug()
+            //preview.debug()
 
             // close edit modal
             await userEvent.click(getByTestId('modal-close-btn'))

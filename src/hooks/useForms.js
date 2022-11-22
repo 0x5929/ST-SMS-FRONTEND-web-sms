@@ -238,9 +238,14 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
         }
     }
 
+    const schoolRadioDefaultValue = useMemo(() => {
+        if (studentFormState.schoolOptions.length > 0)
+            return studentFormState.schoolOptions[0]['value']
+
+    }, [studentFormState.schoolOptions])
+
 
     const handleProgress = useCallback(async (callback, record) => {
-        console.log('record inside handleProgress', record)
         if (!studentFormState.submitLoading) {
 
             studentFormDispatch({type: 'form-submissionLoading'})
@@ -258,6 +263,10 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
         }
     }, [authedAxios, studentFormState.submitLoading])
 
+    // this function is dependent on a state, which changes
+    // if the state changes, the signature of this function changes
+    // and this function is a dependent of handleCancel, but without useCallback, this will change on every render, 
+    // and we only care about change after state changed
     const handleClearError = useCallback(() => {
         if (studentFormState.showError) {
             studentFormDispatch({type: 'form-toggleShowErrors', payload: false})
@@ -277,11 +286,11 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
 
     const handleCourseChange = useCallback((e)=>{
         studentFormDispatch({type: 'set-course', payload: e.target.value})
-    }, [])
+    }, [studentFormState.rotationAdded, studentFormState.school])
 
     const handleRotationChange = useCallback((e)=> {
         studentFormDispatch({type: 'set-rotation', payload: e.target.value})
-    }, [])
+    }, [studentFormState.rotationAdded, studentFormState.school, studentFormState.course])
 
     const handleClearCourse = useCallback( ()=> {
         studentFormDispatch({type: 'set-course', payload: ''})
@@ -326,14 +335,7 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
     }, [recordForEdit])
 
 
-    const schoolRadioDefaultValue = useMemo(() => {
-        if (studentFormState.schoolOptions.length > 0)
-            return studentFormState.schoolOptions[0]['value']
-
-    }, [studentFormState.schoolOptions])
-
-
-    const handleSubmit =  (e, inputRefs) =>{
+    const handleSubmit =  useCallback((e, inputRefs) =>{
         // DEV configuration so we dont refresh the page when testing submit button
         e.preventDefault()
 
@@ -384,7 +386,6 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
             }
         }
 
-
         // if there are error, return execution to app, aka do nothing
         if (hasError) {
            studentFormDispatch({type : 'form-toggleShowErrors', payload: true})
@@ -394,7 +395,7 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
             return requestProcessing(requestData, handleCancel, isEdit)
         }
 
-    }
+    }, [handleCancel, recordForEdit, studentFormState.school, studentFormState.course, studentFormState.rotation])
 
     // on component dismount, set mountRef to be false, so that all api calls are not set as state
     useEffect(() => {
@@ -421,54 +422,56 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
                 studentFormDispatch({type: 'set-schoolOptions', payload: schoolOptions})
             }
             catch(err) {
+                console.error(err)
                 throw err
             }
         }
 
 
         const editFormPrep = async () => {
-            // set school name for 
-            const schoolName = await axioService.schoolOptionsEditGET(authedAxios, recordForEdit.rotation) 
-            if (!mountedRef.current) return null
-            studentFormDispatch({type: 'set-school', payload: schoolName})
 
-            // clear course and rotation values
-            studentFormDispatch({type: 'set-course', payload: ''})
-            studentFormDispatch({type: 'set-rotation', payload: ''})
+            try {
+                // set school name for 
+                const schoolName = await axioService.schoolOptionsEditGET(authedAxios, recordForEdit.rotation) 
+                if (!mountedRef.current) return null
+                studentFormDispatch({type: 'set-school', payload: schoolName})
 
-            // set course options
-            const courses = await getCourseOptions(authedAxios, schoolName)
-            studentFormDispatch({type: 'set-courseOptions', payload: courses})
+                // clear course and rotation values
+                studentFormDispatch({type: 'set-course', payload: ''})
+                studentFormDispatch({type: 'set-rotation', payload: ''})
 
-            // set course
-            studentFormDispatch({type: 'set-course', payload: recordForEdit.course})
+                // set course options
+                const courses = await getCourseOptions(authedAxios, schoolName)
+                studentFormDispatch({type: 'set-courseOptions', payload: courses})
 
-            // set rotation Options
-            const rotations = await getRotationOptions(authedAxios, recordForEdit.course, schoolName)
-            studentFormDispatch({type: 'set-rotationOptions', payload: rotations})
-        
-            // set rotation
-            const rotationNumber = await axioService.rotationNumberByUUIDGET(authedAxios, recordForEdit.rotation)
-            studentFormDispatch({type: 'set-rotation', payload: rotationNumber})
+                // set course
+                studentFormDispatch({type: 'set-course', payload: recordForEdit.course})
+
+                // set rotation Options
+                const rotations = await getRotationOptions(authedAxios, recordForEdit.course, schoolName)
+                studentFormDispatch({type: 'set-rotationOptions', payload: rotations})
+            
+                // set rotation
+                const rotationNumber = await axioService.rotationNumberByUUIDGET(authedAxios, recordForEdit.rotation)
+                studentFormDispatch({type: 'set-rotation', payload: rotationNumber})
+            }
+            catch(err) {
+                console.error(err)
+                throw err
+            }
+ 
         }
 
 
          // if not edit we should be in create mode, then we must grab all possible school values that user can fetch
         if (!recordForEdit) {
-            try {
-                handleSetProgressStatus({progressState: true})
-                handleSetProgressStatus({callback: schoolOptionsFetchInCreate, callbackArgs: [], progressState: false})
-                
-
-            }catch(err) {
-                throw err
-            }
+            handleSetProgressStatus({progressState: true})
+            handleSetProgressStatus({callback: schoolOptionsFetchInCreate, callbackArgs: [], progressState: false})
 
         }
         // if we are editting, prepare forms, fetch school name first to get the correct course and rotation value
         // note in StudentForm.jsx, if editting, school field wont show& course field is not mutable
         else {
-            console.log('WE SHOULD BE HERE TOO')
             handleSetProgressStatus({progressState: true})
             handleSetProgressStatus({callback: editFormPrep, callbackArgs: [], progressState: false})
 
@@ -601,7 +604,7 @@ function useAddRotationForm(userFeedbackObj, schoolName, studentFormDispatch, re
         setProgramName('')
         setShowError(false)
 
-    }, [showError, clearFields, setClearFields, setShowError])
+    }, [showError, clearFields])
 
 
     const handleAddRotSubmit = useCallback( async e => {
@@ -644,26 +647,27 @@ function useAddRotationForm(userFeedbackObj, schoolName, studentFormDispatch, re
                 // post rotation
                 const response = await axioService.rotationCreatePOST(authedAxios, data, school)
 
-                // set state to trigger useEffect is useStudentForm
-                studentFormDispatch({type: 'set-rotationAdded', payload: true})
 
                 console.log('Rotation created successfully, server response: ', response.data)
+                notificationHandlers.handleOpenNotification('Rotation added successfully')
+                addRotModalHandlers.handleCloseAddRotModal()
+
+                // set state to trigger useEffect is useStudentForm
+                studentFormDispatch({type: 'set-rotationAdded', payload: true})
 
             }
             catch(e) {
                 console.error(e)
+                throw e
             }
-
-            console.log('Rotation added successfully, ', data)
-            notificationHandlers.handleOpenNotification('Rotation added successfully')
-            handleAddRotClear()
-            addRotModalHandlers.handleCloseAddRotModal()
+            finally {
+                handleAddRotClear()
+            }
         }
 
 
 
-    }, [rotFormValidations, programName, setShowError, notificationHandlers, handleAddRotClear, addRotModalHandlers])
-
+    }, [authedAxios, recordForEdit, programName, notificationHandlers, handleAddRotClear, addRotModalHandlers])
 
     const addRotStates = { rotFormValidations, isAddRotModalOpen, programName, showError, clearFields, rotationRef }
     const addRotHandlers = { handleAddRotSubmit, handleAddRotClear, handleProgramNameChange,
@@ -684,9 +688,6 @@ export function useQueryForm({ setQueryResults, setShowResults, handleSetProgres
     const getQueryOptions = SMSRecordService.getQueryOptions
     const authedAxios = useAuthedAxios()
 
-    const handleSetQueryFormErrorCallback = useCallback((temp)=>{
-        setQueryFormErrors({...temp})
-    }, [])
 
     const clearError = useCallback((pk) => {
         let errObj = {...queryFormErrors}
@@ -765,6 +766,12 @@ export function useQueryForm({ setQueryResults, setShowResults, handleSetProgres
 
     const handleSubmit = useCallback( async (e, queryOptions) =>  {
         e.preventDefault()
+
+
+        const handleSetQueryFormErrorCallback = (temp) => {
+            setQueryFormErrors({...temp})
+        }
+
         if (queryValidation(queryOptions, handleSetQueryFormErrorCallback, queryFormErrors)){     
             try {
                 // turn circular progress to true
@@ -784,7 +791,7 @@ export function useQueryForm({ setQueryResults, setShowResults, handleSetProgres
                 console.error(err)
             }
         }
-    },  [handleSetQueryFormErrorCallback, queryFormErrors, queryValidation, setQueryResults, authedAxios])
+    },  [queryFormErrors, authedAxios])
 
     
     const queryFormStates = { queryOptions, queryFormErrors, textInput }

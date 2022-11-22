@@ -5,6 +5,7 @@ import { useAuthedAxios, useCircularProgress } from '../hooks'
 
 export default function useQueryResultTable(userFeedbackObj, results) {
 
+    const authedAxio = useAuthedAxios()
     const [records, setRecords] = useState([])
     const [recordForEdit, setRecordForEdit] = useState(null)
     const [recordForView, setRecordForView] = useState(null)
@@ -12,7 +13,6 @@ export default function useQueryResultTable(userFeedbackObj, results) {
     const [sortingStates, sortingHandlers]= useSorting()
     const [filterStates, filterHandlers] = useFilter(setRecords)
     const [ progressOn, handleSetProgressStatus ] = useCircularProgress()
-    const authedAxio = useAuthedAxios()
 
     const { getTableData } = SMSRecordService
     const { notificationHandlers, confirmDialogHandlers } = userFeedbackObj
@@ -23,6 +23,21 @@ export default function useQueryResultTable(userFeedbackObj, results) {
 
       return paginationHandlers.recordsAfterPaging(sortedResults)
     }, [filterHandlers, paginationHandlers, records, sortingHandlers])
+
+
+    const handleViewPress = useCallback( async (record) => {
+    // convert rotation uuid string to rotation number upon viewing record        
+        try {
+                                        
+            const rotNumber = await AxioService.rotationNumberByUUIDGET(authedAxio, record['rotation'])
+
+            setRecordForView({...record, rotation: rotNumber})
+        }
+        catch(err) {
+            console.error(err)
+            setRecordForView(null)
+        }
+    }, [])
 
 
     const deleteAction = async (record) => {
@@ -96,6 +111,7 @@ export default function useQueryResultTable(userFeedbackObj, results) {
         setRecords,
         setRecordForEdit,
         setRecordForView,
+        handleViewPress,
         getTableData,
         getFinalDisplayRecords,
         handleDeletePress,

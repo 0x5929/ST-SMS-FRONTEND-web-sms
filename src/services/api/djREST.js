@@ -383,12 +383,12 @@ const convertQueryParams = (paramArr) => {
 // given a record's rotation number, grab its rotation uuid from API
 export const convertRotationUUID = async (authedAxio, { rotation, course, school}) => {
 
-    let rotationQueryStr = 'students/?rotation__rotation_number=' + rotation.toString() + '&rotation__program__program_name=' + course.toString() + '&rotation__program__school__school_name=' + school.toString()
+    let rotationNumQueryStr = 'rotations/?rotation_number=' + rotation.toString() + '&program__program_name=' + course.toString() + '&program__school__school_name=' + school.toString()
 
     try {
-        const rotationQueryResponse = await authedAxio.get(smsEndpointUrl + rotationQueryStr)
+        const rotationQueryResponse = await authedAxio.get(smsEndpointUrl + rotationNumQueryStr)
 
-        return rotationQueryResponse.data[0]['rotation']
+        return rotationQueryResponse.data[0]['rotation_uuid']
      
     }
     catch(error) {

@@ -83,7 +83,7 @@ const QueryResultsTblBody = React.memo((props) => {
         getFinalDisplayRecords,
         handleDeletePress,
         setRecordForEdit,
-        setRecordForView,
+        handleViewPress,
 
         ...others
      } = props
@@ -104,7 +104,7 @@ const QueryResultsTblBody = React.memo((props) => {
                                 
                                 variant="text"
                                 aria-label="view-record-btn"
-                                onClick={() => setRecordForView(record)}
+                                onClick={() => handleViewPress(record)}
                                 size="small"
                                 color="primary"
                             >

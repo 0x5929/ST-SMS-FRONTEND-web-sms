@@ -14,25 +14,27 @@ import {
     studentRemoveDELETE,
     studentEditPATCH,
     schoolOptionsCreateGET,
-    schoolOptionsEditGET
+    schoolOptionsEditGET,
+    rotationNumberByUUIDGET
 } from './services/api/djREST'
 
 jest.mock('./services/api/djREST')
 
 const mockResolvedValues = {
-    authRefreshGET        : {access: '__TEST_ACCESS__'},
-    authenticationPOST    : {user: '__TEST_USER__', access_code : '__TEST_ACCESS__', refresh_code: '__TEST_REFRESH__'},
-    logoutPOST            : [],
-    studentStatisticsGET  : SMSStats,
-    studentQueryGET       : sampleStudentData,
-    schoolOptionsCreateGET: [{value: 'ABC', title: 'ABC'}],
-    schoolOptionsEditGET  : 'ABC',
-    programNameGET        : sampleCourseOptions,
-    rotationNumberGET     : sampleRotationOptions(sampleCourseOptions[0].value),
-    studentCreatePOST     : [],
-    rotationCreatePOST    : [],
-    studentEditPATCH      : sampleStudentData[0],
-    studentRemoveDELETE   : [],
+    authRefreshGET         : {access: '__TEST_ACCESS__'},
+    authenticationPOST     : {user: '__TEST_USER__', access_code : '__TEST_ACCESS__', refresh_code: '__TEST_REFRESH__'},
+    logoutPOST             : [],
+    studentStatisticsGET   : SMSStats,
+    studentQueryGET        : sampleStudentData,
+    schoolOptionsCreateGET : [{value: 'ABC', title: 'ABC'}],
+    schoolOptionsEditGET   : 'ABC',
+    programNameGET         : sampleCourseOptions,
+    rotationNumberGET      : sampleRotationOptions(sampleCourseOptions[0].value),
+    studentCreatePOST      : [],
+    rotationCreatePOST     : [],
+    studentEditPATCH       : sampleStudentData[0],
+    studentRemoveDELETE    : [],
+    rotationNumberByUUIDGET: '1'
 }
 
 
@@ -53,7 +55,7 @@ beforeEach(() => {
     rotationCreatePOST.mockResolvedValue(mockResolvedValues['rotationCreatePOST'])
     studentEditPATCH.mockResolvedValue(mockResolvedValues['studentEditPUT'])
     studentRemoveDELETE.mockResolvedValue(mockResolvedValues['studentRemoveDELETE'])
-
+    rotationNumberByUUIDGET.mockResolvedValue(mockResolvedValues['rotationNumberByUUIDGET'])
 
 })
 

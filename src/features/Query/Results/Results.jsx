@@ -41,6 +41,7 @@ function QueryResults({ queryResults, handleSetProgressStatus, setShowResults } 
 
         getTableData,
         getFinalDisplayRecords,
+        handleViewPress,
         handleDeletePress,
         setRecordForEdit, 
         setRecordForView,
@@ -83,8 +84,8 @@ function QueryResults({ queryResults, handleSetProgressStatus, setShowResults } 
                 <Components.QueryResultsTblBody 
                     getFinalDisplayRecords={getFinalDisplayRecords}
                     handleDeletePress={handleDeletePress}
+                    handleViewPress={handleViewPress}
                     setRecordForEdit={setRecordForEdit}
-                    setRecordForView={setRecordForView}
                 />
             </Styles.QueryResultsTblContainer>
             <Components.QueryResultsTblPagination 
