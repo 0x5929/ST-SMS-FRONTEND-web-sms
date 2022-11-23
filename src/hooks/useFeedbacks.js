@@ -17,14 +17,16 @@ export function useNotification(Transition) {
         })
     }, [notify])
 
-    const handleOpenNotification = useCallback((message, type='success') => {
+    // mostly used within custom hooks, and not passed in as a prop, nor as a dependency of a prop
+    // thus we don't care if this is a new copy of the function each render
+    const handleOpenNotification = (message, type='success') => {
         setNotify({
             ...notify,
             isOpen: true,
             message: message,
             type: type
         })
-    }, [notify])
+    }
     
     const notificationHandlers = { handleOpenNotification,handleCloseNotification }
 
@@ -50,15 +52,16 @@ export function useConfirmDialog(){
         })
     }, [confirmDialog])
 
-    const handleConfirmed = useCallback((title, subTitle, confirmCallback) => {
+    // used mainly by hooks, not as a component prop
+    const handleConfirmed = (title, subTitle, confirmCallback) => {
         setConfirmDialog({
             isOpen: true,
             title: title,
             subTitle: subTitle,
             onConfirm: confirmCallback
         })
-    }, [])
-    
+    }
+
     const confirmDialogHandlers = { handleConfirmed, handleUnconfirmed }
 
     return [confirmDialog, confirmDialogHandlers]

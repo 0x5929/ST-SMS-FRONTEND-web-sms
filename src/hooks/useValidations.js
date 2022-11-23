@@ -4,7 +4,7 @@ function useValidations() {
         // returns true or false, and sets error object for validation 
     
     // custom pattern built just for the Query Form.
-    const queryValidation = useCallback((arrFieldValues, handleSetQueryFormErrorCallback, errors) => {
+    const queryValidation = (arrFieldValues, handleSetQueryFormErrorCallback, errors) => {
         let temp = {...errors}
 
         for (var index = 0; index < arrFieldValues.length; index++ ){
@@ -16,7 +16,7 @@ function useValidations() {
         // returns false if any of the above if statements evaluates to false
         handleSetQueryFormErrorCallback(temp)
         return Object.values(temp).every(x => x === '')
-    }, [])
+    }
 
 
     const useCreateValidation = () => {

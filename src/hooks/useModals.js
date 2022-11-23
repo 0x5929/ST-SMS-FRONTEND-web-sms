@@ -76,19 +76,15 @@ export function useDetailedViewModal ({ setRecordForView, recordForView }){
     const handleDetailedViewModalClose = useCallback(()=> {
         setRecordForView(null)
         setIsDetailedViewModalOpen(false)
-    }, [setIsDetailedViewModalOpen, setRecordForView])
+    }, [setRecordForView])
 
-    const handleDetailedViewModalOpen = useCallback(() => {
-        setIsDetailedViewModalOpen(true)
-    }, [])
 
     const detailedViewModalStates = { isDetailedViewModalOpen  }
-    const detailedViewModalHandlers = { handleDetailedViewModalOpen, handleDetailedViewModalClose, getDetailedRecord }
+    const detailedViewModalHandlers = { handleDetailedViewModalClose, getDetailedRecord }
 
     useEffect(() => {
-        if (recordForView)
-            handleDetailedViewModalOpen()
-    }, [recordForView, handleDetailedViewModalOpen])
+        if (recordForView) setIsDetailedViewModalOpen(true)
+    }, [recordForView])
     
     return [detailedViewModalStates, detailedViewModalHandlers] 
 }
@@ -97,6 +93,8 @@ export function useDetailedViewModal ({ setRecordForView, recordForView }){
 export function useAddRotationModal (){
     const [isAddRotModalOpen, setIsAddRotModalOpen] = useToggle(false)
 
+    // techinically these are just setters, and we didnt need another level of encapsulation
+    // however, to keep consistent with rest of project this hook, and its callback handlers are placed here
     const handleOpenAddRotModal = useCallback(() => {
         setIsAddRotModalOpen(true)
     }, [setIsAddRotModalOpen])

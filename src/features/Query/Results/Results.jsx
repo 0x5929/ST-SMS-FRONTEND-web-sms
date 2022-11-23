@@ -60,7 +60,7 @@ function QueryResults({ queryResults, handleSetProgressStatus, setShowResults } 
                 <Styles.SearchBar 
                     label="Search Results"
                     textInput={textInput}
-                    handleClear={handleClear}
+                    handleClear={() => handleClear(records)}
                     onChange={handleFilter}
                 />
                 <Components.BaseButton data-testid="back-to-query-btn"
