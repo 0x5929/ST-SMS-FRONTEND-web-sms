@@ -44,7 +44,6 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
             clearFields,
             submitLoading,
             submitSuccess,
-            school,
         },
         progressOn,
         inputRefs,
@@ -64,7 +63,8 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
 
     let isEdit
 
-    // should be put inside a useEffect hook
+    // should be put inside a useEffect hook?
+    // since this is evaulated by props passed in, we can get away with this wo an useEffect
     if (studentEditFormHandlers !== undefined) {
         isEdit = true
     }
@@ -82,7 +82,6 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                         
                         <RadioGroup 
                             ref={inputRefs.school}
-                            school={school}
                             studentFormDispatch={studentFormDispatch}
                             initialValue={schoolRadioDefaultValue}
                             name="school"

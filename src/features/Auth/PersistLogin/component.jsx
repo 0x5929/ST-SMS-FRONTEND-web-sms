@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useToggle, useRefreshToken } from '../../../hooks'
 import { useAuthContext } from '../../../contexts'
-import { SimpleBackDrop } from '../../../components/Backdrop'
 
 const PersistLogin = ({children}) => {
     const navigate  = useNavigate()
@@ -16,6 +15,7 @@ const PersistLogin = ({children}) => {
             try {
                 // if successful, accesstoken will be set inside refresh()
                 // change isLoading to false so children can render
+                console.log('inside persistent')
                 await refresh()
 
             }catch(err) {
@@ -25,6 +25,7 @@ const PersistLogin = ({children}) => {
                 // according to src/index's routing signin page will be re-rendered first, 
                 // and since we did not get a new access toekn with an existing refresh token (due to logout or refresh token expired)
                 // when we try to access any other protected private routes, we will be here again, setting user and Authed and routed back signin at /
+                console.log('we should never be here')
                 setUser(null)
                 setAuthed(false)
                 navigate('/')

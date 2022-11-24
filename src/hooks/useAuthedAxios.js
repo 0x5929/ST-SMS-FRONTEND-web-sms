@@ -46,9 +46,10 @@ const useAuthedAxios  = () => {
 
                 // if response error is within 400s, see to that we resend it after trying to refresh 
                 // with our refresh token http only cookie
-                if ( (error?.response.status === 400 || error?.response.status === 403 || error?.response?.dasta?.detail === 'Given token not valid for any token type')
+                if ( (error?.response?.data?.detail === 'Given token not valid for any token type')
                     && (!prevRequest?.sent) ) {
-                        
+                    
+                    console.log('are we ever here? we should be here', error)
                     prevRequest.sent = true
 
                     const newAccessToken = await refresh()
@@ -82,6 +83,8 @@ const useAuthedAxios  = () => {
             axio.interceptors.response.eject(responseIntercept)
         }
 
+        
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user])
 
     // return this so other hook logic can use and request backend API

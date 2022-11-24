@@ -1,9 +1,7 @@
 import '@testing-library/jest-dom'
 import { render, screen, cleanup, fireEvent } from '@testing-library/react'
 import userEvent from "@testing-library/user-event"
-import { renderHook } from '@testing-library/react-hooks/dom'
 
-import { useRef } from 'react'
 
 import SearchBar from './component'
 
@@ -11,16 +9,9 @@ import SearchBar from './component'
 describe('testing searchbar component', () => {
 
     let testByMethods
-    let inputRef
-
-    function getInputRef() {
-        const { result } = renderHook(() => useRef(null))
-        return result.current
-    }
 
     beforeAll(() => {
         
-        inputRef = getInputRef()
 
         testByMethods = (screen) => {
             return {
@@ -52,7 +43,6 @@ describe('testing searchbar component', () => {
     
     
     afterAll(() => {
-        inputRef = undefined
         testByMethods = undefined
     })
 

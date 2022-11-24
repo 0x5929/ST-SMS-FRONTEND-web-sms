@@ -17,7 +17,6 @@ const RadioGroup = forwardRef((props, parentRef) => {
         label,  
         initialValue='', 
         errorHandler=null,
-        school=null,
         studentFormDispatch=null,
         clearFields,
         showError,
@@ -27,11 +26,23 @@ const RadioGroup = forwardRef((props, parentRef) => {
 
     // for school radio only, bc the only other radio component, no schoolChanged nor studentFormDispatch was passed in
     // if school value changes, it will change form state, which will trigger another its useeffect to refetch program and rotation data
+    
     useEffect(() => {
+        // to align our forwardRef to the value's state
+        if (parentRef.current) {
+            parentRef.current.value = value
+        }
+
+        // to set the school value state from parent component (studentForm)
+        // note this will trigger an useEffect in the useStudentFOrm hook
         if (studentFormDispatch) {
             studentFormDispatch({type: 'set-school', payload: value})
         }
+        
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [value])
+
+
 
     return (  
 
@@ -49,7 +60,7 @@ const RadioGroup = forwardRef((props, parentRef) => {
                 name={name}
                 value={value}
                 defaultValue={initialValue}
-                checked={initialValue | value}
+                checked={value}
                 onChange={inputOnChange}
 
                 data-testid="mui-radiogroup" 

@@ -1,6 +1,8 @@
 import '@testing-library/jest-dom'
+import { useRef } from 'react'
 import { render, screen, cleanup } from '@testing-library/react'
 import userEvent from "@testing-library/user-event"
+import { renderHook } from '@testing-library/react-hooks/dom'
 
 import Checkbox from './Checkbox'
 import DatePicker from './DatePicker'
@@ -12,9 +14,18 @@ import Select from './Select'
 describe('testing input components', () => {
 
     let testByMethods
+    let inputRef
+
+
+    function getInputRef() {
+        const { result } = renderHook(() => useRef(null))
+        return result.current
+    }
+
 
     beforeAll(() => {
     
+        inputRef = getInputRef()
         testByMethods = (screen) => {
             return {
     
@@ -45,6 +56,7 @@ describe('testing input components', () => {
     
     
     afterAll(() => {
+        inputRef = undefined
         testByMethods= undefined
     })
 
@@ -349,6 +361,7 @@ describe('testing input components', () => {
 
                 const { rerender } = render(
                     <RadioGroup 
+                        ref={inputRef}
                         name={name}
                         label={label}
                         clearFields={clearFields}
@@ -409,6 +422,7 @@ describe('testing input components', () => {
 
             rerender(
                 <RadioGroup 
+                    ref={inputRef}
                     name={name}
                     label={label}
                     clearFields={true}

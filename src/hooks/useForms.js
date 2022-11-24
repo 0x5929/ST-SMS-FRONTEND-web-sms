@@ -286,11 +286,11 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
 
     const handleCourseChange = useCallback((e)=>{
         studentFormDispatch({type: 'set-course', payload: e.target.value})
-    }, [studentFormState.rotationAdded, studentFormState.school])
+    }, [])
 
     const handleRotationChange = useCallback((e)=> {
         studentFormDispatch({type: 'set-rotation', payload: e.target.value})
-    }, [studentFormState.rotationAdded, studentFormState.school, studentFormState.course])
+    }, [])
 
     const handleClearCourse = useCallback( ()=> {
         studentFormDispatch({type: 'set-course', payload: ''})
@@ -321,7 +321,9 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
         resetForm()
 
         return response
-    }, [handleProgress, userFeedbackObj])
+        
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const convertToDefaultEventParam = useCallback((name, value) => ({
         target: {
@@ -395,7 +397,9 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
             return requestProcessing(requestData, handleCancel, isEdit)
         }
 
-    }, [handleCancel, recordForEdit, studentFormState.school, studentFormState.course, studentFormState.rotation])
+        
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [handleCancel, requestProcessing, recordForEdit, studentFormState.school, studentFormState.course, studentFormState.rotation])
 
     // on component dismount, set mountRef to be false, so that all api calls are not set as state
     useEffect(() => {
@@ -478,14 +482,16 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
         }
 
     // all changes in recordForEdit will have a diff api call depending if we are editting or not
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [recordForEdit])
 
 
+    // two useEffects below will be triggered on Create view not Edit view
     // fetches course options for student form when loaded
     useEffect(() => {
         const courseOptions = async () => {
             const courses = await getCourseOptions(authedAxios, studentFormState.school)
-
+            if (!mountedRef.current) return null
             studentFormDispatch({type: 'set-course', payload: ''})
             studentFormDispatch({type: 'set-rotation', payload: ''})
             studentFormDispatch({type: 'set-courseOptions', payload: courses})
@@ -495,7 +501,8 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
         if (!recordForEdit)
             courseOptions()
 
-    // this will also be triggered when the school state value is changed
+    // this will be triggered when the school state value is changed
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [studentFormState.school])
 
 
@@ -505,7 +512,7 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
     useEffect(() => {
         const rotationOptions = async () => {
             const rotations = await getRotationOptions(authedAxios, studentFormState.course, studentFormState.school)
-
+            if (!mountedRef.current) return null
             studentFormDispatch({type: 'set-rotation', payload: ''})
             studentFormDispatch({type: 'set-rotationOptions', payload: rotations})
         }
@@ -513,9 +520,12 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
         if (!recordForEdit)
             rotationOptions()
 
+            
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [studentFormState.course, studentFormState.courseOptions])
 
 
+    // only run with rotationAdded is set true from rotationForm, refresh rotationList and reset rotation value
     useEffect(() => {
         const refreshRotationOptions = async () => {
             var rotations
@@ -526,7 +536,7 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
                 const schoolName = await axioService.schoolOptionsEditGET(authedAxios, recordForEdit.rotation) 
                 rotations = await getRotationOptions(authedAxios, recordForEdit.course, schoolName)
             }
-
+            if (!mountedRef.current) return null
             studentFormDispatch({type: 'set-rotation', payload: ''})
             studentFormDispatch({type: 'set-rotationOptions', payload: rotations})
         }
@@ -536,6 +546,8 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
             refreshRotationOptions()
             studentFormDispatch({type: 'set-rotationAdded', payload: false})
         }
+        
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [studentFormState.rotationAdded])
 
 
@@ -604,6 +616,8 @@ function useAddRotationForm(userFeedbackObj, schoolName, studentFormDispatch, re
         setProgramName('')
         setShowError(false)
 
+        
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [showError, clearFields])
 
 
@@ -667,7 +681,8 @@ function useAddRotationForm(userFeedbackObj, schoolName, studentFormDispatch, re
 
 
 
-    }, [authedAxios, recordForEdit, programName, notificationHandlers, handleAddRotClear, addRotModalHandlers])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [recordForEdit, schoolName, programName, notificationHandlers, handleAddRotClear, addRotModalHandlers])
 
     const addRotStates = { rotFormValidations, isAddRotModalOpen, programName, showError, clearFields, rotationRef }
     const addRotHandlers = { handleAddRotSubmit, handleAddRotClear, handleProgramNameChange,
@@ -791,7 +806,9 @@ export function useQueryForm({ setQueryResults, setShowResults, handleSetProgres
                 console.error(err)
             }
         }
-    },  [queryFormErrors, authedAxios])
+    
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },  [queryFormErrors])
 
     
     const queryFormStates = { queryOptions, queryFormErrors, textInput }

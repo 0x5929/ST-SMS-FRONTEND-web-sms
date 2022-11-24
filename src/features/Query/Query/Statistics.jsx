@@ -41,7 +41,9 @@ function Statistics() {
 		handleSetProgressStatus({progressState: true})
 		handleSetProgressStatus({callback: getStatistics, callbackArgs: [], progressState: false})
 
-	}, [authedAxios])
+		
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [])
 
 	const {
 		chartWidth,

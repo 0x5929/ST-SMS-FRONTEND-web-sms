@@ -226,10 +226,10 @@ describe('testing Create feature', () => {
             await userEvent.click(getInput(/employed/i))
             expect(getInput(/employed/i)).toHaveProperty('checked', true)
 
-            await userEvent.click(getInput(/full-time/i))
+            await userEvent.click(getByText(/full-time/i))
             expect(getInput(/full-time/i).checked).toBe(true)
             expect(getInput(/part-time/i).checked).toBe(false)
-            await userEvent.click(getInput(/part-time/i))
+            await userEvent.click(getByText(/part-time/i))
             expect(getInput(/full-time/i).checked).toBe(false)
             expect(getInput(/part-time/i).checked).toBe(true)
 
