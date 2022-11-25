@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import axio  from '../services/api/axios'
@@ -8,9 +8,21 @@ import { useAuthContext } from '../contexts'
 
 
 const useAuthedAxios  = () => {
+    const mountedRef = useRef(true)
     const navigate = useNavigate()
     const refresh = useRefreshToken()
-    const { user } = useAuthContext()
+    const { user, setUser, setAuthed } = useAuthContext()
+
+
+    // on component dismount, set mountRef to be false, so that all api calls are not set as state
+    useEffect(() => {
+
+        return () => {
+            mountedRef.current = false
+        }
+    }, [])
+
+
 
     useEffect(() => {
 
@@ -40,39 +52,48 @@ const useAuthedAxios  = () => {
 
             // response with errors (dealing with errors)
             async (error) => {
+                const prevRequest = error.config
 
-                
-                const prevRequest = error?.config
-
-                // if response error is within 400s, see to that we resend it after trying to refresh 
-                // with our refresh token http only cookie
+                // only if we have an expired accessCode, refresh, overwise, pass on the error
                 if ( (error?.response?.data?.detail === 'Given token not valid for any token type')
                     && (!prevRequest?.sent) ) {
                     
-                    console.log('are we ever here? we should be here', error)
-                    prevRequest.sent = true
 
-                    const newAccessToken = await refresh()
-                    prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`       
-                    return axio(prevRequest)
-                
+                    try {
+
+                        const newAccessToken = await refresh()
+                        if (!mountedRef.current) return null
+                        setAuthed(true)
+                        setUser(prev => {
+                            return { ...prev, accessToken: newAccessToken }
+                        })
+
+
+                        return axio({
+                            ...prevRequest, 
+                            headers: {
+                                ...prevRequest.headers.toJSON(),
+                                Authorization: `Bearer ${newAccessToken}`
+                            },
+                            sent: true
+                        })
+
+                    }
+                    catch (err) {
+                        console.error('[!] Authenticated http request instance error: ', err)
+            
+                        if (!mountedRef.current) return null
+                        setAuthed(false)
+                        setUser(null)
+                        
+                        navigate('/')
+                        return Promise.reject(error)
+                    }         
       
                 }
-                // if refresh() above came back not refreshed, and bc no valid refresh token is found, redirect to sign in
-                // also needed so the above condition doesnt go into infinite loop, care when refactoring
-                else if (error?.response?.data?.detail === 'No valid refresh token found.') {
-
-                    return Promise.reject(error).then(()=>{}, (error) => {
-                        console.error(error)
-    
-                        // since it is a protected route, it will refresh tokens and load, if not 
-                        // user will be set to null and / sign in will be rendered (from useEffect login inside useSigninForm())
-
-                        navigate('/')
-                    })
-                }
+   
                 else {
-                    navigate('/')
+                    return Promise.reject(error)
                 }
             }
         )

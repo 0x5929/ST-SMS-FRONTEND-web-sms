@@ -24,7 +24,8 @@ function _isEmpty(obj) {
 
 
 
-export function useSignInForm({ authed, user, login }) {
+export function useSignInForm({ setAuthed, setUser, authed, user, login }) {
+    const mountedRef = useRef(true)
     const refresh = useRefreshToken()
     const navigate = useNavigate()
     const { state } = useLocation()
@@ -92,18 +93,30 @@ export function useSignInForm({ authed, user, login }) {
     // similarly to our PersistentLogin logic inside protected routes
     useEffect(() => {
 
-        const fetchAccessTknAndSetUserAuthed = async () => {
+        (async () => {
             try {
-                // refresh, when successful will call setUser and setAuthed
-                return await refresh()
-            }
-            catch(err) {
-                console.error(err)
-            }
+                const accessCode = await refresh()
+                
+                if (!mountedRef.current) return null
 
+                // change of authed and user will trigger the very next useEffect below
+                setAuthed(true)
+                setUser(prev => {
+                    return { ...prev, accessToken: accessCode }
+                })
+    
+            }
+            catch (err) {
+                // do nothing when we cannot refresh the accessToken, leave at login page
+            }
+                
+        })()
+
+
+
+        return () => {
+            mountedRef.current = false
         }
-
-        fetchAccessTknAndSetUserAuthed()
 
     // everytime the component mounts, we need to see if we have previously been authenticated
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -114,9 +127,6 @@ export function useSignInForm({ authed, user, login }) {
         if (authed && user?.accessToken) {
             // default goes to /query page
             navigate(from?.pathname || '/query')
-        }
-        else {
-            navigate('/')
         }
     }, [authed, user, navigate, from?.pathname])
 
