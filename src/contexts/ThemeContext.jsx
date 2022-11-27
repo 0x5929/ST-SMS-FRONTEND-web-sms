@@ -1,6 +1,7 @@
-import { createContext, useMemo, useContext } from "react"
+import { createContext, useMemo, useContext } from 'react'
 import { ThemeProvider, createTheme } from "@mui/material/styles"
 import { CssBaseline } from '@mui/material'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 import { useToggle } from '../hooks'
 
@@ -11,10 +12,15 @@ const AppThemeContext = createContext({
 
 
 const AppThemeContextProvider = ({ children }) => {
-    const [darkMode, setDarkMode] = useToggle(false)
+    const darkModeInit = window.localStorage.getItem('darkmode') || false
+    const [darkMode, setDarkMode] = useToggle(darkModeInit)
   
     const toggleColorMode = () => {
-        setDarkMode(!darkMode)
+        setDarkMode(prevMode => {
+          window.localStorage.setItem('darkmode', !prevMode)
+
+          return !prevMode
+        })
     }
 
 
