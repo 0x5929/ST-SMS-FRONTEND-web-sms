@@ -19,13 +19,13 @@ function QueryForm({queryFormStates, queryFormHandlers, ...others}) {
         
         queryOptions,
         queryFormErrors,
-        textInput
+        textInput,
+        queryAvailOptions
 
     } = queryFormStates
 
     const {
 
-        getQueryOptions,
         handleSubmit,
         handleQueryOnChange,
         handleClear,
@@ -63,7 +63,7 @@ function QueryForm({queryFormStates, queryFormHandlers, ...others}) {
                                         value={queryOptions[index]['query']}
                                         onChange={(e)=>(handleQueryOptionOnChange(e, index))}
                                         error={(queryFormErrors['query' + query.pk.toString()] ? true : false)}
-                                        options={getQueryOptions()}
+                                        options={queryAvailOptions}
                                         variant={'standard'}
                                         autoWidth
 

@@ -3,8 +3,8 @@ import { render, screen, cleanup, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import QueryResults from '../../features/Query/Results/Results'
-import * as SMSRecordService from '../../services/SMSRecordService'
 import { sampleStudentData } from '../../services/data/studentData'
+import * as tableData from '../../services/data/tableData'
 
 
 // mock authedAxios
@@ -97,7 +97,7 @@ describe('testing table components', () => {
             const headerCells = getAllByTestId('query-result-header-cell')
 
             // NOTE we minus one from the HeaderCells because the last cell has disabled sorting, so will not show up 
-            expect(headerCells).toHaveLength(SMSRecordService.getTableData().mainQueryResultHeadCells.length)
+            expect(headerCells).toHaveLength(tableData.mainQueryResultHeadCells.length)
         })
 
 
@@ -131,7 +131,7 @@ describe('testing table components', () => {
             await userEvent.click(getAllByTestId('view-record-btn')[0])
             const headerCells = getAllByTestId('detailed-table-header-cell')
 
-            expect(headerCells).toHaveLength(SMSRecordService.getTableData().detailedViewHeadCells.length)
+            expect(headerCells).toHaveLength(tableData.detailedViewHeadCells.length)
 
         })
 

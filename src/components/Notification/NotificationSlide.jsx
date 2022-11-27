@@ -9,7 +9,7 @@ function NotificationSlide (props) {
             { ...props}
             
             direction="up" 
-            timeout={500}
+            timeout={1000}
         />
     );
 }

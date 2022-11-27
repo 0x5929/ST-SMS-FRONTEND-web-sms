@@ -43,7 +43,6 @@ function Signin (){
         showPwError, 
         clearEmailField, 
         clearPwField, 
-        user 
     } = loginFormStates
     
      const { handleSubmit, handleClearText } = loginFormHandlers
@@ -93,7 +92,6 @@ function Signin (){
                                 label="Email Address"
                                 name="email"
                                 autoComplete="email"
-                                initialValue={() => user ? user.email :  ''}
                                 showError={showEmailError}
                                 clearFields={clearEmailField}
                                 errorHandler={signInFormValidations.email}
@@ -118,7 +116,6 @@ function Signin (){
                                 name="password"
                                 type="password"
                                 autoComplete="current-password"
-                                initialValue={() => user? user.password: ''}
                                 showError={showPwError}
                                 clearFields={clearPwField}
                                 errorHandler={signInFormValidations.password}

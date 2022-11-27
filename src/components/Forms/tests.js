@@ -349,7 +349,7 @@ describe('testing form components', () => {
             await userEvent.click(submitBtn)
 
             expect(handleOpenNotificationMk.mock.calls).toHaveLength(1)
-            expect(handleOpenNotificationMk).toHaveBeenLastCalledWith('Create successful')
+            expect(handleOpenNotificationMk).toHaveBeenLastCalledWith('Create successful', 'success')
         },50_000)
 
         it('should invoke success notification if no errors are found when submitting for update', async () => {
@@ -363,7 +363,7 @@ describe('testing form components', () => {
             await userEvent.click(submitBtn)
 
             expect(handleOpenNotificationMk.mock.calls).toHaveLength(1)
-            expect(handleOpenNotificationMk).toHaveBeenLastCalledWith('Update successful')
+            expect(handleOpenNotificationMk).toHaveBeenLastCalledWith('Update successful', 'success')
         }, 50_000)
 
         test('that when in edit mode, course cannot be changed', async () => {

@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
-import * as SMSRecordService from '../services/SMSRecordService'
 import * as AxioService from '../services/api/djREST'
+import * as tableData from '../services/data/tableData'
 import { useAuthedAxios, useCircularProgress } from '../hooks'
 
 export default function useQueryResultTable(userFeedbackObj, results) {
@@ -13,8 +13,6 @@ export default function useQueryResultTable(userFeedbackObj, results) {
     const [sortingStates, sortingHandlers]= useSorting()
     const [filterStates, filterHandlers] = useFilter(records, setRecords)
     const [ progressOn, handleSetProgressStatus ] = useCircularProgress()
-
-    const { getTableData } = SMSRecordService
     const { notificationHandlers, confirmDialogHandlers } = userFeedbackObj
 
     const getFinalDisplayRecords = useCallback(() =>{
@@ -75,7 +73,7 @@ export default function useQueryResultTable(userFeedbackObj, results) {
             }
 
             notificationHandlers.handleOpenNotification('Student record deleted!', 'error')
-            console.log('Delete successful: ', record, responseData)
+            
         }
         catch (err) {
             console.error('error: ', err, record)
@@ -94,7 +92,6 @@ export default function useQueryResultTable(userFeedbackObj, results) {
     
   
     useEffect(() => setRecords(results), [results])
-    useEffect(() => console.log('records inside table: ', records), [records])
 
     const useQueryResultTableStates = { 
         records, 
@@ -104,6 +101,7 @@ export default function useQueryResultTable(userFeedbackObj, results) {
         sortingStates,
         filterStates,
         progressOn,
+        tableData
     }
 
     const useQueryResultTableHandlers = {
@@ -111,7 +109,6 @@ export default function useQueryResultTable(userFeedbackObj, results) {
         setRecordForEdit,
         setRecordForView,
         handleViewPress,
-        getTableData,
         getFinalDisplayRecords,
         handleDeletePress,
         paginationHandlers,

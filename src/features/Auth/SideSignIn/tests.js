@@ -87,7 +87,7 @@ describe('testing signin form components', () => {
         const { getByTestId } = setup()
 
         expect(getByTestId('mui-imagegrid')).toBeInTheDocument()
-        expect(getByTestId('mui-imagegrid')).toHaveStyle('background-image: url(https://source.unsplash.com/random)')
+        expect(getByTestId('mui-imagegrid')).toHaveStyle('background-image: url(https://picsum.photos/1200/2400)')
     })
 
     it('should render grid with sign in form components', () => {

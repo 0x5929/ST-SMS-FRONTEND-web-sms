@@ -10,7 +10,7 @@ const Styles = createDetailedTableStyles({
 })
 
 
-function ViewStudent({ getTableData, recordForView, setRecordForView }) {
+function ViewStudent({ tableData, recordForView, setRecordForView }) {
     const [ { isDetailedViewModalOpen }, detailedViewModalHandlers ]  = useDetailedViewModal({recordForView, setRecordForView})
     const { handleDetailedViewModalClose, getDetailedRecord } = detailedViewModalHandlers
 
@@ -23,11 +23,11 @@ function ViewStudent({ getTableData, recordForView, setRecordForView }) {
         >
             <Styles.DetailedTblContainer>
                 <Components.DetailedTblHead 
-                    tableData={getTableData()} 
+                    tableData={tableData} 
                 />
                 <Components.DetailedTblBody 
                     record={getDetailedRecord()}
-                    tableData={getTableData()}
+                    tableData={tableData}
                 />
             </Styles.DetailedTblContainer>
         </Components.Modal>

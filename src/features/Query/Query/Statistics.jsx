@@ -9,9 +9,10 @@ import {
 	Bar,
 	ResponsiveContainer } from "recharts"
 
-import {createStatisticsStyles} from "./styles"
+import { createStatisticsStyles } from "./styles"
+
 import Components from '../../../components'
-import { getStats } from "../../../services/SMSStatisticsService"
+import * as AxioService from '../../../services/api/djREST'
 import { useAuthedAxios, useCircularProgress } from "../../../hooks"
 
 const Styles = createStatisticsStyles({
@@ -26,22 +27,26 @@ function Statistics() {
 	const [ progressOn, handleSetProgressStatus ] = useCircularProgress()
     const authedAxios = useAuthedAxios()
 
+	// load stats from API
 	useEffect(() => {
-
-		const getStatistics = async () => {
+		(async () => {
 			try {
 
-				const data = await getStats(authedAxios)
+				await handleSetProgressStatus({progressState: true})
+				const data = await handleSetProgressStatus({
+					callback: AxioService.studentStatisticsGET, 
+					callbackArgs: [authedAxios], 
+					progressState: false
+				})
+
 				setStats(data)
 			}
-			catch(err) {
+			catch (err) {
 				console.error(err)
+				throw err
 			}
-		}
-		handleSetProgressStatus({progressState: true})
-		handleSetProgressStatus({callback: getStatistics, callbackArgs: [], progressState: false})
+		})()
 
-		
     // eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 

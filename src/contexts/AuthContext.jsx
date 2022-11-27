@@ -10,7 +10,7 @@ const AuthContextProvider = ({ children }) => {
 
     const [ authed, setAuthed ] = useToggle(false)
     const [ user, setUser ] = useState(null)
-    const [notify, notificationHandlers] = useNotification(Components.NotificationSlide)
+    const [ notify, notificationHandlers ] = useNotification(Components.NotificationSlide)
 
     // login/out functionalities
     const login = async (creds) => {
@@ -22,13 +22,13 @@ const AuthContextProvider = ({ children }) => {
 
             setAuthed(true)
             setUser({ user: creds.email, accessToken: accessToken })
-            console.log('logged in with: ', creds.email)
+            notificationHandlers.handleOpenNotification('Logged in', 'success')
         }
         catch(err) {
             setAuthed(false)
             setUser(null)
             console.error(err)
-            notificationHandlers.handleOpenNotification('Error: incorrect login credentials', 'error')
+            notificationHandlers.handleOpenNotification('Error: cannot log in', 'error')
             
         }
 
@@ -39,7 +39,6 @@ const AuthContextProvider = ({ children }) => {
 
         try {
             const response = await axioService.logoutPOST()
-            console.log('logout response: ', response)
         }
         catch(err) {
             console.error(err)
@@ -48,7 +47,7 @@ const AuthContextProvider = ({ children }) => {
             
             setUser(null)
             setAuthed(false)
-            console.log('logged out')
+            notificationHandlers.handleOpenNotification('Logged out.', 'success')
         }
     }
 

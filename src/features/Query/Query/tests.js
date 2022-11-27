@@ -224,7 +224,7 @@ describe('testing Query Feature components', () => {
 
         it('should render Card components', async () => {
             const { getByText, queryAllByTestId } = await setup()
-
+            preview.debug()
             expect(queryAllByTestId('card')).toHaveLength(4)
             expect(getByText(/statistics/i)).toBeInTheDocument()
             expect(getByText(/student enrollments/i)).toBeInTheDocument()

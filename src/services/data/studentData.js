@@ -575,4 +575,27 @@ const SMSStats = [
 ]
 
 
-export { initialStudentValues, hoursWorkedRadioItems, sampleStudentData, SMSStats, sampleCourseOptions, sampleRotationOptions }
+
+const queryOptions = [
+    {value: 'rotation__program__school__school_name', title: 'School Name'},
+    {value: 'rotation__program__program_name', title: 'Program Name'},
+    {value: 'rotation__rotation_number', title: 'Rotation Number'},
+    {value: 'student_id', title: 'Student ID'},
+    {value: 'first_name', title: 'First Name (Exact)'},
+    {value: 'cfirst_name', title: 'First Name (Contains)'},
+    {value: 'last_name', title: 'Last Name (Exact)'},
+    {value: 'clast_name', title: 'Last Name (Contains)'},
+    {value: 'phone_number', title: 'Phone Number'},
+    {value: 'email', title: 'Email'},
+    {value: 'start_date', title: 'Start Date'},
+    {value: 'completion_date', title: 'Completion Date'},
+    {value: 'date_enrollment_agreement_signed', title: 'Date Enrollment Agreement Signed'},
+    {value: 'paid', title: 'Paid'},
+    {value: 'employed', title: 'Employed'},
+    {value: 'graduated', title: 'Graduated'},
+    {value: 'passed_first_exam', title: 'Passed First Exam'},
+    {value: 'passed_second_or_third_exam', title: 'Passed Second or Third Exam'},
+    {value: 'google_sheet_migrated', title: 'Google Sheet Migrated'},
+]
+
+export { initialStudentValues, hoursWorkedRadioItems, sampleStudentData, SMSStats, sampleCourseOptions, sampleRotationOptions, queryOptions }

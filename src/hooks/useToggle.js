@@ -14,10 +14,10 @@ const useToggle = ( initialState, clearFields=null ) => {
     const handleToggle = useCallback((state = null) => {
 
         if (state == null) {
-            return setIsTrue(prevState => !prevState)
+            setIsTrue(prevState => !prevState)
         }
         else {
-            return setIsTrue(state)
+            setIsTrue(state)
         }
 
     }, [])

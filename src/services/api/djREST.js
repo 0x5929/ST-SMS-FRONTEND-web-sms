@@ -65,13 +65,12 @@ export const studentStatisticsGET = async (authedAxio) => {
 
     try {
         const response = await authedAxio.get(smsEndpointUrl + statisticsUrl)
-        console.log(response)
 
-        return response.data
+        return response.data[0]
     }
     catch(error) {
         console.error(error)
-        return studentData.SMSStats
+        throw error
     }
 }
 
@@ -160,6 +159,7 @@ export const programNameGET = async (authedAxio, schoolName) => {
     }
     catch(err) {
         console.error(err)
+        throw err
     }
 
 }
@@ -175,6 +175,7 @@ export const rotationNumberGET = async (authedAxio, course, schoolName) => {
     try {
         const response = await authedAxio.get(smsEndpointUrl + queryUrl)
 
+        console.log('rotationNumberGetter(response.data, course)', rotationNumberGetter(response.data, course))
         return rotationNumberGetter(response.data, course)
 
     }
@@ -216,6 +217,7 @@ export const studentCreatePOST = async (authedAxio, studentRecord) => {
     catch(error) {
 
         console.error('something went wrong in posting student record: ', error, studentRecord)
+        throw error
 
     }
 }

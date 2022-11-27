@@ -49,6 +49,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
         inputRefs,
         schoolRadioDefaultValue,
         studentFormValidations,
+        hoursWorkedItems,
 
     } = studentFormStates
 
@@ -57,7 +58,6 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
         handleSubmit,
         handleCancel,
         convertToDefaultEventParam,
-        getHoursWorkedRadioItems,
         studentFormDispatch,
     } = studentFormHandlers
 
@@ -71,7 +71,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
     else {
         isEdit = false
     }
-
+    
     return (
     <>
         <Styles.StudentForm data-testid="student-form" {...others}>
@@ -280,7 +280,7 @@ function StudentForm({ studentFormStates, studentFormHandlers, studentEditFormHa
                         initialValue={resolveValue('hoursWorked')}
                         name="hoursWorked"
                         label="Hours Worked"
-                        items={getHoursWorkedRadioItems()}
+                        items={hoursWorkedItems}
                         clearFields={clearFields}
                         
                         data-testid="hours-worked-radio-group"

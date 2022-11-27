@@ -34,12 +34,11 @@ function QueryResults({ queryResults, handleSetProgressStatus, setShowResults } 
         paginationStates, 
         sortingStates,
         filterStates: { textInput },
-        
+        tableData,
     } = useQueryResultTableStates
 
     const {
 
-        getTableData,
         getFinalDisplayRecords,
         handleViewPress,
         handleDeletePress,
@@ -77,7 +76,7 @@ function QueryResults({ queryResults, handleSetProgressStatus, setShowResults } 
             </Styles.Box>
             <Styles.QueryResultsTblContainer>
                 <Components.QueryResultsTblHead 
-                    tableData={getTableData()} 
+                    tableData={tableData} 
                     sortingStates={sortingStates}
                     sortingHandlers={sortingHandlers}
                 />
@@ -100,7 +99,7 @@ function QueryResults({ queryResults, handleSetProgressStatus, setShowResults } 
                 recordForEdit={recordForEdit}
             />
             <ViewStudent 
-                getTableData={getTableData}
+                tableData={tableData}
                 recordForView={recordForView}
                 setRecordForView={setRecordForView}
             />

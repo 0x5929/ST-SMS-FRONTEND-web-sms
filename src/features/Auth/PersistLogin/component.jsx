@@ -8,7 +8,7 @@ const PersistLogin = ({children}) => {
     const refresh = useRefreshToken()
     const mountedRef = useRef(true)
     const [ isLoading, setIsLoading ] = useToggle(true)
-    const { user, setUser, setAuthed  } = useAuthContext()
+    const { setUser, setAuthed  } = useAuthContext()
 
     // on component dismount, set mountRef to be false, so that all api calls are not set as state
 
@@ -18,6 +18,7 @@ const PersistLogin = ({children}) => {
             try {
                 const accessCode = await refresh()
 
+                if (!mountedRef.current) return null
                 setAuthed(true)
                 setUser(prev => {
                     return { ...prev, accessToken: accessCode }

@@ -24,7 +24,7 @@ const mockResolvedValues = {
     authRefreshGET         : {access: '__TEST_ACCESS__'},
     authenticationPOST     : {user: '__TEST_USER__', access_code : '__TEST_ACCESS__', refresh_code: '__TEST_REFRESH__'},
     logoutPOST             : [],
-    studentStatisticsGET   : SMSStats,
+    studentStatisticsGET   : SMSStats[0],
     studentQueryGET        : sampleStudentData,
     schoolOptionsCreateGET : [{value: 'ABC', title: 'ABC'}],
     schoolOptionsEditGET   : 'ABC',
