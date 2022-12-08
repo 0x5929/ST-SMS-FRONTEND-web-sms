@@ -54,8 +54,25 @@ const useAuthedAxios  = () => {
             async (error) => {
                 const prevRequest = error.config
 
+                // server timed out, lets wait 10 seconds and try again
+                if (error?.response?.status === 504 && !prevRequest?.sent ) {
+                    try {
+                        await new Promise(resolve => setTimeout(resolve, 10_000))
+
+                        return axio({
+                            ...prevRequest,
+                            sent: true
+                        })
+
+                    }
+                    catch (err) {
+                        console.error(err)
+                        return Promise.reject(error)
+                    }
+                }
+
                 // only if we have an expired accessCode, refresh, overwise, pass on the error
-                if ( (error?.response?.data?.detail === 'Given token not valid for any token type')
+                else if ( (error?.response?.data?.detail === 'Given token not valid for any token type')
                     && (!prevRequest?.sent) ) {
                     
 

@@ -1,8 +1,6 @@
 import axios from './axios'
-import * as studentData from '../data/studentData'
 
 export const smsEndpointUrl = 'api/sms/'
-
 
 // GET refresh auth token
 export const authRefreshGET = async () => {
