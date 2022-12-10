@@ -403,7 +403,6 @@ export const convertRotationUUID = async (authedAxio, { rotation, course, school
 
 
 const dataMapper = {
-    rotation: 'rotation',
     student_uuid : 'pk',
     student_id : 'studentId',
     first_name : 'firstName',
