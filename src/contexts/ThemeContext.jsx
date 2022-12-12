@@ -1,7 +1,6 @@
 import { createContext, useMemo, useContext } from 'react'
 import { ThemeProvider, createTheme } from "@mui/material/styles"
 import { CssBaseline } from '@mui/material'
-import useMediaQuery from '@mui/material/useMediaQuery'
 
 import { useToggle } from '../hooks'
 
