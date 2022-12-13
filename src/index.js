@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter, Routes, Route, Outlet, Link } from 'react-router-dom'
 
-import { App } from './app'
+import { App, PageNotFound } from './app'
 import { RequiredAuth, PersistLogin, Signin } from './features/Auth'
 import { Query } from './features/Query/Query'
 import { Create } from './features/Create'
@@ -31,6 +31,9 @@ ReactDOM.render(
                                 </RequiredAuth>
                             </PersistLogin>} 
                         />
+                        <Route path="*" element={
+                            <PageNotFound Link={Link} />
+                        } />
                     </Route>
                 </Routes>
             </BrowserRouter>
