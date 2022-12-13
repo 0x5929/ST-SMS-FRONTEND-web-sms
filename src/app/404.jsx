@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, Typography, Stack } from '@mui/material';
+import { Button, Typography, Stack } from '@mui/material';
 
 
 export default function PageNotFound({ Link }) {
@@ -13,7 +13,6 @@ export default function PageNotFound({ Link }) {
                 minHeight: '100vh'
             }}
         >
-
             <img
               src="/404.jpg"
               alt=""
@@ -26,7 +25,6 @@ export default function PageNotFound({ Link }) {
             <Link to="/">
                 <Button variant="contained">Back Home</Button>
             </Link>
-
         </Stack>
   );
 }
