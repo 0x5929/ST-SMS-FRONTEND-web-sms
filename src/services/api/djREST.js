@@ -46,7 +46,6 @@ export const logoutPOST = async () => {
 
     try {
         const response = await axios.post(logoutUrl, body, config)
-        console.log(response.data)
 
         return response.data
     }
@@ -173,7 +172,6 @@ export const rotationNumberGET = async (authedAxio, course, schoolName) => {
     try {
         const response = await authedAxio.get(smsEndpointUrl + queryUrl)
 
-        console.log('rotationNumberGetter(response.data, course)', rotationNumberGetter(response.data, course))
         return rotationNumberGetter(response.data, course)
 
     }
@@ -208,7 +206,6 @@ export const studentCreatePOST = async (authedAxio, studentRecord) => {
 
        const response = await authedAxio.post(smsEndpointUrl + postUrl, studentRecord)
 
-        console.log(response.data)
         return response.data
         // we should maybe also return status code
     }
@@ -251,8 +248,6 @@ export const studentEditPATCH = async (authedAxio, studentRecord) => {
 
         let patchUrl = 'students/' + studentPk + '/'
         const response = await authedAxio.patch(smsEndpointUrl + patchUrl, studentRecord)
-        console.log('PATCH response.data', response.data)
-
         // we should maybe also return status code
         return responseObjMapper([response.data])[0]
     }
@@ -270,7 +265,6 @@ export const studentRemoveDELETE = async (authedAxio, studentPk) => {
     try {
         const response = await authedAxio.delete(smsEndpointUrl + delUrl)
 
-        console.log(response.data)
 
         // we should maybe also return status code
         return response.data

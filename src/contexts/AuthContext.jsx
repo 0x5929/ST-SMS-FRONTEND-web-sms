@@ -38,7 +38,7 @@ const AuthContextProvider = ({ children }) => {
     const logout = async () => {
 
         try {
-            const response = await axioService.logoutPOST()
+            await axioService.logoutPOST()
         }
         catch(err) {
             console.error(err)
