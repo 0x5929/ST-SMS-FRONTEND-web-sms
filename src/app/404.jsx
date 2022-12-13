@@ -14,7 +14,7 @@ export default function PageNotFound({ Link }) {
     >
       <Container maxWidth="md">
         <Grid container spacing={2}>
-          <Grid xs={6}>
+          <Grid mobile={6}>
             <Typography variant="h1">
               404
             </Typography>
@@ -25,7 +25,7 @@ export default function PageNotFound({ Link }) {
                 <Button variant="contained">Back Home</Button>
             </Link>
           </Grid>
-          <Grid xs={6}>
+          <Grid mobile={6}>
             <img
               src="https://cdn.pixabay.com/photo/2017/03/09/12/31/error-2129569__340.jpg"
               alt=""
