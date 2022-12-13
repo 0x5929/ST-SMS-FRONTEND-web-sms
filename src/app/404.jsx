@@ -4,16 +4,15 @@ import { Box, Button, Typography, Stack } from '@mui/material';
 
 export default function PageNotFound({ Link }) {
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        margin: 'auto',
-        minHeight: '100vh'
-      }}
-    >
-        <Stack>
+        <Stack
+            sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                margin: 'auto',
+                minHeight: '100vh'
+            }}
+        >
 
             <img
               src="/404.jpg"
@@ -29,6 +28,5 @@ export default function PageNotFound({ Link }) {
             </Link>
 
         </Stack>
-    </Box>
   );
 }
