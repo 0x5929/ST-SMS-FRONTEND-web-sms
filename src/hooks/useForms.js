@@ -436,11 +436,14 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
     useEffect(() => {
 
         (async () => {
+
+
+            await handleSetProgressStatus({progressState: true})
+
             // if we are in edit mode
             if (recordForEdit) {
 
                 try {
-                    handleSetProgressStatus({progressState: true})
 
                     // set school name for 
                     const schoolName = await axioService.schoolOptionsEditGET(authedAxios, recordForEdit.rotation) 
@@ -466,7 +469,6 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
                     const rotationNumber = await axioService.rotationNumberByUUIDGET(authedAxios, recordForEdit.rotation)
                     studentFormDispatch({type: 'set-rotation', payload: rotationNumber})
 
-                    handleSetProgressStatus({progressState: false})
                 }
                 catch(err) {
                     console.error(err)
@@ -474,7 +476,7 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
                     throw err
                 }
                 finally {
-                    handleSetProgressStatus({progressState: false})
+                    await handleSetProgressStatus({progressState: false})
                 }
 
             }
@@ -483,14 +485,11 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
 
                 try {
 
-                    handleSetProgressStatus({progressState: true})
-
                     const schoolOptions = await axioService.schoolOptionsCreateGET(authedAxios)
 
                     if (!mountedRef.current) return null
                     studentFormDispatch({type: 'set-schoolOptions', payload: schoolOptions})
 
-                    handleSetProgressStatus({progressState: false})
                 }
                 catch(err) {
                     console.error(err)
@@ -498,7 +497,7 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
                     throw err
                 }
                 finally {
-                    handleSetProgressStatus({progressState: false})
+                    await handleSetProgressStatus({progressState: false})
                 }
     
             }
