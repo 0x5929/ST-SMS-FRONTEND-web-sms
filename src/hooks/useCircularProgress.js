@@ -11,7 +11,6 @@ const useCircularProgress = () => {
                 const callbackReturned = await callback(...callbackArgs)
                 return callbackReturned
             }
-            setProgressOn(progressState)
             return true
         }
         catch(err) {
