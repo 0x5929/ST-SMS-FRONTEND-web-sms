@@ -433,79 +433,6 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
     // when studentForm is mounted, we need to check for school
     // either create: get all school value possible OR
     // edit: get current user school value (note cannot edit school value when editting, this will become messy)
-    // if needed, user can create the same student in the different school
-    // useEffect(() => {
-    //     const schoolOptionsFetchInCreate = async () => {
-
-    //         try {
-
-    //             const schoolOptions = await axioService.schoolOptionsCreateGET(authedAxios)
-    //             if (!mountedRef.current) return null
-    //             studentFormDispatch({type: 'set-schoolOptions', payload: schoolOptions})
-    //         }
-    //         catch(err) {
-    //             console.error(err)
-    //             notificationHandlers.handleOpenNotification('Something went wrong in create form', 'error')
-    //             throw err
-    //         }
-    //     }
-
-
-    //     const editFormPrep = async () => {
-
-    //         try {
-    //             // set school name for 
-    //             const schoolName = await axioService.schoolOptionsEditGET(authedAxios, recordForEdit.rotation) 
-    //             if (!mountedRef.current) return null
-    //             studentFormDispatch({type: 'set-school', payload: schoolName})
-
-    //             // clear course and rotation values
-    //             studentFormDispatch({type: 'set-course', payload: ''})
-    //             studentFormDispatch({type: 'set-rotation', payload: ''})
-
-    //             // set course options
-    //             const courses = await axioService.programNameGET(authedAxios, schoolName)
-    //             studentFormDispatch({type: 'set-courseOptions', payload: courses})
-
-    //             // set course
-    //             studentFormDispatch({type: 'set-course', payload: recordForEdit.course})
-
-    //             // set rotation Options
-    //             const rotations = await axioService.rotationNumberGET(authedAxios, recordForEdit.course, schoolName)
-    //             studentFormDispatch({type: 'set-rotationOptions', payload: rotations})
-            
-    //             // set rotation
-    //             const rotationNumber = await axioService.rotationNumberByUUIDGET(authedAxios, recordForEdit.rotation)
-    //             studentFormDispatch({type: 'set-rotation', payload: rotationNumber})
-    //         }
-    //         catch(err) {
-    //             console.error(err)
-    //             notificationHandlers.handleOpenNotification('Something went wrong in edit form', 'error')
-    //             throw err
-    //         }
- 
-    //     }
-
-    //      // if not edit we should be in create mode, then we must grab all possible school values that user can fetch
-    //     if (!recordForEdit) {
-    //         handleSetProgressStatus({progressState: true})
-    //         handleSetProgressStatus({callback: schoolOptionsFetchInCreate, callbackArgs: [], progressState: false})
-
-    //     }
-    //     // if we are editting, prepare forms, fetch school name first to get the correct course and rotation value
-    //     // note in StudentForm.jsx, if editting, school field wont show& course field is not mutable
-    //     else {
-    //         handleSetProgressStatus({progressState: true})
-    //         handleSetProgressStatus({callback: editFormPrep, callbackArgs: [], progressState: false})
-
-    //     }
-
-    // // all changes in recordForEdit will have a diff api call depending if we are editting or not
-    // // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [recordForEdit])
-
-
-
     useEffect(() => {
 
         (async () => {
@@ -538,6 +465,8 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
                     // set rotation
                     const rotationNumber = await axioService.rotationNumberByUUIDGET(authedAxios, recordForEdit.rotation)
                     studentFormDispatch({type: 'set-rotation', payload: rotationNumber})
+
+                    handleSetProgressStatus({progressState: false})
                 }
                 catch(err) {
                     console.error(err)
@@ -560,6 +489,8 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
 
                     if (!mountedRef.current) return null
                     studentFormDispatch({type: 'set-schoolOptions', payload: schoolOptions})
+
+                    handleSetProgressStatus({progressState: false})
                 }
                 catch(err) {
                     console.error(err)
