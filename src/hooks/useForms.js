@@ -475,9 +475,9 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
                     notificationHandlers.handleOpenNotification('Something went wrong in edit form', 'error')
                     throw err
                 }
-                finally {
-                    await handleSetProgressStatus({progressState: false})
-                }
+                // finally {
+                //     await handleSetProgressStatus({progressState: false})
+                // }
 
             }
             // if not, we are in create mode
@@ -506,6 +506,17 @@ export function useStudentForm(userFeedbackObj, recordForEdit=null) {
     // eslint-disable-next-line react-hooks/exhaustive-deps    
     }, [recordForEdit])
 
+
+
+    // to turn fully turn off progress once rotation is set by form prep
+    // if progress not turned on this has no effect
+    useEffect(() => {
+        (async ()=> {
+            await handleSetProgressStatus({progressState: false})
+        })()
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [studentFormState.rotation])
 
 
     // two useEffects below will be triggered on Create view not Edit view
