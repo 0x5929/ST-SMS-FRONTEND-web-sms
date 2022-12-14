@@ -88,9 +88,10 @@ export function useDetailedViewModal ({ setRecordForView, recordForView }){
 
     useEffect(() => {
         if (recordForView) setIsDetailedViewModalOpen(true)
+        
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [recordForView])
     
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     return [detailedViewModalStates, detailedViewModalHandlers] 
 }
 
